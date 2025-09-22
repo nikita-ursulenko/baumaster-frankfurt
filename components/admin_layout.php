@@ -185,13 +185,33 @@ function render_admin_sidebar($menu_items, $current_user) {
     ?>
     <!-- Mobile Sidebar -->
     <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden flex flex-col">
-        <!-- Logo -->
+        <!-- User Info -->
         <div class="flex items-center justify-between h-16 px-4 bg-black bg-opacity-20 flex-shrink-0">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                    <?php echo get_icon('building', 'w-5 h-5'); ?>
+            <div class="flex items-center space-x-3">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">
+                            <?php echo strtoupper(substr($current_user['username'], 0, 1)); ?>
+                        </span>
+                    </div>
                 </div>
-                <span class="text-white font-semibold text-lg">Baumaster</span>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-white truncate">
+                        <?php echo htmlspecialchars($current_user['username']); ?>
+                    </p>
+                    <p class="text-xs text-gray-300 truncate">
+                        <?php echo htmlspecialchars($current_user['role']); ?>
+                    </p>
+                </div>
+                <div class="flex-shrink-0">
+                    <a 
+                        href="logout.php" 
+                        class="text-gray-300 hover:text-white transition-colors duration-200"
+                        title="<?php echo __('auth.logout', 'Выйти'); ?>"
+                    >
+                        <?php echo get_icon('logout'); ?>
+                    </a>
+                </div>
             </div>
             <button id="mobile-menu-close" class="text-white hover:text-gray-300 lg:hidden">
                 <?php echo get_icon('x', 'w-6 h-6'); ?>
@@ -199,8 +219,8 @@ function render_admin_sidebar($menu_items, $current_user) {
         </div>
 
         <!-- Navigation -->
-        <nav class="mt-8 px-4 flex-1 flex flex-col">
-            <div class="space-y-1 flex-1">
+        <nav class="flex-1 px-4 py-4 overflow-y-auto">
+            <div class="space-y-1">
                 <?php foreach ($menu_items as $key => $item): ?>
                     <a 
                         href="<?php echo htmlspecialchars($item['url']); ?>" 
@@ -211,34 +231,13 @@ function render_admin_sidebar($menu_items, $current_user) {
                     </a>
                 <?php endforeach; ?>
             </div>
-            
-            <!-- Logout Button -->
-            <div class="mt-6 mb-4">
-                <a 
-                    href="logout.php" 
-                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 hover:text-white hover:bg-red-600"
-                >
-                    <?php echo get_icon('logout'); ?>
-                    <span class="ml-3"><?php echo __('auth.logout', 'Выйти'); ?></span>
-                </a>
-            </div>
         </nav>
     </div>
 
     <!-- Desktop Sidebar -->
     <div class="hidden lg:block fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar flex flex-col">
-        <!-- Logo -->
-        <div class="flex items-center justify-center h-16 px-4 bg-black bg-opacity-20 flex-shrink-0">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                    <?php echo get_icon('building', 'w-5 h-5'); ?>
-                </div>
-                <span class="text-white font-semibold text-lg">Baumaster</span>
-            </div>
-        </div>
-
         <!-- User Info -->
-        <div class="px-4 py-3 bg-black bg-opacity-10 flex-shrink-0">
+        <div class="flex items-center h-16 px-4 bg-black bg-opacity-20 flex-shrink-0">
             <div class="flex items-center space-x-3">
                 <div class="flex-shrink-0">
                     <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
