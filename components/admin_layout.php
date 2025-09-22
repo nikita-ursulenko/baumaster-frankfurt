@@ -318,11 +318,15 @@ function render_admin_header($page_title, $page_description = '') {
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
-                        <?php echo get_icon('menu', 'w-6 h-6'); ?>
+                    <button id="mobile-menu-button" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                        <div class="w-6 h-6 flex flex-col justify-center space-y-1">
+                            <span class="block w-full h-0.5 bg-current transition-all duration-300"></span>
+                            <span class="block w-full h-0.5 bg-current transition-all duration-300"></span>
+                            <span class="block w-full h-0.5 bg-current transition-all duration-300"></span>
+                        </div>
                     </button>
                     
-                    <div>
+                    <div class="hidden lg:block">
                         <h1 class="text-2xl font-bold text-gray-900">
                             <?php echo htmlspecialchars($page_title); ?>
                         </h1>
@@ -335,15 +339,17 @@ function render_admin_header($page_title, $page_description = '') {
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <!-- Ссылка на сайт -->
-                    <?php render_button([
-                        'href' => get_site_url(),
-                        'text' => __('common.view_site', 'Смотреть сайт'),
-                        'variant' => 'secondary',
-                        'size' => 'sm',
-                        'icon' => get_icon('external-link', 'w-4 h-4 mr-2'),
-                        'class' => 'target="_blank"'
-                    ]); ?>
+                    <!-- Ссылка на сайт (скрыта на мобильных) -->
+                    <div class="hidden md:block">
+                        <?php render_button([
+                            'href' => get_site_url(),
+                            'text' => __('common.view_site', 'Смотреть сайт'),
+                            'variant' => 'secondary',
+                            'size' => 'sm',
+                            'icon' => get_icon('external-link', 'w-4 h-4 mr-2'),
+                            'class' => 'target="_blank"'
+                        ]); ?>
+                    </div>
                     
                     <!-- Языки -->
                     <div class="relative">
@@ -412,6 +418,19 @@ function admin_css_styles() {
             opacity: 1;
         }
         
+        /* Burger Button Animation */
+        #mobile-menu-button.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        #mobile-menu-button.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        #mobile-menu-button.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
         /* Mobile Header Adjustments */
         @media (max-width: 1023px) {
             .mobile-header-title {
@@ -447,33 +466,6 @@ function admin_css_styles() {
             }
         }
         
-        /* Mobile Menu Animation */
-        .mobile-menu-slide {
-            animation: slideInLeft 0.3s ease-out;
-        }
-        
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-        
-        /* Mobile Menu Overlay Animation */
-        .mobile-overlay-fade {
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
     </style>
     ';
 }

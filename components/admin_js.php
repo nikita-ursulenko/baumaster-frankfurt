@@ -269,15 +269,19 @@ function render_admin_javascript() {
         function openMobileMenu() {
             const mobileSidebar = document.getElementById('mobile-sidebar');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
             
             if (mobileSidebar) {
                 mobileSidebar.classList.add('open');
-                mobileSidebar.classList.add('mobile-menu-slide');
             }
             
             if (mobileMenuOverlay) {
                 mobileMenuOverlay.classList.remove('hidden');
-                mobileMenuOverlay.classList.add('show', 'mobile-overlay-fade');
+                mobileMenuOverlay.classList.add('show');
+            }
+            
+            if (mobileMenuButton) {
+                mobileMenuButton.classList.add('active');
             }
             
             document.body.classList.add('overflow-hidden');
@@ -286,14 +290,19 @@ function render_admin_javascript() {
         function closeMobileMenu() {
             const mobileSidebar = document.getElementById('mobile-sidebar');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
             
             if (mobileSidebar) {
-                mobileSidebar.classList.remove('open', 'mobile-menu-slide');
+                mobileSidebar.classList.remove('open');
             }
             
             if (mobileMenuOverlay) {
                 mobileMenuOverlay.classList.add('hidden');
-                mobileMenuOverlay.classList.remove('show', 'mobile-overlay-fade');
+                mobileMenuOverlay.classList.remove('show');
+            }
+            
+            if (mobileMenuButton) {
+                mobileMenuButton.classList.remove('active');
             }
             
             document.body.classList.remove('overflow-hidden');
