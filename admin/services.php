@@ -510,110 +510,116 @@ ob_start();
                 </div>
             </div>
         <?php else: ?>
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <?php echo __('services.service', 'Услуга'); ?>
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <?php echo __('services.category', 'Категория'); ?>
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <?php echo __('services.price', 'Цена'); ?>
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <?php echo __('services.status', 'Статус'); ?>
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <?php echo __('services.priority', 'Приоритет'); ?>
-                        </th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <?php echo __('common.actions', 'Действия'); ?>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <?php foreach ($services as $service): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <?php if (!empty($service['image'])): ?>
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full object-cover" src="<?php echo htmlspecialchars($service['image']); ?>" alt="">
-                                        </div>
-                                        <div class="ml-4">
-                                    <?php else: ?>
-                                        <div>
-                                    <?php endif; ?>
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?php echo htmlspecialchars($service['title']); ?>
-                                        </div>
-                                        <div class="text-sm text-gray-500">
-                                            <?php echo htmlspecialchars(substr($service['description'], 0, 60)); ?><?php echo strlen($service['description']) > 60 ? '...' : ''; ?>
+            <!-- Адаптивная таблица с горизонтальной прокруткой -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 admin-table-responsive">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[200px]">
+                                <?php echo __('services.service', 'Услуга'); ?>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                <?php echo __('services.category', 'Категория'); ?>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">
+                                <?php echo __('services.price', 'Цена'); ?>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">
+                                <?php echo __('services.status', 'Статус'); ?>
+                            </th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[80px]">
+                                <?php echo __('services.priority', 'Приоритет'); ?>
+                            </th>
+                            <th class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[300px]">
+                                <?php echo __('common.actions', 'Действия'); ?>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach ($services as $service): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 py-4">
+                                    <div class="flex items-center">
+                                        <?php if (!empty($service['image'])): ?>
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full object-cover" src="<?php echo htmlspecialchars($service['image']); ?>" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                        <?php else: ?>
+                                            <div>
+                                        <?php endif; ?>
+                                            <div class="text-sm font-medium text-gray-900">
+                                                <?php echo htmlspecialchars($service['title']); ?>
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                <?php echo htmlspecialchars(substr($service['description'], 0, 60)); ?><?php echo strlen($service['description']) > 60 ? '...' : ''; ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    <?php echo htmlspecialchars(ucfirst($service['category'])); ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <?php if ($service['price'] > 0): ?>
-                                    <?php echo number_format($service['price'], 0, ',', ' '); ?> €
-                                    <?php if ($service['price_type'] === 'per_m2'): ?>
-                                        /м²
+                                </td>
+                                <td class="px-3 py-4 whitespace-nowrap">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                        <?php echo htmlspecialchars(ucfirst($service['category'])); ?>
+                                    </span>
+                                </td>
+                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?php if ($service['price'] > 0): ?>
+                                        <?php echo number_format($service['price'], 0, ',', ' '); ?> €
+                                        <?php if ($service['price_type'] === 'per_m2'): ?>
+                                            /м²
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="text-gray-500">По договорённости</span>
                                     <?php endif; ?>
-                                <?php else: ?>
-                                    <span class="text-gray-500">По договорённости</span>
-                                <?php endif; ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
-                                    <?php echo $service['status'] === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
-                                    <?php echo $service['status'] === 'active' ? __('services.status_active', 'Активна') : __('services.status_inactive', 'Неактивна'); ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <?php echo intval($service['priority']); ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                <?php render_button([
-                                    'href' => '?action=edit&id=' . $service['id'],
-                                    'text' => __('common.edit', 'Редактировать'),
-                                    'variant' => 'secondary',
-                                    'size' => 'sm'
-                                ]); ?>
-                                
-                                <form method="POST" class="inline-block">
-                                    <input type="hidden" name="action" value="toggle_status">
-                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
-                                    <?php render_button([
-                                        'type' => 'submit',
-                                        'text' => $service['status'] === 'active' ? __('services.deactivate', 'Скрыть') : __('services.activate', 'Показать'),
-                                        'variant' => $service['status'] === 'active' ? 'secondary' : 'primary',
-                                        'size' => 'sm'
-                                    ]); ?>
-                                </form>
-                                
-                                <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('services.confirm_delete', 'Вы уверены, что хотите удалить эту услугу?'); ?>');">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
-                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
-                                    <?php render_button([
-                                        'type' => 'submit',
-                                        'text' => __('common.delete', 'Удалить'),
-                                        'variant' => 'danger',
-                                        'size' => 'sm'
-                                    ]); ?>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                                </td>
+                                <td class="px-3 py-4 whitespace-nowrap">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                        <?php echo $service['status'] === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
+                                        <?php echo $service['status'] === 'active' ? __('services.status_active', 'Активна') : __('services.status_inactive', 'Неактивна'); ?>
+                                    </span>
+                                </td>
+                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?php echo intval($service['priority']); ?>
+                                </td>
+                                <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex flex-wrap gap-2 justify-end">
+                                        <?php render_button([
+                                            'href' => '?action=edit&id=' . $service['id'],
+                                            'text' => __('common.edit', 'Редактировать'),
+                                            'variant' => 'secondary',
+                                            'size' => 'sm'
+                                        ]); ?>
+                                        
+                                        <form method="POST" class="inline-block">
+                                            <input type="hidden" name="action" value="toggle_status">
+                                            <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                            <?php render_button([
+                                                'type' => 'submit',
+                                                'text' => $service['status'] === 'active' ? __('services.deactivate', 'Скрыть') : __('services.activate', 'Показать'),
+                                                'variant' => $service['status'] === 'active' ? 'secondary' : 'primary',
+                                                'size' => 'sm'
+                                            ]); ?>
+                                        </form>
+                                        
+                                        <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('services.confirm_delete', 'Вы уверены, что хотите удалить эту услугу?'); ?>');">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                            <?php render_button([
+                                                'type' => 'submit',
+                                                'text' => __('common.delete', 'Удалить'),
+                                                'variant' => 'danger',
+                                                'size' => 'sm'
+                                            ]); ?>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         <?php endif; ?>
     </div>
 

@@ -262,3 +262,95 @@ body {
     color: var(--color-error);
 }
 
+/* Адаптивные стили для админки */
+@media (max-width: 768px) {
+    .admin-table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .admin-table-responsive th,
+    .admin-table-responsive td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .admin-table-responsive .min-w-\[200px\] {
+        min-width: 150px;
+    }
+    
+    .admin-table-responsive .min-w-\[120px\] {
+        min-width: 100px;
+    }
+    
+    .admin-table-responsive .min-w-\[100px\] {
+        min-width: 80px;
+    }
+    
+    .admin-table-responsive .min-w-\[80px\] {
+        min-width: 60px;
+    }
+    
+    .admin-table-responsive .min-w-\[300px\] {
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-table-responsive .min-w-\[200px\] {
+        min-width: 120px;
+    }
+    
+    .admin-table-responsive .min-w-\[120px\] {
+        min-width: 80px;
+    }
+    
+    .admin-table-responsive .min-w-\[100px\] {
+        min-width: 70px;
+    }
+    
+    .admin-table-responsive .min-w-\[80px\] {
+        min-width: 50px;
+    }
+    
+    .admin-table-responsive .min-w-\[300px\] {
+        min-width: 200px;
+    }
+    
+    .admin-table-responsive .flex-wrap {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .admin-table-responsive .flex-wrap form {
+        width: 100%;
+    }
+    
+    .admin-table-responsive .flex-wrap form button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Стили для горизонтальной прокрутки */
+.overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+    height: 8px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+

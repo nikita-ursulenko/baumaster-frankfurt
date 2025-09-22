@@ -632,3 +632,10 @@
 [2025-09-22 23:29:07] [INFO] User root logged in
 [2025-09-22 23:29:21] [INFO] POST request received: {"action":"toggle_status","csrf_token":"78343d73116f6f6fd26c58ff1b8ed3fdb48d78ae1da3039496cfdbd8ec872597"}
 [2025-09-22 23:29:21] [INFO] FILES received: []
+[2025-09-22 23:32:36] [INFO] POST request received: {"action":"delete","id":"8","csrf_token":"78343d73116f6f6fd26c58ff1b8ed3fdb48d78ae1da3039496cfdbd8ec872597"}
+[2025-09-22 23:32:36] [INFO] FILES received: []
+[2025-09-22 23:32:36] [WARNING] Service deleted: Услуга с фото (ID: 8)
+[2025-09-22 23:32:36] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
+[2025-09-22 23:32:39] [INFO] POST request received: {"action":"delete","id":"8","csrf_token":"78343d73116f6f6fd26c58ff1b8ed3fdb48d78ae1da3039496cfdbd8ec872597"}
+[2025-09-22 23:32:39] [INFO] FILES received: []
+[2025-09-22 23:33:20] [INFO] User root logged in
