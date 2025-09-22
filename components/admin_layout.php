@@ -55,11 +55,14 @@ function render_admin_layout($options = []) {
     </head>
     <body class="h-full">
         <div class="min-h-screen bg-gray-50">
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu-overlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 hidden lg:hidden"></div>
+            
             <!-- Sidebar -->
             <?php render_admin_sidebar($menu_items, $current_user); ?>
 
             <!-- Main Content -->
-            <div class="pl-64">
+            <div class="lg:pl-64">
                 <!-- Header -->
                 <?php render_admin_header($opts['page_title'], $opts['page_description']); ?>
 
@@ -180,7 +183,71 @@ function get_admin_menu_items($active_menu = 'dashboard', $current_user = null) 
  */
 function render_admin_sidebar($menu_items, $current_user) {
     ?>
-    <div class="fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar">
+    <!-- Mobile Sidebar -->
+    <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden">
+        <!-- Logo -->
+        <div class="flex items-center justify-between h-16 px-4 bg-black bg-opacity-20">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                    <?php echo get_icon('building', 'w-5 h-5'); ?>
+                </div>
+                <span class="text-white font-semibold text-lg">Baumaster</span>
+            </div>
+            <button id="mobile-menu-close" class="text-white hover:text-gray-300 lg:hidden">
+                <?php echo get_icon('x', 'w-6 h-6'); ?>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mt-8 px-4">
+            <div class="space-y-1">
+                <?php foreach ($menu_items as $key => $item): ?>
+                    <a 
+                        href="<?php echo htmlspecialchars($item['url']); ?>" 
+                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>"
+                    >
+                        <?php echo get_icon($item['icon']); ?>
+                        <span class="ml-3"><?php echo htmlspecialchars($item['title']); ?></span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </nav>
+
+        <!-- User Info -->
+        <div class="absolute bottom-0 w-full p-4">
+            <div class="bg-black bg-opacity-20 rounded-lg p-3">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm font-medium">
+                                <?php echo strtoupper(substr($current_user['username'], 0, 1)); ?>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-white truncate">
+                            <?php echo htmlspecialchars($current_user['username']); ?>
+                        </p>
+                        <p class="text-xs text-gray-300 truncate">
+                            <?php echo htmlspecialchars($current_user['role']); ?>
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a 
+                            href="logout.php" 
+                            class="text-gray-300 hover:text-white transition-colors duration-200"
+                            title="<?php echo __('auth.logout', 'Выйти'); ?>"
+                        >
+                            <?php echo get_icon('logout'); ?>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="hidden lg:block fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar">
         <!-- Logo -->
         <div class="flex items-center justify-center h-16 px-4 bg-black bg-opacity-20">
             <div class="flex items-center space-x-2">
@@ -249,15 +316,22 @@ function render_admin_header($page_title, $page_description = '') {
     <header class="bg-white shadow-sm border-b border-gray-200">
         <div class="px-6 py-4">
             <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900">
-                        <?php echo htmlspecialchars($page_title); ?>
-                    </h1>
-                    <?php if ($page_description): ?>
-                        <p class="mt-1 text-sm text-gray-500">
-                            <?php echo htmlspecialchars($page_description); ?>
-                        </p>
-                    <?php endif; ?>
+                <div class="flex items-center space-x-4">
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
+                        <?php echo get_icon('menu', 'w-6 h-6'); ?>
+                    </button>
+                    
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">
+                            <?php echo htmlspecialchars($page_title); ?>
+                        </h1>
+                        <?php if ($page_description): ?>
+                            <p class="mt-1 text-sm text-gray-500">
+                                <?php echo htmlspecialchars($page_description); ?>
+                            </p>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 
                 <div class="flex items-center space-x-4">
@@ -318,6 +392,87 @@ function admin_css_styles() {
         .card-hover:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Mobile Menu Styles */
+        #mobile-sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        #mobile-sidebar.open {
+            transform: translateX(0);
+        }
+        
+        #mobile-menu-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        #mobile-menu-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Mobile Header Adjustments */
+        @media (max-width: 1023px) {
+            .mobile-header-title {
+                font-size: 1.25rem;
+            }
+            
+            .mobile-header-description {
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Mobile Button Styles */
+        #mobile-menu-button {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        #mobile-menu-button:hover {
+            transform: scale(1.05);
+        }
+        
+        #mobile-menu-close {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        #mobile-menu-close:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Responsive Content */
+        @media (max-width: 1023px) {
+            .main-content {
+                padding-left: 0;
+            }
+        }
+        
+        /* Mobile Menu Animation */
+        .mobile-menu-slide {
+            animation: slideInLeft 0.3s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        /* Mobile Menu Overlay Animation */
+        .mobile-overlay-fade {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
     ';

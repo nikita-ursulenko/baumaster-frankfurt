@@ -267,28 +267,28 @@ body {
     .admin-table-responsive {
         font-size: 0.875rem;
     }
-    
+
     .admin-table-responsive th,
     .admin-table-responsive td {
         padding: 0.5rem 0.25rem;
     }
-    
+
     .admin-table-responsive .min-w-\[200px\] {
         min-width: 150px;
     }
-    
+
     .admin-table-responsive .min-w-\[120px\] {
         min-width: 100px;
     }
-    
+
     .admin-table-responsive .min-w-\[100px\] {
         min-width: 80px;
     }
-    
+
     .admin-table-responsive .min-w-\[80px\] {
         min-width: 60px;
     }
-    
+
     .admin-table-responsive .min-w-\[300px\] {
         min-width: 250px;
     }
@@ -298,32 +298,32 @@ body {
     .admin-table-responsive .min-w-\[200px\] {
         min-width: 120px;
     }
-    
+
     .admin-table-responsive .min-w-\[120px\] {
         min-width: 80px;
     }
-    
+
     .admin-table-responsive .min-w-\[100px\] {
         min-width: 70px;
     }
-    
+
     .admin-table-responsive .min-w-\[80px\] {
         min-width: 50px;
     }
-    
+
     .admin-table-responsive .min-w-\[300px\] {
         min-width: 200px;
     }
-    
+
     .admin-table-responsive .flex-wrap {
         flex-direction: column;
         gap: 0.25rem;
     }
-    
+
     .admin-table-responsive .flex-wrap form {
         width: 100%;
     }
-    
+
     .admin-table-responsive .flex-wrap form button {
         width: 100%;
         justify-content: center;
@@ -353,4 +353,3 @@ body {
 .overflow-x-auto::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
 }
-

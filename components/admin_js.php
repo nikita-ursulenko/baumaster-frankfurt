@@ -231,6 +231,85 @@ function render_admin_javascript() {
                 });
             }
         });
+
+        // Mobile Menu Functions
+        function initMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+            const mobileSidebar = document.getElementById('mobile-sidebar');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+            if (mobileMenuButton && mobileSidebar) {
+                mobileMenuButton.addEventListener('click', function() {
+                    openMobileMenu();
+                });
+            }
+
+            if (mobileMenuClose && mobileSidebar) {
+                mobileMenuClose.addEventListener('click', function() {
+                    closeMobileMenu();
+                });
+            }
+
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.addEventListener('click', function() {
+                    closeMobileMenu();
+                });
+            }
+
+            // Close menu when clicking on menu items
+            const menuItems = document.querySelectorAll('#mobile-sidebar a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    closeMobileMenu();
+                });
+            });
+        }
+
+        function openMobileMenu() {
+            const mobileSidebar = document.getElementById('mobile-sidebar');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            
+            if (mobileSidebar) {
+                mobileSidebar.classList.add('open');
+                mobileSidebar.classList.add('mobile-menu-slide');
+            }
+            
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.classList.remove('hidden');
+                mobileMenuOverlay.classList.add('show', 'mobile-overlay-fade');
+            }
+            
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeMobileMenu() {
+            const mobileSidebar = document.getElementById('mobile-sidebar');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            
+            if (mobileSidebar) {
+                mobileSidebar.classList.remove('open', 'mobile-menu-slide');
+            }
+            
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.classList.add('hidden');
+                mobileMenuOverlay.classList.remove('show', 'mobile-overlay-fade');
+            }
+            
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Initialize mobile menu when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initMobileMenu();
+        });
+
+        // Close mobile menu on window resize to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                closeMobileMenu();
+            }
+        });
     </script>
     <?php
 }
