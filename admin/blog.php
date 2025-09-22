@@ -1,0 +1,733 @@
+<?php
+/**
+ * Страница управления блогом/FAQ
+ * Baumaster Admin Panel - Blog Management
+ */
+
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../database.php';
+require_once COMPONENTS_PATH . 'admin_layout.php';
+
+// Настройки страницы
+$page_title = __('blog.title', 'Управление блогом');
+$page_description = __('blog.description', 'Создание и управление статьями блога и FAQ');
+$active_menu = 'blog';
+
+// Инициализация переменных
+$error_message = '';
+$success_message = '';
+$posts = [];
+$current_post = null;
+$action = $_GET['action'] ?? 'list';
+$post_id = intval($_GET['id'] ?? 0);
+
+// Получение базы данных
+$db = get_database();
+
+// Функции для работы с блогом
+function create_post($data) {
+    global $db;
+    
+    $errors = validate_post_data($data);
+    if (!empty($errors)) {
+        return ['success' => false, 'errors' => $errors];
+    }
+    
+    // Генерация slug из заголовка
+    $slug = generate_slug($data['title']);
+    
+    // Обработка тегов
+    $tags = array_filter(array_map('trim', explode(',', $data['tags'] ?? '')));
+    
+    $post_data = [
+        'title' => sanitize_input($data['title']),
+        'slug' => $slug,
+        'excerpt' => sanitize_input($data['excerpt'] ?? ''),
+        'content' => $data['content'], // HTML контент
+        'category' => sanitize_input($data['category']),
+        'tags' => json_encode($tags),
+        'featured_image' => sanitize_input($data['featured_image'] ?? ''),
+        'meta_title' => sanitize_input($data['meta_title'] ?? ''),
+        'meta_description' => sanitize_input($data['meta_description'] ?? ''),
+        'keywords' => sanitize_input($data['keywords'] ?? ''),
+        'status' => sanitize_input($data['status'] ?? 'draft'),
+        'post_type' => sanitize_input($data['post_type'] ?? 'article'),
+        'author_id' => get_current_admin_user()['id'] ?? 1,
+        'featured' => intval($data['featured'] ?? 0),
+        'sort_order' => intval($data['sort_order'] ?? 0),
+        'published_at' => !empty($data['published_at']) ? $data['published_at'] : null
+    ];
+    
+    $post_id = $db->insert('blog_posts', $post_data);
+    
+    if ($post_id) {
+        write_log("New blog post created: {$post_data['title']} (ID: $post_id)", 'INFO');
+        log_user_activity('blog_create', 'blog_posts', $post_id);
+        return [
+            'success' => true,
+            'post_id' => $post_id,
+            'message' => __('blog.create_success', 'Статья успешно создана')
+        ];
+    } else {
+        return ['success' => false, 'errors' => ['general' => __('blog.create_error', 'Ошибка при создании статьи')]];
+    }
+}
+
+function update_post($post_id, $data) {
+    global $db;
+    
+    $existing_post = $db->select('blog_posts', ['id' => $post_id], ['limit' => 1]);
+    if (!$existing_post) {
+        return ['success' => false, 'errors' => ['general' => __('blog.not_found', 'Статья не найдена')]];
+    }
+    
+    $errors = validate_post_data($data, true);
+    if (!empty($errors)) {
+        return ['success' => false, 'errors' => $errors];
+    }
+    
+    // Генерация slug из заголовка
+    $slug = generate_slug($data['title']);
+    
+    // Обработка тегов
+    $tags = array_filter(array_map('trim', explode(',', $data['tags'] ?? '')));
+    
+    $update_data = [
+        'title' => sanitize_input($data['title']),
+        'slug' => $slug,
+        'excerpt' => sanitize_input($data['excerpt'] ?? ''),
+        'content' => $data['content'],
+        'category' => sanitize_input($data['category']),
+        'tags' => json_encode($tags),
+        'featured_image' => sanitize_input($data['featured_image'] ?? ''),
+        'meta_title' => sanitize_input($data['meta_title'] ?? ''),
+        'meta_description' => sanitize_input($data['meta_description'] ?? ''),
+        'keywords' => sanitize_input($data['keywords'] ?? ''),
+        'status' => sanitize_input($data['status'] ?? 'draft'),
+        'post_type' => sanitize_input($data['post_type'] ?? 'article'),
+        'featured' => intval($data['featured'] ?? 0),
+        'sort_order' => intval($data['sort_order'] ?? 0),
+        'published_at' => !empty($data['published_at']) ? $data['published_at'] : null
+    ];
+    
+    if ($db->update('blog_posts', $update_data, ['id' => $post_id])) {
+        write_log("Blog post updated: {$existing_post['title']} (ID: $post_id)", 'INFO');
+        log_user_activity('blog_update', 'blog_posts', $post_id, $existing_post, $update_data);
+        return ['success' => true, 'message' => __('blog.update_success', 'Статья успешно обновлена')];
+    } else {
+        return ['success' => false, 'errors' => ['general' => __('blog.update_error', 'Ошибка при обновлении статьи')]];
+    }
+}
+
+function delete_post($post_id) {
+    global $db;
+    
+    $post = $db->select('blog_posts', ['id' => $post_id], ['limit' => 1]);
+    if (!$post) {
+        return ['success' => false, 'error' => __('blog.not_found', 'Статья не найдена')];
+    }
+    
+    if ($db->delete('blog_posts', ['id' => $post_id])) {
+        write_log("Blog post deleted: {$post['title']} (ID: $post_id)", 'WARNING');
+        log_user_activity('blog_delete', 'blog_posts', $post_id);
+        return ['success' => true, 'message' => __('blog.delete_success', 'Статья успешно удалена')];
+    } else {
+        return ['success' => false, 'error' => __('blog.delete_error', 'Ошибка при удалении статьи')];
+    }
+}
+
+function validate_post_data($data, $is_update = false) {
+    $errors = [];
+    
+    $title = $data['title'] ?? '';
+    if (empty($title)) {
+        $errors['title'] = __('blog.title_required', 'Заголовок статьи обязателен');
+    } elseif (strlen($title) < 5) {
+        $errors['title'] = __('blog.title_too_short', 'Заголовок должен содержать минимум 5 символов');
+    }
+    
+    $content = $data['content'] ?? '';
+    if (empty($content)) {
+        $errors['content'] = __('blog.content_required', 'Содержание статьи обязательно');
+    } elseif (strlen(strip_tags($content)) < 50) {
+        $errors['content'] = __('blog.content_too_short', 'Содержание должно содержать минимум 50 символов');
+    }
+    
+    $category = $data['category'] ?? '';
+    if (empty($category)) {
+        $errors['category'] = __('blog.category_required', 'Категория статьи обязательна');
+    }
+    
+    return $errors;
+}
+
+function generate_slug($title) {
+    $slug = strtolower($title);
+    $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
+    $slug = preg_replace('/[\s-]+/', '-', $slug);
+    $slug = trim($slug, '-');
+    return $slug;
+}
+
+// Обработка POST запросов
+if ($_POST) {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $error_message = __('common.csrf_error', 'Ошибка безопасности. Попробуйте снова.');
+    } else {
+        $post_action = $_POST['action'] ?? '';
+        
+        switch ($post_action) {
+            case 'create':
+                $result = create_post($_POST);
+                if ($result['success']) {
+                    $success_message = $result['message'];
+                    $action = 'list';
+                } else {
+                    $error_message = implode('<br>', $result['errors']);
+                }
+                break;
+                
+            case 'update':
+                $result = update_post($post_id, $_POST);
+                if ($result['success']) {
+                    $success_message = $result['message'];
+                } else {
+                    $error_message = implode('<br>', $result['errors']);
+                }
+                break;
+                
+            case 'delete':
+                $result = delete_post($post_id);
+                if ($result['success']) {
+                    $success_message = $result['message'];
+                    $action = 'list';
+                } else {
+                    $error_message = $result['error'];
+                }
+                break;
+                
+            case 'publish':
+                $post = $db->select('blog_posts', ['id' => $post_id], ['limit' => 1]);
+                if ($post) {
+                    $db->update('blog_posts', [
+                        'status' => 'published',
+                        'published_at' => date('Y-m-d H:i:s')
+                    ], ['id' => $post_id]);
+                    $success_message = __('blog.published', 'Статья опубликована');
+                }
+                break;
+        }
+    }
+}
+
+// Обработка действий
+switch ($action) {
+    case 'create':
+    case 'edit':
+        if ($action === 'edit') {
+            $current_post = $db->select('blog_posts', ['id' => $post_id], ['limit' => 1]);
+            if (!$current_post) {
+                $error_message = __('blog.not_found', 'Статья не найдена');
+                $action = 'list';
+            } else {
+                $current_post['tags'] = json_decode($current_post['tags'], true) ?? [];
+            }
+        }
+        break;
+        
+    case 'list':
+    default:
+        // Фильтрация и поиск
+        $filters = [];
+        $search = sanitize_input($_GET['search'] ?? '');
+        $status_filter = $_GET['status'] ?? '';
+        $category_filter = $_GET['category'] ?? '';
+        $type_filter = $_GET['post_type'] ?? '';
+        
+        if (!empty($search)) {
+            $filters['title LIKE'] = "%{$search}%";
+        }
+        if (!empty($status_filter)) {
+            $filters['status'] = $status_filter;
+        }
+        if (!empty($category_filter)) {
+            $filters['category'] = $category_filter;
+        }
+        if (!empty($type_filter)) {
+            $filters['post_type'] = $type_filter;
+        }
+        
+        $posts = $db->select('blog_posts', $filters, ['order' => 'sort_order DESC, created_at DESC']);
+        break;
+}
+
+// Генерация CSRF токена
+$csrf_token = generate_csrf_token();
+
+// Начало контента
+ob_start();
+?>
+
+<!-- Сообщения -->
+<?php render_error_message($error_message); ?>
+<?php render_success_message($success_message); ?>
+
+<?php if ($action === 'list'): ?>
+    <!-- Заголовок и кнопки -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+            <h2 class="text-xl font-semibold text-gray-900">
+                <?php echo __('blog.list_title', 'Управление блогом'); ?>
+            </h2>
+            <p class="text-sm text-gray-600 mt-1">
+                <?php echo __('blog.total_count', 'Всего статей'); ?>: <?php echo count($posts); ?>
+            </p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-2">
+            <?php render_button([
+                'href' => '?action=create',
+                'text' => __('blog.add_new', 'Добавить статью'),
+                'variant' => 'primary',
+                'icon' => get_icon('plus', 'w-4 h-4 mr-2')
+            ]); ?>
+            
+            <?php render_button([
+                'href' => 'blog_export.php',
+                'text' => __('blog.export', 'Экспорт в CSV'),
+                'variant' => 'secondary',
+                'icon' => get_icon('download', 'w-4 h-4 mr-2')
+            ]); ?>
+        </div>
+    </div>
+
+    <!-- Фильтры и поиск -->
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('common.search', 'Поиск'); ?>
+                </label>
+                <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                       placeholder="<?php echo __('blog.search_placeholder', 'Название статьи...'); ?>">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('blog.category', 'Категория'); ?>
+                </label>
+                <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                    <option value="tips" <?php echo $category_filter === 'tips' ? 'selected' : ''; ?>><?php echo __('blog.category_tips', 'Советы'); ?></option>
+                    <option value="faq" <?php echo $category_filter === 'faq' ? 'selected' : ''; ?>><?php echo __('blog.category_faq', 'FAQ'); ?></option>
+                    <option value="news" <?php echo $category_filter === 'news' ? 'selected' : ''; ?>><?php echo __('blog.category_news', 'Новости'); ?></option>
+                    <option value="guides" <?php echo $category_filter === 'guides' ? 'selected' : ''; ?>><?php echo __('blog.category_guides', 'Руководства'); ?></option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('blog.type', 'Тип'); ?>
+                </label>
+                <select name="post_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                    <option value="article" <?php echo $type_filter === 'article' ? 'selected' : ''; ?>><?php echo __('blog.type_article', 'Статья'); ?></option>
+                    <option value="faq" <?php echo $type_filter === 'faq' ? 'selected' : ''; ?>><?php echo __('blog.type_faq', 'FAQ'); ?></option>
+                    <option value="news" <?php echo $type_filter === 'news' ? 'selected' : ''; ?>><?php echo __('blog.type_news', 'Новость'); ?></option>
+                    <option value="tips" <?php echo $type_filter === 'tips' ? 'selected' : ''; ?>><?php echo __('blog.type_tips', 'Совет'); ?></option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('blog.status', 'Статус'); ?>
+                </label>
+                <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                    <option value="draft" <?php echo $status_filter === 'draft' ? 'selected' : ''; ?>><?php echo __('blog.status_draft', 'Черновик'); ?></option>
+                    <option value="published" <?php echo $status_filter === 'published' ? 'selected' : ''; ?>><?php echo __('blog.status_published', 'Опубликовано'); ?></option>
+                </select>
+            </div>
+            
+            <div class="flex items-end">
+                <?php render_button([
+                    'type' => 'submit',
+                    'text' => __('common.filter', 'Фильтр'),
+                    'variant' => 'secondary',
+                    'size' => 'md'
+                ]); ?>
+            </div>
+        </form>
+    </div>
+
+    <!-- Список статей -->
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+        <?php if (empty($posts)): ?>
+            <div class="text-center py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900"><?php echo __('blog.no_posts', 'Статьи не найдены'); ?></h3>
+                <p class="mt-1 text-sm text-gray-500"><?php echo __('blog.no_posts_description', 'Начните с создания первой статьи'); ?></p>
+                <div class="mt-6">
+                    <?php render_button([
+                        'href' => '?action=create',
+                        'text' => __('blog.add_first', 'Создать первую статью'),
+                        'variant' => 'primary',
+                        'icon' => get_icon('plus', 'w-4 h-4 mr-2')
+                    ]); ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="divide-y divide-gray-200">
+                <?php foreach ($posts as $post): ?>
+                    <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start space-x-4 flex-1">
+                                <!-- Изображение статьи -->
+                                <div class="flex-shrink-0">
+                                    <?php if (!empty($post['featured_image'])): ?>
+                                        <img class="h-16 w-24 rounded-lg object-cover" src="<?php echo htmlspecialchars($post['featured_image']); ?>" alt="<?php echo htmlspecialchars($post['title']); ?>">
+                                    <?php else: ?>
+                                        <div class="h-16 w-24 rounded-lg bg-gray-200 flex items-center justify-center">
+                                            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <!-- Информация о статье -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-3">
+                                            <h3 class="text-lg font-medium text-gray-900">
+                                                <?php echo htmlspecialchars($post['title']); ?>
+                                            </h3>
+                                            
+                                            <!-- Бейджи -->
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                <?php echo htmlspecialchars(ucfirst($post['category'])); ?>
+                                            </span>
+                                            
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                <?php echo htmlspecialchars(ucfirst($post['post_type'])); ?>
+                                            </span>
+                                            
+                                            <?php if ($post['featured']): ?>
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    ⭐ Рекомендуемая
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                        
+                                        <!-- Статус -->
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                            <?php echo $post['status'] === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'; ?>">
+                                            <?php echo $post['status'] === 'published' ? 'Опубликовано' : 'Черновик'; ?>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Краткое описание -->
+                                    <?php if (!empty($post['excerpt'])): ?>
+                                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                            <?php echo htmlspecialchars($post['excerpt']); ?>
+                                        </p>
+                                    <?php endif; ?>
+                                    
+                                    <!-- Дополнительная информация -->
+                                    <div class="flex items-center text-xs text-gray-500 space-x-4">
+                                        <span>Просмотры: <?php echo $post['views']; ?></span>
+                                        <?php if ($post['published_at']): ?>
+                                            <span>Опубликовано: <?php echo format_date($post['published_at']); ?></span>
+                                        <?php endif; ?>
+                                        <span>Создано: <?php echo format_date($post['created_at']); ?></span>
+                                    </div>
+                                    
+                                    <!-- Теги -->
+                                    <?php 
+                                    $tags = json_decode($post['tags'], true);
+                                    if (!empty($tags) && is_array($tags)): 
+                                    ?>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <?php foreach (array_slice($tags, 0, 3) as $tag): ?>
+                                                <span class="inline-flex px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded">
+                                                    #<?php echo htmlspecialchars($tag); ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                            <?php if (count($tags) > 3): ?>
+                                                <span class="text-xs text-gray-500">+<?php echo count($tags) - 3; ?> еще</span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            
+                            <!-- Действия -->
+                            <div class="flex items-center space-x-2 ml-4">
+                                <?php render_button([
+                                    'href' => '?action=edit&id=' . $post['id'],
+                                    'text' => __('common.edit', 'Редактировать'),
+                                    'variant' => 'secondary',
+                                    'size' => 'sm'
+                                ]); ?>
+                                
+                                <?php if ($post['status'] === 'draft'): ?>
+                                    <form method="POST" class="inline-block">
+                                        <input type="hidden" name="action" value="publish">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                        <?php render_button([
+                                            'type' => 'submit',
+                                            'text' => __('blog.publish', 'Опубликовать'),
+                                            'variant' => 'primary',
+                                            'size' => 'sm'
+                                        ]); ?>
+                                    </form>
+                                <?php endif; ?>
+                                
+                                <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('blog.confirm_delete', 'Вы уверены, что хотите удалить эту статью?'); ?>');">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                    <button type="submit" class="text-red-400 hover:text-red-600 p-1" title="<?php echo __('common.delete', 'Удалить'); ?>">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+<?php elseif ($action === 'create' || $action === 'edit'): ?>
+    <!-- Форма создания/редактирования статьи -->
+    <div class="max-w-6xl">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-gray-900">
+                <?php echo $action === 'create' ? __('blog.create_title', 'Создать статью') : __('blog.edit_title', 'Редактировать статью'); ?>
+            </h2>
+            
+            <?php render_button([
+                'href' => '?action=list',
+                'text' => __('common.back_to_list', 'Назад к списку'),
+                'variant' => 'secondary',
+                'icon' => get_icon('arrow-left', 'w-4 h-4 mr-2')
+            ]); ?>
+        </div>
+
+        <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+            <form method="POST" class="space-y-8">
+                <input type="hidden" name="action" value="<?php echo $action === 'create' ? 'create' : 'update'; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                
+                <!-- Основная информация -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('blog.basic_info', 'Основная информация'); ?>
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Заголовок -->
+                        <?php render_input_field([
+                            'name' => 'title',
+                            'label' => __('blog.title', 'Заголовок статьи'),
+                            'placeholder' => __('blog.title_placeholder', 'Введите заголовок статьи'),
+                            'required' => true,
+                            'value' => $current_post['title'] ?? ''
+                        ]); ?>
+                        
+                        <!-- Краткое описание -->
+                        <?php render_textarea_field([
+                            'name' => 'excerpt',
+                            'label' => __('blog.excerpt', 'Краткое описание'),
+                            'placeholder' => __('blog.excerpt_placeholder', 'Краткое описание статьи для превью'),
+                            'rows' => 3,
+                            'value' => $current_post['excerpt'] ?? ''
+                        ]); ?>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Категория -->
+                            <div class="space-y-2">
+                                <label for="category" class="block text-sm font-medium text-gray-700">
+                                    <?php echo __('blog.category', 'Категория'); ?>
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="category" name="category" required 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                    <option value="tips" <?php echo ($current_post['category'] ?? '') === 'tips' ? 'selected' : ''; ?>><?php echo __('blog.category_tips', 'Советы'); ?></option>
+                                    <option value="faq" <?php echo ($current_post['category'] ?? '') === 'faq' ? 'selected' : ''; ?>><?php echo __('blog.category_faq', 'FAQ'); ?></option>
+                                    <option value="news" <?php echo ($current_post['category'] ?? '') === 'news' ? 'selected' : ''; ?>><?php echo __('blog.category_news', 'Новости'); ?></option>
+                                    <option value="guides" <?php echo ($current_post['category'] ?? '') === 'guides' ? 'selected' : ''; ?>><?php echo __('blog.category_guides', 'Руководства'); ?></option>
+                                </select>
+                            </div>
+                            
+                            <!-- Тип статьи -->
+                            <div class="space-y-2">
+                                <label for="post_type" class="block text-sm font-medium text-gray-700">
+                                    <?php echo __('blog.type', 'Тип статьи'); ?>
+                                </label>
+                                <select id="post_type" name="post_type" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                    <option value="article" <?php echo ($current_post['post_type'] ?? 'article') === 'article' ? 'selected' : ''; ?>><?php echo __('blog.type_article', 'Статья'); ?></option>
+                                    <option value="faq" <?php echo ($current_post['post_type'] ?? '') === 'faq' ? 'selected' : ''; ?>><?php echo __('blog.type_faq', 'FAQ'); ?></option>
+                                    <option value="news" <?php echo ($current_post['post_type'] ?? '') === 'news' ? 'selected' : ''; ?>><?php echo __('blog.type_news', 'Новость'); ?></option>
+                                    <option value="tips" <?php echo ($current_post['post_type'] ?? '') === 'tips' ? 'selected' : ''; ?>><?php echo __('blog.type_tips', 'Совет'); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Содержание -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('blog.content', 'Содержание статьи'); ?>
+                    </h3>
+                    
+                    <?php render_textarea_field([
+                        'name' => 'content',
+                        'label' => __('blog.content_label', 'Полный текст статьи'),
+                        'placeholder' => __('blog.content_placeholder', 'Введите содержание статьи. Поддерживается HTML разметка.'),
+                        'required' => true,
+                        'rows' => 15,
+                        'value' => $current_post['content'] ?? ''
+                    ]); ?>
+                    
+                    <p class="text-sm text-gray-500 mt-2">
+                        <?php echo __('blog.content_help', 'Поддерживается HTML разметка. Используйте теги h2, h3, p, ul, li для структурирования контента.'); ?>
+                    </p>
+                </div>
+                
+                <!-- Изображения и SEO -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('blog.media_seo', 'Медиа и SEO'); ?>
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Главное изображение -->
+                        <?php render_input_field([
+                            'name' => 'featured_image',
+                            'label' => __('blog.featured_image', 'Главное изображение'),
+                            'placeholder' => __('blog.image_placeholder', 'URL изображения'),
+                            'value' => $current_post['featured_image'] ?? ''
+                        ]); ?>
+                        
+                        <!-- Теги -->
+                        <?php render_input_field([
+                            'name' => 'tags',
+                            'label' => __('blog.tags', 'Теги'),
+                            'placeholder' => __('blog.tags_placeholder', 'Через запятую: ремонт, советы, материалы'),
+                            'value' => (isset($current_post['tags']) && is_array($current_post['tags'])) ? implode(', ', $current_post['tags']) : ''
+                        ]); ?>
+                        
+                        <!-- Meta Title -->
+                        <?php render_input_field([
+                            'name' => 'meta_title',
+                            'label' => __('blog.meta_title', 'Meta Title'),
+                            'placeholder' => __('blog.meta_title_placeholder', 'SEO заголовок для поисковых систем'),
+                            'value' => $current_post['meta_title'] ?? ''
+                        ]); ?>
+                        
+                        <!-- Meta Description -->
+                        <?php render_textarea_field([
+                            'name' => 'meta_description',
+                            'label' => __('blog.meta_description', 'Meta Description'),
+                            'placeholder' => __('blog.meta_description_placeholder', 'SEO описание для поисковых систем (до 160 символов)'),
+                            'rows' => 3,
+                            'value' => $current_post['meta_description'] ?? ''
+                        ]); ?>
+                        
+                        <!-- Keywords -->
+                        <?php render_input_field([
+                            'name' => 'keywords',
+                            'label' => __('blog.keywords', 'Ключевые слова'),
+                            'placeholder' => __('blog.keywords_placeholder', 'ключевое слово, другое слово, третье слово'),
+                            'value' => $current_post['keywords'] ?? ''
+                        ]); ?>
+                    </div>
+                </div>
+                
+                <!-- Настройки публикации -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('blog.publish_settings', 'Настройки публикации'); ?>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Статус -->
+                        <div class="space-y-2">
+                            <label for="status" class="block text-sm font-medium text-gray-700">
+                                <?php echo __('blog.status', 'Статус'); ?>
+                            </label>
+                            <select id="status" name="status" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value="draft" <?php echo ($current_post['status'] ?? 'draft') === 'draft' ? 'selected' : ''; ?>><?php echo __('blog.status_draft', 'Черновик'); ?></option>
+                                <option value="published" <?php echo ($current_post['status'] ?? '') === 'published' ? 'selected' : ''; ?>><?php echo __('blog.status_published', 'Опубликовано'); ?></option>
+                            </select>
+                        </div>
+                        
+                        <!-- Дата публикации -->
+                        <?php render_input_field([
+                            'type' => 'datetime-local',
+                            'name' => 'published_at',
+                            'label' => __('blog.publish_date', 'Дата публикации'),
+                            'value' => (isset($current_post['published_at']) && $current_post['published_at']) ? date('Y-m-d\TH:i', strtotime($current_post['published_at'])) : ''
+                        ]); ?>
+                        
+                        <!-- Рекомендуемая статья -->
+                        <div class="flex items-center">
+                            <input id="featured" name="featured" type="checkbox" value="1" <?php echo ($current_post['featured'] ?? 0) ? 'checked' : ''; ?>
+                                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                            <label for="featured" class="ml-2 block text-sm text-gray-900">
+                                <?php echo __('blog.featured', 'Рекомендуемая статья'); ?>
+                            </label>
+                        </div>
+                        
+                        <!-- Приоритет сортировки -->
+                        <?php render_input_field([
+                            'type' => 'number',
+                            'name' => 'sort_order',
+                            'label' => __('blog.sort_order', 'Приоритет сортировки'),
+                            'placeholder' => '0',
+                            'value' => $current_post['sort_order'] ?? '0'
+                        ]); ?>
+                    </div>
+                </div>
+                
+                <!-- Кнопки -->
+                <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <?php render_button([
+                        'href' => '?action=list',
+                        'text' => __('common.cancel', 'Отмена'),
+                        'variant' => 'secondary'
+                    ]); ?>
+                    
+                    <?php render_button([
+                        'type' => 'submit',
+                        'text' => $action === 'create' ? __('blog.create_button', 'Создать статью') : __('blog.update_button', 'Обновить статью'),
+                        'variant' => 'primary'
+                    ]); ?>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<?php endif; ?>
+
+<?php
+$page_content = ob_get_clean();
+
+// Рендеринг страницы
+render_admin_layout([
+    'page_title' => $page_title,
+    'page_description' => $page_description,
+    'active_menu' => $active_menu,
+    'content' => $page_content
+]);
+?>
+

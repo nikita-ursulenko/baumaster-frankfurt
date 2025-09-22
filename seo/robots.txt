@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://baumaster-frankfurt.de/sitemap.xml
+
+# Disallow admin area
+Disallow: /admin/
+Disallow: /data/
+Disallow: /seo/
+
+# Allow important pages
+Allow: /services/
+Allow: /portfolio/
+Allow: /blog/
+Allow: /reviews/
+
+# Crawl delay
+Crawl-delay: 1
+

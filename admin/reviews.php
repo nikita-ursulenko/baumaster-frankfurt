@@ -1,0 +1,695 @@
+<?php
+/**
+ * Страница управления отзывами
+ * Baumaster Admin Panel - Reviews Management
+ */
+
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../database.php';
+require_once COMPONENTS_PATH . 'admin_layout.php';
+
+// Настройки страницы
+$page_title = __('reviews.title', 'Управление отзывами');
+$page_description = __('reviews.description', 'Модерация и управление отзывами клиентов');
+$active_menu = 'reviews';
+
+// Инициализация переменных
+$error_message = '';
+$success_message = '';
+$reviews = [];
+$current_review = null;
+$action = $_GET['action'] ?? 'list';
+$review_id = intval($_GET['id'] ?? 0);
+
+// Получение базы данных
+$db = get_database();
+
+// Функции для работы с отзывами
+function create_review($data) {
+    global $db;
+    
+    $errors = validate_review_data($data);
+    if (!empty($errors)) {
+        return ['success' => false, 'errors' => $errors];
+    }
+    
+    $review_data = [
+        'client_name' => sanitize_input($data['client_name']),
+        'client_email' => sanitize_input($data['client_email'] ?? ''),
+        'client_phone' => sanitize_input($data['client_phone'] ?? ''),
+        'client_photo' => sanitize_input($data['client_photo'] ?? ''),
+        'review_text' => sanitize_input($data['review_text']),
+        'rating' => intval($data['rating'] ?? 5),
+        'project_id' => !empty($data['project_id']) ? intval($data['project_id']) : null,
+        'service_id' => !empty($data['service_id']) ? intval($data['service_id']) : null,
+        'status' => sanitize_input($data['status'] ?? 'pending'),
+        'review_date' => !empty($data['review_date']) ? $data['review_date'] : date('Y-m-d'),
+        'verified' => intval($data['verified'] ?? 0),
+        'featured' => intval($data['featured'] ?? 0),
+        'sort_order' => intval($data['sort_order'] ?? 0),
+        'admin_notes' => sanitize_input($data['admin_notes'] ?? ''),
+        'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? ''
+    ];
+    
+    $review_id = $db->insert('reviews', $review_data);
+    
+    if ($review_id) {
+        write_log("New review created: {$review_data['client_name']} (ID: $review_id)", 'INFO');
+        log_user_activity('review_create', 'reviews', $review_id);
+        return [
+            'success' => true,
+            'review_id' => $review_id,
+            'message' => __('reviews.create_success', 'Отзыв успешно создан')
+        ];
+    } else {
+        return ['success' => false, 'errors' => ['general' => __('reviews.create_error', 'Ошибка при создании отзыва')]];
+    }
+}
+
+function update_review($review_id, $data) {
+    global $db;
+    
+    $existing_review = $db->select('reviews', ['id' => $review_id], ['limit' => 1]);
+    if (!$existing_review) {
+        return ['success' => false, 'errors' => ['general' => __('reviews.not_found', 'Отзыв не найден')]];
+    }
+    
+    $errors = validate_review_data($data, true);
+    if (!empty($errors)) {
+        return ['success' => false, 'errors' => $errors];
+    }
+    
+    $update_data = [
+        'client_name' => sanitize_input($data['client_name']),
+        'client_email' => sanitize_input($data['client_email'] ?? ''),
+        'client_phone' => sanitize_input($data['client_phone'] ?? ''),
+        'client_photo' => sanitize_input($data['client_photo'] ?? ''),
+        'review_text' => sanitize_input($data['review_text']),
+        'rating' => intval($data['rating'] ?? 5),
+        'project_id' => !empty($data['project_id']) ? intval($data['project_id']) : null,
+        'service_id' => !empty($data['service_id']) ? intval($data['service_id']) : null,
+        'status' => sanitize_input($data['status'] ?? 'pending'),
+        'review_date' => !empty($data['review_date']) ? $data['review_date'] : date('Y-m-d'),
+        'verified' => intval($data['verified'] ?? 0),
+        'featured' => intval($data['featured'] ?? 0),
+        'sort_order' => intval($data['sort_order'] ?? 0),
+        'admin_notes' => sanitize_input($data['admin_notes'] ?? '')
+    ];
+    
+    if ($db->update('reviews', $update_data, ['id' => $review_id])) {
+        write_log("Review updated: {$existing_review['client_name']} (ID: $review_id)", 'INFO');
+        log_user_activity('review_update', 'reviews', $review_id, $existing_review, $update_data);
+        return ['success' => true, 'message' => __('reviews.update_success', 'Отзыв успешно обновлен')];
+    } else {
+        return ['success' => false, 'errors' => ['general' => __('reviews.update_error', 'Ошибка при обновлении отзыва')]];
+    }
+}
+
+function delete_review($review_id) {
+    global $db;
+    
+    $review = $db->select('reviews', ['id' => $review_id], ['limit' => 1]);
+    if (!$review) {
+        return ['success' => false, 'error' => __('reviews.not_found', 'Отзыв не найден')];
+    }
+    
+    if ($db->delete('reviews', ['id' => $review_id])) {
+        write_log("Review deleted: {$review['client_name']} (ID: $review_id)", 'WARNING');
+        log_user_activity('review_delete', 'reviews', $review_id);
+        return ['success' => true, 'message' => __('reviews.delete_success', 'Отзыв успешно удален')];
+    } else {
+        return ['success' => false, 'error' => __('reviews.delete_error', 'Ошибка при удалении отзыва')];
+    }
+}
+
+function validate_review_data($data, $is_update = false) {
+    $errors = [];
+    
+    $client_name = $data['client_name'] ?? '';
+    if (empty($client_name)) {
+        $errors['client_name'] = __('reviews.client_name_required', 'Имя клиента обязательно');
+    } elseif (strlen($client_name) < 2) {
+        $errors['client_name'] = __('reviews.client_name_too_short', 'Имя должно содержать минимум 2 символа');
+    }
+    
+    $review_text = $data['review_text'] ?? '';
+    if (empty($review_text)) {
+        $errors['review_text'] = __('reviews.text_required', 'Текст отзыва обязателен');
+    } elseif (strlen($review_text) < 10) {
+        $errors['review_text'] = __('reviews.text_too_short', 'Отзыв должен содержать минимум 10 символов');
+    }
+    
+    $rating = intval($data['rating'] ?? 0);
+    if ($rating < 1 || $rating > 5) {
+        $errors['rating'] = __('reviews.rating_invalid', 'Рейтинг должен быть от 1 до 5');
+    }
+    
+    return $errors;
+}
+
+// Обработка POST запросов
+if ($_POST) {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $error_message = __('common.csrf_error', 'Ошибка безопасности. Попробуйте снова.');
+    } else {
+        $post_action = $_POST['action'] ?? '';
+        
+        switch ($post_action) {
+            case 'create':
+                $result = create_review($_POST);
+                if ($result['success']) {
+                    $success_message = $result['message'];
+                    $action = 'list';
+                } else {
+                    $error_message = implode('<br>', $result['errors']);
+                }
+                break;
+                
+            case 'update':
+                $result = update_review($review_id, $_POST);
+                if ($result['success']) {
+                    $success_message = $result['message'];
+                } else {
+                    $error_message = implode('<br>', $result['errors']);
+                }
+                break;
+                
+            case 'delete':
+                $result = delete_review($review_id);
+                if ($result['success']) {
+                    $success_message = $result['message'];
+                    $action = 'list';
+                } else {
+                    $error_message = $result['error'];
+                }
+                break;
+                
+            case 'moderate':
+                $review = $db->select('reviews', ['id' => $review_id], ['limit' => 1]);
+                if ($review) {
+                    $new_status = $_POST['new_status'] ?? 'pending';
+                    $db->update('reviews', ['status' => $new_status], ['id' => $review_id]);
+                    $success_message = __('reviews.status_updated', 'Статус отзыва обновлен');
+                }
+                break;
+        }
+    }
+}
+
+// Обработка действий
+switch ($action) {
+    case 'create':
+    case 'edit':
+        if ($action === 'edit') {
+            $current_review = $db->select('reviews', ['id' => $review_id], ['limit' => 1]);
+            if (!$current_review) {
+                $error_message = __('reviews.not_found', 'Отзыв не найден');
+                $action = 'list';
+            }
+        }
+        break;
+        
+    case 'list':
+    default:
+        // Фильтрация и поиск
+        $filters = [];
+        $search = sanitize_input($_GET['search'] ?? '');
+        $status_filter = $_GET['status'] ?? '';
+        $rating_filter = $_GET['rating'] ?? '';
+        $verified_filter = $_GET['verified'] ?? '';
+        
+        if (!empty($search)) {
+            $filters['client_name LIKE'] = "%{$search}%";
+        }
+        if (!empty($status_filter)) {
+            $filters['status'] = $status_filter;
+        }
+        if (!empty($rating_filter)) {
+            $filters['rating'] = intval($rating_filter);
+        }
+        if (!empty($verified_filter)) {
+            $filters['verified'] = intval($verified_filter);
+        }
+        
+        $reviews = $db->select('reviews', $filters, ['order' => 'sort_order DESC, created_at DESC']);
+        break;
+}
+
+// Генерация CSRF токена
+$csrf_token = generate_csrf_token();
+
+// Начало контента
+ob_start();
+?>
+
+<!-- Сообщения -->
+<?php render_error_message($error_message); ?>
+<?php render_success_message($success_message); ?>
+
+<?php if ($action === 'list'): ?>
+    <!-- Заголовок и кнопки -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+            <h2 class="text-xl font-semibold text-gray-900">
+                <?php echo __('reviews.list_title', 'Управление отзывами'); ?>
+            </h2>
+            <p class="text-sm text-gray-600 mt-1">
+                <?php echo __('reviews.total_count', 'Всего отзывов'); ?>: <?php echo count($reviews); ?>
+            </p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-2">
+            <?php render_button([
+                'href' => '?action=create',
+                'text' => __('reviews.add_new', 'Добавить отзыв'),
+                'variant' => 'primary',
+                'icon' => get_icon('plus', 'w-4 h-4 mr-2')
+            ]); ?>
+            
+            <?php render_button([
+                'href' => 'reviews_export.php',
+                'text' => __('reviews.export', 'Экспорт в CSV'),
+                'variant' => 'secondary',
+                'icon' => get_icon('download', 'w-4 h-4 mr-2')
+            ]); ?>
+        </div>
+    </div>
+
+    <!-- Фильтры и поиск -->
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('common.search', 'Поиск'); ?>
+                </label>
+                <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                       placeholder="<?php echo __('reviews.search_placeholder', 'Имя клиента...'); ?>">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('reviews.status', 'Статус'); ?>
+                </label>
+                <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                    <option value="pending" <?php echo $status_filter === 'pending' ? 'selected' : ''; ?>><?php echo __('reviews.status_pending', 'На модерации'); ?></option>
+                    <option value="published" <?php echo $status_filter === 'published' ? 'selected' : ''; ?>><?php echo __('reviews.status_published', 'Опубликованы'); ?></option>
+                    <option value="rejected" <?php echo $status_filter === 'rejected' ? 'selected' : ''; ?>><?php echo __('reviews.status_rejected', 'Отклонены'); ?></option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('reviews.rating', 'Рейтинг'); ?>
+                </label>
+                <select name="rating" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                    <?php for ($i = 5; $i >= 1; $i--): ?>
+                        <option value="<?php echo $i; ?>" <?php echo $rating_filter == $i ? 'selected' : ''; ?>>
+                            <?php echo $i; ?> <?php echo $i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'); ?>
+                        </option>
+                    <?php endfor; ?>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <?php echo __('reviews.verified', 'Проверенные'); ?>
+                </label>
+                <select name="verified" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                    <option value="1" <?php echo $verified_filter === '1' ? 'selected' : ''; ?>><?php echo __('reviews.verified_yes', 'Проверенные'); ?></option>
+                    <option value="0" <?php echo $verified_filter === '0' ? 'selected' : ''; ?>><?php echo __('reviews.verified_no', 'Не проверенные'); ?></option>
+                </select>
+            </div>
+            
+            <div class="flex items-end">
+                <?php render_button([
+                    'type' => 'submit',
+                    'text' => __('common.filter', 'Фильтр'),
+                    'variant' => 'secondary',
+                    'size' => 'md'
+                ]); ?>
+            </div>
+        </form>
+    </div>
+
+    <!-- Список отзывов -->
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+        <?php if (empty($reviews)): ?>
+            <div class="text-center py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900"><?php echo __('reviews.no_reviews', 'Отзывы не найдены'); ?></h3>
+                <p class="mt-1 text-sm text-gray-500"><?php echo __('reviews.no_reviews_description', 'Начните с добавления первого отзыва'); ?></p>
+                <div class="mt-6">
+                    <?php render_button([
+                        'href' => '?action=create',
+                        'text' => __('reviews.add_first', 'Добавить первый отзыв'),
+                        'variant' => 'primary',
+                        'icon' => get_icon('plus', 'w-4 h-4 mr-2')
+                    ]); ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="divide-y divide-gray-200">
+                <?php foreach ($reviews as $review): ?>
+                    <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start space-x-4 flex-1">
+                                <!-- Фото клиента -->
+                                <div class="flex-shrink-0">
+                                    <?php if (!empty($review['client_photo'])): ?>
+                                        <img class="h-12 w-12 rounded-full object-cover" src="<?php echo htmlspecialchars($review['client_photo']); ?>" alt="<?php echo htmlspecialchars($review['client_name']); ?>">
+                                    <?php else: ?>
+                                        <div class="h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                            <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <!-- Информация об отзыве -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-3">
+                                            <h3 class="text-lg font-medium text-gray-900">
+                                                <?php echo htmlspecialchars($review['client_name']); ?>
+                                            </h3>
+                                            
+                                            <!-- Рейтинг -->
+                                            <div class="flex items-center">
+                                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                    <svg class="h-4 w-4 <?php echo $i <= $review['rating'] ? 'text-yellow-400' : 'text-gray-300'; ?>" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                    </svg>
+                                                <?php endfor; ?>
+                                                <span class="ml-1 text-sm text-gray-600">(<?php echo $review['rating']; ?>)</span>
+                                            </div>
+                                            
+                                            <!-- Бейджи -->
+                                            <?php if ($review['verified']): ?>
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                    ✓ Проверен
+                                                </span>
+                                            <?php endif; ?>
+                                            
+                                            <?php if ($review['featured']): ?>
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    ⭐ Рекомендуемый
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                        
+                                        <!-- Статус -->
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                            <?php 
+                                                switch($review['status']) {
+                                                    case 'published': echo 'bg-green-100 text-green-800'; break;
+                                                    case 'pending': echo 'bg-yellow-100 text-yellow-800'; break;
+                                                    case 'rejected': echo 'bg-red-100 text-red-800'; break;
+                                                    default: echo 'bg-gray-100 text-gray-800';
+                                                }
+                                            ?>">
+                                            <?php 
+                                                switch($review['status']) {
+                                                    case 'published': echo 'Опубликован'; break;
+                                                    case 'pending': echo 'На модерации'; break;
+                                                    case 'rejected': echo 'Отклонен'; break;
+                                                    default: echo ucfirst($review['status']);
+                                                }
+                                            ?>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Текст отзыва -->
+                                    <p class="text-gray-700 text-sm mb-3 line-clamp-3">
+                                        "<?php echo htmlspecialchars($review['review_text']); ?>"
+                                    </p>
+                                    
+                                    <!-- Дополнительная информация -->
+                                    <div class="flex items-center text-xs text-gray-500 space-x-4">
+                                        <span><?php echo format_date($review['review_date']); ?></span>
+                                        <?php if (!empty($review['client_email'])): ?>
+                                            <span><?php echo htmlspecialchars($review['client_email']); ?></span>
+                                        <?php endif; ?>
+                                        <?php if (!empty($review['admin_notes'])): ?>
+                                            <span class="text-blue-600">📝 Есть заметки</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Действия -->
+                            <div class="flex items-center space-x-2 ml-4">
+                                <?php render_button([
+                                    'href' => '?action=edit&id=' . $review['id'],
+                                    'text' => __('common.edit', 'Редактировать'),
+                                    'variant' => 'secondary',
+                                    'size' => 'sm'
+                                ]); ?>
+                                
+                                <?php if ($review['status'] === 'pending'): ?>
+                                    <form method="POST" class="inline-block">
+                                        <input type="hidden" name="action" value="moderate">
+                                        <input type="hidden" name="new_status" value="published">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                        <?php render_button([
+                                            'type' => 'submit',
+                                            'text' => __('reviews.approve', 'Одобрить'),
+                                            'variant' => 'primary',
+                                            'size' => 'sm'
+                                        ]); ?>
+                                    </form>
+                                    
+                                    <form method="POST" class="inline-block">
+                                        <input type="hidden" name="action" value="moderate">
+                                        <input type="hidden" name="new_status" value="rejected">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                        <?php render_button([
+                                            'type' => 'submit',
+                                            'text' => __('reviews.reject', 'Отклонить'),
+                                            'variant' => 'danger',
+                                            'size' => 'sm'
+                                        ]); ?>
+                                    </form>
+                                <?php endif; ?>
+                                
+                                <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('reviews.confirm_delete', 'Вы уверены, что хотите удалить этот отзыв?'); ?>');">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                    <button type="submit" class="text-red-400 hover:text-red-600 p-1" title="<?php echo __('common.delete', 'Удалить'); ?>">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+<?php elseif ($action === 'create' || $action === 'edit'): ?>
+    <!-- Форма создания/редактирования отзыва -->
+    <div class="max-w-4xl">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-gray-900">
+                <?php echo $action === 'create' ? __('reviews.create_title', 'Добавить отзыв') : __('reviews.edit_title', 'Редактировать отзыв'); ?>
+            </h2>
+            
+            <?php render_button([
+                'href' => '?action=list',
+                'text' => __('common.back_to_list', 'Назад к списку'),
+                'variant' => 'secondary',
+                'icon' => get_icon('arrow-left', 'w-4 h-4 mr-2')
+            ]); ?>
+        </div>
+
+        <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+            <form method="POST" class="space-y-8">
+                <input type="hidden" name="action" value="<?php echo $action === 'create' ? 'create' : 'update'; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                
+                <!-- Информация о клиенте -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('reviews.client_info', 'Информация о клиенте'); ?>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <?php render_input_field([
+                            'name' => 'client_name',
+                            'label' => __('reviews.client_name', 'Имя клиента'),
+                            'placeholder' => __('reviews.client_name_placeholder', 'Введите имя клиента'),
+                            'required' => true,
+                            'value' => $current_review['client_name'] ?? ''
+                        ]); ?>
+                        
+                        <?php render_input_field([
+                            'type' => 'email',
+                            'name' => 'client_email',
+                            'label' => __('reviews.client_email', 'Email клиента'),
+                            'placeholder' => __('reviews.client_email_placeholder', 'email@example.com'),
+                            'value' => $current_review['client_email'] ?? ''
+                        ]); ?>
+                        
+                        <?php render_input_field([
+                            'type' => 'tel',
+                            'name' => 'client_phone',
+                            'label' => __('reviews.client_phone', 'Телефон клиента'),
+                            'placeholder' => __('reviews.client_phone_placeholder', '+49 176 12345678'),
+                            'value' => $current_review['client_phone'] ?? ''
+                        ]); ?>
+                        
+                        <?php render_input_field([
+                            'name' => 'client_photo',
+                            'label' => __('reviews.client_photo', 'Фото клиента'),
+                            'placeholder' => __('reviews.client_photo_placeholder', 'URL фотографии клиента'),
+                            'value' => $current_review['client_photo'] ?? ''
+                        ]); ?>
+                    </div>
+                </div>
+                
+                <!-- Отзыв -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('reviews.review_content', 'Содержание отзыва'); ?>
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <?php render_textarea_field([
+                            'name' => 'review_text',
+                            'label' => __('reviews.review_text', 'Текст отзыва'),
+                            'placeholder' => __('reviews.review_text_placeholder', 'Введите текст отзыва клиента'),
+                            'required' => true,
+                            'rows' => 6,
+                            'value' => $current_review['review_text'] ?? ''
+                        ]); ?>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="rating" class="block text-sm font-medium text-gray-700">
+                                    <?php echo __('reviews.rating', 'Рейтинг'); ?>
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="rating" name="rating" required 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <option value="<?php echo $i; ?>" <?php echo ($current_review['rating'] ?? 5) == $i ? 'selected' : ''; ?>>
+                                            <?php echo $i; ?> <?php echo $i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'); ?>
+                                        </option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                            
+                            <?php render_input_field([
+                                'type' => 'date',
+                                'name' => 'review_date',
+                                'label' => __('reviews.review_date', 'Дата отзыва'),
+                                'value' => $current_review['review_date'] ?? date('Y-m-d')
+                            ]); ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Настройки -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('reviews.settings', 'Настройки'); ?>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="status" class="block text-sm font-medium text-gray-700">
+                                <?php echo __('reviews.status', 'Статус'); ?>
+                            </label>
+                            <select id="status" name="status" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value="pending" <?php echo ($current_review['status'] ?? 'pending') === 'pending' ? 'selected' : ''; ?>><?php echo __('reviews.status_pending', 'На модерации'); ?></option>
+                                <option value="published" <?php echo ($current_review['status'] ?? '') === 'published' ? 'selected' : ''; ?>><?php echo __('reviews.status_published', 'Опубликован'); ?></option>
+                                <option value="rejected" <?php echo ($current_review['status'] ?? '') === 'rejected' ? 'selected' : ''; ?>><?php echo __('reviews.status_rejected', 'Отклонен'); ?></option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input id="verified" name="verified" type="checkbox" value="1" <?php echo ($current_review['verified'] ?? 0) ? 'checked' : ''; ?>
+                                       class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                <label for="verified" class="ml-2 block text-sm text-gray-900">
+                                    <?php echo __('reviews.verified', 'Проверенный клиент'); ?>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input id="featured" name="featured" type="checkbox" value="1" <?php echo ($current_review['featured'] ?? 0) ? 'checked' : ''; ?>
+                                       class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                <label for="featured" class="ml-2 block text-sm text-gray-900">
+                                    <?php echo __('reviews.featured', 'Рекомендуемый отзыв'); ?>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <?php render_input_field([
+                        'type' => 'number',
+                        'name' => 'sort_order',
+                        'label' => __('reviews.sort_order', 'Приоритет сортировки'),
+                        'placeholder' => '0',
+                        'value' => $current_review['sort_order'] ?? '0'
+                    ]); ?>
+                </div>
+                
+                <!-- Заметки администратора -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">
+                        <?php echo __('reviews.admin_notes', 'Заметки администратора'); ?>
+                    </h3>
+                    
+                    <?php render_textarea_field([
+                        'name' => 'admin_notes',
+                        'label' => __('reviews.admin_notes_label', 'Внутренние заметки'),
+                        'placeholder' => __('reviews.admin_notes_placeholder', 'Заметки для внутреннего использования (не отображаются публично)'),
+                        'rows' => 3,
+                        'value' => $current_review['admin_notes'] ?? ''
+                    ]); ?>
+                </div>
+                
+                <!-- Кнопки -->
+                <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <?php render_button([
+                        'href' => '?action=list',
+                        'text' => __('common.cancel', 'Отмена'),
+                        'variant' => 'secondary'
+                    ]); ?>
+                    
+                    <?php render_button([
+                        'type' => 'submit',
+                        'text' => $action === 'create' ? __('reviews.create_button', 'Создать отзыв') : __('reviews.update_button', 'Обновить отзыв'),
+                        'variant' => 'primary'
+                    ]); ?>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<?php endif; ?>
+
+<?php
+$page_content = ob_get_clean();
+
+// Рендеринг страницы
+render_admin_layout([
+    'page_title' => $page_title,
+    'page_description' => $page_description,
+    'active_menu' => $active_menu,
+    'content' => $page_content
+]);
+?>
+
