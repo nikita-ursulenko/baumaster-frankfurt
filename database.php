@@ -669,8 +669,16 @@ class Database {
             if (!empty($where)) {
                 $conditions = [];
                 foreach ($where as $key => $value) {
-                    $conditions[] = "$key = :$key";
-                    $params[$key] = $value;
+                    if ($key === '_search' && is_array($value)) {
+                        // Обработка поиска
+                        $search_field = $value['field'];
+                        $search_value = $value['value'];
+                        $conditions[] = "$search_field LIKE :search_value";
+                        $params['search_value'] = "%{$search_value}%";
+                    } else {
+                        $conditions[] = "$key = :$key";
+                        $params[$key] = $value;
+                    }
                 }
                 $sql .= " WHERE " . implode(' AND ', $conditions);
             }

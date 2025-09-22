@@ -22,6 +22,11 @@ $current_service = null;
 $action = $_GET['action'] ?? 'list';
 $service_id = intval($_GET['id'] ?? 0);
 
+// Обработка успешных сообщений
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+    $success_message = __('services.create_success', 'Услуга успешно создана');
+}
+
 // Отладочная информация
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     write_log("POST request received: " . json_encode($_POST), 'INFO');
@@ -56,14 +61,25 @@ function create_service($data, $files = []) {
     // Обработка загрузки галереи
     $gallery_urls = [];
     if (isset($files['gallery']) && is_array($files['gallery']['name'])) {
-        $gallery_result = handle_multiple_image_upload($files['gallery'], 'services');
-        if ($gallery_result['success']) {
-            foreach ($gallery_result['results'] as $result) {
-                $gallery_urls[] = $result['url'];
+        // Проверяем, есть ли хотя бы один файл с ошибкой не UPLOAD_ERR_NO_FILE
+        $has_valid_files = false;
+        foreach ($files['gallery']['error'] as $error) {
+            if ($error !== UPLOAD_ERR_NO_FILE) {
+                $has_valid_files = true;
+                break;
             }
         }
-        if (!empty($gallery_result['errors'])) {
-            $errors['gallery'] = implode(', ', $gallery_result['errors']);
+        
+        if ($has_valid_files) {
+            $gallery_result = handle_multiple_image_upload($files['gallery'], 'services');
+            if ($gallery_result['success']) {
+                foreach ($gallery_result['results'] as $result) {
+                    $gallery_urls[] = $result['url'];
+                }
+            }
+            if (!empty($gallery_result['errors'])) {
+                $errors['gallery'] = implode(', ', $gallery_result['errors']);
+            }
         }
     }
     
@@ -143,6 +159,7 @@ function update_service($service_id, $data, $files = []) {
         }
         $image_url = '';
     }
+    // Если файл не выбран (UPLOAD_ERR_NO_FILE), оставляем текущее изображение
     
     // Обработка загрузки галереи
     $gallery_urls = json_decode($existing_service['gallery'], true) ?: [];
@@ -161,14 +178,25 @@ function update_service($service_id, $data, $files = []) {
     
     // Добавляем новые изображения в галерею
     if (isset($files['gallery']) && is_array($files['gallery']['name'])) {
-        $gallery_result = handle_multiple_image_upload($files['gallery'], 'services');
-        if ($gallery_result['success']) {
-            foreach ($gallery_result['results'] as $result) {
-                $gallery_urls[] = $result['url'];
+        // Проверяем, есть ли хотя бы один файл с ошибкой не UPLOAD_ERR_NO_FILE
+        $has_valid_files = false;
+        foreach ($files['gallery']['error'] as $error) {
+            if ($error !== UPLOAD_ERR_NO_FILE) {
+                $has_valid_files = true;
+                break;
             }
         }
-        if (!empty($gallery_result['errors'])) {
-            $errors['gallery'] = implode(', ', $gallery_result['errors']);
+        
+        if ($has_valid_files) {
+            $gallery_result = handle_multiple_image_upload($files['gallery'], 'services');
+            if ($gallery_result['success']) {
+                foreach ($gallery_result['results'] as $result) {
+                    $gallery_urls[] = $result['url'];
+                }
+            }
+            if (!empty($gallery_result['errors'])) {
+                $errors['gallery'] = implode(', ', $gallery_result['errors']);
+            }
         }
     }
     
@@ -285,10 +313,14 @@ if ($_POST) {
         
         switch ($post_action) {
             case 'create':
+                write_log("Creating service with data: " . json_encode($_POST), 'INFO');
                 $result = create_service($_POST, $_FILES);
+                write_log("Create service result: " . json_encode($result), 'INFO');
                 if ($result['success']) {
                     $success_message = $result['message'];
-                    $action = 'list'; // Возвращаемся к списку
+                    // Редирект на список услуг
+                    header('Location: ?action=list&success=1');
+                    exit;
                 } else {
                     $error_message = implode('<br>', $result['errors']);
                 }
@@ -304,7 +336,8 @@ if ($_POST) {
                 break;
                 
             case 'delete':
-                $result = delete_service($service_id);
+                $delete_id = intval($_POST['id'] ?? $service_id);
+                $result = delete_service($delete_id);
                 if ($result['success']) {
                     $success_message = $result['message'];
                     $action = 'list'; // Возвращаемся к списку
@@ -354,7 +387,8 @@ switch ($action) {
         $category_filter = $_GET['category'] ?? '';
         
         if (!empty($search)) {
-            $filters['title LIKE'] = "%{$search}%";
+            // Используем специальный ключ для LIKE поиска
+            $filters['_search'] = ['field' => 'title', 'value' => $search];
         }
         if (!empty($status_filter)) {
             $filters['status'] = $status_filter;
@@ -566,6 +600,7 @@ ob_start();
                                 
                                 <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('services.confirm_delete', 'Вы уверены, что хотите удалить эту услугу?'); ?>');">
                                     <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                                     <?php render_button([
                                         'type' => 'submit',
