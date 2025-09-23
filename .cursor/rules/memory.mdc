@@ -13,50 +13,59 @@ alwaysApply: true
 ## Структура директорий
 
 **Корень проекта** (/):
+
 - config.php — основная конфигурация
 - database.php — система работы с БД (SQLite/JSON)
 - functions.php — общие функции
 - index.php — главная страница сайта
 
 **Админ-панель** (/admin/):
+
 - index.php — дашборд админки
 - login.php — авторизация
 - services.php, portfolio.php, reviews.php, blog.php — управление контентом
 - settings.php — настройки системы
 
 **Компоненты** (/components/):
+
 - admin_layout.php — layout админ-панели
 - auth_layout.php — layout авторизации
 
 **Frontend** (/ux/):
+
 - layout.php — базовый layout сайта
 - components.php — переиспользуемые компоненты
 - data.php — функции получения данных
 
 **Интеграции** (/integrations/):
+
 - analytics.php — Google Analytics
 - email.php — почтовые функции
 - i18n.php — интернационализация
 
 **SEO** (/seo/):
+
 - seo_utils.php — SEO утилиты и Schema.org
 - sitemap.php — генерация карт сайта
 
 ## Основные функции
 
 **config.php**:
+
 - get_config(key, default) -> mixed — получение настроек
 - is_debug() -> bool — проверка режима отладки
 - get_site_url(path) -> string — базовый URL сайта
 - get_admin_url(path) -> string — URL админки
 
 **database.php**:
+
 - Database::select(table, where, options) -> array — выборка данных
 - Database::insert(table, data) -> int|false — вставка данных
 - Database::update(table, data, where) -> bool — обновление
 - Database::delete(table, where) -> bool — удаление
 
 **functions.php**:
+
 - sanitize_input(data) -> mixed — санитизация данных
 - validate_email(email) -> bool — валидация email
 - hash_password(password) -> string — хеширование пароля
@@ -66,13 +75,17 @@ alwaysApply: true
 - has_permission(action, user) -> bool — проверка прав доступа
 
 **ux/data.php**:
+
 - get_services_data() -> array — получение услуг из БД
 - get_portfolio_data() -> array — получение портфолио
 - get_reviews_data() -> array — получение отзывов
 - get_contact_info() -> array — контактная информация
 - get_seo_data() -> array — SEO данные страниц
+- get_blog_posts(limit, category) -> array — получение списка статей блога
+- get_blog_post(slug) -> array|null — получение отдельной статьи по slug
 
 **ux/components.php**:
+
 - render_frontend_button(options) -> void — рендер кнопки
 - render_contact_form(options) -> void — форма обратной связи
 - render_service_card(service) -> void — карточка услуги
@@ -81,6 +94,7 @@ alwaysApply: true
 ## База данных
 
 **SQLite таблицы**:
+
 - users — пользователи админки
 - services — услуги компании
 - portfolio — проекты портфолио
@@ -90,11 +104,13 @@ alwaysApply: true
 - activity_log — логи активности
 
 **JSON файлы** (альтернатива SQLite):
+
 - users.json, services.json, portfolio.json, reviews.json, blog_posts.json, settings.json
 
 ## Ключевые переменные
 
 **Конфигурация** (config.php):
+
 - SITE_NAME — название сайта
 - SITE_URL — базовый URL
 - DB_TYPE — тип БД (sqlite/json)
@@ -103,6 +119,7 @@ alwaysApply: true
 - MAX_FILE_SIZE — максимальный размер файла
 
 **Пути**:
+
 - ABSPATH — абсолютный путь к корню
 - ADMIN_PATH — путь к админке
 - ASSETS_PATH — путь к ресурсам
@@ -111,11 +128,13 @@ alwaysApply: true
 ## Система авторизации
 
 **Роли пользователей**:
+
 - admin — полный доступ ко всем функциям
 - editor — управление контентом (услуги, портфолио, блог)
 - moderator — модерация отзывов
 
 **Функции безопасности**:
+
 - CSRF защита
 - Хеширование паролей
 - Логирование активности
@@ -124,12 +143,44 @@ alwaysApply: true
 ## SEO и интеграции
 
 **SEO функции**:
+
 - generate_meta_tags(page_data) -> string — мета-теги
 - generate_json_ld(type, data) -> string — Schema.org разметка
 - generate_organization_schema() -> string — разметка организации
 - generate_service_schema(service) -> string — разметка услуги
 
 **Analytics**:
+
 - generate_google_analytics_code() -> string — код GA
 - track_analytics_event() -> string — отслеживание событий
 - track_conversion() -> string — отслеживание конверсий
+
+## Проверка отображения HTML-контента (23.09.2025)
+
+**Статус**: ✅ ВЫПОЛНЕНО
+
+**Проверенные компоненты**:
+
+1. **Фронтенд (blog_post.php)**:
+   - ✅ HTML-контент отображается корректно
+   - ✅ Заголовки H2, H3 отображаются правильно
+   - ✅ Списки (ul, li) отображаются корректно
+   - ✅ Абзацы (p) отображаются правильно
+   - ✅ CSS стили применяются корректно
+
+2. **Админка (admin/blog.php)**:
+   - ✅ Список статей отображается корректно
+   - ✅ HTML-контент в описаниях отображается как обычный текст (правильно)
+   - ✅ Мета-информация корректна
+
+3. **WYSIWYG редактор**:
+   - ✅ Редактор загружается и работает
+   - ✅ HTML-контент отображается с правильным форматированием
+   - ✅ Панель инструментов функционирует
+
+4. **Предварительный просмотр (admin/blog_preview.php)**:
+   - ✅ HTML-контент отображается корректно
+   - ✅ Структура страницы правильная
+   - ✅ Стили применяются корректно
+
+**Результат**: Все компоненты работают корректно, HTML-контент отображается правильно на всех уровнях системы.
