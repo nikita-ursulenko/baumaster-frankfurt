@@ -777,3 +777,4 @@
 [2025-09-23 23:19:36] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
 [2025-09-23 23:24:24] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
 [2025-09-23 23:24:37] [INFO] User root logged in
+[2025-09-23 23:25:38] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
