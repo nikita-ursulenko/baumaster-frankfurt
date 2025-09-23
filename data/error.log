@@ -750,3 +750,11 @@
 [2025-09-23 03:27:51] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
 [2025-09-23 03:31:06] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
 [2025-09-23 03:31:17] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-23 03:36:20] [INFO] User root logged in
+[2025-09-23 03:37:31] [INFO] New blog post created: Тестирование WYSIWYG редактора (ID: 8)
+[2025-09-23 03:37:31] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
+[2025-09-23 03:38:20] [INFO] Blog post updated: Как подготовить квартиру к ремонту (ID: 4)
+[2025-09-23 03:38:20] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
+[2025-09-23 03:39:38] [INFO] Blog post updated: Тестирование новых функций блога (ID: 6)
+[2025-09-23 03:39:38] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
+[2025-09-23 03:39:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error

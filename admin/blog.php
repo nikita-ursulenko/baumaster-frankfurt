@@ -642,14 +642,17 @@ ob_start();
                         <?php echo __('blog.content', 'Содержание статьи'); ?>
                     </h3>
                     
-                    <?php render_textarea_field([
-                        'name' => 'content',
-                        'label' => __('blog.content_label', 'Полный текст статьи'),
-                        'placeholder' => __('blog.content_placeholder', 'Введите содержание статьи. Поддерживается HTML разметка.'),
-                        'required' => true,
-                        'rows' => 15,
-                        'value' => $current_post['content'] ?? ''
-                    ]); ?>
+                    <!-- WYSIWYG редактор -->
+                    <div class="space-y-2">
+                        <label for="wysiwyg-editor" class="block text-sm font-medium text-gray-700">
+                            <?php echo __('blog.content_label', 'Полный текст статьи'); ?> *
+                        </label>
+                        <div id="wysiwyg-editor" 
+                             class="min-h-[400px] border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500"
+                             data-value="<?php echo htmlspecialchars($current_post['content'] ?? ''); ?>">
+                        </div>
+                        <input type="hidden" id="wysiwyg-editor_hidden" name="content" value="<?php echo htmlspecialchars($current_post['content'] ?? ''); ?>">
+                    </div>
                     
                     <p class="text-sm text-gray-500 mt-2">
                         <?php echo __('blog.content_help', 'Поддерживается HTML разметка. Используйте теги h2, h3, p, ul, li для структурирования контента.'); ?>
@@ -791,7 +794,27 @@ render_admin_layout([
     'page_description' => $page_description,
     'active_menu' => $active_menu,
     'content' => $page_content,
-    'additional_js' => ''
+    'additional_js' => '
+        <!-- Quill.js CSS -->
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        
+        <!-- Quill.js JS -->
+        <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+        
+        <!-- WYSIWYG Editor -->
+        <script src="' . ASSETS_URL . 'js/wysiwyg-editor.js"></script>
+        
+        <script>
+        // Инициализация WYSIWYG редактора
+        document.addEventListener("DOMContentLoaded", function() {
+            if (document.getElementById("wysiwyg-editor")) {
+                window.blogEditor = new WysiwygEditor("wysiwyg-editor", {
+                    value: document.getElementById("wysiwyg-editor").dataset.value || "",
+                    placeholder: "Введите содержание статьи. Поддерживается HTML разметка."
+                });
+            }
+        });
+        </script>'
 ]);
 ?>
 
