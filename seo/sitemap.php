@@ -68,11 +68,40 @@ foreach ($portfolio as $project) {
 // Блог статьи
 $blog_posts = $db->select('blog_posts', ['status' => 'published'], ['order' => 'published_at DESC']);
 foreach ($blog_posts as $post) {
+    // Пропускаем статьи без slug
+    if (empty($post['slug'])) {
+        continue;
+    }
+
     echo '  <url>' . "\n";
-    echo '    <loc>' . htmlspecialchars($base_url . '/blog/' . $post['slug']) . '</loc>' . "\n";
-    echo '    <lastmod>' . date('Y-m-d', strtotime($post['updated_at'])) . '</lastmod>' . "\n";
+    echo '    <loc>' . htmlspecialchars($base_url . '/blog_post.php?slug=' . urlencode($post['slug'])) . '</loc>' . "\n";
+
+    // Дата последнего изменения
+    $lastmod_date = $post['updated_at'] ?: $post['published_at'];
+    echo '    <lastmod>' . date('Y-m-d', strtotime($lastmod_date)) . '</lastmod>' . "\n";
+
+    // Частота изменений
     echo '    <changefreq>monthly</changefreq>' . "\n";
-    echo '    <priority>0.6</priority>' . "\n";
+
+    // Приоритет зависит от популярности и свежести
+    $priority = 0.6;
+    if ($post['published_at']) {
+        $days_since_publish = (time() - strtotime($post['published_at'])) / (60 * 60 * 24);
+        if ($days_since_publish < 30) {
+            $priority = 0.8; // очень свежие статьи
+        } elseif ($days_since_publish < 90) {
+            $priority = 0.7; // относительно свежие
+        }
+    }
+    if ($post['featured']) {
+        $priority += 0.1; // рекомендуемые статьи
+    }
+    if ($post['views'] > 100) {
+        $priority += 0.1; // популярные статьи
+    }
+    $priority = min($priority, 1.0);
+
+    echo '    <priority>' . number_format($priority, 1, '.', '') . '</priority>' . "\n";
     echo '  </url>' . "\n";
 }
 

@@ -33,11 +33,27 @@ function create_review($data) {
         return ['success' => false, 'errors' => $errors];
     }
     
+    // Обработка загрузки фото клиента
+    $client_photo = '';
+    if (isset($_FILES['client_photo']) && $_FILES['client_photo']['error'] === UPLOAD_ERR_OK) {
+        $upload_result = upload_file($_FILES['client_photo'], 'clients', ['jpg', 'jpeg', 'png', 'gif']);
+        if ($upload_result['success']) {
+            $client_photo = $upload_result['filename'];
+        } else {
+            $errors['client_photo'] = $upload_result['error'];
+            return ['success' => false, 'errors' => $errors];
+        }
+    } elseif (!empty($data['client_photo_url'])) {
+        $client_photo = sanitize_input($data['client_photo_url']);
+    } elseif (!empty($data['client_photo'])) {
+        $client_photo = sanitize_input($data['client_photo']);
+    }
+    
     $review_data = [
         'client_name' => sanitize_input($data['client_name']),
         'client_email' => sanitize_input($data['client_email'] ?? ''),
         'client_phone' => sanitize_input($data['client_phone'] ?? ''),
-        'client_photo' => sanitize_input($data['client_photo'] ?? ''),
+        'client_photo' => $client_photo,
         'review_text' => sanitize_input($data['review_text']),
         'rating' => intval($data['rating'] ?? 5),
         'project_id' => !empty($data['project_id']) ? intval($data['project_id']) : null,
@@ -80,11 +96,31 @@ function update_review($review_id, $data) {
         return ['success' => false, 'errors' => $errors];
     }
     
+    // Обработка загрузки фото клиента
+    $client_photo = $existing_review['client_photo'] ?? '';
+    if (isset($_FILES['client_photo']) && $_FILES['client_photo']['error'] === UPLOAD_ERR_OK) {
+        $upload_result = upload_file($_FILES['client_photo'], 'clients', ['jpg', 'jpeg', 'png', 'gif']);
+        if ($upload_result['success']) {
+            // Удаляем старое фото, если оно есть
+            if (!empty($client_photo) && file_exists(ASSETS_PATH . '/uploads/clients/' . $client_photo)) {
+                unlink(ASSETS_PATH . '/uploads/clients/' . $client_photo);
+            }
+            $client_photo = $upload_result['filename'];
+        } else {
+            $errors['client_photo'] = $upload_result['error'];
+            return ['success' => false, 'errors' => $errors];
+        }
+    } elseif (!empty($data['client_photo_url'])) {
+        $client_photo = sanitize_input($data['client_photo_url']);
+    } elseif (!empty($data['client_photo'])) {
+        $client_photo = sanitize_input($data['client_photo']);
+    }
+    
     $update_data = [
         'client_name' => sanitize_input($data['client_name']),
         'client_email' => sanitize_input($data['client_email'] ?? ''),
         'client_phone' => sanitize_input($data['client_phone'] ?? ''),
-        'client_photo' => sanitize_input($data['client_photo'] ?? ''),
+        'client_photo' => $client_photo,
         'review_text' => sanitize_input($data['review_text']),
         'rating' => intval($data['rating'] ?? 5),
         'project_id' => !empty($data['project_id']) ? intval($data['project_id']) : null,
@@ -112,6 +148,11 @@ function delete_review($review_id) {
     $review = $db->select('reviews', ['id' => $review_id], ['limit' => 1]);
     if (!$review) {
         return ['success' => false, 'error' => __('reviews.not_found', 'Отзыв не найден')];
+    }
+    
+    // Удаляем фото клиента, если оно есть
+    if (!empty($review['client_photo']) && file_exists(ASSETS_PATH . '/uploads/clients/' . $review['client_photo'])) {
+        unlink(ASSETS_PATH . '/uploads/clients/' . $review['client_photo']);
     }
     
     if ($db->delete('reviews', ['id' => $review_id])) {
@@ -278,62 +319,61 @@ ob_start();
 
     <!-- Фильтры и поиск -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
-        <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('common.search', 'Поиск'); ?>
-                </label>
-                <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
-                       placeholder="<?php echo __('reviews.search_placeholder', 'Имя клиента...'); ?>">
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('reviews.status', 'Статус'); ?>
-                </label>
-                <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                    <option value="pending" <?php echo $status_filter === 'pending' ? 'selected' : ''; ?>><?php echo __('reviews.status_pending', 'На модерации'); ?></option>
-                    <option value="published" <?php echo $status_filter === 'published' ? 'selected' : ''; ?>><?php echo __('reviews.status_published', 'Опубликованы'); ?></option>
-                    <option value="rejected" <?php echo $status_filter === 'rejected' ? 'selected' : ''; ?>><?php echo __('reviews.status_rejected', 'Отклонены'); ?></option>
-                </select>
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('reviews.rating', 'Рейтинг'); ?>
-                </label>
-                <select name="rating" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                    <?php for ($i = 5; $i >= 1; $i--): ?>
-                        <option value="<?php echo $i; ?>" <?php echo $rating_filter == $i ? 'selected' : ''; ?>>
-                            <?php echo $i; ?> <?php echo $i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'); ?>
-                        </option>
-                    <?php endfor; ?>
-                </select>
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('reviews.verified', 'Проверенные'); ?>
-                </label>
-                <select name="verified" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                    <option value="1" <?php echo $verified_filter === '1' ? 'selected' : ''; ?>><?php echo __('reviews.verified_yes', 'Проверенные'); ?></option>
-                    <option value="0" <?php echo $verified_filter === '0' ? 'selected' : ''; ?>><?php echo __('reviews.verified_no', 'Не проверенные'); ?></option>
-                </select>
-            </div>
-            
-            <div class="flex items-end">
-                <?php render_button([
-                    'type' => 'submit',
-                    'text' => __('common.filter', 'Фильтр'),
-                    'variant' => 'secondary',
-                    'size' => 'md'
-                ]); ?>
-            </div>
-        </form>
+        <?php 
+        // Подготовка опций рейтинга
+        $rating_options = [['value' => '', 'text' => __('common.all', 'Все')]];
+        for ($i = 5; $i >= 1; $i--) {
+            $rating_options[] = [
+                'value' => $i,
+                'text' => $i . ' ' . ($i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'))
+            ];
+        }
+        
+        render_filter_form([
+            'fields' => [
+                [
+                    'type' => 'search',
+                    'name' => 'search',
+                    'placeholder' => __('reviews.search_placeholder', 'Имя клиента...'),
+                    'value' => $search
+                ],
+                [
+                    'type' => 'dropdown',
+                    'name' => 'status',
+                    'label' => __('reviews.status', 'Статус'),
+                    'value' => $status_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => 'pending', 'text' => __('reviews.status_pending', 'На модерации')],
+                        ['value' => 'published', 'text' => __('reviews.status_published', 'Опубликованы')],
+                        ['value' => 'rejected', 'text' => __('reviews.status_rejected', 'Отклонены')]
+                    ],
+                    'placeholder' => __('common.all', 'Все')
+                ],
+                [
+                    'type' => 'dropdown',
+                    'name' => 'rating',
+                    'label' => __('reviews.rating', 'Рейтинг'),
+                    'value' => $rating_filter,
+                    'options' => $rating_options,
+                    'placeholder' => __('common.all', 'Все')
+                ],
+                [
+                    'type' => 'dropdown',
+                    'name' => 'verified',
+                    'label' => __('reviews.verified', 'Проверенные'),
+                    'value' => $verified_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => '1', 'text' => __('reviews.verified_yes', 'Проверенные')],
+                        ['value' => '0', 'text' => __('reviews.verified_no', 'Не проверенные')]
+                    ],
+                    'placeholder' => __('common.all', 'Все')
+                ]
+            ],
+            'button_text' => __('common.filter', 'Фильтр')
+        ]);
+        ?>
     </div>
 
     <!-- Список отзывов -->
@@ -363,7 +403,14 @@ ob_start();
                                 <!-- Фото клиента -->
                                 <div class="flex-shrink-0">
                                     <?php if (!empty($review['client_photo'])): ?>
-                                        <img class="h-12 w-12 rounded-full object-cover" src="<?php echo htmlspecialchars($review['client_photo']); ?>" alt="<?php echo htmlspecialchars($review['client_name']); ?>">
+                                        <?php 
+                                        $photo_src = $review['client_photo'];
+                                        // Если это не URL (не начинается с http), добавляем путь к папке
+                                        if (!preg_match('/^https?:\/\//', $photo_src)) {
+                                            $photo_src = '/assets/uploads/clients/' . $photo_src;
+                                        }
+                                        ?>
+                                        <img class="h-12 w-12 rounded-full object-cover" src="<?php echo htmlspecialchars($photo_src); ?>" alt="<?php echo htmlspecialchars($review['client_name']); ?>">
                                     <?php else: ?>
                                         <div class="h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center">
                                             <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -513,7 +560,7 @@ ob_start();
         </div>
 
         <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-            <form method="POST" class="space-y-8">
+            <form method="POST" enctype="multipart/form-data" class="space-y-8">
                 <input type="hidden" name="action" value="<?php echo $action === 'create' ? 'create' : 'update'; ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                 
@@ -548,12 +595,45 @@ ob_start();
                             'value' => $current_review['client_phone'] ?? ''
                         ]); ?>
                         
-                        <?php render_input_field([
-                            'name' => 'client_photo',
-                            'label' => __('reviews.client_photo', 'Фото клиента'),
-                            'placeholder' => __('reviews.client_photo_placeholder', 'URL фотографии клиента'),
-                            'value' => $current_review['client_photo'] ?? ''
-                        ]); ?>
+                        <div class="space-y-2">
+                            <label for="client_photo" class="block text-sm font-medium text-gray-700">
+                                <?php echo __('reviews.client_photo', 'Фото клиента'); ?>
+                            </label>
+                            
+                            <!-- Текущее фото -->
+                            <?php if (!empty($current_review['client_photo'])): ?>
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-600 mb-2">Текущее фото:</p>
+                                    <img src="/assets/uploads/clients/<?php echo htmlspecialchars($current_review['client_photo']); ?>" 
+                                         alt="Фото клиента" 
+                                         class="h-20 w-20 rounded-full object-cover border border-gray-300">
+                                </div>
+                            <?php endif; ?>
+                            
+                            <!-- Поле загрузки файла -->
+                            <input type="file" 
+                                   id="client_photo" 
+                                   name="client_photo" 
+                                   accept="image/jpeg,image/jpg,image/png,image/gif"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100">
+                            
+                            <p class="text-xs text-gray-500">
+                                Поддерживаемые форматы: JPG, PNG, GIF. Максимальный размер: 5MB
+                            </p>
+                            
+                            <!-- Поле для URL (альтернатива) -->
+                            <div class="mt-2">
+                                <label for="client_photo_url" class="block text-sm font-medium text-gray-600">
+                                    Или введите URL фотографии:
+                                </label>
+                                <input type="url" 
+                                       id="client_photo_url" 
+                                       name="client_photo_url" 
+                                       placeholder="https://example.com/photo.jpg"
+                                       value="<?php echo htmlspecialchars($current_review['client_photo'] ?? ''); ?>"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

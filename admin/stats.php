@@ -50,12 +50,19 @@ ob_start();
     <!-- Фильтры периода -->
     <div class="flex flex-col sm:flex-row gap-2">
         <form method="GET" class="flex gap-2">
-            <select name="period" class="px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500" onchange="this.form.submit()">
-                <option value="7" <?php echo $period == '7' ? 'selected' : ''; ?>><?php echo __('stats.last_7_days', 'Последние 7 дней'); ?></option>
-                <option value="30" <?php echo $period == '30' ? 'selected' : ''; ?>><?php echo __('stats.last_30_days', 'Последние 30 дней'); ?></option>
-                <option value="90" <?php echo $period == '90' ? 'selected' : ''; ?>><?php echo __('stats.last_90_days', 'Последние 90 дней'); ?></option>
-                <option value="365" <?php echo $period == '365' ? 'selected' : ''; ?>><?php echo __('stats.last_year', 'Последний год'); ?></option>
-            </select>
+            <?php render_dropdown_field([
+                'name' => 'period',
+                'value' => $period,
+                'options' => [
+                    ['value' => '7', 'text' => __('stats.last_7_days', 'Последние 7 дней')],
+                    ['value' => '30', 'text' => __('stats.last_30_days', 'Последние 30 дней')],
+                    ['value' => '90', 'text' => __('stats.last_90_days', 'Последние 90 дней')],
+                    ['value' => '365', 'text' => __('stats.last_year', 'Последний год')]
+                ],
+                'placeholder' => 'Выберите период',
+                'onchange' => 'this.form.submit()',
+                'class' => 'w-auto'
+            ]); ?>
         </form>
         
         <form method="GET" class="flex gap-2">

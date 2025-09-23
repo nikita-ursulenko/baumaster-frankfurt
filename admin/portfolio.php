@@ -35,10 +35,47 @@ function create_project($data) {
         return ['success' => false, 'errors' => $errors];
     }
     
-    // Обработка галереи изображений
+    // Обработка загрузки главного изображения
+    $featured_image = '';
+    if (!empty($_FILES['featured_image']) && $_FILES['featured_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $upload_result = handle_image_upload($_FILES['featured_image'], 'portfolio');
+        if ($upload_result['success']) {
+            $featured_image = $upload_result['filename'];
+        } else {
+            return ['success' => false, 'errors' => ['featured_image' => $upload_result['error']]];
+        }
+    }
+    
+    // Обработка загрузки галереи изображений
     $gallery = [];
-    if (!empty($data['gallery_images'])) {
-        $gallery = array_filter(explode(',', $data['gallery_images']));
+    if (!empty($_FILES['gallery_images']) && $_FILES['gallery_images']['error'][0] !== UPLOAD_ERR_NO_FILE) {
+        $upload_result = handle_multiple_image_upload($_FILES['gallery_images'], 'portfolio');
+        if ($upload_result['success'] && !empty($upload_result['files'])) {
+            $gallery = array_column($upload_result['files'], 'filename');
+        } else {
+            return ['success' => false, 'errors' => ['gallery_images' => implode(', ', $upload_result['errors'])]];
+        }
+    }
+    
+    // Обработка загрузки изображений "До" и "После"
+    $before_image = '';
+    $after_image = '';
+    if (!empty($_FILES['before_image']) && $_FILES['before_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $upload_result = handle_image_upload($_FILES['before_image'], 'portfolio');
+        if ($upload_result['success']) {
+            $before_image = $upload_result['filename'];
+        } else {
+            return ['success' => false, 'errors' => ['before_image' => $upload_result['error']]];
+        }
+    }
+    
+    if (!empty($_FILES['after_image']) && $_FILES['after_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $upload_result = handle_image_upload($_FILES['after_image'], 'portfolio');
+        if ($upload_result['success']) {
+            $after_image = $upload_result['filename'];
+        } else {
+            return ['success' => false, 'errors' => ['after_image' => $upload_result['error']]];
+        }
     }
     
     // Обработка технической информации
@@ -64,12 +101,12 @@ function create_project($data) {
         'budget' => !empty($data['budget']) ? floatval($data['budget']) : null,
         'client_name' => sanitize_input($data['client_name'] ?? ''),
         'location' => sanitize_input($data['location'] ?? ''),
-        'featured_image' => sanitize_input($data['featured_image'] ?? ''),
+        'featured_image' => $featured_image ?: sanitize_input($data['featured_image'] ?? ''),
         'gallery' => json_encode($gallery),
         'technical_info' => json_encode($technical_info),
         'before_after' => json_encode([
-            'before' => sanitize_input($data['before_image'] ?? ''),
-            'after' => sanitize_input($data['after_image'] ?? '')
+            'before' => $before_image ?: sanitize_input($data['before_image'] ?? ''),
+            'after' => $after_image ?: sanitize_input($data['after_image'] ?? '')
         ]),
         'tags' => json_encode($tags),
         'status' => sanitize_input($data['status'] ?? 'active'),
@@ -389,62 +426,59 @@ ob_start();
 
     <!-- Фильтры и поиск -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
-        <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('common.search', 'Поиск'); ?>
-                </label>
-                <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
-                       placeholder="<?php echo __('portfolio.search_placeholder', 'Название проекта...'); ?>">
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('portfolio.category', 'Категория'); ?>
-                </label>
-                <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                    <option value="apartment" <?php echo $category_filter === 'apartment' ? 'selected' : ''; ?>><?php echo __('portfolio.category_apartment', 'Квартиры'); ?></option>
-                    <option value="house" <?php echo $category_filter === 'house' ? 'selected' : ''; ?>><?php echo __('portfolio.category_house', 'Дома'); ?></option>
-                    <option value="office" <?php echo $category_filter === 'office' ? 'selected' : ''; ?>><?php echo __('portfolio.category_office', 'Офисы'); ?></option>
-                    <option value="commercial" <?php echo $category_filter === 'commercial' ? 'selected' : ''; ?>><?php echo __('portfolio.category_commercial', 'Коммерческие'); ?></option>
-                    <option value="bathroom" <?php echo $category_filter === 'bathroom' ? 'selected' : ''; ?>><?php echo __('portfolio.category_bathroom', 'Ванные комнаты'); ?></option>
-                    <option value="kitchen" <?php echo $category_filter === 'kitchen' ? 'selected' : ''; ?>><?php echo __('portfolio.category_kitchen', 'Кухни'); ?></option>
-                </select>
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('portfolio.status', 'Статус'); ?>
-                </label>
-                <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                    <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>><?php echo __('portfolio.status_active', 'Активные'); ?></option>
-                    <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>><?php echo __('portfolio.status_inactive', 'Скрытые'); ?></option>
-                </select>
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('portfolio.featured', 'Рекомендуемые'); ?>
-                </label>
-                <select name="featured" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                    <option value="1" <?php echo $featured_filter === '1' ? 'selected' : ''; ?>><?php echo __('portfolio.featured_yes', 'Рекомендуемые'); ?></option>
-                    <option value="0" <?php echo $featured_filter === '0' ? 'selected' : ''; ?>><?php echo __('portfolio.featured_no', 'Обычные'); ?></option>
-                </select>
-            </div>
-            
-            <div class="flex items-end">
-                <?php render_button([
-                    'type' => 'submit',
-                    'text' => __('common.filter', 'Фильтр'),
-                    'variant' => 'secondary',
-                    'size' => 'md'
-                ]); ?>
-            </div>
-        </form>
+        <?php 
+        render_filter_form([
+            'fields' => [
+                [
+                    'type' => 'search',
+                    'name' => 'search',
+                    'placeholder' => __('portfolio.search_placeholder', 'Название проекта...'),
+                    'value' => $search
+                ],
+                [
+                    'type' => 'dropdown',
+                    'name' => 'category',
+                    'label' => __('portfolio.category', 'Категория'),
+                    'value' => $category_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => 'apartment', 'text' => __('portfolio.category_apartment', 'Квартиры')],
+                        ['value' => 'house', 'text' => __('portfolio.category_house', 'Дома')],
+                        ['value' => 'office', 'text' => __('portfolio.category_office', 'Офисы')],
+                        ['value' => 'commercial', 'text' => __('portfolio.category_commercial', 'Коммерческие')],
+                        ['value' => 'bathroom', 'text' => __('portfolio.category_bathroom', 'Ванные комнаты')],
+                        ['value' => 'kitchen', 'text' => __('portfolio.category_kitchen', 'Кухни')]
+                    ],
+                    'placeholder' => __('common.all', 'Все')
+                ],
+                [
+                    'type' => 'dropdown',
+                    'name' => 'status',
+                    'label' => __('portfolio.status', 'Статус'),
+                    'value' => $status_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => 'active', 'text' => __('portfolio.status_active', 'Активные')],
+                        ['value' => 'inactive', 'text' => __('portfolio.status_inactive', 'Скрытые')]
+                    ],
+                    'placeholder' => __('common.all', 'Все')
+                ],
+                [
+                    'type' => 'dropdown',
+                    'name' => 'featured',
+                    'label' => __('portfolio.featured', 'Рекомендуемые'),
+                    'value' => $featured_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => '1', 'text' => __('portfolio.featured_yes', 'Рекомендуемые')],
+                        ['value' => '0', 'text' => __('portfolio.featured_no', 'Обычные')]
+                    ],
+                    'placeholder' => __('common.all', 'Все')
+                ]
+            ],
+            'button_text' => __('common.filter', 'Фильтр')
+        ]);
+        ?>
     </div>
 
     <!-- Список проектов -->
@@ -472,7 +506,7 @@ ob_start();
                         <!-- Изображение проекта -->
                         <div class="relative h-48 bg-gray-200">
                             <?php if (!empty($project['featured_image'])): ?>
-                                <img src="<?php echo htmlspecialchars($project['featured_image']); ?>" 
+                                <img src="/assets/uploads/portfolio/<?php echo htmlspecialchars($project['featured_image']); ?>" 
                                      alt="<?php echo htmlspecialchars($project['title']); ?>" 
                                      class="w-full h-full object-cover">
                             <?php else: ?>
@@ -810,36 +844,43 @@ ob_start();
                     
                     <div class="space-y-6">
                         <!-- Главное изображение -->
-                        <?php render_input_field([
+                        <?php render_image_upload_field([
                             'name' => 'featured_image',
+                            'id' => 'featured_image',
                             'label' => __('portfolio.featured_image', 'Главное изображение'),
-                            'placeholder' => __('portfolio.image_placeholder', 'URL изображения'),
-                            'value' => $current_project['featured_image'] ?? ''
+                            'current_image' => !empty($current_project['featured_image']) ? '/assets/uploads/portfolio/' . $current_project['featured_image'] : '',
+                            'accept' => 'image/*',
+                            'required' => false
                         ]); ?>
                         
                         <!-- Галерея изображений -->
-                        <?php render_textarea_field([
+                        <?php render_image_gallery_field([
                             'name' => 'gallery_images',
+                            'id' => 'gallery_images',
                             'label' => __('portfolio.gallery', 'Галерея изображений'),
-                            'placeholder' => __('portfolio.gallery_placeholder', 'URL изображений через запятую'),
-                            'rows' => 3,
-                            'value' => (isset($current_project['gallery']) && is_array($current_project['gallery'])) ? implode(', ', $current_project['gallery']) : ''
+                            'current_images' => !empty($current_project['gallery']) ? array_map(function($img) { return '/assets/uploads/portfolio/' . $img; }, $current_project['gallery']) : [],
+                            'accept' => 'image/*',
+                            'required' => false
                         ]); ?>
                         
                         <!-- До/После -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <?php render_input_field([
+                            <?php render_image_upload_field([
                                 'name' => 'before_image',
+                                'id' => 'before_image',
                                 'label' => __('portfolio.before_image', 'Изображение "До"'),
-                                'placeholder' => __('portfolio.image_placeholder', 'URL изображения'),
-                                'value' => $current_project['before_after']['before'] ?? ''
+                                'current_image' => !empty($current_project['before_after']['before']) ? '/assets/uploads/portfolio/' . $current_project['before_after']['before'] : '',
+                                'accept' => 'image/*',
+                                'required' => false
                             ]); ?>
                             
-                            <?php render_input_field([
+                            <?php render_image_upload_field([
                                 'name' => 'after_image',
+                                'id' => 'after_image',
                                 'label' => __('portfolio.after_image', 'Изображение "После"'),
-                                'placeholder' => __('portfolio.image_placeholder', 'URL изображения'),
-                                'value' => $current_project['before_after']['after'] ?? ''
+                                'current_image' => !empty($current_project['before_after']['after']) ? '/assets/uploads/portfolio/' . $current_project['before_after']['after'] : '',
+                                'accept' => 'image/*',
+                                'required' => false
                             ]); ?>
                         </div>
                     </div>

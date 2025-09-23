@@ -12,6 +12,7 @@ require_once __DIR__ . '/ux/data.php';
 // Получение данных
 $seo = get_seo_data()['blog'];
 $faq = get_faq_data();
+$blog_posts = get_blog_posts(6);
 
 // Начало контента
 ob_start();
@@ -126,53 +127,53 @@ ob_start();
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <div class="h-48 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-500">Изображение статьи</span>
+            <?php if (empty($blog_posts)): ?>
+                <div class="col-span-full text-center py-12">
+                    <div class="text-gray-500">
+                        <svg class="mx-auto h-12 w-12 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p>Статьи блога скоро появятся</p>
+                    </div>
                 </div>
-                <div class="p-6">
-                    <div class="text-sm text-accent-blue font-medium mb-2">15 декабря 2024</div>
-                    <h3 class="font-semibold text-xl text-text-primary mb-3">
-                        Тренды в дизайне интерьера 2024
-                    </h3>
-                    <p class="text-text-secondary mb-4">
-                        Рассказываем о самых актуальных тенденциях в оформлении жилых помещений в этом году.
-                    </p>
-                    <a href="#" class="text-accent-blue font-medium hover:underline">Читать далее →</a>
-                </div>
-            </article>
-            
-            <article class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <div class="h-48 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-500">Изображение статьи</span>
-                </div>
-                <div class="p-6">
-                    <div class="text-sm text-accent-blue font-medium mb-2">10 декабря 2024</div>
-                    <h3 class="font-semibold text-xl text-text-primary mb-3">
-                        Выбор напольного покрытия
-                    </h3>
-                    <p class="text-text-secondary mb-4">
-                        Подробный гид по выбору идеального пола для разных комнат вашего дома.
-                    </p>
-                    <a href="#" class="text-accent-blue font-medium hover:underline">Читать далее →</a>
-                </div>
-            </article>
-            
-            <article class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <div class="h-48 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-500">Изображение статьи</span>
-                </div>
-                <div class="p-6">
-                    <div class="text-sm text-accent-blue font-medium mb-2">5 декабря 2024</div>
-                    <h3 class="font-semibold text-xl text-text-primary mb-3">
-                        Ремонт ванной: пошаговый план
-                    </h3>
-                    <p class="text-text-secondary mb-4">
-                        Детальная инструкция по планированию и выполнению ремонта в ванной комнате.
-                    </p>
-                    <a href="#" class="text-accent-blue font-medium hover:underline">Читать далее →</a>
-                </div>
-            </article>
+            <?php else: ?>
+                <?php foreach ($blog_posts as $post): ?>
+                    <article class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+                        <?php if (!empty($post['featured_image'])): ?>
+                            <div class="h-48 overflow-hidden">
+                                <img src="<?php echo htmlspecialchars($post['featured_image']); ?>"
+                                     alt="<?php echo htmlspecialchars($post['title']); ?>"
+                                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            </div>
+                        <?php else: ?>
+                            <div class="h-48 bg-gray-200 flex items-center justify-center">
+                                <span class="text-gray-500">Изображение статьи</span>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="p-6">
+                            <div class="text-sm text-accent-blue font-medium mb-2">
+                                <?php echo format_date($post['published_at'], 'd.m.Y'); ?>
+                            </div>
+                            <h3 class="font-semibold text-xl text-text-primary mb-3">
+                                <a href="blog_post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>"
+                                   class="hover:text-accent-blue transition-colors">
+                                    <?php echo htmlspecialchars($post['title']); ?>
+                                </a>
+                            </h3>
+                            <?php if (!empty($post['excerpt'])): ?>
+                                <p class="text-text-secondary mb-4 line-clamp-3">
+                                    <?php echo htmlspecialchars($post['excerpt']); ?>
+                                </p>
+                            <?php endif; ?>
+                            <a href="blog_post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>"
+                               class="text-accent-blue font-medium hover:underline">
+                                Читать далее →
+                            </a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>

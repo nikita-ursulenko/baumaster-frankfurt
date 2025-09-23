@@ -192,14 +192,17 @@ ob_start();
                 ]); ?>
                 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <?php echo __('integrations.smtp_encryption', 'Шифрование'); ?>
-                    </label>
-                    <select name="smtp_encryption" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                        <option value="tls" <?php echo ($email_settings['smtp_encryption'] ?? 'tls') === 'tls' ? 'selected' : ''; ?>>TLS</option>
-                        <option value="ssl" <?php echo ($email_settings['smtp_encryption'] ?? '') === 'ssl' ? 'selected' : ''; ?>>SSL</option>
-                        <option value="none" <?php echo ($email_settings['smtp_encryption'] ?? '') === 'none' ? 'selected' : ''; ?>>None</option>
-                    </select>
+                    <?php render_dropdown_field([
+                        'name' => 'smtp_encryption',
+                        'label' => __('integrations.smtp_encryption', 'Шифрование'),
+                        'value' => $email_settings['smtp_encryption'] ?? 'tls',
+                        'options' => [
+                            ['value' => 'tls', 'text' => 'TLS'],
+                            ['value' => 'ssl', 'text' => 'SSL'],
+                            ['value' => 'none', 'text' => 'None']
+                        ],
+                        'placeholder' => 'Выберите тип шифрования'
+                    ]); ?>
                 </div>
                 
                 <?php render_form_field([

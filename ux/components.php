@@ -260,9 +260,26 @@ function render_review_card($review) {
     <div class="bg-white p-6 rounded-lg shadow-lg">
         <div class="flex items-center mb-4">
             <div class="flex-shrink-0">
-                <div class="w-12 h-12 bg-accent-blue rounded-full flex items-center justify-center text-white font-semibold">
-                    <?php echo strtoupper(substr($review['name'], 0, 1)); ?>
-                </div>
+                <?php if (!empty($review['client_photo'])): ?>
+                    <?php 
+                    $photo_src = $review['client_photo'];
+                    // Если это не URL (не начинается с http), добавляем путь к папке
+                    if (!preg_match('/^https?:\/\//', $photo_src)) {
+                        $photo_src = '/assets/uploads/clients/' . $photo_src;
+                    }
+                    ?>
+                    <img class="w-12 h-12 rounded-full object-cover border-2 border-accent-blue" 
+                         src="<?php echo htmlspecialchars($photo_src); ?>" 
+                         alt="<?php echo htmlspecialchars($review['name']); ?>"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-12 h-12 bg-accent-blue rounded-full flex items-center justify-center text-white font-semibold" style="display: none;">
+                        <?php echo strtoupper(substr($review['name'], 0, 1)); ?>
+                    </div>
+                <?php else: ?>
+                    <div class="w-12 h-12 bg-accent-blue rounded-full flex items-center justify-center text-white font-semibold">
+                        <?php echo strtoupper(substr($review['name'], 0, 1)); ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="ml-4">
                 <h4 class="font-semibold text-text-primary"><?php echo htmlspecialchars($review['name']); ?></h4>

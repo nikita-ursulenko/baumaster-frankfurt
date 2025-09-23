@@ -81,33 +81,42 @@ ob_start();
 
 <!-- Фильтры -->
 <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
-    <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+    <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-                <?php echo __('users.filter_user', 'Пользователь'); ?>
-            </label>
-            <select name="user_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                <?php foreach ($users as $user): ?>
-                    <option value="<?php echo $user['id']; ?>" <?php echo $user_filter == $user['id'] ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($user['username']); ?> (<?php echo htmlspecialchars($user['email']); ?>)
-                    </option>
-                <?php endforeach; ?>
-            </select>
+            <?php 
+            $user_options = [['value' => '', 'text' => __('common.all', 'Все')]];
+            foreach ($users as $user) {
+                $user_options[] = [
+                    'value' => $user['id'],
+                    'text' => htmlspecialchars($user['username']) . ' (' . htmlspecialchars($user['email']) . ')'
+                ];
+            }
+            render_dropdown_field([
+                'name' => 'user_id',
+                'label' => __('users.filter_user', 'Пользователь'),
+                'value' => $user_filter,
+                'options' => $user_options,
+                'placeholder' => __('common.all', 'Все'),
+                'searchable' => true
+            ]); 
+            ?>
         </div>
         
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-                <?php echo __('users.filter_action', 'Действие'); ?>
-            </label>
-            <select name="action" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                <option value="login" <?php echo $action_filter === 'login' ? 'selected' : ''; ?>><?php echo __('users.action_login', 'Вход в систему'); ?></option>
-                <option value="logout" <?php echo $action_filter === 'logout' ? 'selected' : ''; ?>><?php echo __('users.action_logout', 'Выход из системы'); ?></option>
-                <option value="create" <?php echo $action_filter === 'create' ? 'selected' : ''; ?>><?php echo __('users.action_create', 'Создание'); ?></option>
-                <option value="update" <?php echo $action_filter === 'update' ? 'selected' : ''; ?>><?php echo __('users.action_update', 'Обновление'); ?></option>
-                <option value="delete" <?php echo $action_filter === 'delete' ? 'selected' : ''; ?>><?php echo __('users.action_delete', 'Удаление'); ?></option>
-            </select>
+            <?php render_dropdown_field([
+                'name' => 'action',
+                'label' => __('users.filter_action', 'Действие'),
+                'value' => $action_filter,
+                'options' => [
+                    ['value' => '', 'text' => __('common.all', 'Все')],
+                    ['value' => 'login', 'text' => __('users.action_login', 'Вход в систему')],
+                    ['value' => 'logout', 'text' => __('users.action_logout', 'Выход из системы')],
+                    ['value' => 'create', 'text' => __('users.action_create', 'Создание')],
+                    ['value' => 'update', 'text' => __('users.action_update', 'Обновление')],
+                    ['value' => 'delete', 'text' => __('users.action_delete', 'Удаление')]
+                ],
+                'placeholder' => __('common.all', 'Все')
+            ]); ?>
         </div>
         
         <div>

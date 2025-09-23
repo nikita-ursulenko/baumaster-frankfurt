@@ -235,7 +235,8 @@ function render_admin_sidebar($menu_items, $current_user) {
     </div>
 
     <!-- Desktop Sidebar -->
-    <div class="hidden lg:block fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar flex flex-col">
+    <div class="hidden lg:block fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar">
+        <div class="flex flex-col h-full">
         <!-- User Info -->
         <div class="flex items-center h-16 px-4 bg-black bg-opacity-20 flex-shrink-0">
             <div class="flex items-center space-x-3">
@@ -280,6 +281,7 @@ function render_admin_sidebar($menu_items, $current_user) {
                 <?php endforeach; ?>
             </div>
         </nav>
+        </div>
     </div>
     <?php
 }

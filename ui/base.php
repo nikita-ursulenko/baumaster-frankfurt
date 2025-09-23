@@ -286,6 +286,223 @@ function render_textarea_field($options = []) {
 }
 
 /**
+ * Генерация кастомного dropdown
+ */
+function render_dropdown_field($options = []) {
+    $defaults = [
+        'name' => '',
+        'id' => '',
+        'label' => '',
+        'placeholder' => 'Выберите опцию',
+        'value' => '',
+        'options' => [],
+        'required' => false,
+        'disabled' => false,
+        'class' => 'w-full',
+        'container_class' => 'space-y-2',
+        'searchable' => false,
+        'multiple' => false,
+        'onchange' => ''
+    ];
+    
+    $opts = array_merge($defaults, $options);
+    $id = $opts['id'] ?: $opts['name'];
+    $unique_id = $id . '_' . uniqid();
+    ?>
+    <div class="<?php echo $opts['container_class']; ?>">
+        <?php if ($opts['label']): ?>
+            <label for="<?php echo htmlspecialchars($id); ?>" class="block text-sm font-medium text-gray-700">
+                <?php echo htmlspecialchars($opts['label']); ?>
+                <?php if ($opts['required']): ?>
+                    <span class="text-red-500">*</span>
+                <?php endif; ?>
+            </label>
+        <?php endif; ?>
+        
+        <div class="relative <?php echo $opts['class']; ?>" id="dropdown-container-<?php echo $unique_id; ?>">
+            <button 
+                type="button" 
+                class="w-full px-4 py-3 text-left bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200 flex items-center justify-between <?php echo $opts['disabled'] ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'; ?>"
+                id="dropdown-button-<?php echo $unique_id; ?>"
+                <?php if ($opts['disabled']): ?>disabled<?php endif; ?>
+                onclick="toggleDropdown('<?php echo $unique_id; ?>')"
+            >
+                <span id="dropdown-selected-<?php echo $unique_id; ?>" class="block truncate">
+                    <?php 
+                    $selected_text = $opts['placeholder'];
+                    if (!empty($opts['value'])) {
+                        foreach ($opts['options'] as $option) {
+                            if (is_array($option)) {
+                                if ($option['value'] == $opts['value']) {
+                                    $selected_text = $option['text'];
+                                    break;
+                                }
+                            } else {
+                                if ($option == $opts['value']) {
+                                    $selected_text = $option;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    echo htmlspecialchars($selected_text);
+                    ?>
+                </span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" id="dropdown-arrow-<?php echo $unique_id; ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <div 
+                class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden" 
+                id="dropdown-menu-<?php echo $unique_id; ?>"
+            >
+                <?php if ($opts['searchable']): ?>
+                    <div class="p-2 border-b border-gray-200">
+                        <input 
+                            type="text" 
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                            placeholder="Поиск..."
+                            id="dropdown-search-<?php echo $unique_id; ?>"
+                            onkeyup="filterDropdownOptions('<?php echo $unique_id; ?>', this.value)"
+                        >
+                    </div>
+                <?php endif; ?>
+                
+                <div class="max-h-60 overflow-y-auto" id="dropdown-options-<?php echo $unique_id; ?>">
+                    <?php foreach ($opts['options'] as $option): ?>
+                        <?php 
+                        $option_value = is_array($option) ? $option['value'] : $option;
+                        $option_text = is_array($option) ? $option['text'] : $option;
+                        $is_selected = $option_value == $opts['value'];
+                        ?>
+                        <button 
+                            type="button"
+                            class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 <?php echo $is_selected ? 'bg-primary-50 text-primary-700' : 'text-gray-900'; ?>"
+                            data-value="<?php echo htmlspecialchars($option_value); ?>"
+                            data-text="<?php echo htmlspecialchars($option_text); ?>"
+                            onclick="selectDropdownOption('<?php echo $unique_id; ?>', '<?php echo htmlspecialchars($option_value); ?>', '<?php echo htmlspecialchars($option_text); ?>')"
+                        >
+                            <div class="flex items-center">
+                                <?php if ($is_selected): ?>
+                                    <svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                <?php endif; ?>
+                                <span><?php echo htmlspecialchars($option_text); ?></span>
+                            </div>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            
+            <!-- Скрытое поле для отправки значения -->
+            <input 
+                type="hidden" 
+                name="<?php echo htmlspecialchars($opts['name']); ?>" 
+                id="<?php echo htmlspecialchars($id); ?>"
+                value="<?php echo htmlspecialchars($opts['value']); ?>"
+                <?php if ($opts['onchange']): ?>onchange="<?php echo htmlspecialchars($opts['onchange']); ?>"<?php endif; ?>
+            >
+        </div>
+    </div>
+    
+    <script>
+    function toggleDropdown(uniqueId) {
+        const menu = document.getElementById('dropdown-menu-' + uniqueId);
+        const arrow = document.getElementById('dropdown-arrow-' + uniqueId);
+        
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            menu.classList.add('hidden');
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+    
+    function selectDropdownOption(uniqueId, value, text) {
+        const selectedSpan = document.getElementById('dropdown-selected-' + uniqueId);
+        const hiddenInput = document.getElementById(uniqueId.split('_')[0]);
+        const menu = document.getElementById('dropdown-menu-' + uniqueId);
+        const arrow = document.getElementById('dropdown-arrow-' + uniqueId);
+        
+        selectedSpan.textContent = text;
+        if (hiddenInput) {
+            hiddenInput.value = value;
+        }
+        
+        // Обновляем визуальное состояние опций
+        const options = document.querySelectorAll('#dropdown-options-' + uniqueId + ' button');
+        options.forEach(option => {
+            option.classList.remove('bg-primary-50', 'text-primary-700');
+            option.classList.add('text-gray-900');
+            
+            // Убираем галочку
+            const checkIcon = option.querySelector('svg');
+            if (checkIcon) {
+                checkIcon.remove();
+            }
+            
+            if (option.dataset.value === value) {
+                option.classList.add('bg-primary-50', 'text-primary-700');
+                option.classList.remove('text-gray-900');
+                
+                // Добавляем галочку
+                const checkSvg = document.createElement('svg');
+                checkSvg.className = 'w-4 h-4 mr-2 text-primary-600';
+                checkSvg.setAttribute('fill', 'currentColor');
+                checkSvg.setAttribute('viewBox', '0 0 20 20');
+                checkSvg.innerHTML = '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>';
+                option.querySelector('div').insertBefore(checkSvg, option.querySelector('span'));
+            }
+        });
+        
+        // Закрываем меню
+        menu.classList.add('hidden');
+        arrow.style.transform = 'rotate(0deg)';
+        
+        // Вызываем onchange если есть
+        if (hiddenInput.onchange) {
+            hiddenInput.onchange();
+        }
+    }
+    
+    function filterDropdownOptions(uniqueId, searchTerm) {
+        const options = document.querySelectorAll('#dropdown-options-' + uniqueId + ' button');
+        const searchLower = searchTerm.toLowerCase();
+        
+        options.forEach(option => {
+            const text = option.dataset.text.toLowerCase();
+            if (text.includes(searchLower)) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
+    
+    // Закрытие dropdown при клике вне его
+    document.addEventListener('click', function(event) {
+        const dropdowns = document.querySelectorAll('[id^="dropdown-container-"]');
+        dropdowns.forEach(container => {
+            if (!container.contains(event.target)) {
+                const uniqueId = container.id.replace('dropdown-container-', '');
+                const menu = document.getElementById('dropdown-menu-' + uniqueId);
+                const arrow = document.getElementById('dropdown-arrow-' + uniqueId);
+                
+                if (menu && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
+    });
+    </script>
+    <?php
+}
+
+/**
  * КОМПОНЕНТЫ КНОПОК
  */
 
@@ -681,5 +898,112 @@ function get_icon($name, $class = 'w-5 h-5') {
     ];
     
     return $icons[$name] ?? $icons['dashboard'];
+}
+
+/**
+ * УНИВЕРСАЛЬНЫЕ КОМПОНЕНТЫ
+ */
+
+/**
+ * Универсальная форма фильтрации для админ-панели
+ * 
+ * @param array $options Массив с настройками формы
+ * @return void
+ */
+function render_filter_form($options = []) {
+    $defaults = [
+        'action' => '',
+        'method' => 'GET',
+        'class' => 'grid grid-cols-1 md:grid-cols-5 gap-4 items-end',
+        'fields' => [],
+        'button_text' => 'Фильтр',
+        'button_class' => 'px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition duration-200',
+        'search_placeholder' => 'Поиск...',
+        'search_name' => 'search',
+        'search_value' => ''
+    ];
+    
+    $opts = array_merge($defaults, $options);
+    
+    // Если поля не переданы, создаем базовую структуру
+    if (empty($opts['fields'])) {
+        $opts['fields'] = [
+            [
+                'type' => 'search',
+                'name' => $opts['search_name'],
+                'placeholder' => $opts['search_placeholder'],
+                'value' => $opts['search_value']
+            ]
+        ];
+    }
+    
+    ?>
+    <form method="<?php echo htmlspecialchars($opts['method']); ?>" 
+          action="<?php echo htmlspecialchars($opts['action']); ?>" 
+          class="<?php echo htmlspecialchars($opts['class']); ?>">
+        
+        <?php foreach ($opts['fields'] as $field): ?>
+            <?php if ($field['type'] === 'search'): ?>
+                <!-- Поле поиска -->
+                <div class="space-y-2">
+                    <label for="<?php echo htmlspecialchars($field['name']); ?>" class="block text-sm font-medium text-gray-700">
+                        Поиск
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            name="<?php echo htmlspecialchars($field['name']); ?>" 
+                            id="<?php echo htmlspecialchars($field['name']); ?>"
+                            value="<?php echo htmlspecialchars($field['value'] ?? ''); ?>"
+                            placeholder="<?php echo htmlspecialchars($field['placeholder'] ?? 'Поиск...'); ?>"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200"
+                        >
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <?php echo get_icon('search', 'w-5 h-5 text-gray-400'); ?>
+                        </div>
+                    </div>
+                </div>
+                
+            <?php elseif ($field['type'] === 'dropdown'): ?>
+                <!-- Dropdown поле -->
+                <?php 
+                render_dropdown_field([
+                    'name' => $field['name'],
+                    'label' => $field['label'] ?? '',
+                    'value' => $field['value'] ?? '',
+                    'options' => $field['options'] ?? [],
+                    'placeholder' => $field['placeholder'] ?? 'Выберите опцию',
+                    'searchable' => $field['searchable'] ?? false,
+                    'class' => $field['class'] ?? 'w-full'
+                ]);
+                ?>
+                
+            <?php elseif ($field['type'] === 'hidden'): ?>
+                <!-- Скрытое поле -->
+                <input 
+                    type="hidden" 
+                    name="<?php echo htmlspecialchars($field['name']); ?>" 
+                    value="<?php echo htmlspecialchars($field['value'] ?? ''); ?>"
+                >
+                
+            <?php elseif ($field['type'] === 'custom'): ?>
+                <!-- Кастомное поле -->
+                <?php echo $field['content'] ?? ''; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        
+        <!-- Кнопка фильтра -->
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700 opacity-0">Фильтр</label>
+            <button 
+                type="submit" 
+                class="w-full px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg shadow-sm hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-200 flex items-center justify-center"
+            >
+                <?php echo get_icon('search', 'w-4 h-4 mr-2'); ?>
+                <span><?php echo htmlspecialchars($opts['button_text']); ?></span>
+            </button>
+        </div>
+    </form>
+    <?php
 }
 ?>

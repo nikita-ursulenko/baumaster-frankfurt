@@ -73,6 +73,20 @@ function get_portfolio_data() {
                 $technical_info = is_array($decoded) ? $decoded : [];
             }
             
+            // Декодируем before_after если это JSON строка
+            $before_after = [];
+            if (!empty($project['before_after'])) {
+                $decoded = json_decode($project['before_after'], true);
+                $before_after = is_array($decoded) ? $decoded : [];
+            }
+            
+            // Декодируем tags если это JSON строка
+            $tags = [];
+            if (!empty($project['tags'])) {
+                $decoded = json_decode($project['tags'], true);
+                $tags = is_array($decoded) ? $decoded : [];
+            }
+            
             $formatted_portfolio[] = [
                 'id' => $project['id'],
                 'title' => $project['title'],
@@ -82,13 +96,17 @@ function get_portfolio_data() {
                 'duration' => $project['duration'] ?? '',
                 'budget' => $project['budget'] ?? 0,
                 'completion_date' => $project['completion_date'] ?? '',
-                'image' => ($project['featured_image'] ?? '') ?: '/assets/images/portfolio/default.jpg',
+                'image' => !empty($project['featured_image']) ? '/assets/uploads/portfolio/' . $project['featured_image'] : '/assets/images/portfolio/default.jpg',
                 'gallery' => $gallery,
                 'technical_info' => $technical_info,
+                'before_after' => $before_after,
+                'tags' => $tags,
                 'client_name' => $project['client_name'] ?? '',
                 'location' => $project['location'] ?? '',
                 'featured' => $project['featured'] ?? 0,
-                'sort_order' => $project['sort_order'] ?? 0
+                'sort_order' => $project['sort_order'] ?? 0,
+                'meta_title' => $project['meta_title'] ?? '',
+                'meta_description' => $project['meta_description'] ?? ''
             ];
         }
         
@@ -329,6 +347,182 @@ function get_seo_data() {
                 'description' => 'Свяжитесь с нами для консультации и бесплатного расчёта. Телефон: +49 (0) 69 123 456 78. Работаем по всему Франкфурту.'
             ]
         ];
+    }
+}
+
+/**
+ * Получение списка статей блога для главной страницы блога
+ */
+function get_blog_posts($limit = 6, $category = null) {
+    // Подключаем конфигурацию и базу данных
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+
+        $filters = ['status' => 'published'];
+        if ($category) {
+            $filters['category'] = $category;
+        }
+
+        $posts = $db->select('blog_posts', $filters, [
+            'order_by' => 'published_at DESC',
+            'limit' => $limit
+        ]);
+
+        $formatted_posts = [];
+        foreach ($posts as $post) {
+            // Декодируем теги
+            $tags = [];
+            if (!empty($post['tags'])) {
+                $decoded = json_decode($post['tags'], true);
+                $tags = is_array($decoded) ? $decoded : [];
+            }
+
+            $formatted_posts[] = [
+                'id' => $post['id'],
+                'title' => $post['title'],
+                'slug' => $post['slug'],
+                'excerpt' => $post['excerpt'],
+                'content' => $post['content'],
+                'category' => $post['category'],
+                'post_type' => $post['post_type'],
+                'tags' => $tags,
+                'featured_image' => $post['featured_image'],
+                'views' => $post['views'],
+                'published_at' => $post['published_at'],
+                'created_at' => $post['created_at']
+            ];
+        }
+
+        return $formatted_posts;
+
+    } catch (Exception $e) {
+        error_log("Ошибка загрузки статей блога: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Получение отдельной статьи блога по slug
+ */
+function get_blog_post($slug) {
+    // Подключаем конфигурацию и базу данных
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        $post = $db->select('blog_posts', [
+            'slug' => $slug,
+            'status' => 'published'
+        ], ['limit' => 1]);
+
+        if (!$post) {
+            return null;
+        }
+
+        // Декодируем теги
+        $tags = [];
+        if (!empty($post['tags'])) {
+            $decoded = json_decode($post['tags'], true);
+            $tags = is_array($decoded) ? $decoded : [];
+        }
+
+        // Обновляем счетчик просмотров
+        $db->update('blog_posts', [
+            'views' => $post['views'] + 1
+        ], ['id' => $post['id']]);
+
+        // Получаем предыдущую и следующую статьи
+        $prev_post = null;
+        $next_post = null;
+
+        // Получаем все опубликованные статьи для навигации
+        $all_posts = $db->select('blog_posts', [
+            'status' => 'published'
+        ], [
+            'order_by' => 'published_at DESC'
+        ]);
+
+        // Находим текущую статью в списке и определяем соседние
+        $current_index = -1;
+        foreach ($all_posts as $index => $p) {
+            if ($p['id'] == $post['id']) {
+                $current_index = $index;
+                break;
+            }
+        }
+
+        if ($current_index > 0) {
+            $prev_post = [
+                'id' => $all_posts[$current_index - 1]['id'],
+                'title' => $all_posts[$current_index - 1]['title'],
+                'slug' => $all_posts[$current_index - 1]['slug']
+            ];
+        }
+
+        if ($current_index >= 0 && $current_index < count($all_posts) - 1) {
+            $next_post = [
+                'id' => $all_posts[$current_index + 1]['id'],
+                'title' => $all_posts[$current_index + 1]['title'],
+                'slug' => $all_posts[$current_index + 1]['slug']
+            ];
+        }
+
+        // Получаем связанные статьи (по категории, исключая текущую)
+        $related_posts = $db->select('blog_posts', [
+            'category' => $post['category'],
+            'status' => 'published',
+            'id[!]' => $post['id']
+        ], [
+            'order_by' => 'published_at DESC',
+            'limit' => 3
+        ]);
+
+        $formatted_related = [];
+        foreach ($related_posts as $related) {
+            $formatted_related[] = [
+                'id' => $related['id'],
+                'title' => $related['title'],
+                'slug' => $related['slug'],
+                'excerpt' => $related['excerpt'],
+                'featured_image' => $related['featured_image'],
+                'published_at' => $related['published_at']
+            ];
+        }
+
+        // Форматируем основную статью
+        return [
+            'id' => $post['id'],
+            'title' => $post['title'],
+            'slug' => $post['slug'],
+            'excerpt' => $post['excerpt'],
+            'content' => $post['content'],
+            'category' => $post['category'],
+            'post_type' => $post['post_type'],
+            'tags' => $tags,
+            'featured_image' => $post['featured_image'],
+            'meta_title' => $post['meta_title'] ?: $post['title'],
+            'meta_description' => $post['meta_description'] ?: $post['excerpt'],
+            'keywords' => $post['keywords'],
+            'author_id' => $post['author_id'],
+            'views' => $post['views'] + 1, // Увеличиваем на 1 для отображения
+            'featured' => $post['featured'],
+            'published_at' => $post['published_at'],
+            'created_at' => $post['created_at'],
+            'updated_at' => $post['updated_at'],
+            'navigation' => [
+                'prev' => $prev_post,
+                'next' => $next_post
+            ],
+            'related_posts' => $formatted_related
+        ];
+
+    } catch (Exception $e) {
+        error_log("Ошибка загрузки статьи блога: " . $e->getMessage());
+        return null;
     }
 }
 ?>

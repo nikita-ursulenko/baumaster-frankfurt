@@ -295,14 +295,17 @@ ob_start();
             <input type="hidden" name="category" value="site">
             
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <?php echo __('settings.default_language', 'Язык по умолчанию'); ?>
-                </label>
-                <select name="settings[default_language]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-                    <option value="ru" <?php echo ($settings['site']['default_language']['setting_value'] ?? 'ru') === 'ru' ? 'selected' : ''; ?>>Русский</option>
-                    <option value="de" <?php echo ($settings['site']['default_language']['setting_value'] ?? '') === 'de' ? 'selected' : ''; ?>>Deutsch</option>
-                    <option value="en" <?php echo ($settings['site']['default_language']['setting_value'] ?? '') === 'en' ? 'selected' : ''; ?>>English</option>
-                </select>
+                <?php render_dropdown_field([
+                    'name' => 'settings[default_language]',
+                    'label' => __('settings.default_language', 'Язык по умолчанию'),
+                    'value' => $settings['site']['default_language']['setting_value'] ?? 'ru',
+                    'options' => [
+                        ['value' => 'ru', 'text' => 'Русский'],
+                        ['value' => 'de', 'text' => 'Deutsch'],
+                        ['value' => 'en', 'text' => 'English']
+                    ],
+                    'placeholder' => 'Выберите язык'
+                ]); ?>
             </div>
             
             <div class="flex justify-end">

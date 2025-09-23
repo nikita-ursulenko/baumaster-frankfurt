@@ -163,7 +163,14 @@ function upload_file($file, $destination, $allowed_types = null) {
     }
     
     $filename = uniqid() . '.' . $extension;
-    $filepath = $destination . '/' . $filename;
+    $full_destination = ASSETS_PATH . '/uploads/' . $destination;
+    
+    // Создаем папку, если она не существует
+    if (!is_dir($full_destination)) {
+        mkdir($full_destination, 0777, true);
+    }
+    
+    $filepath = $full_destination . '/' . $filename;
     
     if (!move_uploaded_file($file['tmp_name'], $filepath)) {
         return ['success' => false, 'error' => 'Не удалось сохранить файл'];
