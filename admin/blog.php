@@ -824,65 +824,29 @@ render_admin_layout([
         const formData = new FormData(form);
 
         // Собираем данные формы
-        const postData = {
-            title: formData.get("title") || "",
-            excerpt: formData.get("excerpt") || "",
-            content: formData.get("content") || "",
-            category: formData.get("category") || "tips",
-            tags: formData.get("tags") || "",
-            featured_image: formData.get("featured_image") || "",
-            meta_title: formData.get("meta_title") || "",
-            meta_description: formData.get("meta_description") || "",
-            keywords: formData.get("keywords") || ""
+        const title = formData.get("title") || "Без заголовка";
+        const excerpt = formData.get("excerpt") || "";
+        const content = formData.get("content") || "Содержание статьи отсутствует";
+        const category = formData.get("category") || "tips";
+        const tags = formData.get("tags") || "";
+
+        // Определяем название категории
+        const categories = {
+            "tips": "Советы",
+            "faq": "FAQ",
+            "news": "Новости",
+            "guides": "Руководства"
         };
+        const categoryName = categories[category] || category;
 
-        // Создаем HTML для предварительного просмотра
-        const previewHtml = `
-            <!DOCTYPE html>
-            <html lang="ru">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Предварительный просмотр: ${postData.title}</title>
-                <link href="https://cdn.tailwindcss.com" rel="stylesheet">
-                <style>
-                    body { font-family: system-ui, -apple-system, sans-serif; }
-                    .prose { max-width: none; }
-                    .prose img { max-width: 100%; height: auto; }
-                </style>
-            </head>
-            <body class="bg-gray-50">
-                <div class="max-w-4xl mx-auto py-8 px-4">
-                    <div class="bg-white rounded-lg shadow-lg p-8">
-                        <div class="mb-6 pb-6 border-b border-gray-200">
-                            <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full bg-accent-blue/10 text-accent-blue mb-4">
-                                ${postData.category === "tips" ? "Советы" : postData.category === "faq" ? "FAQ" : postData.category === "news" ? "Новости" : "Руководства"}
-                            </span>
-                            <h1 class="text-3xl font-bold text-gray-900 mb-4">${postData.title}</h1>
-                            ${postData.excerpt ? `<p class="text-xl text-gray-600 mb-6">${postData.excerpt}</p>` : ""}
-                        </div>
-
-                        <div class="prose prose-lg max-w-none">
-                            ${postData.content}
-                        </div>
-
-                        ${postData.tags ? `
-                        <div class="mt-8 pt-8 border-t border-gray-200">
-                            <div class="flex flex-wrap gap-2">
-                                ${postData.tags.split(",").map(tag => tag.trim()).filter(tag => tag).map(tag => `<span class="inline-flex px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">#${tag}</span>`).join("")}
-                            </div>
-                        </div>
-                        ` : ""}
-                    </div>
-                </div>
-            </body>
-            </html>
-        `;
-
-        // Открываем новое окно с предварительным просмотром
-        const previewWindow = window.open("", "post-preview", "width=1200,height=800,scrollbars=yes,resizable=yes");
-        previewWindow.document.write(previewHtml);
-        previewWindow.document.close();
+        // Показываем информацию о предварительном просмотре
+        alert("Предварительный просмотр статьи:\\n\\n" +
+              "Заголовок: " + title + "\\n" +
+              "Категория: " + categoryName + "\\n" +
+              "Краткое описание: " + (excerpt ? excerpt.substring(0, 100) + "..." : "Отсутствует") + "\\n" +
+              "Содержание: " + (content ? content.substring(0, 100) + "..." : "Отсутствует") + "\\n" +
+              "Теги: " + (tags || "Отсутствуют") + "\\n\\n" +
+              "Примечание: Полный предварительный просмотр будет доступен на фронтенде после публикации статьи.");
     }
     </script>
     '
