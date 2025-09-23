@@ -786,3 +786,6 @@
 [2025-09-23 23:31:58] [INFO] User root logged in
 [2025-09-23 23:32:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
 [2025-09-23 23:33:15] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-23 23:39:18] [INFO] User root logged in
+[2025-09-23 23:40:28] [INFO] User root logged in
+[2025-09-23 23:40:49] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at

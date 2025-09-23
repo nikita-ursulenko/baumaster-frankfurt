@@ -325,9 +325,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabButtons = document.querySelectorAll('.settings-tab-btn');
     const tabContents = document.querySelectorAll('.settings-tab-content');
     
+    console.log('Tab buttons found:', tabButtons.length);
+    console.log('Tab contents found:', tabContents.length);
+    
     tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
             const targetTab = this.getAttribute('data-tab');
+            
+            console.log('Switching to tab:', targetTab);
             
             // Убрать активный класс со всех кнопок
             tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -335,9 +341,19 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('active');
             
             // Скрыть все контенты
-            tabContents.forEach(content => content.classList.add('hidden'));
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+                console.log('Hiding content:', content.getAttribute('data-tab'));
+            });
+            
             // Показать целевой контент
-            document.querySelector(`[data-tab="${targetTab}"]`).classList.remove('hidden');
+            const targetContent = document.querySelector(`.settings-tab-content[data-tab="${targetTab}"]`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+                console.log('Showing content:', targetTab);
+            } else {
+                console.error('Target content not found for tab:', targetTab);
+            }
         });
     });
 });
