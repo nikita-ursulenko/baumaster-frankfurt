@@ -770,3 +770,6 @@
 [2025-09-23 03:51:04] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
 [2025-09-23 03:51:17] [INFO] Blog post updated: Как выбрать правильные материалы для ремонта ванной комнаты (ID: 1)
 [2025-09-23 03:51:17] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
+[2025-09-23 03:55:40] [INFO] New blog post created: Тестирование предварительного просмотра (ID: 9)
+[2025-09-23 03:55:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
+[2025-09-23 03:55:59] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error

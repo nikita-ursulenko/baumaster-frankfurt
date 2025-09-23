@@ -810,6 +810,9 @@ render_admin_layout([
         <!-- WYSIWYG Editor -->
         <script src="' . ASSETS_URL . 'js/wysiwyg-editor.js"></script>
         
+        <!-- Admin Blog JS -->
+        <script src="' . ASSETS_URL . 'js/admin_blog.js"></script>
+        
         <script>
         // Инициализация WYSIWYG редактора
         document.addEventListener("DOMContentLoaded", function() {
