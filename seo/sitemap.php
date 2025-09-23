@@ -5,6 +5,8 @@
  */
 
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../database.php';
+require_once __DIR__ . '/../functions.php';
 
 // Настройки sitemap
 $base_url = get_setting('site_url', 'https://baumaster-frankfurt.de');
