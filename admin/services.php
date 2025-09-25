@@ -658,21 +658,22 @@ ob_start();
                         ]); ?>
                         
                         <!-- Категория -->
-                        <div class="space-y-2">
-                            <label for="category" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('services.category', 'Категория'); ?>
-                                <span class="text-red-500">*</span>
-                            </label>
-                            <select id="category" name="category" required 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="painting" <?php echo ($current_service['category'] ?? '') === 'painting' ? 'selected' : ''; ?>><?php echo __('services.category_painting', 'Малярные работы'); ?></option>
-                                <option value="flooring" <?php echo ($current_service['category'] ?? '') === 'flooring' ? 'selected' : ''; ?>><?php echo __('services.category_flooring', 'Укладка полов'); ?></option>
-                                <option value="bathroom" <?php echo ($current_service['category'] ?? '') === 'bathroom' ? 'selected' : ''; ?>><?php echo __('services.category_bathroom', 'Ремонт ванных'); ?></option>
-                                <option value="drywall" <?php echo ($current_service['category'] ?? '') === 'drywall' ? 'selected' : ''; ?>><?php echo __('services.category_drywall', 'Гипсокартон'); ?></option>
-                                <option value="tiling" <?php echo ($current_service['category'] ?? '') === 'tiling' ? 'selected' : ''; ?>><?php echo __('services.category_tiling', 'Плитка'); ?></option>
-                                <option value="renovation" <?php echo ($current_service['category'] ?? '') === 'renovation' ? 'selected' : ''; ?>><?php echo __('services.category_renovation', 'Комплексный ремонт'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'category',
+                            'id' => 'category',
+                            'label' => __('services.category', 'Категория'),
+                            'required' => true,
+                            'value' => $current_service['category'] ?? '',
+                            'placeholder' => __('services.select_category', 'Выберите категорию'),
+                            'options' => [
+                                ['value' => 'painting', 'text' => __('services.category_painting', 'Малярные работы')],
+                                ['value' => 'flooring', 'text' => __('services.category_flooring', 'Укладка полов')],
+                                ['value' => 'bathroom', 'text' => __('services.category_bathroom', 'Ремонт ванных')],
+                                ['value' => 'drywall', 'text' => __('services.category_drywall', 'Гипсокартон')],
+                                ['value' => 'tiling', 'text' => __('services.category_tiling', 'Плитка')],
+                                ['value' => 'renovation', 'text' => __('services.category_renovation', 'Комплексный ремонт')]
+                            ]
+                        ]); ?>
                     </div>
                     
                     <!-- Описание -->
@@ -774,17 +775,18 @@ ob_start();
                         ]); ?>
                         
                         <!-- Тип ценообразования -->
-                        <div class="space-y-2">
-                            <label for="price_type" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('services.price_type', 'Тип ценообразования'); ?>
-                            </label>
-                            <select id="price_type" name="price_type" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="fixed" <?php echo ($current_service['price_type'] ?? 'fixed') === 'fixed' ? 'selected' : ''; ?>><?php echo __('services.price_fixed', 'Фиксированная'); ?></option>
-                                <option value="per_m2" <?php echo ($current_service['price_type'] ?? '') === 'per_m2' ? 'selected' : ''; ?>><?php echo __('services.price_per_m2', 'За м²'); ?></option>
-                                <option value="per_hour" <?php echo ($current_service['price_type'] ?? '') === 'per_hour' ? 'selected' : ''; ?>><?php echo __('services.price_per_hour', 'За час'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'price_type',
+                            'id' => 'price_type',
+                            'label' => __('services.price_type', 'Тип ценообразования'),
+                            'value' => $current_service['price_type'] ?? 'fixed',
+                            'placeholder' => __('services.select_price_type', 'Выберите тип ценообразования'),
+                            'options' => [
+                                ['value' => 'fixed', 'text' => __('services.price_fixed', 'Фиксированная')],
+                                ['value' => 'per_m2', 'text' => __('services.price_per_m2', 'За м²')],
+                                ['value' => 'per_hour', 'text' => __('services.price_per_hour', 'За час')]
+                            ]
+                        ]); ?>
                     </div>
                 </div>
                 
@@ -796,16 +798,17 @@ ob_start();
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Статус -->
-                        <div class="space-y-2">
-                            <label for="status" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('services.status', 'Статус'); ?>
-                            </label>
-                            <select id="status" name="status" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="active" <?php echo ($current_service['status'] ?? 'active') === 'active' ? 'selected' : ''; ?>><?php echo __('services.status_active', 'Активна'); ?></option>
-                                <option value="inactive" <?php echo ($current_service['status'] ?? '') === 'inactive' ? 'selected' : ''; ?>><?php echo __('services.status_inactive', 'Неактивна'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'status',
+                            'id' => 'status',
+                            'label' => __('services.status', 'Статус'),
+                            'value' => $current_service['status'] ?? 'active',
+                            'placeholder' => __('services.select_status', 'Выберите статус'),
+                            'options' => [
+                                ['value' => 'active', 'text' => __('services.status_active', 'Активна')],
+                                ['value' => 'inactive', 'text' => __('services.status_inactive', 'Неактивна')]
+                            ]
+                        ]); ?>
                         
                         <!-- Приоритет -->
                         <?php render_input_field([

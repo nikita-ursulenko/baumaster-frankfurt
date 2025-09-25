@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 // Основные настройки
 define('SITE_NAME', 'Baumaster - Строительные услуги во Франкфурте');
-define('SITE_URL', 'http://localhost');
+define('SITE_URL', 'https://baumeister.page.gd');
 define('ADMIN_URL', SITE_URL . '/admin/');
 define('VERSION', '1.0.0');
 
@@ -78,7 +78,7 @@ define('ITEMS_PER_PAGE', 20);
 define('RECENT_ITEMS_LIMIT', 5);
 
 // Режим отладки
-define('DEBUG_MODE', true);
+define('DEBUG_MODE', false);
 define('LOG_ERRORS', true);
 define('ERROR_LOG_PATH', DATA_PATH . 'error.log');
 

@@ -688,21 +688,22 @@ ob_start();
                         ]); ?>
                         
                         <!-- Категория -->
-                        <div class="space-y-2">
-                            <label for="category" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('portfolio.category', 'Категория'); ?>
-                                <span class="text-red-500">*</span>
-                            </label>
-                            <select id="category" name="category" required 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="apartment" <?php echo ($current_project['category'] ?? '') === 'apartment' ? 'selected' : ''; ?>><?php echo __('portfolio.category_apartment', 'Квартиры'); ?></option>
-                                <option value="house" <?php echo ($current_project['category'] ?? '') === 'house' ? 'selected' : ''; ?>><?php echo __('portfolio.category_house', 'Дома'); ?></option>
-                                <option value="office" <?php echo ($current_project['category'] ?? '') === 'office' ? 'selected' : ''; ?>><?php echo __('portfolio.category_office', 'Офисы'); ?></option>
-                                <option value="commercial" <?php echo ($current_project['category'] ?? '') === 'commercial' ? 'selected' : ''; ?>><?php echo __('portfolio.category_commercial', 'Коммерческие'); ?></option>
-                                <option value="bathroom" <?php echo ($current_project['category'] ?? '') === 'bathroom' ? 'selected' : ''; ?>><?php echo __('portfolio.category_bathroom', 'Ванные комнаты'); ?></option>
-                                <option value="kitchen" <?php echo ($current_project['category'] ?? '') === 'kitchen' ? 'selected' : ''; ?>><?php echo __('portfolio.category_kitchen', 'Кухни'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'category',
+                            'id' => 'category',
+                            'label' => __('portfolio.category', 'Категория'),
+                            'required' => true,
+                            'value' => $current_project['category'] ?? '',
+                            'placeholder' => __('portfolio.select_category', 'Выберите категорию'),
+                            'options' => [
+                                ['value' => 'apartment', 'text' => __('portfolio.category_apartment', 'Квартиры')],
+                                ['value' => 'house', 'text' => __('portfolio.category_house', 'Дома')],
+                                ['value' => 'office', 'text' => __('portfolio.category_office', 'Офисы')],
+                                ['value' => 'commercial', 'text' => __('portfolio.category_commercial', 'Коммерческие')],
+                                ['value' => 'bathroom', 'text' => __('portfolio.category_bathroom', 'Ванные комнаты')],
+                                ['value' => 'kitchen', 'text' => __('portfolio.category_kitchen', 'Кухни')]
+                            ]
+                        ]); ?>
                     </div>
                     
                     <!-- Описание -->
@@ -894,28 +895,30 @@ ob_start();
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Статус -->
-                        <div class="space-y-2">
-                            <label for="status" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('portfolio.status', 'Статус'); ?>
-                            </label>
-                            <select id="status" name="status" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="active" <?php echo ($current_project['status'] ?? 'active') === 'active' ? 'selected' : ''; ?>><?php echo __('portfolio.status_active', 'Активный'); ?></option>
-                                <option value="inactive" <?php echo ($current_project['status'] ?? '') === 'inactive' ? 'selected' : ''; ?>><?php echo __('portfolio.status_inactive', 'Скрытый'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'status',
+                            'id' => 'status',
+                            'label' => __('portfolio.status', 'Статус'),
+                            'value' => $current_project['status'] ?? 'active',
+                            'placeholder' => __('portfolio.select_status', 'Выберите статус'),
+                            'options' => [
+                                ['value' => 'active', 'text' => __('portfolio.status_active', 'Активный')],
+                                ['value' => 'inactive', 'text' => __('portfolio.status_inactive', 'Скрытый')]
+                            ]
+                        ]); ?>
                         
                         <!-- Рекомендуемый -->
-                        <div class="space-y-2">
-                            <label for="featured" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('portfolio.featured', 'Рекомендуемый'); ?>
-                            </label>
-                            <select id="featured" name="featured" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="0" <?php echo ($current_project['featured'] ?? 0) == 0 ? 'selected' : ''; ?>><?php echo __('portfolio.featured_no', 'Обычный'); ?></option>
-                                <option value="1" <?php echo ($current_project['featured'] ?? 0) == 1 ? 'selected' : ''; ?>><?php echo __('portfolio.featured_yes', 'Рекомендуемый'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'featured',
+                            'id' => 'featured',
+                            'label' => __('portfolio.featured', 'Рекомендуемый'),
+                            'value' => $current_project['featured'] ?? 0,
+                            'placeholder' => __('portfolio.select_featured', 'Выберите статус'),
+                            'options' => [
+                                ['value' => '0', 'text' => __('portfolio.featured_no', 'Обычный')],
+                                ['value' => '1', 'text' => __('portfolio.featured_yes', 'Рекомендуемый')]
+                            ]
+                        ]); ?>
                         
                         <!-- Приоритет сортировки -->
                         <?php render_input_field([

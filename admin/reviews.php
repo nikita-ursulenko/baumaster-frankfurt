@@ -654,20 +654,26 @@ ob_start();
                         ]); ?>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label for="rating" class="block text-sm font-medium text-gray-700">
-                                    <?php echo __('reviews.rating', 'Рейтинг'); ?>
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <select id="rating" name="rating" required 
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                                        <option value="<?php echo $i; ?>" <?php echo ($current_review['rating'] ?? 5) == $i ? 'selected' : ''; ?>>
-                                            <?php echo $i; ?> <?php echo $i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'); ?>
-                                        </option>
-                                    <?php endfor; ?>
-                                </select>
-                            </div>
+                            <?php 
+                            // Подготовка опций рейтинга
+                            $rating_options = [];
+                            for ($i = 1; $i <= 5; $i++) {
+                                $rating_options[] = [
+                                    'value' => $i,
+                                    'text' => $i . ' ' . ($i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'))
+                                ];
+                            }
+                            
+                            render_dropdown_field([
+                                'name' => 'rating',
+                                'id' => 'rating',
+                                'label' => __('reviews.rating', 'Рейтинг'),
+                                'required' => true,
+                                'value' => $current_review['rating'] ?? 5,
+                                'placeholder' => __('reviews.select_rating', 'Выберите рейтинг'),
+                                'options' => $rating_options
+                            ]); 
+                            ?>
                             
                             <?php render_input_field([
                                 'type' => 'date',
@@ -686,17 +692,18 @@ ob_start();
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label for="status" class="block text-sm font-medium text-gray-700">
-                                <?php echo __('reviews.status', 'Статус'); ?>
-                            </label>
-                            <select id="status" name="status" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value="pending" <?php echo ($current_review['status'] ?? 'pending') === 'pending' ? 'selected' : ''; ?>><?php echo __('reviews.status_pending', 'На модерации'); ?></option>
-                                <option value="published" <?php echo ($current_review['status'] ?? '') === 'published' ? 'selected' : ''; ?>><?php echo __('reviews.status_published', 'Опубликован'); ?></option>
-                                <option value="rejected" <?php echo ($current_review['status'] ?? '') === 'rejected' ? 'selected' : ''; ?>><?php echo __('reviews.status_rejected', 'Отклонен'); ?></option>
-                            </select>
-                        </div>
+                        <?php render_dropdown_field([
+                            'name' => 'status',
+                            'id' => 'status',
+                            'label' => __('reviews.status', 'Статус'),
+                            'value' => $current_review['status'] ?? 'pending',
+                            'placeholder' => __('reviews.select_status', 'Выберите статус'),
+                            'options' => [
+                                ['value' => 'pending', 'text' => __('reviews.status_pending', 'На модерации')],
+                                ['value' => 'published', 'text' => __('reviews.status_published', 'Опубликован')],
+                                ['value' => 'rejected', 'text' => __('reviews.status_rejected', 'Отклонен')]
+                            ]
+                        ]); ?>
                         
                         <div class="space-y-4">
                             <div class="flex items-center">

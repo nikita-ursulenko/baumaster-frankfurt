@@ -308,52 +308,34 @@ ob_start();
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Роль -->
-                    <div class="space-y-2">
-                        <label for="role" class="block text-sm font-medium text-gray-700">
-                            <?php echo __('users.role', 'Роль'); ?>
-                            <span class="text-red-500">*</span>
-                        </label>
-                        <select 
-                            id="role" 
-                            name="role" 
-                            required 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200"
-                        >
-                            <option value="editor" <?php echo ($current_user_data['role'] ?? '') === 'editor' ? 'selected' : ''; ?>>
-                                <?php echo __('users.role_editor', 'Редактор'); ?>
-                            </option>
-                            <option value="moderator" <?php echo ($current_user_data['role'] ?? '') === 'moderator' ? 'selected' : ''; ?>>
-                                <?php echo __('users.role_moderator', 'Модератор'); ?>
-                            </option>
-                            <option value="admin" <?php echo ($current_user_data['role'] ?? '') === 'admin' ? 'selected' : ''; ?>>
-                                <?php echo __('users.role_admin', 'Администратор'); ?>
-                            </option>
-                        </select>
-                    </div>
+                    <?php render_dropdown_field([
+                        'name' => 'role',
+                        'id' => 'role',
+                        'label' => __('users.role', 'Роль'),
+                        'required' => true,
+                        'value' => $current_user_data['role'] ?? '',
+                        'placeholder' => __('users.select_role', 'Выберите роль'),
+                        'options' => [
+                            ['value' => 'editor', 'text' => __('users.role_editor', 'Редактор')],
+                            ['value' => 'moderator', 'text' => __('users.role_moderator', 'Модератор')],
+                            ['value' => 'admin', 'text' => __('users.role_admin', 'Администратор')]
+                        ]
+                    ]); ?>
                     
                     <!-- Статус -->
-                    <div class="space-y-2">
-                        <label for="status" class="block text-sm font-medium text-gray-700">
-                            <?php echo __('users.status', 'Статус'); ?>
-                            <span class="text-red-500">*</span>
-                        </label>
-                        <select 
-                            id="status" 
-                            name="status" 
-                            required 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200"
-                        >
-                            <option value="active" <?php echo ($current_user_data['status'] ?? 'active') === 'active' ? 'selected' : ''; ?>>
-                                <?php echo __('users.status_active', 'Активен'); ?>
-                            </option>
-                            <option value="inactive" <?php echo ($current_user_data['status'] ?? '') === 'inactive' ? 'selected' : ''; ?>>
-                                <?php echo __('users.status_inactive', 'Неактивен'); ?>
-                            </option>
-                            <option value="blocked" <?php echo ($current_user_data['status'] ?? '') === 'blocked' ? 'selected' : ''; ?>>
-                                <?php echo __('users.status_blocked', 'Заблокирован'); ?>
-                            </option>
-                        </select>
-                    </div>
+                    <?php render_dropdown_field([
+                        'name' => 'status',
+                        'id' => 'status',
+                        'label' => __('users.status', 'Статус'),
+                        'required' => true,
+                        'value' => $current_user_data['status'] ?? 'active',
+                        'placeholder' => __('users.select_status', 'Выберите статус'),
+                        'options' => [
+                            ['value' => 'active', 'text' => __('users.status_active', 'Активен')],
+                            ['value' => 'inactive', 'text' => __('users.status_inactive', 'Неактивен')],
+                            ['value' => 'blocked', 'text' => __('users.status_blocked', 'Заблокирован')]
+                        ]
+                    ]); ?>
                 </div>
                 
                 <!-- Кнопки -->
