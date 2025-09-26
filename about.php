@@ -12,6 +12,8 @@ require_once __DIR__ . '/ux/data.php';
 // Получение данных
 $seo = get_seo_data()['about'];
 $about_data = get_about_content();
+$team_members = get_team_members();
+$statistics = get_statistics();
 
 // Начало контента
 ob_start();
@@ -94,26 +96,19 @@ ob_start();
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">500+</div>
-                <div class="text-xl opacity-90">Довольных клиентов</div>
-                <div class="text-sm opacity-75 mt-2">За все время работы</div>
-            </div>
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">10</div>
-                <div class="text-xl opacity-90">Лет опыта</div>
-                <div class="text-sm opacity-75 mt-2">На рынке Frankfurt</div>
-            </div>
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">50+</div>
-                <div class="text-xl opacity-90">Проектов в год</div>
-                <div class="text-sm opacity-75 mt-2">Различной сложности</div>
-            </div>
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">98%</div>
-                <div class="text-xl opacity-90">Довольных клиентов</div>
-                <div class="text-sm opacity-75 mt-2">Рекомендуют нас друзьям</div>
-            </div>
+            <?php if (!empty($statistics)): ?>
+                <?php foreach ($statistics as $stat): ?>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
+                        <div class="text-xl opacity-90"><?php echo htmlspecialchars($stat['label']); ?></div>
+                        <div class="text-sm opacity-75 mt-2"><?php echo htmlspecialchars($stat['description']); ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-full text-center py-8">
+                    <p class="text-white opacity-75">Статистика будет добавлена в ближайшее время</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -131,32 +126,35 @@ ob_start();
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-2xl font-bold text-gray-500">AM</span>
+            <?php if (!empty($team_members)): ?>
+                <?php foreach ($team_members as $member): ?>
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
+                            <?php if (!empty($member['image'])): ?>
+                                <img src="<?php echo htmlspecialchars($member['image']); ?>" 
+                                     alt="<?php echo htmlspecialchars($member['name']); ?>" 
+                                     class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <?php 
+                                $initials = '';
+                                $name_parts = explode(' ', $member['name']);
+                                foreach ($name_parts as $part) {
+                                    $initials .= strtoupper(substr($part, 0, 1));
+                                }
+                                ?>
+                                <span class="text-2xl font-bold text-gray-500"><?php echo $initials; ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <h3 class="font-semibold text-xl text-text-primary mb-2"><?php echo htmlspecialchars($member['name']); ?></h3>
+                        <p class="text-accent-blue font-medium mb-3"><?php echo htmlspecialchars($member['position']); ?></p>
+                        <p class="text-text-secondary text-sm"><?php echo htmlspecialchars($member['description']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-full text-center py-8">
+                    <p class="text-text-secondary">Информация о команде будет добавлена в ближайшее время</p>
                 </div>
-                <h3 class="font-semibold text-xl text-text-primary mb-2">Александр Мюллер</h3>
-                <p class="text-accent-blue font-medium mb-3">Руководитель проектов</p>
-                <p class="text-text-secondary text-sm">15 лет опыта в строительстве. Специализация: планирование и контроль качества работ.</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-2xl font-bold text-gray-500">MS</span>
-                </div>
-                <h3 class="font-semibold text-xl text-text-primary mb-2">Михаэль Шмидт</h3>
-                <p class="text-accent-blue font-medium mb-3">Мастер-универсал</p>
-                <p class="text-text-secondary text-sm">12 лет в профессии. Выполняет все виды отделочных работ на высшем уровне.</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-2xl font-bold text-gray-500">TW</span>
-                </div>
-                <h3 class="font-semibold text-xl text-text-primary mb-2">Томас Вагнер</h3>
-                <p class="text-accent-blue font-medium mb-3">Специалист по полам</p>
-                <p class="text-text-secondary text-sm">10 лет опыта в укладке всех типов напольных покрытий. Гарантия идеального результата.</p>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

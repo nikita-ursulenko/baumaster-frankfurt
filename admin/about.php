@@ -80,16 +80,141 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $success_message = 'История компании сохранена, но перевод не выполнен';
             }
-        } else {
-            $error_message = 'Ошибка при сохранении истории компании';
+            } else {
+                $error_message = 'Ошибка при сохранении истории компании';
+            }
+        }
+        
+        // Обработка сохранения члена команды
+        if (isset($_POST['save_team_member'])) {
+            $member_data = [
+                'name' => $_POST['member_name'] ?? '',
+                'position' => $_POST['member_position'] ?? '',
+                'description' => $_POST['member_description'] ?? '',
+                'sort_order' => $_POST['member_sort_order'] ?? 0
+            ];
+            
+            if (isset($_POST['member_id']) && !empty($_POST['member_id'])) {
+                $member_data['id'] = $_POST['member_id'];
+            }
+            
+            // Обработка загрузки изображения
+            if (isset($_FILES['member_photo']) && $_FILES['member_photo']['error'] === UPLOAD_ERR_OK) {
+                $upload_dir = '../assets/uploads/team/';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0755, true);
+                }
+                
+                $file_extension = pathinfo($_FILES['member_photo']['name'], PATHINFO_EXTENSION);
+                $filename = 'member_' . time() . '.' . $file_extension;
+                $upload_path = $upload_dir . $filename;
+                
+                if (move_uploaded_file($_FILES['member_photo']['tmp_name'], $upload_path)) {
+                    $member_data['image'] = 'assets/uploads/team/' . $filename;
+                }
+            }
+            
+            $member_id = save_team_member($member_data, 'ru');
+            if ($member_id) {
+                // Автоматический перевод для немецкой версии
+                $translation_manager = new TranslationManager();
+                
+                $fields_to_translate = [
+                    'name' => $member_data['name'],
+                    'position' => $member_data['position'],
+                    'description' => $member_data['description']
+                ];
+                
+                $translated_fields = $translation_manager->autoTranslateContent(
+                    'team_members', 
+                    $member_id, 
+                    $fields_to_translate, 
+                    'ru', 
+                    'de'
+                );
+                
+                if (!empty($translated_fields)) {
+                    $success_message = 'Член команды успешно сохранен и переведен на немецкий язык';
+                } else {
+                    $success_message = 'Член команды сохранен, но перевод не выполнен';
+                }
+            } else {
+                $error_message = 'Ошибка при сохранении члена команды';
+            }
+        }
+        
+        // Обработка удаления члена команды
+        if (isset($_POST['delete_team_member'])) {
+            $member_id = $_POST['member_id'] ?? null;
+            if ($member_id) {
+                $result = delete_team_member($member_id);
+                if ($result) {
+                    $success_message = 'Член команды успешно удален';
+                } else {
+                    $error_message = 'Ошибка при удалении члена команды';
+                }
+            }
+        }
+        
+        // Обработка сохранения статистики
+        if (isset($_POST['save_statistics'])) {
+            $statistics_data = [];
+            
+            // Собираем данные статистики из формы
+            for ($i = 1; $i <= 4; $i++) {
+                if (isset($_POST["stat{$i}_number"]) && !empty($_POST["stat{$i}_number"])) {
+                    $statistics_data[] = [
+                        'number' => $_POST["stat{$i}_number"],
+                        'label' => $_POST["stat{$i}_label"] ?? '',
+                        'description' => $_POST["stat{$i}_description"] ?? ''
+                    ];
+                }
+            }
+            
+            if (!empty($statistics_data)) {
+                $stat_ids = save_statistics($statistics_data, 'ru');
+                if ($stat_ids) {
+                    // Автоматический перевод для немецкой версии
+                    $translation_manager = new TranslationManager();
+                    
+                    $translated_count = 0;
+                    foreach ($stat_ids as $index => $stat_id) {
+                        $fields_to_translate = [
+                            'label' => $statistics_data[$index]['label'],
+                            'description' => $statistics_data[$index]['description']
+                        ];
+                        
+                        $translated_fields = $translation_manager->autoTranslateContent(
+                            'statistics', 
+                            $stat_id, 
+                            $fields_to_translate, 
+                            'ru', 
+                            'de'
+                        );
+                        
+                        if (!empty($translated_fields)) {
+                            $translated_count++;
+                        }
+                    }
+                    
+                    if ($translated_count > 0) {
+                        $success_message = "Статистика успешно сохранена и переведена на немецкий язык ($translated_count из " . count($statistics_data) . ")";
+                    } else {
+                        $success_message = 'Статистика сохранена, но перевод не выполнен';
+                    }
+                } else {
+                    $error_message = 'Ошибка при сохранении статистики';
+                }
+            } else {
+                $error_message = 'Необходимо заполнить хотя бы одну позицию статистики';
+            }
         }
     }
-}
 
 // Загрузка данных для отображения
 $history_data = get_about_content('history');
-$team_data = get_about_content('team');
-$statistics_data = get_about_content('statistics');
+$team_members = get_team_members();
+$statistics = get_statistics();
 
 // Начало контента
 ob_start();
@@ -246,65 +371,50 @@ ob_start();
 
                     <!-- Список сотрудников -->
                     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        <!-- Сотрудник 1 -->
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <div class="text-center">
-                                <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                    <span class="text-xl font-bold text-gray-500">AM</span>
+                        <?php if (!empty($team_members)): ?>
+                            <?php foreach ($team_members as $member): ?>
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <div class="text-center">
+                                        <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
+                                            <?php if (!empty($member['image'])): ?>
+                                                <img src="../<?php echo htmlspecialchars($member['image']); ?>" 
+                                                     alt="<?php echo htmlspecialchars($member['name']); ?>" 
+                                                     class="w-full h-full object-cover">
+                                            <?php else: ?>
+                                                <?php 
+                                                $initials = '';
+                                                $name_parts = explode(' ', $member['name']);
+                                                foreach ($name_parts as $part) {
+                                                    $initials .= strtoupper(substr($part, 0, 1));
+                                                }
+                                                ?>
+                                                <span class="text-xl font-bold text-gray-500"><?php echo $initials; ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <h4 class="font-semibold text-lg text-gray-900"><?php echo htmlspecialchars($member['name']); ?></h4>
+                                        <p class="text-primary-600 font-medium mb-2"><?php echo htmlspecialchars($member['position']); ?></p>
+                                        <p class="text-sm text-gray-600 mb-4"><?php echo htmlspecialchars($member['description']); ?></p>
+                                        <div class="flex space-x-2">
+                                            <button onclick="editMember(<?php echo $member['id']; ?>)" 
+                                                    class="flex-1 px-3 py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded hover:bg-primary-100">
+                                                Редактировать
+                                            </button>
+                                            <form method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить этого сотрудника?')">
+                                                <input type="hidden" name="member_id" value="<?php echo $member['id']; ?>">
+                                                <button type="submit" name="delete_team_member" 
+                                                        class="px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded hover:bg-red-100">
+                                                    Удалить
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h4 class="font-semibold text-lg text-gray-900">Александр Мюллер</h4>
-                                <p class="text-primary-600 font-medium mb-2">Руководитель проектов</p>
-                                <p class="text-sm text-gray-600 mb-4">15 лет опыта в строительстве. Специализация: планирование и контроль качества работ.</p>
-                                <div class="flex space-x-2">
-                                    <button class="flex-1 px-3 py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded hover:bg-primary-100">
-                                        Редактировать
-                                    </button>
-                                    <button class="px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded hover:bg-red-100">
-                                        Удалить
-                                    </button>
-                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="col-span-full text-center py-8">
+                                <p class="text-gray-500">Сотрудники не найдены</p>
                             </div>
-                        </div>
-
-                        <!-- Сотрудник 2 -->
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <div class="text-center">
-                                <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                    <span class="text-xl font-bold text-gray-500">MS</span>
-                                </div>
-                                <h4 class="font-semibold text-lg text-gray-900">Михаэль Шмидт</h4>
-                                <p class="text-primary-600 font-medium mb-2">Мастер-универсал</p>
-                                <p class="text-sm text-gray-600 mb-4">12 лет в профессии. Выполняет все виды отделочных работ на высшем уровне.</p>
-                                <div class="flex space-x-2">
-                                    <button class="flex-1 px-3 py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded hover:bg-primary-100">
-                                        Редактировать
-                                    </button>
-                                    <button class="px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded hover:bg-red-100">
-                                        Удалить
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Сотрудник 3 -->
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <div class="text-center">
-                                <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                    <span class="text-xl font-bold text-gray-500">TW</span>
-                                </div>
-                                <h4 class="font-semibold text-lg text-gray-900">Томас Вагнер</h4>
-                                <p class="text-primary-600 font-medium mb-2">Специалист по полам</p>
-                                <p class="text-sm text-gray-600 mb-4">10 лет опыта в укладке всех типов напольных покрытий. Гарантия идеального результата.</p>
-                                <div class="flex space-x-2">
-                                    <button class="flex-1 px-3 py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded hover:bg-primary-100">
-                                        Редактировать
-                                    </button>
-                                    <button class="px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded hover:bg-red-100">
-                                        Удалить
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -316,93 +426,32 @@ ob_start();
                         <h3 class="text-lg font-medium text-gray-900">Статистика компании</h3>
                         
                         <div class="grid gap-6 md:grid-cols-2">
-                            <!-- Статистика 1 -->
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-medium text-gray-900 mb-4">Довольные клиенты</h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Число</label>
-                                        <input type="text" name="stat1_number" value="500+" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>
-                                        <input type="text" name="stat1_title" value="Довольных клиентов" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
-                                        <input type="text" name="stat1_description" value="За все время работы" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Статистика 2 -->
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-medium text-gray-900 mb-4">Опыт работы</h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Число</label>
-                                        <input type="text" name="stat2_number" value="10" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>
-                                        <input type="text" name="stat2_title" value="Лет опыта" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
-                                        <input type="text" name="stat2_description" value="На рынке Frankfurt" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                            <?php for ($i = 1; $i <= 4; $i++): ?>
+                                <?php $stat = $statistics[$i-1] ?? null; ?>
+                                <div class="bg-gray-50 rounded-lg p-6">
+                                    <h4 class="font-medium text-gray-900 mb-4">Статистика <?php echo $i; ?></h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Число</label>
+                                            <input type="text" name="stat<?php echo $i; ?>_number" 
+                                                   value="<?php echo htmlspecialchars($stat['number'] ?? ''); ?>" 
+                                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>
+                                            <input type="text" name="stat<?php echo $i; ?>_label" 
+                                                   value="<?php echo htmlspecialchars($stat['label'] ?? ''); ?>" 
+                                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
+                                            <input type="text" name="stat<?php echo $i; ?>_description" 
+                                                   value="<?php echo htmlspecialchars($stat['description'] ?? ''); ?>" 
+                                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Статистика 3 -->
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-medium text-gray-900 mb-4">Проекты в год</h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Число</label>
-                                        <input type="text" name="stat3_number" value="50+" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>
-                                        <input type="text" name="stat3_title" value="Проектов в год" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
-                                        <input type="text" name="stat3_description" value="Различной сложности" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Статистика 4 -->
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-medium text-gray-900 mb-4">Рекомендации</h4>
-                                <div class="space-y-3">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Число</label>
-                                        <input type="text" name="stat4_number" value="98%" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>
-                                        <input type="text" name="stat4_title" value="Довольных клиентов" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
-                                        <input type="text" name="stat4_description" value="Рекомендуют нас друзьям" 
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endfor; ?>
                         </div>
 
                         <div class="flex justify-end">
@@ -414,6 +463,56 @@ ob_start();
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для добавления/редактирования сотрудника -->
+<div id="memberModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <h3 class="text-lg font-medium text-gray-900 mb-4" id="modalTitle">Добавить сотрудника</h3>
+            <form method="POST" enctype="multipart/form-data" id="memberForm">
+                <input type="hidden" name="member_id" id="member_id">
+                <input type="hidden" name="member_sort_order" id="member_sort_order" value="0">
+                
+                <div class="space-y-4">
+                    <div>
+                        <label for="member_name" class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                        <input type="text" name="member_name" id="member_name" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    
+                    <div>
+                        <label for="member_position" class="block text-sm font-medium text-gray-700 mb-1">Должность</label>
+                        <input type="text" name="member_position" id="member_position" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    
+                    <div>
+                        <label for="member_description" class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
+                        <textarea name="member_description" id="member_description" rows="3"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="member_photo" class="block text-sm font-medium text-gray-700 mb-1">Фото</label>
+                        <input type="file" name="member_photo" id="member_photo" accept="image/*"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeMemberModal()" 
+                            class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        Отмена
+                    </button>
+                    <button type="submit" name="save_team_member"
+                            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -447,6 +546,51 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('tab-' + targetTab).classList.remove('hidden');
         });
     });
+
+    // Обработчик для кнопки "Добавить сотрудника"
+    const addEmployeeBtn = document.querySelector('button[type="button"]');
+    if (addEmployeeBtn && addEmployeeBtn.textContent.includes('Добавить сотрудника')) {
+        addEmployeeBtn.addEventListener('click', function() {
+            openMemberModal();
+        });
+    }
+});
+
+// Функции для работы с модальным окном
+function openMemberModal(memberId = null) {
+    const modal = document.getElementById('memberModal');
+    const title = document.getElementById('modalTitle');
+    const form = document.getElementById('memberForm');
+    
+    if (memberId) {
+        title.textContent = 'Редактировать сотрудника';
+        // Здесь можно загрузить данные сотрудника для редактирования
+        // Пока что просто очищаем форму
+        form.reset();
+        document.getElementById('member_id').value = memberId;
+    } else {
+        title.textContent = 'Добавить сотрудника';
+        form.reset();
+        document.getElementById('member_id').value = '';
+    }
+    
+    modal.classList.remove('hidden');
+}
+
+function closeMemberModal() {
+    const modal = document.getElementById('memberModal');
+    modal.classList.add('hidden');
+}
+
+function editMember(memberId) {
+    openMemberModal(memberId);
+}
+
+// Закрытие модального окна при клике вне его
+document.getElementById('memberModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeMemberModal();
+    }
 });
 </script>
 

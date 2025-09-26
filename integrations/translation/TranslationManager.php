@@ -309,7 +309,9 @@ class TranslationManager {
             'blog_posts' => ['title', 'excerpt', 'content', 'meta_title', 'meta_description', 'keywords'],
             'reviews' => ['review_text'],
             'faq' => ['question', 'answer'],
-            'about_content' => ['title', 'content']
+            'about_content' => ['title', 'content'],
+            'team_members' => ['name', 'position', 'description'],
+            'statistics' => ['label', 'description']
         ];
         
         return $translatable_fields[$table] ?? [];
@@ -327,7 +329,7 @@ class TranslationManager {
             $stats['total_translations'] = count($this->db->select('translations'));
             
             // Переводы по таблицам
-            $tables = ['services', 'portfolio', 'blog_posts', 'reviews', 'faq', 'about_content'];
+            $tables = ['services', 'portfolio', 'blog_posts', 'reviews', 'faq', 'about_content', 'team_members', 'statistics'];
             foreach ($tables as $table) {
                 $table_translations = $this->db->select('translations', ['source_table' => $table]);
                 $stats['by_table'][$table] = count($table_translations);

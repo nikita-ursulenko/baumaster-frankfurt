@@ -753,6 +753,253 @@ function get_about_content($section = null, $lang = 'ru') {
 }
 
 /**
+ * Получение данных команды
+ */
+function get_team_members($lang = 'ru') {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        $members = $db->select('team_members', [
+            'status' => 'active'
+        ], ['order' => 'sort_order ASC']);
+
+        if (!$members) {
+            return [];
+        }
+
+        // Применяем переводы для немецкой версии
+        if ($lang !== 'ru') {
+            foreach ($members as &$member) {
+                $translations = $db->select('translations', [
+                    'source_table' => 'team_members',
+                    'source_id' => $member['id'],
+                    'target_lang' => $lang
+                ]);
+                
+                foreach ($translations as $translation) {
+                    if ($translation['source_field'] === 'name') {
+                        $member['name'] = $translation['translated_text'];
+                    } elseif ($translation['source_field'] === 'position') {
+                        $member['position'] = $translation['translated_text'];
+                    } elseif ($translation['source_field'] === 'description') {
+                        $member['description'] = $translation['translated_text'];
+                    }
+                }
+            }
+        }
+
+        return $members;
+    } catch (Exception $e) {
+        error_log("Error getting team members: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Сохранение члена команды
+ */
+function save_team_member($data, $lang = 'ru') {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        
+        $member_data = [
+            'name' => $data['name'],
+            'position' => $data['position'],
+            'description' => $data['description'],
+            'sort_order' => $data['sort_order'] ?? 0,
+            'status' => 'active',
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        if (isset($data['image']) && !empty($data['image'])) {
+            $member_data['image'] = $data['image'];
+        }
+
+        if (isset($data['id']) && !empty($data['id'])) {
+            // Обновляем существующего члена команды
+            $result = $db->update('team_members', $member_data, [
+                'id' => $data['id']
+            ]);
+            $member_id = $data['id'];
+        } else {
+            // Создаем нового члена команды
+            $member_data['created_at'] = date('Y-m-d H:i:s');
+            $member_id = $db->insert('team_members', $member_data);
+            $result = $member_id !== false;
+        }
+
+        return $result ? $member_id : false;
+    } catch (Exception $e) {
+        error_log("Error saving team member: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Удаление члена команды
+ */
+function delete_team_member($id) {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        
+        // Удаляем переводы
+        $db->delete('translations', [
+            'source_table' => 'team_members',
+            'source_id' => $id
+        ]);
+        
+        // Удаляем члена команды
+        $result = $db->delete('team_members', [
+            'id' => $id
+        ]);
+
+        return $result;
+    } catch (Exception $e) {
+        error_log("Error deleting team member: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Получение члена команды по ID
+ */
+function get_team_member($id, $lang = 'ru') {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        $member = $db->select('team_members', [
+            'id' => $id
+        ], ['limit' => 1]);
+
+        if (!$member) {
+            return null;
+        }
+
+        $member = $member[0];
+
+        // Применяем переводы для немецкой версии
+        if ($lang !== 'ru') {
+            $translations = $db->select('translations', [
+                'source_table' => 'team_members',
+                'source_id' => $member['id'],
+                'target_lang' => $lang
+            ]);
+            
+            foreach ($translations as $translation) {
+                if ($translation['source_field'] === 'name') {
+                    $member['name'] = $translation['translated_text'];
+                } elseif ($translation['source_field'] === 'position') {
+                    $member['position'] = $translation['translated_text'];
+                } elseif ($translation['source_field'] === 'description') {
+                    $member['description'] = $translation['translated_text'];
+                }
+            }
+        }
+
+        return $member;
+    } catch (Exception $e) {
+        error_log("Error getting team member: " . $e->getMessage());
+        return null;
+    }
+}
+
+/**
+ * Получение статистики
+ */
+function get_statistics($lang = 'ru') {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        $statistics = $db->select('statistics', [
+            'status' => 'active'
+        ], ['order' => 'sort_order ASC']);
+
+        if (!$statistics) {
+            return [];
+        }
+
+        // Применяем переводы для немецкой версии
+        if ($lang !== 'ru') {
+            foreach ($statistics as &$stat) {
+                $translations = $db->select('translations', [
+                    'source_table' => 'statistics',
+                    'source_id' => $stat['id'],
+                    'target_lang' => $lang
+                ]);
+                
+                foreach ($translations as $translation) {
+                    if ($translation['source_field'] === 'label') {
+                        $stat['label'] = $translation['translated_text'];
+                    } elseif ($translation['source_field'] === 'description') {
+                        $stat['description'] = $translation['translated_text'];
+                    }
+                }
+            }
+        }
+
+        return $statistics;
+    } catch (Exception $e) {
+        error_log("Error getting statistics: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Сохранение статистики
+ */
+function save_statistics($data, $lang = 'ru') {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+
+    try {
+        $db = get_database();
+        
+        // Удаляем все существующие записи статистики
+        $db->delete('statistics', ['status' => 'active']);
+        
+        $result = true;
+        $stat_ids = [];
+        
+        // Сохраняем новые записи
+        foreach ($data as $index => $stat_data) {
+            $stat_record = [
+                'number' => $stat_data['number'],
+                'label' => $stat_data['label'],
+                'description' => $stat_data['description'],
+                'sort_order' => $index + 1,
+                'status' => 'active',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+            
+            $stat_id = $db->insert('statistics', $stat_record);
+            if ($stat_id) {
+                $stat_ids[] = $stat_id;
+            } else {
+                $result = false;
+            }
+        }
+
+        return $result ? $stat_ids : false;
+    } catch (Exception $e) {
+        error_log("Error saving statistics: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
  * Сохранение контента страницы "О компании"
  */
 function save_about_content($section, $data, $lang = 'ru') {

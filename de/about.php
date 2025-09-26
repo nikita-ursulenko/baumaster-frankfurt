@@ -17,6 +17,8 @@ define('CURRENT_LANG', 'de');
 // Получение данных
 $seo = get_seo_data()['about'];
 $about_data = get_about_content(null, 'de');
+$team_members = get_team_members('de');
+$statistics = get_statistics('de');
 
 // Начало контента
 ob_start();
@@ -99,26 +101,19 @@ ob_start();
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">500+</div>
-                <div class="text-xl opacity-90">Zufriedene Kunden</div>
-                <div class="text-sm opacity-75 mt-2">Seit Beginn der Arbeit</div>
-            </div>
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">10</div>
-                <div class="text-xl opacity-90">Jahre Erfahrung</div>
-                <div class="text-sm opacity-75 mt-2">Auf dem Frankfurter Markt</div>
-            </div>
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">50+</div>
-                <div class="text-xl opacity-90">Projekte pro Jahr</div>
-                <div class="text-sm opacity-75 mt-2">Verschiedener Komplexität</div>
-            </div>
-            <div class="text-center">
-                <div class="text-5xl font-bold mb-2">98%</div>
-                <div class="text-xl opacity-90">Zufriedene Kunden</div>
-                <div class="text-sm opacity-75 mt-2">Empfehlen uns weiter</div>
-            </div>
+            <?php if (!empty($statistics)): ?>
+                <?php foreach ($statistics as $stat): ?>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
+                        <div class="text-xl opacity-90"><?php echo htmlspecialchars($stat['label']); ?></div>
+                        <div class="text-sm opacity-75 mt-2"><?php echo htmlspecialchars($stat['description']); ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-full text-center py-8">
+                    <p class="text-white opacity-75">Statistiken werden in Kürze hinzugefügt</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -136,32 +131,35 @@ ob_start();
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-2xl font-bold text-gray-500">AM</span>
+            <?php if (!empty($team_members)): ?>
+                <?php foreach ($team_members as $member): ?>
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
+                            <?php if (!empty($member['image'])): ?>
+                                <img src="../<?php echo htmlspecialchars($member['image']); ?>" 
+                                     alt="<?php echo htmlspecialchars($member['name']); ?>" 
+                                     class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <?php 
+                                $initials = '';
+                                $name_parts = explode(' ', $member['name']);
+                                foreach ($name_parts as $part) {
+                                    $initials .= strtoupper(substr($part, 0, 1));
+                                }
+                                ?>
+                                <span class="text-2xl font-bold text-gray-500"><?php echo $initials; ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <h3 class="font-semibold text-xl text-text-primary mb-2"><?php echo htmlspecialchars($member['name']); ?></h3>
+                        <p class="text-accent-blue font-medium mb-3"><?php echo htmlspecialchars($member['position']); ?></p>
+                        <p class="text-text-secondary text-sm"><?php echo htmlspecialchars($member['description']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-full text-center py-8">
+                    <p class="text-text-secondary">Team-Informationen werden in Kürze hinzugefügt</p>
                 </div>
-                <h3 class="font-semibold text-xl text-text-primary mb-2">Alexander Müller</h3>
-                <p class="text-accent-blue font-medium mb-3">Projektleiter</p>
-                <p class="text-text-secondary text-sm">15 Jahre Erfahrung im Bauwesen. Spezialisierung: Planung und Qualitätskontrolle der Arbeiten.</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-2xl font-bold text-gray-500">MS</span>
-                </div>
-                <h3 class="font-semibold text-xl text-text-primary mb-2">Michael Schmidt</h3>
-                <p class="text-accent-blue font-medium mb-3">Allround-Meister</p>
-                <p class="text-text-secondary text-sm">12 Jahre im Beruf. Führt alle Arten von Renovierungsarbeiten auf höchstem Niveau aus.</p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-2xl font-bold text-gray-500">TW</span>
-                </div>
-                <h3 class="font-semibold text-xl text-text-primary mb-2">Thomas Wagner</h3>
-                <p class="text-accent-blue font-medium mb-3">Bodenspezialist</p>
-                <p class="text-text-secondary text-sm">10 Jahre Erfahrung in der Verlegung aller Arten von Bodenbelägen. Garantie für perfektes Ergebnis.</p>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

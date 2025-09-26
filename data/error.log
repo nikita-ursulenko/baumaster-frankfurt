@@ -2715,3 +2715,26 @@
 [2025-09-27 00:13:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
 [2025-09-27 00:13:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
 [2025-09-27 00:13:40] [INFO] Translation saved: about_content.content (ID: 1)
+[2025-09-27 00:24:03] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:24:04] [INFO] Translation saved: team_members.name (ID: 5)
+[2025-09-27 00:24:04] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:24:04] [INFO] Translation saved: team_members.position (ID: 5)
+[2025-09-27 00:24:05] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:24:05] [INFO] Translation saved: team_members.description (ID: 5)
+[2025-09-27 00:34:49] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:49] [INFO] Translation saved: statistics.label (ID: 5)
+[2025-09-27 00:34:50] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:50] [INFO] Translation saved: statistics.description (ID: 5)
+[2025-09-27 00:34:50] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:50] [INFO] Translation saved: statistics.label (ID: 6)
+[2025-09-27 00:34:51] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:51] [INFO] Translation saved: statistics.description (ID: 6)
+[2025-09-27 00:34:52] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:52] [INFO] Translation saved: statistics.label (ID: 7)
+[2025-09-27 00:34:54] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:54] [INFO] Translation saved: statistics.description (ID: 7)
+[2025-09-27 00:34:55] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:55] [INFO] Translation saved: statistics.label (ID: 8)
+[2025-09-27 00:34:55] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 00:34:55] [INFO] Translation saved: statistics.description (ID: 8)
+[2025-09-27 00:38:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
