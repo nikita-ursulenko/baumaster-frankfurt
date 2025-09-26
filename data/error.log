@@ -2436,3 +2436,67 @@
 [2025-09-26 22:37:36] [INFO] Translation saved: faq.question (ID: 22)
 [2025-09-26 22:37:37] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
 [2025-09-26 22:37:37] [INFO] Translation saved: faq.answer (ID: 22)
+[2025-09-26 22:38:03] [ERROR] Delete error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:08] [ERROR] Delete error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:10] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:10] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:13] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:13] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:13] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:13] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:14] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:14] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:15] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:15] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:15] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:15] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:15] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:15] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:16] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:16] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:16] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:16] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:17] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:17] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:17] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:17] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:20] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:20] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:38:31] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:38:31] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:41:51] [INFO] User root logged in
+[2025-09-26 22:42:41] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "=": syntax error
+[2025-09-26 22:42:51] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:45:19] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:45:33] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:45:56] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "=": syntax error
+[2025-09-26 22:47:06] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:47:25] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:48:15] [ERROR] Select error: SQLSTATE[HY000]: General error: 25 column index out of range
+[2025-09-26 22:48:18] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "NULL": syntax error
+[2025-09-26 22:48:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "NULL": syntax error
+[2025-09-26 22:48:53] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "NULL": syntax error
+[2025-09-26 22:50:57] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:51:43] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:52:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 25 column index out of range
+[2025-09-26 22:54:51] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:59:03] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:59:03] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 22:59:28] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:59:28] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 23:00:09] [INFO] FAQ status toggled: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22) -> inactive
+[2025-09-26 23:00:34] [WARNING] FAQ deleted: Как выбрать правильные материалы для ремонта ванной комнаты? (ID: 22)
+[2025-09-26 23:01:36] [INFO] FAQ status toggled: Сколько времени занимает ремонт ванной комнаты? (ID: 13) -> inactive
+[2025-09-26 23:01:41] [WARNING] FAQ deleted: Сколько времени занимает ремонт ванной комнаты? (ID: 13)
+[2025-09-26 23:02:47] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:02:47] [INFO] Translation saved: faq.question (ID: 24)
+[2025-09-26 23:02:47] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:02:47] [INFO] Translation saved: faq.answer (ID: 24)
+[2025-09-26 23:02:47] [INFO] FAQ translations created for ID: 24
+[2025-09-26 23:02:47] [INFO] New FAQ created: Тестовый вопрос для удаления (ID: 24)
+[2025-09-26 23:03:03] [INFO] FAQ status toggled: Какие материалы вы используете для отделки? (ID: 14) -> inactive
+[2025-09-26 23:03:26] [INFO] FAQ status toggled: Какие материалы вы используете для отделки? (ID: 14) -> active
+[2025-09-26 23:04:08] [WARNING] FAQ deleted: Какие материалы вы используете для отделки? (ID: 14)
+[2025-09-26 23:04:15] [WARNING] FAQ deleted: Предоставляете ли вы гарантию на работы? (ID: 15)
