@@ -12,6 +12,7 @@ require_once __DIR__ . '/ux/data.php';
 // Получение данных
 $seo = get_seo_data()['reviews'];
 $reviews = get_reviews_data();
+$statistics = get_statistics();
 
 // Начало контента
 ob_start();
@@ -36,22 +37,31 @@ ob_start();
 <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8 text-center">
-            <div>
-                <div class="text-4xl font-bold text-accent-blue mb-2">500+</div>
-                <div class="text-text-secondary">Довольных клиентов</div>
-            </div>
-            <div>
-                <div class="text-4xl font-bold text-accent-blue mb-2">4.9</div>
-                <div class="text-text-secondary">Средний рейтинг</div>
-            </div>
-            <div>
-                <div class="text-4xl font-bold text-accent-blue mb-2">98%</div>
-                <div class="text-text-secondary">Рекомендуют нас</div>
-            </div>
-            <div>
-                <div class="text-4xl font-bold text-accent-blue mb-2">100%</div>
-                <div class="text-text-secondary">Выполненных проектов</div>
-            </div>
+            <?php if (!empty($statistics)): ?>
+                <?php foreach (array_slice($statistics, 0, 4) as $stat): ?>
+                    <div>
+                        <div class="text-4xl font-bold text-accent-blue mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
+                        <div class="text-text-secondary"><?php echo htmlspecialchars($stat['label']); ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div>
+                    <div class="text-4xl font-bold text-accent-blue mb-2">500+</div>
+                    <div class="text-text-secondary">Довольных клиентов</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent-blue mb-2">4.9</div>
+                    <div class="text-text-secondary">Средний рейтинг</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent-blue mb-2">98%</div>
+                    <div class="text-text-secondary">Рекомендуют нас</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-accent-blue mb-2">100%</div>
+                    <div class="text-text-secondary">Выполненных проектов</div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
