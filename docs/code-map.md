@@ -191,6 +191,14 @@
 | `get_seo_data()`                    | function | ux/data.php  | Получить SEO данные                | `$seo = get_seo_data();`                 |
 | `get_blog_posts($limit, $category)` | function | ux/data.php  | Получить статьи блога              | `$posts = get_blog_posts(6, 'tips');`    |
 | `get_blog_post($slug)`              | function | ux/data.php  | Получить статью блога              | `$post = get_blog_post('article-slug');` |
+| `get_about_content($section, $lang)` | function | ux/data.php  | Получить контент страницы "О компании" | `$data = get_about_content('history', 'de');` |
+| `save_about_content($section, $data, $lang)` | function | ux/data.php  | Сохранить контент страницы "О компании" | `save_about_content('history', $data, 'ru');` |
+| `get_team_members($lang)`           | function | ux/data.php  | Получить список сотрудников       | `$members = get_team_members('de');`      |
+| `save_team_member($data, $lang)`    | function | ux/data.php  | Сохранить сотрудника              | `save_team_member($member_data, 'ru');`   |
+| `delete_team_member($id)`           | function | ux/data.php  | Удалить сотрудника                | `delete_team_member(1);`                 |
+| `get_team_member($id, $lang)`       | function | ux/data.php  | Получить сотрудника по ID         | `$member = get_team_member(1, 'de');`    |
+| `get_statistics($lang)`             | function | ux/data.php  | Получить статистику компании      | `$stats = get_statistics('de');`          |
+| `save_statistics($data, $lang)`     | function | ux/data.php  | Сохранить статистику компании     | `save_statistics($stats_data, 'ru');`     |
 
 ### Функции админ-панели
 
@@ -263,3 +271,13 @@
   - Исправлена функция удаления постов - добавлено скрытое поле ID в форму
   - Улучшена функция delete_post - удаление связанных переводов и изображений
   - Протестированы все функции: админ-панель, публичные страницы, переводы, пагинация, удаление
+- **2024-09-27**: Реализована полная функциональность управления страницей "О компании"
+  - Создан админ-раздел /admin/about.php с тремя вкладками: "Наша история", "Наша команда", "Статистика"
+  - Добавлены функции для управления контентом: get_about_content, save_about_content
+  - Создана таблица team_members и функции: get_team_members, save_team_member, delete_team_member, get_team_member
+  - Создана таблица statistics и функции: get_statistics, save_statistics
+  - Реализован автоматический перевод для всех разделов через TranslationManager
+  - Обновлены frontend страницы /about.php и /de/about.php для динамического отображения данных
+  - Добавлена поддержка загрузки изображений для истории компании и фотографий сотрудников
+  - Реализован полный CRUD для сотрудников с модальными окнами в админ-панели
+  - Протестированы все функции: создание, редактирование, удаление, автоперевод, многоязычность
