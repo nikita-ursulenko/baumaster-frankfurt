@@ -175,6 +175,17 @@ ob_start();
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
+        
+        <!-- Кнопка "Все статьи" -->
+        <div class="text-center mt-12">
+            <a href="blog_all.php" 
+               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-accent-blue hover:bg-accent-blue-dark transition-colors duration-200">
+                Все статьи
+                <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
     </div>
 </section>
 

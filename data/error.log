@@ -2500,3 +2500,35 @@
 [2025-09-26 23:03:26] [INFO] FAQ status toggled: Какие материалы вы используете для отделки? (ID: 14) -> active
 [2025-09-26 23:04:08] [WARNING] FAQ deleted: Какие материалы вы используете для отделки? (ID: 14)
 [2025-09-26 23:04:15] [WARNING] FAQ deleted: Предоставляете ли вы гарантию на работы? (ID: 15)
+[2025-09-26 23:06:31] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-26 23:07:22] [WARNING] FAQ deleted: Можно ли жить в квартире во время ремонта? (ID: 16)
+[2025-09-26 23:07:24] [WARNING] FAQ deleted: Как рассчитывается стоимость работ? (ID: 17)
+[2025-09-26 23:07:25] [WARNING] FAQ deleted: Работаете ли вы в выходные дни? (ID: 18)
+[2025-09-26 23:07:26] [WARNING] FAQ deleted: Какие материалы вы используете? (ID: 5)
+[2025-09-26 23:07:27] [WARNING] FAQ deleted: Нужно ли получать разрешения на ремонт? (ID: 19)
+[2025-09-26 23:07:28] [WARNING] FAQ deleted: Сколько стоит выезд мастера для замера? (ID: 4)
+[2025-09-26 23:07:29] [WARNING] FAQ deleted: Что входит в стоимость уборки после ремонта? (ID: 20)
+[2025-09-26 23:07:30] [WARNING] FAQ deleted: Даете ли вы гарантию на работы? (ID: 11)
+[2025-09-26 23:07:30] [WARNING] FAQ deleted: Можно ли жить в квартире во время ремонта? (ID: 3)
+[2025-09-26 23:07:31] [WARNING] FAQ deleted: Какие материалы вы используете? (ID: 10)
+[2025-09-26 23:07:32] [WARNING] FAQ deleted: Какие гарантии вы предоставляете? (ID: 2)
+[2025-09-26 23:07:33] [WARNING] FAQ deleted: Сколько времени занимает ремонт ванной комнаты? (ID: 9)
+[2025-09-26 23:07:34] [WARNING] FAQ deleted: Сколько времени занимает ремонт квартиры? (ID: 1)
+[2025-09-26 23:07:34] [WARNING] FAQ deleted: Тестовый вопрос (ID: 23)
+[2025-09-26 23:07:35] [WARNING] FAQ deleted: Какой минимальный заказ для ремонта? (ID: 8)
+[2025-09-26 23:07:36] [WARNING] FAQ deleted: Как долго действует гарантия на работы? (ID: 7)
+[2025-09-26 23:12:48] [ERROR] Insert error: SQLSTATE[23000]: Integrity constraint violation: 19 UNIQUE constraint failed: blog_posts.slug
+[2025-09-26 23:13:34] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:13:34] [INFO] Translation saved: blog_posts.title (ID: 11)
+[2025-09-26 23:13:36] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:13:36] [INFO] Translation saved: blog_posts.excerpt (ID: 11)
+[2025-09-26 23:13:37] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:13:37] [INFO] Translation saved: blog_posts.content (ID: 11)
+[2025-09-26 23:13:38] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:13:38] [INFO] Translation saved: blog_posts.meta_title (ID: 11)
+[2025-09-26 23:13:39] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:13:39] [INFO] Translation saved: blog_posts.meta_description (ID: 11)
+[2025-09-26 23:13:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 23:13:40] [INFO] Translation saved: blog_posts.keywords (ID: 11)
+[2025-09-26 23:13:40] [INFO] Auto-translation completed for blog post ID: 11
+[2025-09-26 23:13:40] [INFO] New blog post created: Тестирование автоматического перевода статей блога - новая версия (ID: 11)

@@ -393,13 +393,15 @@ function get_seo_data() {
 /**
  * Получение списка статей блога для главной страницы блога
  */
-function get_blog_posts($limit = 6, $category = null) {
+function get_blog_posts($limit = 6, $category = null, $lang = 'ru') {
     // Подключаем конфигурацию и базу данных
     require_once __DIR__ . '/../config.php';
     require_once __DIR__ . '/../database.php';
+    require_once __DIR__ . '/../integrations/translation/TranslationManager.php';
 
     try {
         $db = get_database();
+        $translation_manager = new TranslationManager();
 
         $filters = ['status' => 'published'];
         if ($category) {
@@ -413,6 +415,12 @@ function get_blog_posts($limit = 6, $category = null) {
 
         $formatted_posts = [];
         foreach ($posts as $post) {
+            // Получаем переводы для немецкого языка
+            $translated_content = null;
+            if ($lang === 'de') {
+                $translated_content = $translation_manager->getTranslatedContent('blog_posts', $post['id'], 'de');
+            }
+
             // Декодируем теги
             $tags = [];
             if (!empty($post['tags'])) {
@@ -422,10 +430,10 @@ function get_blog_posts($limit = 6, $category = null) {
 
             $formatted_posts[] = [
                 'id' => $post['id'],
-                'title' => $post['title'],
+                'title' => $translated_content['title'] ?? $post['title'],
                 'slug' => $post['slug'],
-                'excerpt' => $post['excerpt'],
-                'content' => $post['content'],
+                'excerpt' => $translated_content['excerpt'] ?? $post['excerpt'],
+                'content' => $translated_content['content'] ?? $post['content'],
                 'category' => $post['category'],
                 'post_type' => $post['post_type'],
                 'tags' => $tags,
@@ -440,6 +448,64 @@ function get_blog_posts($limit = 6, $category = null) {
 
     } catch (Exception $e) {
         error_log("Ошибка загрузки статей блога: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Получение статей блога с пагинацией
+ */
+function get_blog_posts_paginated($limit = 9, $offset = 0, $lang = 'ru') {
+    // Подключаем конфигурацию и базу данных
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+    require_once __DIR__ . '/../integrations/translation/TranslationManager.php';
+
+    try {
+        $db = get_database();
+        $translation_manager = new TranslationManager();
+
+        $posts = $db->select('blog_posts', ['status' => 'published'], [
+            'order_by' => 'published_at DESC',
+            'limit' => $limit,
+            'offset' => $offset
+        ]);
+
+        $formatted_posts = [];
+        foreach ($posts as $post) {
+            // Получаем переводы для немецкого языка
+            $translated_content = null;
+            if ($lang === 'de') {
+                $translated_content = $translation_manager->getTranslatedContent('blog_posts', $post['id'], 'de');
+            }
+
+            // Декодируем теги
+            $tags = [];
+            if (!empty($post['tags'])) {
+                $decoded = json_decode($post['tags'], true);
+                $tags = is_array($decoded) ? $decoded : [];
+            }
+
+            $formatted_posts[] = [
+                'id' => $post['id'],
+                'title' => $translated_content['title'] ?? $post['title'],
+                'slug' => $post['slug'],
+                'excerpt' => $translated_content['excerpt'] ?? $post['excerpt'],
+                'content' => $translated_content['content'] ?? $post['content'],
+                'category' => $post['category'],
+                'post_type' => $post['post_type'],
+                'tags' => $tags,
+                'featured_image' => !empty($post['featured_image']) ? '/assets/uploads/blog/' . $post['featured_image'] : '',
+                'views' => $post['views'],
+                'published_at' => $post['published_at'],
+                'created_at' => $post['created_at']
+            ];
+        }
+
+        return $formatted_posts;
+
+    } catch (Exception $e) {
+        error_log("Ошибка загрузки статей блога с пагинацией: " . $e->getMessage());
         return [];
     }
 }

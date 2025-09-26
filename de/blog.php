@@ -15,7 +15,7 @@ require_once __DIR__ . '/../ux/data.php';
 // Получение данных
 $seo = get_seo_data()['blog'];
 $faq = get_faq_data_translated('de');
-$blog_posts = get_blog_posts(6);
+$blog_posts = get_blog_posts(6, null, 'de');
 
 // Начало контента
 ob_start();
@@ -177,6 +177,17 @@ ob_start();
                     </article>
                 <?php endforeach; ?>
             <?php endif; ?>
+        </div>
+        
+        <!-- Кнопка "Больше статей" -->
+        <div class="text-center mt-12">
+            <a href="blog_all.php" 
+               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-accent-blue hover:bg-accent-blue-dark transition-colors duration-200">
+                Alle Artikel anzeigen
+                <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
         </div>
     </div>
 </section>
