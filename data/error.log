@@ -2414,3 +2414,16 @@
 [2025-09-26 20:41:52] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
 [2025-09-26 21:07:06] [INFO] User root logged in
 [2025-09-26 22:05:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table faq has no column named featured
+[2025-09-26 22:20:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:20:14] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-26 22:20:17] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:20:17] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-26 22:20:21] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:20:21] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-26 22:21:57] [INFO] User root logged in
+[2025-09-26 22:24:14] [INFO] User root logged in
+[2025-09-26 22:26:08] [INFO] User root logged in
+[2025-09-26 22:26:43] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:26:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-26 22:26:45] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:26:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error

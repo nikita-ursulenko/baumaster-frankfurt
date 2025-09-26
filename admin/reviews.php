@@ -263,7 +263,6 @@ switch ($action) {
         $search = sanitize_input($_GET['search'] ?? '');
         $status_filter = $_GET['status'] ?? '';
         $rating_filter = $_GET['rating'] ?? '';
-        $verified_filter = $_GET['verified'] ?? '';
         
         if (!empty($search)) {
             $filters['client_name LIKE'] = "%{$search}%";
@@ -273,9 +272,6 @@ switch ($action) {
         }
         if (!empty($rating_filter)) {
             $filters['rating'] = intval($rating_filter);
-        }
-        if (!empty($verified_filter)) {
-            $filters['verified'] = intval($verified_filter);
         }
         
         $reviews = $db->select('reviews', $filters, ['order' => 'sort_order DESC, created_at DESC']);
@@ -361,18 +357,6 @@ ob_start();
                     'label' => __('reviews.rating', 'Рейтинг'),
                     'value' => $rating_filter,
                     'options' => $rating_options,
-                    'placeholder' => __('common.all', 'Все')
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'verified',
-                    'label' => __('reviews.verified', 'Проверенные'),
-                    'value' => $verified_filter,
-                    'options' => [
-                        ['value' => '', 'text' => __('common.all', 'Все')],
-                        ['value' => '1', 'text' => __('reviews.verified_yes', 'Проверенные')],
-                        ['value' => '0', 'text' => __('reviews.verified_no', 'Не проверенные')]
-                    ],
                     'placeholder' => __('common.all', 'Все')
                 ]
             ],
