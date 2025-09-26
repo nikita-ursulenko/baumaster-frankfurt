@@ -886,6 +886,7 @@ function get_page_language_mapping() {
         'about.php' => 'about.php',
         'review.php' => 'review.php',
         'blog.php' => 'blog.php',
+        'blog_post.php' => 'blog_post.php',
         'contact.php' => 'contact.php'
     ];
 }
@@ -917,6 +918,32 @@ function get_language_switch_url($target_language) {
     
     // Определяем целевую страницу
     $target_page = $page_mapping[$current_page] ?? 'index.php';
+    
+    // Специальная обработка для страниц постов блога
+    if ($current_page === 'blog_post.php') {
+        $slug = $_GET['slug'] ?? '';
+        if ($slug) {
+            if ($target_language === 'de') {
+                // Переключаемся на немецкий
+                if ($is_german) {
+                    // Уже на немецком, возвращаем текущий URL
+                    return $_SERVER['REQUEST_URI'];
+                } else {
+                    // Переходим на немецкую версию
+                    return '/de/blog_post.php?slug=' . urlencode($slug);
+                }
+            } else {
+                // Переключаемся на русский
+                if ($is_german) {
+                    // Переходим на русскую версию
+                    return '/blog_post.php?slug=' . urlencode($slug);
+                } else {
+                    // Уже на русском, возвращаем текущий URL
+                    return $_SERVER['REQUEST_URI'];
+                }
+            }
+        }
+    }
     
     if ($target_language === 'de') {
         // Переключаемся на немецкий

@@ -513,7 +513,7 @@ function get_blog_posts_paginated($limit = 9, $offset = 0, $lang = 'ru') {
 /**
  * Получение отдельной статьи блога по slug
  */
-function get_blog_post($slug) {
+function get_blog_post($slug, $lang = 'ru') {
     // Подключаем конфигурацию и базу данных
     require_once __DIR__ . '/../config.php';
     require_once __DIR__ . '/../database.php';
@@ -527,6 +527,22 @@ function get_blog_post($slug) {
 
         if (!$post) {
             return null;
+        }
+
+        // Получаем переводы, если язык не русский
+        if ($lang !== 'ru') {
+            $translations = $db->select('translations', [
+                'source_table' => 'blog_posts',
+                'source_id' => $post['id'],
+                'target_lang' => $lang
+            ]);
+            
+            // Применяем переводы
+            foreach ($translations as $translation) {
+                if (isset($post[$translation['source_field']])) {
+                    $post[$translation['source_field']] = $translation['translated_text'];
+                }
+            }
         }
 
         // Декодируем теги

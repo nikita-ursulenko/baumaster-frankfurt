@@ -1,19 +1,22 @@
 <?php
 /**
- * Страница отдельной статьи блога
- * Baumaster Frontend - Blog Post Page
+ * Страница отдельной статьи блога - немецкая версия
+ * Baumaster Frontend - Blog Post Page (German)
  */
 
+// Устанавливаем язык
+define('CURRENT_LANG', 'de');
+
 // Подключение компонентов
-require_once __DIR__ . '/ux/layout.php';
-require_once __DIR__ . '/ux/components.php';
-require_once __DIR__ . '/ux/data.php';
+require_once __DIR__ . '/../ux/layout.php';
+require_once __DIR__ . '/../ux/components.php';
+require_once __DIR__ . '/../ux/data.php';
 
 // Получение slug из URL
 $slug = $_GET['slug'] ?? '';
 
 // Получение данных статьи
-$post = get_blog_post($slug);
+$post = get_blog_post($slug, 'de');
 
 if (!$post) {
     // Статья не найдена - перенаправляем на 404 или блог
@@ -22,21 +25,21 @@ if (!$post) {
         <section class="pt-16 py-20">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="font-montserrat font-semibold text-4xl text-text-primary mb-4">
-                    Статья не найдена
+                    Artikel nicht gefunden
                 </h1>
                 <p class="text-xl text-text-secondary mb-8">
-                    К сожалению, запрашиваемая статья не существует или была удалена.
+                    Leider existiert der angeforderte Artikel nicht oder wurde gelöscht.
                 </p>
                 <a href="blog.php" class="inline-flex items-center px-6 py-3 bg-accent-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-                    Вернуться к блогу
+                    Zurück zum Blog
                 </a>
             </div>
         </section>
     ';
 
     render_frontend_layout([
-        'title' => 'Статья не найдена | ' . SITE_NAME,
-        'meta_description' => 'Запрашиваемая статья не найдена',
+        'title' => 'Artikel nicht gefunden | ' . SITE_NAME,
+        'meta_description' => 'Angeforderter Artikel nicht gefunden',
         'active_page' => 'blog',
         'content' => $content
     ]);
@@ -58,9 +61,9 @@ ob_start();
         <!-- Breadcrumb -->
         <nav class="mb-8">
             <ol class="flex items-center space-x-2 text-sm text-gray-600">
-                <li><a href="index.php" class="hover:text-accent-blue">Главная</a></li>
+                <li><a href="index.php" class="hover:text-accent-blue">Startseite</a></li>
                 <li>/</li>
-                <li><a href="blog.php" class="hover:text-accent-blue">Блог</a></li>
+                <li><a href="blog.php" class="hover:text-accent-blue">Blog</a></li>
                 <li>/</li>
                 <li class="text-gray-900 font-medium"><?php echo htmlspecialchars($post['title']); ?></li>
             </ol>
@@ -72,10 +75,10 @@ ob_start();
             <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full bg-accent-blue/10 text-accent-blue mb-4">
                 <?php
                 $categories = [
-                    'tips' => 'Советы',
+                    'tips' => 'Tipps',
                     'faq' => 'FAQ',
-                    'news' => 'Новости',
-                    'guides' => 'Руководства'
+                    'news' => 'Neuigkeiten',
+                    'guides' => 'Anleitungen'
                 ];
                 echo htmlspecialchars($categories[$post['category']] ?? ucfirst($post['category']));
                 ?>
@@ -94,7 +97,7 @@ ob_start();
             <!-- Article Meta -->
             <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
                 <span>📅 <?php echo format_date($post['published_at'], 'd.m.Y'); ?></span>
-                <span>👁 <?php echo $post['views']; ?> просмотров</span>
+                <span>👁 <?php echo $post['views']; ?> Aufrufe</span>
                 <?php if (!empty($post['post_type']) && $post['post_type'] !== 'article'): ?>
                     <span>📝 <?php echo ucfirst($post['post_type']); ?></span>
                 <?php endif; ?>
@@ -147,7 +150,7 @@ ob_start();
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                             <div>
-                                <div class="text-sm text-gray-500">Предыдущая статья</div>
+                                <div class="text-sm text-gray-500">Vorheriger Artikel</div>
                                 <div class="font-medium"><?php echo htmlspecialchars($post['navigation']['prev']['title']); ?></div>
                             </div>
                         </a>
@@ -159,7 +162,7 @@ ob_start();
                         <a href="blog_post.php?slug=<?php echo htmlspecialchars($post['navigation']['next']['slug']); ?>"
                            class="flex items-center text-accent-blue hover:text-blue-700 transition-colors text-right">
                             <div>
-                                <div class="text-sm text-gray-500">Следующая статья</div>
+                                <div class="text-sm text-gray-500">Nächster Artikel</div>
                                 <div class="font-medium"><?php echo htmlspecialchars($post['navigation']['next']['title']); ?></div>
                             </div>
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,10 +184,10 @@ ob_start();
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="font-montserrat font-semibold text-3xl text-text-primary mb-4">
-                Похожие статьи
+                Ähnliche Artikel
             </h2>
             <p class="text-xl text-text-secondary">
-                Читайте также эти материалы
+                Lesen Sie auch diese Materialien
             </p>
         </div>
 
@@ -199,7 +202,7 @@ ob_start();
                         </div>
                     <?php else: ?>
                         <div class="h-48 bg-gray-200 flex items-center justify-center">
-                            <span class="text-gray-500">Изображение статьи</span>
+                            <span class="text-gray-500">Artikelbild</span>
                         </div>
                     <?php endif; ?>
 
@@ -220,7 +223,7 @@ ob_start();
                         <?php endif; ?>
                         <a href="blog_post.php?slug=<?php echo htmlspecialchars($related['slug']); ?>"
                            class="text-accent-blue font-medium hover:underline">
-                            Читать далее →
+                            Weiterlesen →
                         </a>
                     </div>
                 </article>
@@ -234,21 +237,21 @@ ob_start();
 <section class="py-16 bg-premium-gray">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="font-montserrat font-semibold text-3xl text-text-primary mb-6">
-            Есть вопросы по ремонту?
+            Haben Sie Fragen zur Renovierung?
         </h2>
         <p class="text-xl text-text-secondary mb-8 max-w-2xl mx-auto">
-            Свяжитесь с нами, и мы ответим на все ваши вопросы о ремонте и отделке.
+            Kontaktieren Sie uns, und wir beantworten alle Ihre Fragen zu Renovierungen und Innenausbau.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <?php render_frontend_button([
-                'text' => 'Задать вопрос',
+                'text' => 'Frage stellen',
                 'variant' => 'primary',
                 'size' => 'lg',
                 'href' => 'contact.php'
             ]); ?>
             <?php render_frontend_button([
-                'text' => 'Позвонить сейчас',
+                'text' => 'Jetzt anrufen',
                 'variant' => 'outline',
                 'size' => 'lg',
                 'onclick' => 'window.open("tel:+4969123456789")'
@@ -267,6 +270,6 @@ render_frontend_layout([
     'meta_keywords' => $seo_keywords,
     'active_page' => 'blog',
     'content' => $content,
-    'canonical_url' => SITE_URL . '/blog_post.php?slug=' . urlencode($slug)
+    'canonical_url' => SITE_URL . '/de/blog_post.php?slug=' . urlencode($slug)
 ]);
 ?>

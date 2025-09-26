@@ -778,7 +778,7 @@ ob_start();
                             'type' => 'datetime-local',
                             'name' => 'published_at',
                             'label' => __('blog.publish_date', 'Дата публикации'),
-                            'value' => (isset($current_post['published_at']) && $current_post['published_at']) ? date('Y-m-d\TH:i', strtotime($current_post['published_at'])) : ''
+                            'value' => (isset($current_post['published_at']) && $current_post['published_at']) ? date('Y-m-d\TH:i', strtotime($current_post['published_at'])) : date('Y-m-d\TH:i')
                         ]); ?>
                         
                         <!-- Рекомендуемая статья -->
