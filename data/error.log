@@ -2532,3 +2532,4 @@
 [2025-09-26 23:13:40] [INFO] Translation saved: blog_posts.keywords (ID: 11)
 [2025-09-26 23:13:40] [INFO] Auto-translation completed for blog post ID: 11
 [2025-09-26 23:13:40] [INFO] New blog post created: Тестирование автоматического перевода статей блога - новая версия (ID: 11)
+[2025-09-26 23:21:20] [WARNING] Blog post deleted: Тестирование автоматического перевода статей блога - новая версия (ID: 11)

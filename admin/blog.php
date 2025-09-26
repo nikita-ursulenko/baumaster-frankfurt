@@ -182,6 +182,23 @@ function delete_post($post_id) {
         return ['success' => false, 'error' => __('blog.not_found', 'Статья не найдена')];
     }
     
+    // Удаляем связанные переводы
+    $db->delete('translations', ['source_table' => 'blog_posts', 'source_id' => $post_id]);
+    
+    // Удаляем изображение, если есть
+    if (!empty($post['featured_image'])) {
+        $image_path = UPLOADS_PATH . 'blog/' . $post['featured_image'];
+        if (file_exists($image_path)) {
+            unlink($image_path);
+        }
+        
+        // Удаляем миниатюру, если есть
+        $thumb_path = UPLOADS_PATH . 'blog/thumbs/' . $post['featured_image'];
+        if (file_exists($thumb_path)) {
+            unlink($thumb_path);
+        }
+    }
+    
     if ($db->delete('blog_posts', ['id' => $post_id])) {
         write_log("Blog post deleted: {$post['title']} (ID: $post_id)", 'WARNING');
         log_user_activity('blog_delete', 'blog_posts', $post_id);
@@ -263,7 +280,8 @@ if ($_POST) {
                 break;
                 
             case 'delete':
-                $result = delete_post($post_id);
+                $delete_id = intval($_POST['id'] ?? 0);
+                $result = delete_post($delete_id);
                 if ($result['success']) {
                     $success_message = $result['message'];
                     $action = 'list';
@@ -554,6 +572,7 @@ ob_start();
                                 
                                 <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('blog.confirm_delete', 'Вы уверены, что хотите удалить эту статью?'); ?>');">
                                     <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id" value="<?php echo $post['id']; ?>">
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                                     <button type="submit" class="text-red-400 hover:text-red-600 p-1" title="<?php echo __('common.delete', 'Удалить'); ?>">
                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
