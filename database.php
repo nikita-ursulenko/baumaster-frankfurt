@@ -149,6 +149,23 @@ class Database {
                 )
             ",
             
+            'faq' => "
+                CREATE TABLE IF NOT EXISTS faq (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    question TEXT NOT NULL,
+                    answer TEXT NOT NULL,
+                    category VARCHAR(50) DEFAULT 'general',
+                    status VARCHAR(20) DEFAULT 'active',
+                    sort_order INTEGER DEFAULT 0,
+                    featured INTEGER DEFAULT 0,
+                    admin_notes TEXT,
+                    created_by INTEGER,
+                    updated_by INTEGER,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )
+            ",
+            
             'blog_posts' => "
                 CREATE TABLE IF NOT EXISTS blog_posts (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -263,6 +280,7 @@ class Database {
             'services.json' => [],
             'portfolio.json' => [],
             'reviews.json' => [],
+            'faq.json' => [],
             'blog_posts.json' => [],
             'settings.json' => [],
             'activity_log.json' => []

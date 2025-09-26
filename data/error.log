@@ -2413,3 +2413,4 @@
 [2025-09-26 20:41:52] [INFO] FAQ auto-translated to German: ID 8
 [2025-09-26 20:41:52] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table activity_log has no column named updated_at
 [2025-09-26 21:07:06] [INFO] User root logged in
+[2025-09-26 22:05:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table faq has no column named featured

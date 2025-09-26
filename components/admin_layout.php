@@ -124,6 +124,12 @@ function get_admin_menu_items($active_menu = 'dashboard', $current_user = null) 
             'icon' => 'reviews',
             'active' => $active_menu === 'reviews'
         ],
+        'faq' => [
+            'title' => __('menu.faq', 'FAQ'),
+            'url' => 'faq.php',
+            'icon' => 'question-mark-circle',
+            'active' => $active_menu === 'faq'
+        ],
         'blog' => [
             'title' => __('menu.blog', 'Блог'),
             'url' => 'blog.php',
