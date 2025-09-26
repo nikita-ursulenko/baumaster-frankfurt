@@ -186,6 +186,7 @@
 | `get_portfolio_data()`              | function | ux/data.php  | Получить данные портфолио          | `$portfolio = get_portfolio_data();`     |
 | `get_reviews_data()`                | function | ux/data.php  | Получить данные отзывов            | `$reviews = get_reviews_data();`         |
 | `get_faq_data()`                    | function | ux/data.php  | Получить данные FAQ из таблицы faq | `$faq = get_faq_data();`                 |
+| `get_faq_data_translated($lang)`    | function | ux/data.php  | Получить переведенные данные FAQ   | `$faq = get_faq_data_translated('de');`  |
 | `get_contact_info()`                | function | ux/data.php  | Получить контактную информацию     | `$contact = get_contact_info();`         |
 | `get_seo_data()`                    | function | ux/data.php  | Получить SEO данные                | `$seo = get_seo_data();`                 |
 | `get_blog_posts($limit, $category)` | function | ux/data.php  | Получить статьи блога              | `$posts = get_blog_posts(6, 'tips');`    |
@@ -245,3 +246,11 @@
 - **2024-01-22**: Документированы классы и методы
 - **2024-01-22**: Обновлена структура согласно rules.mdc
 - **2024-01-22**: Добавлена функциональность FAQ - меню в админке, отображение на frontend, функции управления
+- **2024-01-26**: Реализована полная функциональность FAQ с автоматическим переводом
+  - Добавлена таблица translations для хранения переводов
+  - Интегрирован TranslationManager в create_faq и update_faq
+  - Создана функция get_faq_data_translated для немецкой версии
+  - Обновлен de/blog.php для использования переведенных FAQ
+  - Реализовано удаление FAQ (hard delete)
+  - Добавлено переключение статуса активный/неактивный
+  - Протестированы все функции: создание, редактирование, удаление, статусы
