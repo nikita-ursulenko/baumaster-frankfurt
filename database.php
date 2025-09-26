@@ -157,10 +157,6 @@ class Database {
                     category VARCHAR(50) DEFAULT 'general',
                     status VARCHAR(20) DEFAULT 'active',
                     sort_order INTEGER DEFAULT 0,
-                    featured INTEGER DEFAULT 0,
-                    admin_notes TEXT,
-                    created_by INTEGER,
-                    updated_by INTEGER,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
@@ -226,6 +222,25 @@ class Database {
                     target_lang VARCHAR(5) NOT NULL,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     UNIQUE(source_text, source_lang, target_lang)
+                )
+            ",
+            
+            'translations' => "
+                CREATE TABLE IF NOT EXISTS translations (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    source_table VARCHAR(50) NOT NULL,
+                    source_id INTEGER NOT NULL,
+                    source_field VARCHAR(50) NOT NULL,
+                    source_lang VARCHAR(5) NOT NULL,
+                    target_lang VARCHAR(5) NOT NULL,
+                    source_text TEXT NOT NULL,
+                    translated_text TEXT NOT NULL,
+                    translation_service VARCHAR(50) DEFAULT 'libretranslate',
+                    confidence DECIMAL(3,2) DEFAULT 0.95,
+                    auto_translated INTEGER DEFAULT 1,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE(source_table, source_id, source_field, target_lang)
                 )
             "
         ];

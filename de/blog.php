@@ -14,7 +14,7 @@ require_once __DIR__ . '/../ux/data.php';
 
 // Получение данных
 $seo = get_seo_data()['blog'];
-$faq = get_faq_data();
+$faq = get_faq_data_translated('de');
 $blog_posts = get_blog_posts(6);
 
 // Начало контента

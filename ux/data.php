@@ -188,6 +188,45 @@ function get_faq_data() {
 }
 
 /**
+ * Получение переведенных данных FAQ для немецкой версии
+ */
+function get_faq_data_translated($lang = 'de') {
+    // Подключаем конфигурацию и базу данных
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+    require_once __DIR__ . '/../integrations/translation/FastTranslationManager.php';
+    
+    try {
+        $db = get_database();
+        $translation_manager = new FastTranslationManager();
+        
+        // Получаем FAQ из базы данных
+        $faq = $db->select('faq', ['status' => 'active'], ['order' => 'sort_order DESC, created_at DESC']);
+        
+        // Преобразуем данные из базы в нужный формат с переводами
+        $formatted_faq = [];
+        foreach ($faq as $item) {
+            // Получаем переводы для этого FAQ
+            $translations = $translation_manager->getTranslatedContent('faq', $item['id'], $lang);
+            
+            $formatted_faq[] = [
+                'id' => $item['id'],
+                'question' => $translations['question'] ?? $item['question'],
+                'answer' => $translations['answer'] ?? $item['answer'],
+                'category' => $item['category'] ?? 'general',
+                'sort_order' => $item['sort_order'] ?? 0
+            ];
+        }
+        
+        return $formatted_faq;
+    } catch (Exception $e) {
+        // В случае ошибки возвращаем пустой массив
+        error_log("Ошибка загрузки переведенных FAQ: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
  * Получение контактной информации из настроек
  */
 function get_contact_info() {

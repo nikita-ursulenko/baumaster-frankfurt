@@ -270,7 +270,8 @@ class TranslationManager {
             'services' => ['title', 'description', 'meta_title', 'meta_description', 'keywords'],
             'portfolio' => ['title', 'description', 'meta_title', 'meta_description'],
             'blog_posts' => ['title', 'excerpt', 'content', 'meta_title', 'meta_description', 'keywords'],
-            'reviews' => ['review_text']
+            'reviews' => ['review_text'],
+            'faq' => ['question', 'answer']
         ];
         
         return $translatable_fields[$table] ?? [];
@@ -288,7 +289,7 @@ class TranslationManager {
             $stats['total_translations'] = count($this->db->select('translations'));
             
             // Переводы по таблицам
-            $tables = ['services', 'portfolio', 'blog_posts', 'reviews'];
+            $tables = ['services', 'portfolio', 'blog_posts', 'reviews', 'faq'];
             foreach ($tables as $table) {
                 $table_translations = $this->db->select('translations', ['source_table' => $table]);
                 $stats['by_table'][$table] = count($table_translations);

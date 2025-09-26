@@ -7,6 +7,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../database.php';
 require_once COMPONENTS_PATH . 'admin_layout.php';
+require_once __DIR__ . '/../integrations/translation/TranslationManager.php';
 
 // Настройки страницы
 $page_title = __('faq.title', 'Управление FAQ');
@@ -44,6 +45,23 @@ function create_faq($data) {
     $faq_id = $db->insert('faq', $faq_data);
     
     if ($faq_id) {
+        // Автоматический перевод на немецкий язык
+        try {
+            $translation_manager = new TranslationManager();
+            $fields_to_translate = [
+                'question' => $faq_data['question'],
+                'answer' => $faq_data['answer']
+            ];
+            
+            $translated_fields = $translation_manager->autoTranslateContent('faq', $faq_id, $fields_to_translate, 'ru', 'de');
+            
+            if (!empty($translated_fields)) {
+                write_log("FAQ translations created for ID: $faq_id", 'INFO');
+            }
+        } catch (Exception $e) {
+            write_log("FAQ translation error: " . $e->getMessage(), 'ERROR');
+        }
+        
         write_log("New FAQ created: {$faq_data['question']} (ID: $faq_id)", 'INFO');
         log_user_activity('faq_create', 'faq', $faq_id);
         return [
@@ -78,6 +96,23 @@ function update_faq($faq_id, $data) {
     ];
     
     if ($db->update('faq', $update_data, ['id' => $faq_id])) {
+        // Обновляем переводы на немецкий язык
+        try {
+            $translation_manager = new TranslationManager();
+            $fields_to_translate = [
+                'question' => $update_data['question'],
+                'answer' => $update_data['answer']
+            ];
+            
+            $translated_fields = $translation_manager->autoTranslateContent('faq', $faq_id, $fields_to_translate, 'ru', 'de');
+            
+            if (!empty($translated_fields)) {
+                write_log("FAQ translations updated for ID: $faq_id", 'INFO');
+            }
+        } catch (Exception $e) {
+            write_log("FAQ translation update error: " . $e->getMessage(), 'ERROR');
+        }
+        
         write_log("FAQ updated: {$existing_faq['question']} (ID: $faq_id)", 'INFO');
         log_user_activity('faq_update', 'faq', $faq_id, $existing_faq, $update_data);
         return ['success' => true, 'message' => __('faq.update_success', 'FAQ успешно обновлен')];

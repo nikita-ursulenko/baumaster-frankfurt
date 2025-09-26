@@ -2427,3 +2427,12 @@
 [2025-09-26 22:26:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
 [2025-09-26 22:26:45] [ERROR] Update error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
 [2025-09-26 22:26:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-26 22:33:00] [INFO] User root logged in
+[2025-09-26 22:33:14] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:33:29] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:35:32] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:36:29] [ERROR] Insert error: SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+[2025-09-26 22:37:36] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 22:37:36] [INFO] Translation saved: faq.question (ID: 22)
+[2025-09-26 22:37:37] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-26 22:37:37] [INFO] Translation saved: faq.answer (ID: 22)
