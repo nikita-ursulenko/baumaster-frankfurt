@@ -84,18 +84,6 @@ ob_start();
 <?php render_error_message($error_message); ?>
 <?php render_success_message($success_message); ?>
 
-<!-- Заголовок -->
-<div class="flex justify-between items-center mb-6">
-    <div>
-        <h2 class="text-xl font-semibold text-gray-900">
-            <?php echo get_icon('phone', 'w-6 h-6 mr-2 inline'); ?>
-            <?php echo __('sms_integration.title', 'SMS Интеграция'); ?>
-        </h2>
-        <p class="text-sm text-gray-600 mt-1">
-            <?php echo __('sms_integration.description', 'Управление SMS и Email уведомлениями'); ?>
-        </p>
-    </div>
-</div>
 
 <!-- Email настройки -->
 <div class="mb-6">
