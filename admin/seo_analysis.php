@@ -9,6 +9,7 @@ require_once __DIR__ . '/../database.php';
 require_once COMPONENTS_PATH . 'admin_layout.php';
 require_once __DIR__ . '/../seo/seo_utils.php';
 require_once __DIR__ . '/../seo/performance.php';
+require_once __DIR__ . '/../seo/image_optimizer.php';
 
 // Проверка прав доступа
 $current_user = get_current_admin_user();

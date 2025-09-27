@@ -142,9 +142,10 @@ function create_webp_image($source_path, $destination_path = null, $quality = 85
 }
 
 /**
- * Создание миниатюры
+ * Создание миниатюры для SEO оптимизатора
  */
-function create_thumbnail($source_path, $destination_path, $width = 300, $height = 200, $crop = true) {
+if (!function_exists('create_seo_thumbnail')) {
+function create_seo_thumbnail($source_path, $destination_path, $width = 300, $height = 200, $crop = true) {
     if (!file_exists($source_path)) {
         return false;
     }
@@ -209,6 +210,7 @@ function create_thumbnail($source_path, $destination_path, $width = 300, $height
     
     return $result ? $destination_path : false;
 }
+} // Закрытие if (!function_exists('create_seo_thumbnail'))
 
 /**
  * Пакетная оптимизация изображений
