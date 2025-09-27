@@ -2763,3 +2763,21 @@
 [2025-09-27 09:48:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
 [2025-09-27 09:48:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
 [2025-09-27 09:50:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:03:53] [INFO] User root logged in
+[2025-09-27 10:16:59] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:20:52] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:21:22] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:21:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:21:50] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:23:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:23:09] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:26:06] [INFO] User root logged in
+[2025-09-27 10:27:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:27:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 10:35:20] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 10:35:20] [INFO] Translation saved: seo_settings.title (ID: home_de)
+[2025-09-27 10:35:22] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 10:35:22] [INFO] Translation saved: seo_settings.h1 (ID: home_de)
+[2025-09-27 10:35:23] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 10:35:23] [INFO] Translation saved: seo_settings.description (ID: home_de)
+[2025-09-27 11:02:08] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured

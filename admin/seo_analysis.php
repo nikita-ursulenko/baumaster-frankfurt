@@ -29,6 +29,7 @@ $analysis_results = [];
 // Обработка AJAX запросов для SEO настроек
 if (isset($_GET['ajax']) && $_GET['ajax'] === 'load_seo_data') {
     $page_key = $_GET['page_key'] ?? '';
+    $lang = $_GET['lang'] ?? 'ru';
     
     if ($page_key) {
         try {
@@ -36,7 +37,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'load_seo_data') {
             $seo_data = [];
             
             foreach ($seo_keys as $key) {
-                $setting_key = 'page_' . $page_key . '_page_' . $key;
+                $setting_key = 'page_' . $page_key . '_' . $lang . '_page_' . $key;
                 $setting = $db->select('settings', ['setting_key' => $setting_key], ['limit' => 1]);
                 $seo_data[$key] = $setting ? $setting['setting_value'] : '';
             }
@@ -44,6 +45,78 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'load_seo_data') {
             header('Content-Type: application/json');
             echo json_encode(['success' => true, 'data' => $seo_data]);
             exit;
+        } catch (Exception $e) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            exit;
+        }
+    }
+}
+
+// Обработка AJAX запросов для автоперевода
+if (isset($_GET['ajax']) && $_GET['ajax'] === 'auto_translate') {
+    $page_key = $_GET['page_key'] ?? '';
+    $from_lang = $_GET['from_lang'] ?? 'ru';
+    $to_lang = $_GET['to_lang'] ?? 'de';
+    
+    if ($page_key) {
+        try {
+            require_once __DIR__ . '/../integrations/translation/TranslationManager.php';
+            $translation_manager = new TranslationManager();
+            
+            // Получаем исходные SEO данные
+            $seo_keys = ['page_title', 'page_h1', 'page_description', 'page_keywords', 'page_og_title', 'page_og_description'];
+            $source_data = [];
+            
+            foreach ($seo_keys as $key) {
+                $setting_key = 'page_' . $page_key . '_' . $from_lang . '_' . $key;
+                $setting = $db->select('settings', ['setting_key' => $setting_key], ['limit' => 1]);
+                if ($setting && !empty($setting['setting_value'])) {
+                    // Убираем префикс 'page_' для перевода
+                    $clean_key = str_replace('page_', '', $key);
+                    $source_data[$clean_key] = $setting['setting_value'];
+                }
+            }
+            
+            if (!empty($source_data)) {
+                // Переводим данные
+                $translated_data = $translation_manager->autoTranslateContent(
+                    'seo_settings', 
+                    $page_key . '_' . $to_lang, 
+                    $source_data, 
+                    $from_lang, 
+                    $to_lang
+                );
+                
+                // Сохраняем переведенные данные
+                foreach ($translated_data as $key => $translated_text) {
+                    $setting_key = 'page_' . $page_key . '_' . $to_lang . '_page_' . $key;
+                    
+                    $existing = $db->select('settings', ['setting_key' => $setting_key], ['limit' => 1]);
+                    
+                    if ($existing) {
+                        $db->update('settings', 
+                            ['setting_value' => $translated_text, 'updated_at' => date('Y-m-d H:i:s')], 
+                            ['setting_key' => $setting_key]
+                        );
+                    } else {
+                        $db->insert('settings', [
+                            'setting_key' => $setting_key,
+                            'setting_value' => $translated_text,
+                            'category' => 'seo'
+                        ]);
+                    }
+                }
+                
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'message' => 'Перевод выполнен успешно', 'data' => $translated_data]);
+                exit;
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => 'Нет данных для перевода']);
+                exit;
+            }
+            
         } catch (Exception $e) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
@@ -61,10 +134,11 @@ if ($_POST && verify_csrf_token($_POST['csrf_token'] ?? '')) {
     // Обработка SEO настроек страниц
     if ($category === 'seo' && isset($_POST['page_key'])) {
         $page_key = $_POST['page_key'];
+        $lang = $_POST['lang'] ?? 'ru';
         
         try {
             foreach ($settings_data as $key => $value) {
-                $full_key = 'page_' . $page_key . '_page_' . $key;
+                $full_key = 'page_' . $page_key . '_' . $lang . '_' . $key;
                 
                 $existing = $db->select('settings', ['setting_key' => $full_key], ['limit' => 1]);
                 
@@ -374,9 +448,26 @@ ob_start();
             Управление SEO настройками для отдельных страниц сайта
         </p>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Переключатель языка -->
+        <div class="mb-6">
+            <div class="flex items-center space-x-4">
+                <span class="text-sm font-medium text-gray-700">Язык:</span>
+                <div class="flex space-x-2">
+                    <button onclick="switchLanguage('ru')" id="lang-ru-btn" 
+                            class="px-3 py-2 text-sm font-medium rounded-md bg-primary-600 text-white">
+                        Русский
+                    </button>
+                    <button onclick="switchLanguage('de')" id="lang-de-btn" 
+                            class="px-3 py-2 text-sm font-medium rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300">
+                        Deutsch
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="pages-grid">
             <?php
-            $pages = [
+            $pages_ru = [
                 'home' => ['name' => 'Главная', 'url' => '/'],
                 'services' => ['name' => 'Услуги', 'url' => '/services.php'],
                 'portfolio' => ['name' => 'Портфолио', 'url' => '/portfolio.php'],
@@ -386,14 +477,53 @@ ob_start();
                 'contact' => ['name' => 'Контакты', 'url' => '/contact.php']
             ];
             
-            foreach ($pages as $page_key => $page_info): ?>
-            <div class="border border-gray-200 rounded-lg p-4">
+            $pages_de = [
+                'home' => ['name' => 'Startseite', 'url' => '/de/'],
+                'services' => ['name' => 'Dienstleistungen', 'url' => '/de/services.php'],
+                'portfolio' => ['name' => 'Portfolio', 'url' => '/de/portfolio.php'],
+                'about' => ['name' => 'Über uns', 'url' => '/de/about.php'],
+                'reviews' => ['name' => 'Bewertungen', 'url' => '/de/review.php'],
+                'blog' => ['name' => 'Blog/FAQ', 'url' => '/de/blog.php'],
+                'contact' => ['name' => 'Kontakt', 'url' => '/de/contact.php']
+            ];
+            
+            foreach ($pages_ru as $page_key => $page_info): ?>
+            <div class="border border-gray-200 rounded-lg p-4 page-card" data-page="<?php echo $page_key; ?>" data-lang="ru">
                 <h4 class="font-medium text-gray-900 mb-2"><?php echo $page_info['name']; ?></h4>
                 <p class="text-sm text-gray-600 mb-3"><?php echo $page_info['url']; ?></p>
-                <button onclick="openSeoModal('<?php echo $page_key; ?>', '<?php echo $page_info['name']; ?>')" 
-                        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                    Настроить SEO
-                </button>
+                <div class="flex space-x-2">
+                    <button onclick="openSeoModal('<?php echo $page_key; ?>', '<?php echo $page_info['name']; ?>', 'ru')" 
+                            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        Настроить SEO
+                    </button>
+                    <button onclick="autoTranslatePage('<?php echo $page_key; ?>', 'ru', 'de')" 
+                            class="inline-flex items-center px-2 py-2 border border-blue-300 shadow-sm text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            title="Автоперевод на немецкий">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            
+            <?php foreach ($pages_de as $page_key => $page_info): ?>
+            <div class="border border-gray-200 rounded-lg p-4 page-card hidden" data-page="<?php echo $page_key; ?>" data-lang="de">
+                <h4 class="font-medium text-gray-900 mb-2"><?php echo $page_info['name']; ?></h4>
+                <p class="text-sm text-gray-600 mb-3"><?php echo $page_info['url']; ?></p>
+                <div class="flex space-x-2">
+                    <button onclick="openSeoModal('<?php echo $page_key; ?>', '<?php echo $page_info['name']; ?>', 'de')" 
+                            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        SEO einstellen
+                    </button>
+                    <button onclick="autoTranslatePage('<?php echo $page_key; ?>', 'de', 'ru')" 
+                            class="inline-flex items-center px-2 py-2 border border-blue-300 shadow-sm text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            title="Автоперевод на русский">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <?php endforeach; ?>
         </div>
@@ -571,6 +701,7 @@ ob_start();
                 <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                 <input type="hidden" name="category" value="seo">
                 <input type="hidden" name="page_key" id="seoModalPageKey" value="">
+                <input type="hidden" name="lang" id="seoModalLang" value="ru">
                 <input type="hidden" name="ajax" value="seo_modal">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -645,17 +776,19 @@ ob_start();
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Управление модальным окном SEO
-    window.openSeoModal = function(pageKey, pageName) {
+    window.openSeoModal = function(pageKey, pageName, lang = 'ru') {
         const modal = document.getElementById('seoModal');
         const title = document.getElementById('seoModalTitle');
         const pageKeyInput = document.getElementById('seoModalPageKey');
+        const langInput = document.getElementById('seoModalLang');
         
-        // Устанавливаем заголовок и ключ страницы
+        // Устанавливаем заголовок, ключ страницы и язык
         title.textContent = `SEO настройки: ${pageName}`;
         pageKeyInput.value = pageKey;
+        langInput.value = lang;
         
         // Загружаем существующие данные
-        loadSeoData(pageKey);
+        loadSeoData(pageKey, lang);
         
         // Показываем модальное окно
         modal.classList.remove('hidden');
@@ -669,11 +802,11 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Загрузка существующих SEO данных
-    window.loadSeoData = function(pageKey) {
-        console.log('Загружаем SEO данные для страницы:', pageKey);
+    window.loadSeoData = function(pageKey, lang = 'ru') {
+        console.log('Загружаем SEO данные для страницы:', pageKey, 'язык:', lang);
         
         // AJAX запрос для загрузки данных
-        fetch('?ajax=load_seo_data&page_key=' + encodeURIComponent(pageKey))
+        fetch('?ajax=load_seo_data&page_key=' + encodeURIComponent(pageKey) + '&lang=' + encodeURIComponent(lang))
             .then(response => {
                 console.log('Ответ получен:', response.status);
                 return response.json();
@@ -779,6 +912,63 @@ document.addEventListener('DOMContentLoaded', function() {
             notification.remove();
         }, 3000);
     }
+    
+    // Переключение языка
+    window.switchLanguage = function(lang) {
+        const ruBtn = document.getElementById('lang-ru-btn');
+        const deBtn = document.getElementById('lang-de-btn');
+        const pageCards = document.querySelectorAll('.page-card');
+        
+        // Обновляем кнопки
+        if (lang === 'ru') {
+            ruBtn.className = 'px-3 py-2 text-sm font-medium rounded-md bg-primary-600 text-white';
+            deBtn.className = 'px-3 py-2 text-sm font-medium rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300';
+        } else {
+            deBtn.className = 'px-3 py-2 text-sm font-medium rounded-md bg-primary-600 text-white';
+            ruBtn.className = 'px-3 py-2 text-sm font-medium rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300';
+        }
+        
+        // Показываем/скрываем карточки страниц
+        pageCards.forEach(card => {
+            const cardLang = card.getAttribute('data-lang');
+            if (cardLang === lang) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    };
+    
+    // Автоперевод страницы
+    window.autoTranslatePage = function(pageKey, fromLang, toLang) {
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        
+        // Показываем индикатор загрузки
+        button.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>';
+        button.disabled = true;
+        
+        fetch('?ajax=auto_translate&page_key=' + encodeURIComponent(pageKey) + '&from_lang=' + encodeURIComponent(fromLang) + '&to_lang=' + encodeURIComponent(toLang))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(data.message || 'Перевод выполнен успешно', 'success');
+                    // Переключаемся на переведенный язык
+                    switchLanguage(toLang);
+                } else {
+                    showNotification(data.error || 'Ошибка при переводе', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка перевода:', error);
+                showNotification('Ошибка при переводе', 'error');
+            })
+            .finally(() => {
+                // Восстанавливаем кнопку
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+    };
 });
 </script>
 

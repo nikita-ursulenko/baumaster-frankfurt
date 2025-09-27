@@ -368,93 +368,185 @@ function get_contact_info() {
 /**
  * SEO данные для страниц из настроек
  */
-function get_seo_data() {
+function get_seo_data($lang = null) {
     // Подключаем конфигурацию и базу данных
     require_once __DIR__ . '/../config.php';
     require_once __DIR__ . '/../database.php';
     
+    // Определяем язык
+    if ($lang === null) {
+        $lang = defined('CURRENT_LANG') ? CURRENT_LANG : 'ru';
+    }
+    
     try {
         $db = get_database();
+        
+        // Получаем SEO настройки для конкретного языка
         $settings = $db->select('settings', ['category' => 'seo']);
         
-        // Преобразуем настройки в удобный формат
-        $seo_data = [
-            'home' => [
-                'title' => DEFAULT_META_TITLE,
-                'description' => DEFAULT_META_DESCRIPTION
+        // Базовые SEO данные по умолчанию
+        $default_seo = [
+            'ru' => [
+                'home' => [
+                    'title' => DEFAULT_META_TITLE,
+                    'description' => DEFAULT_META_DESCRIPTION
+                ],
+                'services' => [
+                    'title' => 'Услуги | ' . SITE_NAME,
+                    'description' => 'Полный спектр внутренних работ во Франкфурте: малярные работы, укладка полов, ремонт ванных, гипсокартон, плитка. Профессиональное качество.'
+                ],
+                'portfolio' => [
+                    'title' => 'Портфолио работ | ' . SITE_NAME,
+                    'description' => 'Примеры наших работ по ремонту и отделке во Франкфурте. Фото до и после, реальные проекты квартир, домов и офисов.'
+                ],
+                'about' => [
+                    'title' => 'О компании | ' . SITE_NAME,
+                    'description' => 'Команда профессионалов с опытом более 10 лет. Выполняем внутренние работы во Франкфурте с гарантией качества и в срок.'
+                ],
+                'reviews' => [
+                    'title' => 'Отзывы клиентов | ' . SITE_NAME,
+                    'description' => 'Реальные отзывы наших клиентов о качестве ремонтных работ во Франкфурте. Более 500 довольных заказчиков за 10 лет работы.'
+                ],
+                'blog' => [
+                    'title' => 'FAQ - Часто задаваемые вопросы | ' . SITE_NAME,
+                    'description' => 'Ответы на популярные вопросы о ремонте и внутренних работах. Стоимость, сроки, гарантии, материалы - всё что нужно знать.'
+                ],
+                'contact' => [
+                    'title' => 'Контакты | ' . SITE_NAME,
+                    'description' => 'Свяжитесь с нами для консультации и бесплатного расчёта. Телефон: +49 (0) 69 123 456 78. Работаем по всему Франкфурту.'
+                ]
             ],
-            'services' => [
-                'title' => 'Услуги | ' . SITE_NAME,
-                'description' => 'Полный спектр внутренних работ во Франкфурте: малярные работы, укладка полов, ремонт ванных, гипсокартон, плитка. Профессиональное качество.'
-            ],
-            'portfolio' => [
-                'title' => 'Портфолио работ | ' . SITE_NAME,
-                'description' => 'Примеры наших работ по ремонту и отделке во Франкфурте. Фото до и после, реальные проекты квартир, домов и офисов.'
-            ],
-            'about' => [
-                'title' => 'О компании | ' . SITE_NAME,
-                'description' => 'Команда профессионалов с опытом более 10 лет. Выполняем внутренние работы во Франкфурте с гарантией качества и в срок.'
-            ],
-            'reviews' => [
-                'title' => 'Отзывы клиентов | ' . SITE_NAME,
-                'description' => 'Реальные отзывы наших клиентов о качестве ремонтных работ во Франкфурте. Более 500 довольных заказчиков за 10 лет работы.'
-            ],
-            'blog' => [
-                'title' => 'FAQ - Часто задаваемые вопросы | ' . SITE_NAME,
-                'description' => 'Ответы на популярные вопросы о ремонте и внутренних работах. Стоимость, сроки, гарантии, материалы - всё что нужно знать.'
-            ],
-            'contact' => [
-                'title' => 'Контакты | ' . SITE_NAME,
-                'description' => 'Свяжитесь с нами для консультации и бесплатного расчёта. Телефон: +49 (0) 69 123 456 78. Работаем по всему Франкфурту.'
+            'de' => [
+                'home' => [
+                    'title' => 'Baumaster Frankfurt - Innenausbau & Renovierung',
+                    'description' => 'Professionelle Innenausbau- und Renovierungsdienstleistungen in Frankfurt am Main. Malerarbeiten, Bodenverlegung, Badezimmerrenovierung.'
+                ],
+                'services' => [
+                    'title' => 'Dienstleistungen | ' . SITE_NAME,
+                    'description' => 'Vollständiges Spektrum von Innenarbeiten in Frankfurt: Malerarbeiten, Bodenverlegung, Badezimmerrenovierung, Trockenbau, Fliesen. Professionelle Qualität.'
+                ],
+                'portfolio' => [
+                    'title' => 'Portfolio | ' . SITE_NAME,
+                    'description' => 'Beispiele unserer Renovierungs- und Innenausbauarbeiten in Frankfurt. Vorher- und Nachher-Fotos, echte Projekte von Wohnungen, Häusern und Büros.'
+                ],
+                'about' => [
+                    'title' => 'Über uns | ' . SITE_NAME,
+                    'description' => 'Team von Profis mit mehr als 10 Jahren Erfahrung. Wir führen Innenarbeiten in Frankfurt mit Qualitätsgarantie und termingerecht aus.'
+                ],
+                'reviews' => [
+                    'title' => 'Kundenbewertungen | ' . SITE_NAME,
+                    'description' => 'Echte Bewertungen unserer Kunden über die Qualität der Renovierungsarbeiten in Frankfurt. Mehr als 500 zufriedene Kunden in 10 Jahren Arbeit.'
+                ],
+                'blog' => [
+                    'title' => 'FAQ - Häufig gestellte Fragen | ' . SITE_NAME,
+                    'description' => 'Antworten auf beliebte Fragen zu Renovierung und Innenarbeiten. Kosten, Termine, Garantien, Materialien - alles was Sie wissen müssen.'
+                ],
+                'contact' => [
+                    'title' => 'Kontakt | ' . SITE_NAME,
+                    'description' => 'Kontaktieren Sie uns für eine Beratung und kostenlose Berechnung. Telefon: +49 (0) 69 123 456 78. Wir arbeiten in ganz Frankfurt.'
+                ]
             ]
         ];
         
-        // Заполняем данными из настроек
+        $seo_data = $default_seo[$lang] ?? $default_seo['ru'];
+        
+        // Заполняем данными из настроек БД
         foreach ($settings as $setting) {
-            switch ($setting['setting_key']) {
-                case 'site_title':
-                    $seo_data['home']['title'] = $setting['setting_value'];
-                    break;
-                case 'site_description':
-                    $seo_data['home']['description'] = $setting['setting_value'];
-                    break;
+            $key = $setting['setting_key'];
+            
+            // Проверяем, относится ли настройка к текущему языку
+            if (preg_match('/^page_([^_]+)_' . $lang . '_(.+)$/', $key, $matches)) {
+                $page = $matches[1];
+                $field = $matches[2];
+                
+                if (isset($seo_data[$page]) && in_array($field, ['title', 'h1', 'description', 'keywords', 'og_title', 'og_description', 'og_image'])) {
+                    $seo_data[$page][$field] = $setting['setting_value'];
+                }
+            }
+            
+            // Обрабатываем общие настройки сайта
+            if ($lang === 'ru') {
+                switch ($key) {
+                    case 'site_title':
+                        $seo_data['home']['title'] = $setting['setting_value'];
+                        break;
+                    case 'site_description':
+                        $seo_data['home']['description'] = $setting['setting_value'];
+                        break;
+                }
             }
         }
         
         return $seo_data;
+        
     } catch (Exception $e) {
         // В случае ошибки возвращаем значения по умолчанию
         error_log("Ошибка загрузки SEO данных: " . $e->getMessage());
-        return [
-            'home' => [
-                'title' => DEFAULT_META_TITLE,
-                'description' => DEFAULT_META_DESCRIPTION
+        
+        $default_seo = [
+            'ru' => [
+                'home' => [
+                    'title' => DEFAULT_META_TITLE,
+                    'description' => DEFAULT_META_DESCRIPTION
+                ],
+                'services' => [
+                    'title' => 'Услуги | ' . SITE_NAME,
+                    'description' => 'Полный спектр внутренних работ во Франкфурте: малярные работы, укладка полов, ремонт ванных, гипсокартон, плитка. Профессиональное качество.'
+                ],
+                'portfolio' => [
+                    'title' => 'Портфолио работ | ' . SITE_NAME,
+                    'description' => 'Примеры наших работ по ремонту и отделке во Франкфурте. Фото до и после, реальные проекты квартир, домов и офисов.'
+                ],
+                'about' => [
+                    'title' => 'О компании | ' . SITE_NAME,
+                    'description' => 'Команда профессионалов с опытом более 10 лет. Выполняем внутренние работы во Франкфурте с гарантией качества и в срок.'
+                ],
+                'reviews' => [
+                    'title' => 'Отзывы клиентов | ' . SITE_NAME,
+                    'description' => 'Реальные отзывы наших клиентов о качестве ремонтных работ во Франкфурте. Более 500 довольных заказчиков за 10 лет работы.'
+                ],
+                'blog' => [
+                    'title' => 'FAQ - Часто задаваемые вопросы | ' . SITE_NAME,
+                    'description' => 'Ответы на популярные вопросы о ремонте и внутренних работах. Стоимость, сроки, гарантии, материалы - всё что нужно знать.'
+                ],
+                'contact' => [
+                    'title' => 'Контакты | ' . SITE_NAME,
+                    'description' => 'Свяжитесь с нами для консультации и бесплатного расчёта. Телефон: +49 (0) 69 123 456 78. Работаем по всему Франкфурту.'
+                ]
             ],
-            'services' => [
-                'title' => 'Услуги | ' . SITE_NAME,
-                'description' => 'Полный спектр внутренних работ во Франкфурте: малярные работы, укладка полов, ремонт ванных, гипсокартон, плитка. Профессиональное качество.'
-            ],
-            'portfolio' => [
-                'title' => 'Портфолио работ | ' . SITE_NAME,
-                'description' => 'Примеры наших работ по ремонту и отделке во Франкфурте. Фото до и после, реальные проекты квартир, домов и офисов.'
-            ],
-            'about' => [
-                'title' => 'О компании | ' . SITE_NAME,
-                'description' => 'Команда профессионалов с опытом более 10 лет. Выполняем внутренние работы во Франкфурте с гарантией качества и в срок.'
-            ],
-            'reviews' => [
-                'title' => 'Отзывы клиентов | ' . SITE_NAME,
-                'description' => 'Реальные отзывы наших клиентов о качестве ремонтных работ во Франкфурте. Более 500 довольных заказчиков за 10 лет работы.'
-            ],
-            'blog' => [
-                'title' => 'FAQ - Часто задаваемые вопросы | ' . SITE_NAME,
-                'description' => 'Ответы на популярные вопросы о ремонте и внутренних работах. Стоимость, сроки, гарантии, материалы - всё что нужно знать.'
-            ],
-            'contact' => [
-                'title' => 'Контакты | ' . SITE_NAME,
-                'description' => 'Свяжитесь с нами для консультации и бесплатного расчёта. Телефон: +49 (0) 69 123 456 78. Работаем по всему Франкфурту.'
+            'de' => [
+                'home' => [
+                    'title' => 'Baumaster Frankfurt - Innenausbau & Renovierung',
+                    'description' => 'Professionelle Innenausbau- und Renovierungsdienstleistungen in Frankfurt am Main. Malerarbeiten, Bodenverlegung, Badezimmerrenovierung.'
+                ],
+                'services' => [
+                    'title' => 'Dienstleistungen | ' . SITE_NAME,
+                    'description' => 'Vollständiges Spektrum von Innenarbeiten in Frankfurt: Malerarbeiten, Bodenverlegung, Badezimmerrenovierung, Trockenbau, Fliesen. Professionelle Qualität.'
+                ],
+                'portfolio' => [
+                    'title' => 'Portfolio | ' . SITE_NAME,
+                    'description' => 'Beispiele unserer Renovierungs- und Innenausbauarbeiten in Frankfurt. Vorher- und Nachher-Fotos, echte Projekte von Wohnungen, Häusern und Büros.'
+                ],
+                'about' => [
+                    'title' => 'Über uns | ' . SITE_NAME,
+                    'description' => 'Team von Profis mit mehr als 10 Jahren Erfahrung. Wir führen Innenarbeiten in Frankfurt mit Qualitätsgarantie und termingerecht aus.'
+                ],
+                'reviews' => [
+                    'title' => 'Kundenbewertungen | ' . SITE_NAME,
+                    'description' => 'Echte Bewertungen unserer Kunden über die Qualität der Renovierungsarbeiten in Frankfurt. Mehr als 500 zufriedene Kunden in 10 Jahren Arbeit.'
+                ],
+                'blog' => [
+                    'title' => 'FAQ - Häufig gestellte Fragen | ' . SITE_NAME,
+                    'description' => 'Antworten auf beliebte Fragen zu Renovierung und Innenarbeiten. Kosten, Termine, Garantien, Materialien - alles was Sie wissen müssen.'
+                ],
+                'contact' => [
+                    'title' => 'Kontakt | ' . SITE_NAME,
+                    'description' => 'Kontaktieren Sie uns für eine Beratung und kostenlose Berechnung. Telefon: +49 (0) 69 123 456 78. Wir arbeiten in ganz Frankfurt.'
+                ]
             ]
         ];
+        
+        return $default_seo[$lang] ?? $default_seo['ru'];
     }
 }
 
