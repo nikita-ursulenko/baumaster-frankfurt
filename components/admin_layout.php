@@ -160,11 +160,11 @@ function get_admin_menu_items($active_menu = 'dashboard', $current_user = null) 
             'icon' => 'search',
             'active' => $active_menu === 'seo'
         ],
-        'integrations' => [
-            'title' => __('menu.integrations', 'Интеграции'),
+        'sms_integration' => [
+            'title' => __('menu.sms_integration', 'SMS Интеграция'),
             'url' => 'integrations.php',
-            'icon' => 'cog',
-            'active' => $active_menu === 'integrations'
+            'icon' => 'phone',
+            'active' => $active_menu === 'sms_integration'
         ],
         'testing' => [
             'title' => __('menu.testing', 'Тестирование'),
