@@ -8,10 +8,11 @@
 require_once __DIR__ . '/ux/layout.php';
 require_once __DIR__ . '/ux/components.php';
 require_once __DIR__ . '/ux/data.php';
+require_once __DIR__ . '/ui/base.php';
 
 // Получение данных
 $seo = get_seo_data()['reviews'];
-$reviews = get_reviews_data();
+$reviews = get_reviews_data_translated('ru');
 $statistics = get_statistics();
 
 // Начало контента
@@ -113,16 +114,21 @@ ob_start();
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Услуга</label>
-                    <select name="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors">
-                        <option value="">Выберите услугу</option>
-                        <option value="painting">Малярные работы</option>
-                        <option value="flooring">Укладка полов</option>
-                        <option value="bathroom">Ремонт ванной</option>
-                        <option value="drywall">Гипсокартон</option>
-                        <option value="tiling">Плитка</option>
-                        <option value="renovation">Комплексный ремонт</option>
-                    </select>
+                    <?php render_dropdown_field([
+                        'name' => 'service',
+                        'label' => 'Услуга',
+                        'placeholder' => 'Выберите услугу',
+                        'options' => [
+                            ['value' => '', 'text' => 'Выберите услугу'],
+                            ['value' => 'painting', 'text' => 'Малярные работы'],
+                            ['value' => 'flooring', 'text' => 'Укладка полов'],
+                            ['value' => 'bathroom', 'text' => 'Ремонт ванной'],
+                            ['value' => 'drywall', 'text' => 'Гипсокартон'],
+                            ['value' => 'tiling', 'text' => 'Плитка'],
+                            ['value' => 'renovation', 'text' => 'Комплексный ремонт']
+                        ],
+                        'class' => 'w-full'
+                    ]); ?>
                 </div>
                 
                 <div>

@@ -8,6 +8,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../database.php';
 require_once __DIR__ . '/../ux/layout.php';
+require_once __DIR__ . '/../ui/base.php';
 require_once __DIR__ . '/../ux/components.php';
 require_once __DIR__ . '/../ux/data.php';
 
@@ -16,7 +17,7 @@ define('CURRENT_LANG', 'de');
 
 // Получение данных
 $seo = get_seo_data()['reviews'];
-$reviews = get_reviews_data();
+$reviews = get_reviews_data_translated('de');
 $statistics = get_statistics('de');
 
 // Начало контента
@@ -113,17 +114,22 @@ ob_start();
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Dienstleistung</label>
-                    <select name="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors">
-                        <option value="">Dienstleistung wählen</option>
-                        <option value="painting">Malerarbeiten</option>
-                        <option value="flooring">Bodenverlegung</option>
-                        <option value="bathroom">Badezimmerrenovierung</option>
-                        <option value="drywall">Trockenbau</option>
-                        <option value="tiling">Fliesenverlegung</option>
-                        <option value="renovation">Komplettrenovierung</option>
-                    </select>
-                        </div>
+                    <?php render_dropdown_field([
+                        'name' => 'service',
+                        'label' => 'Dienstleistung',
+                        'placeholder' => 'Dienstleistung wählen',
+                        'options' => [
+                            ['value' => '', 'text' => 'Dienstleistung wählen'],
+                            ['value' => 'painting', 'text' => 'Malerarbeiten'],
+                            ['value' => 'flooring', 'text' => 'Bodenverlegung'],
+                            ['value' => 'bathroom', 'text' => 'Badezimmerrenovierung'],
+                            ['value' => 'drywall', 'text' => 'Trockenbau'],
+                            ['value' => 'tiling', 'text' => 'Fliesenverlegung'],
+                            ['value' => 'renovation', 'text' => 'Komplettrenovierung']
+                        ],
+                        'class' => 'w-full'
+                    ]); ?>
+                </div>
                 
                         <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Bewertung *</label>

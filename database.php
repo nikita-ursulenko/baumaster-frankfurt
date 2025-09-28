@@ -940,6 +940,13 @@ class Database {
         
         return write_json_file($this->json_path . $table . '.json', array_values($all_data));
     }
+    
+    /**
+     * Получить PDO объект для прямых запросов
+     */
+    public function get_pdo() {
+        return $this->pdo;
+    }
 }
 
 // Создание глобального экземпляра базы данных

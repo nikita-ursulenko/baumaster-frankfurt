@@ -53,35 +53,39 @@ function get_dashboard_stats() {
     ];
 }
 
-// Получение последней активности
-function get_recent_activity() {
+// Получение последней активности с пагинацией
+function get_recent_activity($page = 1, $per_page = 10) {
     $db = get_database();
     
-    // Получаем последние 10 записей логов
+    // Подсчитываем общее количество записей
+    $pdo = $db->get_pdo();
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM activity_log");
+    $stmt->execute();
+    $result = $stmt->fetch();
+    $total_count = $result ? $result['count'] : 0;
+    
+    // Вычисляем offset
+    $offset = ($page - 1) * $per_page;
+    
+    // Получаем записи для текущей страницы
     $logs = $db->select('activity_log', [], [
         'order' => 'created_at DESC',
-        'limit' => 10
+        'limit' => $per_page,
+        'offset' => $offset
     ]);
     
-    return $logs;
-}
-
-// Получение данных для графиков
-function get_chart_data() {
-    // Здесь будут реальные данные, пока используем моковые данные
     return [
-        'monthly_stats' => [
-            'labels' => ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'],
-            'services' => [12, 15, 18, 22, 19, 25],
-            'portfolio' => [8, 10, 12, 15, 14, 18],
-            'reviews' => [20, 25, 30, 28, 35, 40]
-        ]
+        'data' => $logs,
+        'total' => $total_count,
+        'page' => $page,
+        'per_page' => $per_page,
+        'total_pages' => ceil($total_count / $per_page)
     ];
 }
 
 $stats = get_dashboard_stats();
-$recent_activity = get_recent_activity();
-$chart_data = get_chart_data();
+$activity_page = intval($_GET['activity_page'] ?? 1);
+$recent_activity = get_recent_activity($activity_page, 10);
 
 // Начало вывода контента
 ob_start();
@@ -128,18 +132,8 @@ ob_start();
     ?>
 </div>
 
-<!-- Графики и активность -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    <!-- График статистики -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">
-            <?php echo __('dashboard.monthly_stats', 'Статистика по месяцам'); ?>
-        </h3>
-        <div class="h-64">
-            <canvas id="monthlyChart"></canvas>
-        </div>
-    </div>
-
+<!-- Активность -->
+<div class="grid grid-cols-1 gap-6 mb-8">
     <!-- Последняя активность -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
         <h3 class="text-lg font-medium text-gray-900 mb-4">
@@ -147,15 +141,15 @@ ob_start();
         </h3>
         <div class="flow-root">
             <ul class="-mb-8">
-                <?php if (empty($recent_activity)): ?>
+                <?php if (empty($recent_activity['data'])): ?>
                     <li class="text-center py-8 text-gray-500">
                         <?php echo __('dashboard.no_activity', 'Нет записей активности'); ?>
                     </li>
                 <?php else: ?>
-                    <?php foreach ($recent_activity as $index => $activity): ?>
+                    <?php foreach ($recent_activity['data'] as $index => $activity): ?>
                         <li>
                             <div class="relative pb-8">
-                                <?php if ($index !== count($recent_activity) - 1): ?>
+                                <?php if ($index !== count($recent_activity['data']) - 1): ?>
                                     <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                                 <?php endif; ?>
                                 <div class="relative flex space-x-3">
@@ -183,6 +177,43 @@ ob_start();
                 <?php endif; ?>
             </ul>
         </div>
+        
+        <!-- Пагинация для активности -->
+        <?php if ($recent_activity['total_pages'] > 1): ?>
+            <div class="mt-6 flex items-center justify-between">
+                <div class="text-sm text-gray-700">
+                    Показано <?php echo count($recent_activity['data']); ?> из <?php echo $recent_activity['total']; ?> записей
+                </div>
+                <div class="flex space-x-2">
+                    <?php if ($recent_activity['page'] > 1): ?>
+                        <a href="?activity_page=<?php echo $recent_activity['page'] - 1; ?>" 
+                           class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            Назад
+                        </a>
+                    <?php endif; ?>
+                    
+                    <?php for ($i = 1; $i <= $recent_activity['total_pages']; $i++): ?>
+                        <?php if ($i == $recent_activity['page']): ?>
+                            <span class="px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md">
+                                <?php echo $i; ?>
+                            </span>
+                        <?php else: ?>
+                            <a href="?activity_page=<?php echo $i; ?>" 
+                               class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+                    
+                    <?php if ($recent_activity['page'] < $recent_activity['total_pages']): ?>
+                        <a href="?activity_page=<?php echo $recent_activity['page'] + 1; ?>" 
+                           class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            Вперед
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -230,57 +261,6 @@ ob_start();
     </div>
 </div>
 
-<script>
-// Инициализация графика
-document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('monthlyChart').getContext('2d');
-    const chartData = <?php echo json_encode($chart_data['monthly_stats']); ?>;
-    
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: chartData.labels,
-            datasets: [
-                {
-                    label: '<?php echo __('dashboard.services', 'Услуги'); ?>',
-                    data: chartData.services,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4
-                },
-                {
-                    label: '<?php echo __('dashboard.projects', 'Проекты'); ?>',
-                    data: chartData.portfolio,
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4
-                },
-                {
-                    label: '<?php echo __('dashboard.reviews', 'Отзывы'); ?>',
-                    data: chartData.reviews,
-                    borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-});
-</script>
 
 <?php
 $page_content = ob_get_clean();

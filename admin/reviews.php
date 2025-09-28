@@ -25,6 +25,81 @@ $review_id = intval($_GET['id'] ?? 0);
 $db = get_database();
 
 // Функции для работы с отзывами
+function translate_review_on_approval($review_id) {
+    global $db;
+    
+    // Проверяем, включен ли автоматический перевод
+    if (!defined('AUTO_TRANSLATE_REVIEWS') || !AUTO_TRANSLATE_REVIEWS) {
+        return false;
+    }
+    
+    try {
+        require_once __DIR__ . '/../integrations/translation/TranslationManager.php';
+        $translation_manager = new TranslationManager();
+        
+        // Получаем данные отзыва
+        $review = $db->select('reviews', ['id' => $review_id], ['limit' => 1]);
+        if (!$review) {
+            return false;
+        }
+        
+        $review_text = $review['review_text'];
+        
+        // Определяем язык отзыва
+        $is_russian = preg_match('/[а-яё]/iu', $review_text);
+        $is_german = preg_match('/[äöüß]/iu', $review_text);
+        
+        $from_lang = 'ru';
+        $to_lang = 'de';
+        
+        // Если отзыв на немецком, переводим на русский
+        if ($is_german && !$is_russian) {
+            $from_lang = 'de';
+            $to_lang = 'ru';
+        }
+        // Если отзыв на русском, переводим на немецкий
+        elseif ($is_russian && !$is_german) {
+            $from_lang = 'ru';
+            $to_lang = 'de';
+        }
+        // Если язык не определен, считаем русским и переводим на немецкий
+        else {
+            $from_lang = 'ru';
+            $to_lang = 'de';
+        }
+        
+        // Поля для перевода
+        $fields_to_translate = [
+            'review_text' => $review_text
+        ];
+        
+        // Добавляем перевод для услуги, если она выбрана
+        if (!empty($review['service_id'])) {
+            $service_data = $db->select('services', ['id' => intval($review['service_id'])], ['limit' => 1]);
+            if (!empty($service_data)) {
+                $service_name = $service_data['title'] ?? '';
+                if (!empty($service_name)) {
+                    $fields_to_translate['service_name'] = $service_name;
+                }
+            }
+        }
+        
+        // Выполняем автоматический перевод
+        $translated_fields = $translation_manager->autoTranslateContent('reviews', $review_id, $fields_to_translate, $from_lang, $to_lang);
+        
+        if (!empty($translated_fields)) {
+            write_log("Отзыв ID {$review_id} переведен при одобрении с {$from_lang} на {$to_lang}", 'INFO');
+            return true;
+        }
+        
+        return false;
+        
+    } catch (Exception $e) {
+        write_log("Ошибка перевода отзыва ID {$review_id} при одобрении: " . $e->getMessage(), 'ERROR');
+        return false;
+    }
+}
+
 function create_review($data) {
     global $db;
     
@@ -71,6 +146,11 @@ function create_review($data) {
     $review_id = $db->insert('reviews', $review_data);
     
     if ($review_id) {
+        // Автоматический перевод при создании отзыва со статусом "опубликован"
+        if ($review_data['status'] === 'published') {
+            translate_review_on_approval($review_id);
+        }
+        
         write_log("New review created: {$review_data['client_name']} (ID: $review_id)", 'INFO');
         log_user_activity('review_create', 'reviews', $review_id);
         return [
@@ -134,6 +214,11 @@ function update_review($review_id, $data) {
     ];
     
     if ($db->update('reviews', $update_data, ['id' => $review_id])) {
+        // Автоматический перевод при изменении статуса на "опубликован"
+        if (isset($update_data['status']) && $update_data['status'] === 'published' && $existing_review['status'] !== 'published') {
+            translate_review_on_approval($review_id);
+        }
+        
         write_log("Review updated: {$existing_review['client_name']} (ID: $review_id)", 'INFO');
         log_user_activity('review_update', 'reviews', $review_id, $existing_review, $update_data);
         return ['success' => true, 'message' => __('reviews.update_success', 'Отзыв успешно обновлен')];
@@ -233,6 +318,12 @@ if ($_POST) {
                 if ($review) {
                     $new_status = $_POST['new_status'] ?? 'pending';
                     $db->update('reviews', ['status' => $new_status], ['id' => $moderate_id]);
+                    
+                    // Автоматический перевод при одобрении
+                    if ($new_status === 'published') {
+                        translate_review_on_approval($moderate_id);
+                    }
+                    
                     $success_message = __('reviews.status_updated', 'Статус отзыва обновлен');
                     write_log("Review moderated: {$review['client_name']} (ID: $moderate_id) -> $new_status", 'INFO');
                 } else {

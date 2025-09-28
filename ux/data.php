@@ -353,6 +353,59 @@ function get_reviews_data() {
 }
 
 /**
+ * Получение переведенных отзывов из базы данных
+ */
+function get_reviews_data_translated($target_lang = 'de') {
+    // Подключаем конфигурацию и базу данных
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../database.php';
+    require_once __DIR__ . '/../integrations/translation/FastTranslationManager.php';
+    
+    try {
+        $db = get_database();
+        $translation_manager = new FastTranslationManager();
+        
+        // Получаем отзывы из базы данных
+        $reviews = $db->select('reviews', ['status' => 'published'], ['order_by' => 'sort_order DESC, review_date DESC']);
+        
+        // Преобразуем данные из базы в нужный формат с переводами
+        $formatted_reviews = [];
+        foreach ($reviews as $review) {
+            // Получаем переводы для этого отзыва
+            $translations = $translation_manager->getTranslatedContent('reviews', $review['id'], $target_lang);
+            
+            // Определяем название услуги
+            $service_name = 'Услуга';
+            if (!empty($review['service_id'])) {
+                if (isset($translations['service_name'])) {
+                    $service_name = $translations['service_name'];
+                } else {
+                    $service_name = 'Услуга #' . $review['service_id'];
+                }
+            }
+            
+            $formatted_reviews[] = [
+                'id' => $review['id'],
+                'name' => $review['client_name'],
+                'rating' => intval($review['rating']),
+                'service' => $service_name,
+                'text' => $translations['review_text'] ?? $review['review_text'],
+                'date' => $review['review_date'],
+                'verified' => $review['verified'] ?? 0,
+                'featured' => $review['featured'] ?? 0,
+                'client_photo' => $review['client_photo'] ?? ''
+            ];
+        }
+        
+        return $formatted_reviews;
+    } catch (Exception $e) {
+        // В случае ошибки возвращаем пустой массив
+        error_log("Ошибка загрузки переведенных отзывов: " . $e->getMessage());
+        return [];
+    }
+}
+
+/**
  * Получение FAQ из базы данных
  */
 function get_faq_data() {

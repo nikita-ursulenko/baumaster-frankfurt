@@ -4,6 +4,9 @@
  * Baumaster Frontend Components
  */
 
+// Подключение UI компонентов
+require_once __DIR__ . '/../ui/base.php';
+
 /**
  * Компонент кнопки
  */
@@ -165,16 +168,20 @@ function render_contact_form($options = []) {
             </div>
             
             <div>
-                <select name="service" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors">
-                    <option value=""><?php echo $is_german ? 'Dienstleistung wählen' : 'Выберите услугу'; ?></option>
-                    <option value="painting"><?php echo $is_german ? 'Malerarbeiten' : 'Малярные работы'; ?></option>
-                    <option value="flooring"><?php echo $is_german ? 'Bodenverlegung' : 'Укладка полов'; ?></option>
-                    <option value="bathroom"><?php echo $is_german ? 'Badezimmerrenovierung' : 'Ремонт ванной'; ?></option>
-                    <option value="drywall"><?php echo $is_german ? 'Trockenbau' : 'Гипсокартон'; ?></option>
-                    <option value="tiling"><?php echo $is_german ? 'Fliesenverlegung' : 'Плитка'; ?></option>
-                    <option value="other"><?php echo $is_german ? 'Andere' : 'Другое'; ?></option>
-                </select>
+                <?php render_dropdown_field([
+                    'name' => 'service',
+                    'placeholder' => $is_german ? 'Dienstleistung wählen' : 'Выберите услугу',
+                    'options' => [
+                        ['value' => '', 'text' => $is_german ? 'Dienstleistung wählen' : 'Выберите услугу'],
+                        ['value' => 'painting', 'text' => $is_german ? 'Malerarbeiten' : 'Малярные работы'],
+                        ['value' => 'flooring', 'text' => $is_german ? 'Bodenverlegung' : 'Укладка полов'],
+                        ['value' => 'bathroom', 'text' => $is_german ? 'Badezimmerrenovierung' : 'Ремонт ванной'],
+                        ['value' => 'drywall', 'text' => $is_german ? 'Trockenbau' : 'Гипсокартон'],
+                        ['value' => 'tiling', 'text' => $is_german ? 'Fliesenverlegung' : 'Плитка'],
+                        ['value' => 'other', 'text' => $is_german ? 'Andere' : 'Другое']
+                    ],
+                    'class' => 'w-full'
+                ]); ?>
             </div>
             
             <div>
@@ -254,27 +261,6 @@ function render_service_card($service) {
                   <?php endif; ?>
                   
                   <div class="flex gap-2">
-                      <?php 
-                      // Проверяем, есть ли галерея
-                      $hasGallery = false;
-                      if (!empty($service['gallery'])) {
-                          $gallery = $service['gallery'];
-                          if (is_string($gallery)) {
-                              $gallery = json_decode($gallery, true);
-                          }
-                          $hasGallery = is_array($gallery) && !empty($gallery);
-                      }
-                      ?>
-                      
-                      <?php if ($hasGallery): ?>
-                          <?php render_frontend_button([
-                              'text' => (defined('CURRENT_LANG') && CURRENT_LANG === 'de') ? 'Galerie' : 'Галерея',
-                              'variant' => 'secondary',
-                              'size' => 'sm',
-                              'onclick' => "openServiceGallery('" . htmlspecialchars($service['id'] ?? '') . "')"
-                          ]); ?>
-                      <?php endif; ?>
-                      
                       <?php render_frontend_button([
                          'text' => (defined('CURRENT_LANG') && CURRENT_LANG === 'de') ? 'Mehr erfahren' : 'Подробнее',
                         'variant' => 'outline',
@@ -336,7 +322,10 @@ function render_review_card($review) {
         
         <?php if (!empty($review['service'])): ?>
             <div class="text-sm text-accent-blue font-medium">
-                Услуга: <?php echo htmlspecialchars($review['service']); ?>
+                <?php 
+                $service_label = (defined('CURRENT_LANG') && CURRENT_LANG === 'de') ? 'Dienstleistung' : 'Услуга';
+                echo $service_label . ': ' . htmlspecialchars($review['service']); 
+                ?>
             </div>
         <?php endif; ?>
     </div>

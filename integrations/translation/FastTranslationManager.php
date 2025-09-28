@@ -6,6 +6,8 @@ class FastTranslationManager {
     private $db;
     
     public function __construct() {
+        require_once __DIR__ . '/../../config.php';
+        require_once __DIR__ . '/../../database.php';
         $this->db = get_database();
     }
     
