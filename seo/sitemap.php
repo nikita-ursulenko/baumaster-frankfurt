@@ -9,12 +9,17 @@ require_once __DIR__ . '/../database.php';
 require_once __DIR__ . '/../functions.php';
 
 // Настройки sitemap
-$base_url = get_setting('site_url', 'https://baumaster-frankfurt.de');
+$base_url = get_setting('site_url', 'http://5.61.34.176');
 $lastmod = date('Y-m-d');
 
-// Заголовки для XML
-header('Content-Type: application/xml; charset=UTF-8');
-header('Cache-Control: public, max-age=3600');
+// Проверяем, вызывается ли файл напрямую (для браузера) или через генератор
+$is_direct_call = !isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !isset($_GET['generate']);
+
+if ($is_direct_call) {
+    // Заголовки для XML (только при прямом вызове)
+    header('Content-Type: application/xml; charset=UTF-8');
+    header('Cache-Control: public, max-age=3600');
+}
 
 // Начало XML
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

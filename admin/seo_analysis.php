@@ -1047,9 +1047,14 @@ function analyze_all_pages() {
  * Генерация sitemap
  */
 function generate_sitemap() {
-    $sitemap_content = file_get_contents(__DIR__ . '/../seo/sitemap.php');
+    // Используем простой генератор sitemap
+    require_once __DIR__ . '/../seo/simple_sitemap_generator.php';
+    $sitemap_content = generate_simple_sitemap();
+    
+    // Путь к файлу sitemap
     $sitemap_path = __DIR__ . '/../sitemap.xml';
     
+    // Сохраняем в файл
     if (file_put_contents($sitemap_path, $sitemap_content)) {
         return $sitemap_path;
     }
