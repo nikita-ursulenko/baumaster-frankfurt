@@ -29,13 +29,16 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section class="pt-16 bg-gradient-to-br from-gray-50 to-gray-100 py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="pt-16 bg-cover bg-center bg-no-repeat relative py-20" style="background-image: url('/assets/images/preview/services.png');">
+    <!-- Overlay for better text readability -->
+    <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-            <h1 class="font-montserrat font-semibold text-4xl lg:text-5xl text-text-primary mb-6">
+            <h1 class="font-montserrat font-semibold text-4xl lg:text-5xl text-white mb-6 hero-text-shadow">
                 <?php echo htmlspecialchars($seo['h1'] ?? 'Unsere Dienstleistungen'); ?>
             </h1>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto mb-8">
+            <p class="text-xl text-white max-w-3xl mx-auto mb-8 hero-text-shadow">
                 Professionelle Innenausbau- und Renovierungsdienstleistungen in Frankfurt am Main. 
                 Von Malerarbeiten bis zur kompletten Renovierung.
             </p>
