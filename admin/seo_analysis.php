@@ -204,6 +204,11 @@ if ($_POST && verify_csrf_token($_POST['csrf_token'] ?? '')) {
             $analysis_results['sitemap_generated'] = $sitemap_path;
             break;
             
+        case 'generate_robots':
+            $robots_path = generate_robots();
+            $analysis_results['robots_generated'] = $robots_path;
+            break;
+            
         case 'create_minified_assets':
             $css_files = [
                 ASSETS_PATH . 'css/tailwind.css',
@@ -354,6 +359,28 @@ ob_start();
                 'text' => __('seo.generate_sitemap', 'Создать Sitemap'),
                 'variant' => 'secondary',
                 'icon' => get_icon('external-link', 'w-4 h-4 mr-2')
+            ]); ?>
+        </form>
+    </div>
+    
+    <!-- Генерация Robots.txt -->
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">
+            <?php echo __('seo.robots_generation', 'Генерация Robots.txt'); ?>
+        </h3>
+        <p class="text-sm text-gray-600 mb-4">
+            <?php echo __('seo.robots_description', 'Создание файла robots.txt для управления индексацией поисковыми системами'); ?>
+        </p>
+        
+        <form method="POST" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+            <input type="hidden" name="action" value="generate_robots">
+            
+            <?php render_button([
+                'text' => __('seo.generate_robots', 'Создать Robots.txt'),
+                'variant' => 'primary',
+                'type' => 'submit',
+                'icon' => get_icon('file', 'w-4 h-4 mr-2')
             ]); ?>
         </form>
     </div>
@@ -1057,6 +1084,25 @@ function generate_sitemap() {
     // Сохраняем в файл
     if (file_put_contents($sitemap_path, $sitemap_content)) {
         return $sitemap_path;
+    }
+    
+    return false;
+}
+
+/**
+ * Генерация robots.txt
+ */
+function generate_robots() {
+    // Используем генератор robots.txt
+    require_once __DIR__ . '/../seo/generate_robots.php';
+    $robots_content = generate_robots_content();
+    
+    // Путь к файлу robots.txt
+    $robots_path = __DIR__ . '/../robots.txt';
+    
+    // Сохраняем в файл
+    if (file_put_contents($robots_path, $robots_content)) {
+        return $robots_path;
     }
     
     return false;
