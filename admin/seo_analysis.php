@@ -251,14 +251,7 @@ foreach ($all_settings as $setting) {
 ob_start();
 ?>
 
-<!-- Заголовок -->
-<div class="flex justify-between items-center mb-6">
-    <div>
-        <h2 class="text-xl font-semibold text-gray-900">
-            <?php echo __('seo.analysis_title', 'SEO Анализ'); ?>
-        </h2>
-    </div>
-</div>
+<!-- Заголовок удален -->
 
 <!-- SEO Статистика -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
