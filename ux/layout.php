@@ -391,6 +391,28 @@ function render_frontend_head($title = '', $meta_description = '', $active_page 
         .nav-logo, .nav-menu-item, .nav-controls {
             transition: all 0.3s ease;
         }
+        
+        /* Hero section background improvements */
+        #hero {
+            background-attachment: fixed;
+        }
+        
+        /* Mobile background attachment fix */
+        @media (max-width: 768px) {
+            #hero {
+                background-attachment: scroll;
+            }
+        }
+        
+        /* Hero overlay animations */
+        #hero .hero-overlay {
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Text shadow improvements for better readability */
+        .hero-text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
     </style>
     <?php
 }
