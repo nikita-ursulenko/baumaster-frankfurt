@@ -39,8 +39,8 @@ function generate_slug($text) {
 }
 
 function generate_simple_sitemap() {
-    // Настройки sitemap
-    $base_url = 'http://5.61.34.176';
+    // Настройки sitemap - автоматически получаем URL сайта
+    $base_url = get_site_url();
     $lastmod = date('Y-m-d');
 
     // Начало XML

@@ -8,8 +8,8 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../database.php';
 require_once __DIR__ . '/../functions.php';
 
-// Настройки sitemap
-$base_url = get_setting('site_url', 'http://5.61.34.176');
+// Настройки sitemap - автоматически получаем URL из конфигурации
+$base_url = get_setting('site_url', SITE_URL);
 $lastmod = date('Y-m-d');
 
 // Проверяем, вызывается ли файл напрямую (для браузера) или через генератор

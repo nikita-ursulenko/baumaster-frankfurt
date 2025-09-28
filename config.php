@@ -130,7 +130,22 @@ function is_debug() {
  * Получить базовый URL сайта
  */
 function get_site_url($path = '') {
-    return SITE_URL . ltrim($path, '/');
+    // Сначала пробуем получить из настроек БД
+    $site_url = get_setting('site_url', '');
+    
+    // Если URL не задан в настройках, используем конфигурацию
+    if (empty($site_url)) {
+        $site_url = SITE_URL;
+    }
+    
+    // Если URL все еще localhost, определяем автоматически
+    if ($site_url === 'http://localhost' || empty($site_url)) {
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $site_url = $protocol . '://' . $host;
+    }
+    
+    return $site_url . ltrim($path, '/');
 }
 
 /**
