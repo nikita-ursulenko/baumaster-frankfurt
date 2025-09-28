@@ -1028,36 +1028,49 @@ async function confirmDelete(message) {
 
 async function confirmDeleteService(serviceId, serviceTitle) {
     const message = `Вы уверены, что хотите удалить услугу "${serviceTitle}"? Это действие нельзя отменить.`;
-    const confirmed = await showConfirmationModal(message, 'Удаление услуги');
     
-    if (confirmed) {
-        // Создаем форму для отправки
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.style.display = 'none';
+    // Проверяем, доступна ли функция showConfirmationModal
+    if (typeof showConfirmationModal === 'function') {
+        const confirmed = await showConfirmationModal(message, 'Удаление услуги');
         
-        const actionInput = document.createElement('input');
-        actionInput.type = 'hidden';
-        actionInput.name = 'action';
-        actionInput.value = 'delete';
-        
-        const idInput = document.createElement('input');
-        idInput.type = 'hidden';
-        idInput.name = 'id';
-        idInput.value = serviceId;
-        
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = 'csrf_token';
-        csrfInput.value = '<?php echo $csrf_token; ?>';
-        
-        form.appendChild(actionInput);
-        form.appendChild(idInput);
-        form.appendChild(csrfInput);
-        
-        document.body.appendChild(form);
-        form.submit();
+        if (confirmed) {
+            deleteService(serviceId);
+        }
+    } else {
+        // Fallback к обычному confirm
+        if (confirm(message)) {
+            deleteService(serviceId);
+        }
     }
+}
+
+function deleteService(serviceId) {
+    // Создаем форму для отправки
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.style.display = 'none';
+    
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'delete';
+    
+    const idInput = document.createElement('input');
+    idInput.type = 'hidden';
+    idInput.name = 'id';
+    idInput.value = serviceId;
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = '<?php echo $csrf_token; ?>';
+    
+    form.appendChild(actionInput);
+    form.appendChild(idInput);
+    form.appendChild(csrfInput);
+    
+    document.body.appendChild(form);
+    form.submit();
 }
 
 </script>
