@@ -7,6 +7,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../database.php';
 require_once COMPONENTS_PATH . 'admin_layout.php';
+require_once __DIR__ . '/../components/confirmation_modal.php';
 
 // Настройки страницы
 $page_title = __('reviews.title', 'Управление отзывами');
@@ -630,16 +631,14 @@ ob_start();
                                     </form>
                                 <?php endif; ?>
                                 
-                                <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('reviews.confirm_delete', 'Вы уверены, что хотите удалить этот отзыв?'); ?>');">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="<?php echo $review['id']; ?>">
-                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
-                                    <button type="submit" class="text-red-400 hover:text-red-600 p-1" title="<?php echo __('common.delete', 'Удалить'); ?>">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </form>
+                                <button type="button" 
+                                        class="text-red-400 hover:text-red-600 p-1" 
+                                        title="<?php echo __('common.delete', 'Удалить'); ?>"
+                                        onclick="confirmDeleteReview(<?php echo $review['id']; ?>, '<?php echo htmlspecialchars($review['client_name'], ENT_QUOTES); ?>')">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -647,6 +646,69 @@ ob_start();
             </div>
         <?php endif; ?>
     </div>
+
+<!-- JavaScript функции для удаления отзывов -->
+<script>
+// Делаем функции глобальными сразу
+window.confirmDeleteReview = async function(reviewId, clientName) {
+    console.log('🚀 confirmDeleteReview вызвана:', reviewId, clientName);
+    
+    const message = `Вы уверены, что хотите удалить отзыв от "${clientName}"? Это действие нельзя отменить.`;
+    
+    // Проверяем, доступна ли функция showConfirmationModal
+    if (typeof showConfirmationModal === 'function') {
+        console.log('✅ Используем модальное окно');
+        const confirmed = await showConfirmationModal(message, 'Удаление отзыва');
+        
+        if (confirmed) {
+            deleteReview(reviewId);
+        }
+    } else {
+        console.log('⚠️ Используем fallback confirm');
+        // Fallback к обычному confirm
+        if (confirm(message)) {
+            deleteReview(reviewId);
+        }
+    }
+};
+
+window.deleteReview = function(reviewId) {
+    console.log('🗑️ deleteReview вызвана для ID:', reviewId);
+    
+    // Создаем форму для отправки
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.style.display = 'none';
+    
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'delete';
+    
+    const idInput = document.createElement('input');
+    idInput.type = 'hidden';
+    idInput.name = 'id';
+    idInput.value = reviewId;
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = '<?php echo $csrf_token; ?>';
+    
+    form.appendChild(actionInput);
+    form.appendChild(idInput);
+    form.appendChild(csrfInput);
+    
+    document.body.appendChild(form);
+    console.log('📤 Отправляем форму удаления отзыва...');
+    form.submit();
+};
+
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Функции удаления отзывов инициализированы');
+});
+</script>
 
 <?php elseif ($action === 'create' || $action === 'edit'): ?>
     <!-- Форма создания/редактирования отзыва -->
@@ -872,6 +934,11 @@ ob_start();
     </div>
 
 <?php endif; ?>
+
+<?php
+// Рендерим модальное окно подтверждения
+render_confirmation_modal();
+?>
 
 <?php
 $page_content = ob_get_clean();
