@@ -9,6 +9,7 @@ require_once __DIR__ . '/../database.php';
 require_once UI_PATH . 'base.php';
 require_once COMPONENTS_PATH . 'admin_layout.php';
 require_once __DIR__ . '/../integrations/translation/TranslationManager.php';
+require_once __DIR__ . '/../components/confirmation_modal.php';
 
 // Настройки страницы
 $page_title = __('blog.title', 'Управление блогом');
@@ -598,16 +599,14 @@ ob_start();
                                     </form>
                                 <?php endif; ?>
                                 
-                                <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('blog.confirm_delete', 'Вы уверены, что хотите удалить эту статью?'); ?>');">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="<?php echo $post['id']; ?>">
-                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
-                                    <button type="submit" class="text-red-400 hover:text-red-600 p-1" title="<?php echo __('common.delete', 'Удалить'); ?>">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </form>
+                                <button type="button" 
+                                        class="text-red-400 hover:text-red-600 p-1" 
+                                        title="<?php echo __('common.delete', 'Удалить'); ?>"
+                                        onclick="confirmDeleteBlogPost(<?php echo $post['id']; ?>, '<?php echo htmlspecialchars($post['title'], ENT_QUOTES); ?>')">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -615,6 +614,71 @@ ob_start();
             </div>
         <?php endif; ?>
     </div>
+
+<!-- JavaScript функции для удаления статей блога -->
+<script>
+// Делаем функции глобальными сразу
+window.confirmDeleteBlogPost = async function(postId, title) {
+    console.log('🚀 confirmDeleteBlogPost вызвана:', postId, title);
+    
+    // Обрезаем заголовок если он слишком длинный
+    const shortTitle = title.length > 50 ? title.substring(0, 50) + '...' : title;
+    const message = `Вы уверены, что хотите удалить статью "${shortTitle}"? Это действие нельзя отменить. Все связанные файлы и переводы также будут удалены.`;
+    
+    // Проверяем, доступна ли функция showConfirmationModal
+    if (typeof showConfirmationModal === 'function') {
+        console.log('✅ Используем модальное окно');
+        const confirmed = await showConfirmationModal(message, 'Удаление статьи');
+        
+        if (confirmed) {
+            deleteBlogPost(postId);
+        }
+    } else {
+        console.log('⚠️ Используем fallback confirm');
+        // Fallback к обычному confirm
+        if (confirm(message)) {
+            deleteBlogPost(postId);
+        }
+    }
+};
+
+window.deleteBlogPost = function(postId) {
+    console.log('🗑️ deleteBlogPost вызвана для ID:', postId);
+    
+    // Создаем форму для отправки
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.style.display = 'none';
+    
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'delete';
+    
+    const idInput = document.createElement('input');
+    idInput.type = 'hidden';
+    idInput.name = 'id';
+    idInput.value = postId;
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = '<?php echo $csrf_token; ?>';
+    
+    form.appendChild(actionInput);
+    form.appendChild(idInput);
+    form.appendChild(csrfInput);
+    
+    document.body.appendChild(form);
+    console.log('📤 Отправляем форму удаления статьи блога...');
+    form.submit();
+};
+
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Функции удаления статей блога инициализированы');
+});
+</script>
 
 <?php elseif ($action === 'create' || $action === 'edit'): ?>
     <!-- Форма создания/редактирования статьи -->
@@ -855,6 +919,11 @@ ob_start();
     </div>
 
 <?php endif; ?>
+
+<?php
+// Рендерим модальное окно подтверждения
+render_confirmation_modal();
+?>
 
 <?php
 $page_content = ob_get_clean();
