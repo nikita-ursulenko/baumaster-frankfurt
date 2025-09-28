@@ -2781,3 +2781,327 @@
 [2025-09-27 10:35:23] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
 [2025-09-27 10:35:23] [INFO] Translation saved: seo_settings.description (ID: home_de)
 [2025-09-27 11:02:08] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:16:25] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:16:25] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:17:17] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:17:25] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:17:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:17:56] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:46:08] [INFO] User root logged in
+[2025-09-27 13:46:11] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:47:29] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:47:29] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:47:29] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:47:56] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:47:56] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:47:56] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:47:57] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:47:57] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:47:57] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:13] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:13] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:13] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:27] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:27] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:27] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:48:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:48:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:02] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:49:02] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:02] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:18] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:49:18] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:18] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:49:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:44] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:49:44] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:44] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:49:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:49:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:08] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:08] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:08] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:35] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:35] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:35] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:47] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:47] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:47] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:50:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:50:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:51:05] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:51:05] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:51:05] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:51:10] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:51:10] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:51:10] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:51:48] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:51:48] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:51:48] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:52:20] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:52:20] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:52:20] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:52:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:52:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:52:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:52:34] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:52:34] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:52:34] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: views
+[2025-09-27 13:55:26] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:38] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:39] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:47] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:48] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:55:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:00] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:56:37] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:57:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:57:13] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:57:22] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:57:44] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:57:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:57:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:58:21] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:58:22] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:58:28] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:58:29] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:58:29] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:58:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:59:36] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 13:59:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:00:10] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:02:36] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:03:20] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:03:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:03:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:04:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:04:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:04:36] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:05:35] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:05:41] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:05:50] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:08] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:13] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:14] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:06:27] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:34] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:45] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:06:51] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:07:52] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:08:39] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:08:47] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:09:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:09:30] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:31] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:31] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:32] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:32] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:33] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:09:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:09:59] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:12:55] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:12:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:12:59] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:12:59] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:13:03] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:13:03] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 near "[!]": syntax error
+[2025-09-27 14:13:33] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:13:50] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:14:07] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:14:42] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:14:43] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:15:10] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:15:44] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:15:58] [ERROR] Update error: SQLSTATE[HY000]: General error: 1 no such column: updated_at
+[2025-09-27 14:16:17] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:16:41] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:17:02] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:17:07] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:17:11] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:18:59] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:19:09] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:19:10] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:19:25] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:19:27] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:19:34] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:19:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:21:01] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:21:03] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:21:32] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:21:34] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:21:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:21:53] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:22:18] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:22:31] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:22:39] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:23:20] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:23:30] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:23:40] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:23:42] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:23:43] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:24:51] [INFO] User root logged in
+[2025-09-27 14:24:54] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 14:25:41] [INFO] POST request received: {"action":"update","csrf_token":"c5f266c078268b4d19d0a5fdc4781507c40890065c15e47376f09bc5c36f8fcb","title":"\u041a\u043e\u043c\u043f\u043b\u0435\u043a\u0441\u043d\u044b\u0439 \u0440\u0435\u043c\u043e\u043d\u0442","category":"renovation","description":"\u041f\u043e\u043b\u043d\u044b\u0439 \u0440\u0435\u043c\u043e\u043d\u0442 \u043a\u0432\u0430\u0440\u0442\u0438\u0440 \u0438 \u0434\u043e\u043c\u043e\u0432 \u043f\u043e\u0434 \u043a\u043b\u044e\u0447. \u041e\u0442 \u043f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u043a\u0438 \u0438 \u0447\u0435\u0440\u043d\u043e\u0432\u044b\u0445 \u0440\u0430\u0431\u043e\u0442 \u0434\u043e \u0444\u0438\u043d\u0438\u0448\u043d\u043e\u0439 \u043e\u0442\u0434\u0435\u043b\u043a\u0438. \u0423\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u043c \u0432\u0441\u0435\u043c \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u043e\u043c, \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u043e \u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0430\u0435\u043c \u0441\u0440\u043e\u043a\u0438.","price":"500","price_type":"per_m2","status":"active","priority":"50","meta_title":"\u041a\u043e\u043c\u043f\u043b\u0435\u043a\u0441\u043d\u044b\u0439 \u0440\u0435\u043c\u043e\u043d\u0442 \u043a\u0432\u0430\u0440\u0442\u0438\u0440 \u0432\u043e \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442\u0435 | \u041f\u043e\u0434 \u043a\u043b\u044e\u0447","meta_description":"\u041f\u043e\u043b\u043d\u044b\u0439 \u0440\u0435\u043c\u043e\u043d\u0442 \u043a\u0432\u0430\u0440\u0442\u0438\u0440 \u0438 \u0434\u043e\u043c\u043e\u0432 \u0432 \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442\u0435 \u043f\u043e\u0434 \u043a\u043b\u044e\u0447. \u041f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u043a\u0430, \u0432\u0441\u0435 \u0432\u0438\u0434\u044b \u0440\u0430\u0431\u043e\u0442, \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0430. \u041f\u0440\u043e\u0444\u0435\u0441\u0441\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430.","keywords":"\u043a\u043e\u043c\u043f\u043b\u0435\u043a\u0441\u043d\u044b\u0439 \u0440\u0435\u043c\u043e\u043d\u0442 \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442, \u0440\u0435\u043c\u043e\u043d\u0442 \u043a\u0432\u0430\u0440\u0442\u0438\u0440 \u043f\u043e\u0434 \u043a\u043b\u044e\u0447, \u043a\u0430\u043f\u0438\u0442\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0435\u043c\u043e\u043d\u0442, \u0435\u0432\u0440\u043e\u0440\u0435\u043c\u043e\u043d\u0442"}
+[2025-09-27 14:25:41] [INFO] FILES received: {"image":{"name":"\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-27 \u0432 14.25.21.png","full_path":"\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-27 \u0432 14.25.21.png","type":"image\/png","tmp_name":"\/Applications\/XAMPP\/xamppfiles\/temp\/phpayCO8k","error":0,"size":126994},"gallery":{"name":["\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-27 \u0432 14.25.21.png"],"full_path":["\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-27 \u0432 14.25.21.png"],"type":["image\/png"],"tmp_name":["\/Applications\/XAMPP\/xamppfiles\/temp\/phpx5PPyp"],"error":[0],"size":[126994]}}
+[2025-09-27 14:25:41] [INFO] Service updated: Комплексный ремонт (ID: 6)
+[2025-09-27 14:35:25] [INFO] POST request received: {"action":"create","csrf_token":"f4821de22246d379e7484bacc2f7756ef2adfad783cb7c98a38d1de7d9be13dd","title":"\u0414\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u043f\u0440\u0435\u043c\u0438\u0443\u043c-\u043a\u043b\u0430\u0441\u0441\u0430","category":"renovation","description":"\u041a\u043e\u043c\u043f\u043b\u0435\u043a\u0441\u043d\u044b\u0439 \u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u043e\u0432 \u0438 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0439. \u0412\u043a\u043b\u044e\u0447\u0430\u0435\u0442 3D-\u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044e, \u043f\u043e\u0434\u0431\u043e\u0440 \u043c\u0435\u0431\u0435\u043b\u0438 \u0438 \u0434\u0435\u043a\u043e\u0440\u0430, \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0439 \u043d\u0430\u0434\u0437\u043e\u0440 \u0437\u0430 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0435\u0439 \u043f\u0440\u043e\u0435\u043a\u0442\u0430.","price":"75","price_type":"fixed","status":"active","priority":"0","meta_title":"\u0414\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u043f\u0440\u0435\u043c\u0438\u0443\u043c-\u043a\u043b\u0430\u0441\u0441\u0430 \u0432\u043e \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442\u0435","meta_description":"\u041f\u0440\u043e\u0444\u0435\u0441\u0441\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u0441 3D-\u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0435\u0439. \u0421\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b, \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0439 \u043d\u0430\u0434\u0437\u043e\u0440. \u041f\u0440\u0435\u043c\u0438\u0443\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u043e \u0432\u043e \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442\u0435.","keywords":"\u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430, 3D \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f, \u043f\u0440\u0435\u043c\u0438\u0443\u043c, \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442, \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0439 \u043d\u0430\u0434\u0437\u043e\u0440"}
+[2025-09-27 14:35:25] [INFO] FILES received: {"image":{"name":"68d7d7c57443e_1758975941.png","full_path":"68d7d7c57443e_1758975941.png","type":"image\/png","tmp_name":"\/Applications\/XAMPP\/xamppfiles\/temp\/phpb7hkb4","error":0,"size":126994},"gallery":{"name":["68d1b40d76236_1758573581.png","68d1b48126ba2_1758573697.png","68d1bcab27a31_1758575787.png"],"full_path":["68d1b40d76236_1758573581.png","68d1b48126ba2_1758573697.png","68d1bcab27a31_1758575787.png"],"type":["image\/png","image\/png","image\/png"],"tmp_name":["\/Applications\/XAMPP\/xamppfiles\/temp\/phpngyyDx","\/Applications\/XAMPP\/xamppfiles\/temp\/php0ATcbX","\/Applications\/XAMPP\/xamppfiles\/temp\/phpigqIGv"],"error":[0,0,0],"size":[70,70,70]}}
+[2025-09-27 14:35:25] [INFO] Creating service with data: {"action":"create","csrf_token":"f4821de22246d379e7484bacc2f7756ef2adfad783cb7c98a38d1de7d9be13dd","title":"\u0414\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u043f\u0440\u0435\u043c\u0438\u0443\u043c-\u043a\u043b\u0430\u0441\u0441\u0430","category":"renovation","description":"\u041a\u043e\u043c\u043f\u043b\u0435\u043a\u0441\u043d\u044b\u0439 \u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u043e\u0432 \u0438 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0439. \u0412\u043a\u043b\u044e\u0447\u0430\u0435\u0442 3D-\u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044e, \u043f\u043e\u0434\u0431\u043e\u0440 \u043c\u0435\u0431\u0435\u043b\u0438 \u0438 \u0434\u0435\u043a\u043e\u0440\u0430, \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0439 \u043d\u0430\u0434\u0437\u043e\u0440 \u0437\u0430 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0435\u0439 \u043f\u0440\u043e\u0435\u043a\u0442\u0430.","price":"75","price_type":"fixed","status":"active","priority":"0","meta_title":"\u0414\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u043f\u0440\u0435\u043c\u0438\u0443\u043c-\u043a\u043b\u0430\u0441\u0441\u0430 \u0432\u043e \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442\u0435","meta_description":"\u041f\u0440\u043e\u0444\u0435\u0441\u0441\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430 \u0441 3D-\u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0435\u0439. \u0421\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b, \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0439 \u043d\u0430\u0434\u0437\u043e\u0440. \u041f\u0440\u0435\u043c\u0438\u0443\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u043e \u0432\u043e \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442\u0435.","keywords":"\u0434\u0438\u0437\u0430\u0439\u043d \u0438\u043d\u0442\u0435\u0440\u044c\u0435\u0440\u0430, 3D \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f, \u043f\u0440\u0435\u043c\u0438\u0443\u043c, \u0424\u0440\u0430\u043d\u043a\u0444\u0443\u0440\u0442, \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0439 \u043d\u0430\u0434\u0437\u043e\u0440"}
+[2025-09-27 14:35:26] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 14:35:26] [INFO] Translation saved: services.title (ID: 14)
+[2025-09-27 14:35:27] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 14:35:27] [INFO] Translation saved: services.description (ID: 14)
+[2025-09-27 14:35:28] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 14:35:28] [INFO] Translation saved: services.meta_title (ID: 14)
+[2025-09-27 14:35:30] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 14:35:30] [INFO] Translation saved: services.meta_description (ID: 14)
+[2025-09-27 14:35:31] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 14:35:31] [INFO] Translation saved: services.keywords (ID: 14)
+[2025-09-27 14:35:31] [INFO] Auto-translation completed for service ID: 14
+[2025-09-27 14:35:31] [INFO] New service created: Дизайн интерьера премиум-класса (ID: 14)
+[2025-09-27 14:35:31] [INFO] Create service result: {"success":true,"service_id":"14","message":"\u0423\u0441\u043b\u0443\u0433\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"}
+[2025-09-27 20:54:05] [INFO] POST request received: {"action":"create","csrf_token":"f4821de22246d379e7484bacc2f7756ef2adfad783cb7c98a38d1de7d9be13dd","title":"\u041f\u043e\u043a\u0440\u0430\u0441\u043a\u0430 \u0441\u0442\u0435\u043d \u0438 \u043f\u043e\u0442\u043e\u043b\u043a\u043e\u0432","category":"painting","description":"\u041f\u0440\u043e\u0444\u0435\u0441\u0441\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u043e\u043a\u0440\u0430\u0441\u043a\u0430 \u0441\u0442\u0435\u043d \u0438 \u043f\u043e\u0442\u043e\u043b\u043a\u043e\u0432 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u043e\u0432. \u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0430 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438, \u0433\u0440\u0443\u043d\u0442\u043e\u0432\u043a\u0430, \u043f\u043e\u043a\u0440\u0430\u0441\u043a\u0430 \u0432 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0441\u043b\u043e\u0435\u0432. \u0413\u0430\u0440\u0430\u043d\u0442\u0438\u044f \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0430 \u0438 \u0434\u043e\u043b\u0433\u043e\u0432\u0435\u0447\u043d\u043e\u0441\u0442\u0438 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0430.","price":"30","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-27 20:54:05] [INFO] FILES received: {"image":{"name":"","full_path":"","type":"","tmp_name":"","error":4,"size":0},"gallery":{"name":[""],"full_path":[""],"type":[""],"tmp_name":[""],"error":[4],"size":[0]}}
+[2025-09-27 20:54:05] [INFO] Creating service with data: {"action":"create","csrf_token":"f4821de22246d379e7484bacc2f7756ef2adfad783cb7c98a38d1de7d9be13dd","title":"\u041f\u043e\u043a\u0440\u0430\u0441\u043a\u0430 \u0441\u0442\u0435\u043d \u0438 \u043f\u043e\u0442\u043e\u043b\u043a\u043e\u0432","category":"painting","description":"\u041f\u0440\u043e\u0444\u0435\u0441\u0441\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u043e\u043a\u0440\u0430\u0441\u043a\u0430 \u0441\u0442\u0435\u043d \u0438 \u043f\u043e\u0442\u043e\u043b\u043a\u043e\u0432 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u043e\u0432. \u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0430 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438, \u0433\u0440\u0443\u043d\u0442\u043e\u0432\u043a\u0430, \u043f\u043e\u043a\u0440\u0430\u0441\u043a\u0430 \u0432 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0441\u043b\u043e\u0435\u0432. \u0413\u0430\u0440\u0430\u043d\u0442\u0438\u044f \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0430 \u0438 \u0434\u043e\u043b\u0433\u043e\u0432\u0435\u0447\u043d\u043e\u0441\u0442\u0438 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0430.","price":"30","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-27 20:54:06] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 20:54:06] [INFO] Translation saved: services.title (ID: 15)
+[2025-09-27 20:54:07] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 20:54:07] [INFO] Translation saved: services.description (ID: 15)
+[2025-09-27 20:54:07] [INFO] Auto-translation completed for service ID: 15
+[2025-09-27 20:54:07] [INFO] New service created: Покраска стен и потолков (ID: 15)
+[2025-09-27 20:54:07] [INFO] Create service result: {"success":true,"service_id":"15","message":"\u0423\u0441\u043b\u0443\u0433\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"}
+[2025-09-27 20:56:51] [INFO] POST request received: {"action":"create","csrf_token":"f4821de22246d379e7484bacc2f7756ef2adfad783cb7c98a38d1de7d9be13dd","title":"\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c ","category":"painting","description":"\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 http:\/\/localhost\/de\/services.php \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u044c \u043d\u0430 \u043d\u0435\u043c\u0435\u0446\u043a\u0438\u0439\r\n\u041d\u0430\u0448\u0438 \u0443\u0441\u043b\u0443\u0433\u0438 \u043f\u043e \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u043c \u0440\u0430\u0431\u043e\u0442\u0430\u043c\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 http:\/\/localhost\/de\/services.php \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u044c \u043d\u0430 \u043d\u0435\u043c\u0435\u0446\u043a\u0438\u0439\r\n\u041d\u0430\u0448\u0438 \u0443\u0441\u043b\u0443\u0433\u0438 \u043f\u043e \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u043c \u0440\u0430\u0431\u043e\u0442\u0430\u043c\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 http:\/\/localhost\/de\/services.php \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u044c \u043d\u0430 \u043d\u0435\u043c\u0435\u0446\u043a\u0438\u0439\r\n\u041d\u0430\u0448\u0438 \u0443\u0441\u043b\u0443\u0433\u0438 \u043f\u043e \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u043c \u0440\u0430\u0431\u043e\u0442\u0430\u043c","price":"","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-27 20:56:51] [INFO] FILES received: {"image":{"name":"","full_path":"","type":"","tmp_name":"","error":4,"size":0},"gallery":{"name":[""],"full_path":[""],"type":[""],"tmp_name":[""],"error":[4],"size":[0]}}
+[2025-09-27 20:56:51] [INFO] Creating service with data: {"action":"create","csrf_token":"f4821de22246d379e7484bacc2f7756ef2adfad783cb7c98a38d1de7d9be13dd","title":"\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c ","category":"painting","description":"\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 http:\/\/localhost\/de\/services.php \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u044c \u043d\u0430 \u043d\u0435\u043c\u0435\u0446\u043a\u0438\u0439\r\n\u041d\u0430\u0448\u0438 \u0443\u0441\u043b\u0443\u0433\u0438 \u043f\u043e \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u043c \u0440\u0430\u0431\u043e\u0442\u0430\u043c\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 http:\/\/localhost\/de\/services.php \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u044c \u043d\u0430 \u043d\u0435\u043c\u0435\u0446\u043a\u0438\u0439\r\n\u041d\u0430\u0448\u0438 \u0443\u0441\u043b\u0443\u0433\u0438 \u043f\u043e \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u043c \u0440\u0430\u0431\u043e\u0442\u0430\u043c\u0442\u0430\u043c \u0435\u0449\u0435 \u043f\u043e\u043f\u0440\u0430\u0432\u044c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 http:\/\/localhost\/de\/services.php \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442\u044c \u043d\u0430 \u043d\u0435\u043c\u0435\u0446\u043a\u0438\u0439\r\n\u041d\u0430\u0448\u0438 \u0443\u0441\u043b\u0443\u0433\u0438 \u043f\u043e \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u043c \u0440\u0430\u0431\u043e\u0442\u0430\u043c","price":"","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-27 20:56:52] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 20:56:52] [INFO] Translation saved: services.title (ID: 16)
+[2025-09-27 20:56:53] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 20:56:53] [INFO] Translation saved: services.description (ID: 16)
+[2025-09-27 20:56:53] [INFO] Auto-translation completed for service ID: 16
+[2025-09-27 20:56:53] [INFO] New service created: там еще поправь (ID: 16)
+[2025-09-27 20:56:53] [INFO] Create service result: {"success":true,"service_id":"16","message":"\u0423\u0441\u043b\u0443\u0433\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"}
+[2025-09-27 21:07:18] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:07:18] [INFO] Translation saved: seo_settings.title (ID: services_de)
+[2025-09-27 21:07:18] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:07:18] [INFO] Translation saved: seo_settings.h1 (ID: services_de)
+[2025-09-27 21:07:19] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:07:19] [INFO] Translation saved: seo_settings.description (ID: services_de)
+[2025-09-27 21:07:20] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:07:20] [INFO] Translation saved: seo_settings.keywords (ID: services_de)
+[2025-09-27 21:07:21] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:07:21] [INFO] Translation saved: seo_settings.og_title (ID: services_de)
+[2025-09-27 21:07:21] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:07:21] [INFO] Translation saved: seo_settings.og_description (ID: services_de)
+[2025-09-27 21:09:49] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:09:49] [INFO] Translation saved: seo_settings.title (ID: home_de)
+[2025-09-27 21:09:50] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:09:50] [INFO] Translation saved: seo_settings.h1 (ID: home_de)
+[2025-09-27 21:09:50] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:09:50] [INFO] Translation saved: seo_settings.description (ID: home_de)
+[2025-09-27 21:09:51] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:09:51] [INFO] Translation saved: seo_settings.keywords (ID: home_de)
+[2025-09-27 21:11:37] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:11:37] [INFO] Translation saved: seo_settings.title (ID: portfolio_de)
+[2025-09-27 21:11:37] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:11:37] [INFO] Translation saved: seo_settings.h1 (ID: portfolio_de)
+[2025-09-27 21:11:39] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:11:39] [INFO] Translation saved: seo_settings.description (ID: portfolio_de)
+[2025-09-27 21:11:40] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:11:40] [INFO] Translation saved: seo_settings.keywords (ID: portfolio_de)
+[2025-09-27 21:16:33] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:16:33] [INFO] Translation saved: seo_settings.title (ID: about_de)
+[2025-09-27 21:16:34] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:16:34] [INFO] Translation saved: seo_settings.h1 (ID: about_de)
+[2025-09-27 21:16:35] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:16:35] [INFO] Translation saved: seo_settings.description (ID: about_de)
+[2025-09-27 21:16:36] [ERROR] Insert error: SQLSTATE[HY000]: General error: 1 table translation_cache has no column named updated_at
+[2025-09-27 21:16:36] [INFO] Translation saved: seo_settings.keywords (ID: about_de)
+[2025-09-27 21:19:26] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:36:03] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:41:15] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:41:19] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:46:32] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:47:05] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:47:53] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-27 21:58:17] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
