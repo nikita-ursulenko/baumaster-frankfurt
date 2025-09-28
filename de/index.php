@@ -332,21 +332,21 @@ $content = ob_get_clean();
 ?>
 
 <!-- Service Modal -->
-<div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+<div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden items-center justify-center p-4">
     <div id="serviceModalContent" class="bg-white rounded-lg max-w-4xl mx-auto max-h-[90vh] overflow-y-auto w-full">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
 
 <!-- Gallery Modal -->
-<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9998] hidden items-center justify-center p-4">
     <div id="galleryModalContent" class="bg-white rounded-lg max-w-6xl mx-auto max-h-[90vh] overflow-y-auto w-full">
         <!-- Gallery content will be loaded here -->
     </div>
 </div>
 
 <!-- Image Modal -->
-<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center p-4">
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 z-[9997] hidden items-center justify-center p-4">
     <div class="relative max-w-7xl max-h-full">
         <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
