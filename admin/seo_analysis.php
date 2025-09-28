@@ -257,9 +257,6 @@ ob_start();
         <h2 class="text-xl font-semibold text-gray-900">
             <?php echo __('seo.analysis_title', 'SEO Анализ'); ?>
         </h2>
-        <p class="text-sm text-gray-600 mt-1">
-            <?php echo __('seo.analysis_description', 'Анализ и оптимизация SEO параметров сайта'); ?>
-        </p>
     </div>
 </div>
 
