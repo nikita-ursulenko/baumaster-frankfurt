@@ -744,6 +744,69 @@ ob_start();
         <?php endif; ?>
     </div>
 
+<!-- JavaScript функции для удаления услуг -->
+<script>
+// Делаем функции глобальными сразу
+window.confirmDeleteService = async function(serviceId, serviceTitle) {
+    console.log('🚀 confirmDeleteService вызвана:', serviceId, serviceTitle);
+    
+    const message = `Вы уверены, что хотите удалить услугу "${serviceTitle}"? Это действие нельзя отменить.`;
+    
+    // Проверяем, доступна ли функция showConfirmationModal
+    if (typeof showConfirmationModal === 'function') {
+        console.log('✅ Используем модальное окно');
+        const confirmed = await showConfirmationModal(message, 'Удаление услуги');
+        
+        if (confirmed) {
+            deleteService(serviceId);
+        }
+    } else {
+        console.log('⚠️ Используем fallback confirm');
+        // Fallback к обычному confirm
+        if (confirm(message)) {
+            deleteService(serviceId);
+        }
+    }
+};
+
+window.deleteService = function(serviceId) {
+    console.log('🗑️ deleteService вызвана для ID:', serviceId);
+    
+    // Создаем форму для отправки
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.style.display = 'none';
+    
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = 'delete';
+    
+    const idInput = document.createElement('input');
+    idInput.type = 'hidden';
+    idInput.name = 'id';
+    idInput.value = serviceId;
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = '<?php echo $csrf_token; ?>';
+    
+    form.appendChild(actionInput);
+    form.appendChild(idInput);
+    form.appendChild(csrfInput);
+    
+    document.body.appendChild(form);
+    console.log('📤 Отправляем форму удаления...');
+    form.submit();
+};
+
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Функции удаления услуг инициализированы');
+});
+</script>
+
 <?php elseif ($action === 'create' || $action === 'edit'): ?>
     <!-- Форма создания/редактирования услуги -->
     <div class="max-w-4xl">
@@ -1026,52 +1089,7 @@ async function confirmDelete(message) {
     return result;
 }
 
-async function confirmDeleteService(serviceId, serviceTitle) {
-    const message = `Вы уверены, что хотите удалить услугу "${serviceTitle}"? Это действие нельзя отменить.`;
-    
-    // Проверяем, доступна ли функция showConfirmationModal
-    if (typeof showConfirmationModal === 'function') {
-        const confirmed = await showConfirmationModal(message, 'Удаление услуги');
-        
-        if (confirmed) {
-            deleteService(serviceId);
-        }
-    } else {
-        // Fallback к обычному confirm
-        if (confirm(message)) {
-            deleteService(serviceId);
-        }
-    }
-}
-
-function deleteService(serviceId) {
-    // Создаем форму для отправки
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.style.display = 'none';
-    
-    const actionInput = document.createElement('input');
-    actionInput.type = 'hidden';
-    actionInput.name = 'action';
-    actionInput.value = 'delete';
-    
-    const idInput = document.createElement('input');
-    idInput.type = 'hidden';
-    idInput.name = 'id';
-    idInput.value = serviceId;
-    
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = 'csrf_token';
-    csrfInput.value = '<?php echo $csrf_token; ?>';
-    
-    form.appendChild(actionInput);
-    form.appendChild(idInput);
-    form.appendChild(csrfInput);
-    
-    document.body.appendChild(form);
-    form.submit();
-}
+// Функции уже определены выше в HTML
 
 </script>
 
