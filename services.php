@@ -18,16 +18,16 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section class="pt-16 bg-cover bg-center bg-no-repeat relative py-20" style="background-image: url('/assets/images/preview/services.png');">
+<section class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/services.png');">
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
-            <h1 class="font-montserrat font-semibold text-4xl lg:text-5xl text-white mb-6 hero-text-shadow">
+            <h1 class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php echo htmlspecialchars($seo['h1'] ?? 'Наши услуги'); ?>
             </h1>
-            <p class="text-xl text-white max-w-3xl mx-auto mb-8 hero-text-shadow">
+            <p class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow">
                 Выполняем все виды внутренних работ во Франкфурте. От небольшого косметического ремонта 
                 до комплексной реконструкции под ключ.
             </p>
