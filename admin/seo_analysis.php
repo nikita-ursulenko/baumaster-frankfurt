@@ -409,7 +409,157 @@ ob_start();
 </div>
 
 <!-- Результаты анализа -->
-<?php if (!empty($analysis_results)): ?>
+<?php if (!empty($analysis_results) && isset($analysis_results['analyze_pages'])): ?>
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-6">
+            <?php echo __('seo.analysis_results', 'Результаты SEO анализа'); ?>
+        </h3>
+        
+        <div class="space-y-6">
+            <?php foreach ($analysis_results['analyze_pages'] as $page => $analysis): ?>
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-lg font-medium text-gray-900">
+                            <?php echo htmlspecialchars($page); ?>
+                        </h4>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">SEO балл:</span>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-2xl font-bold <?php 
+                                    echo $analysis['score'] >= 80 ? 'text-green-600' : 
+                                        ($analysis['score'] >= 60 ? 'text-yellow-600' : 'text-red-600'); 
+                                ?>">
+                                    <?php echo $analysis['score']; ?>/<?php echo $analysis['max_score']; ?>
+                                </span>
+                                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full <?php 
+                                        echo $analysis['score'] >= 80 ? 'bg-green-600' : 
+                                            ($analysis['score'] >= 60 ? 'bg-yellow-600' : 'bg-red-600'); 
+                                    ?>" style="width: <?php echo ($analysis['score'] / $analysis['max_score']) * 100; ?>%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <?php foreach ($analysis['checks'] as $category => $category_data): ?>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h5 class="font-medium text-gray-900 capitalize">
+                                        <?php echo str_replace('_', ' ', $category); ?>
+                                    </h5>
+                                    <span class="text-sm font-medium <?php 
+                                        echo $category_data['score'] >= ($category_data['max_score'] * 0.8) ? 'text-green-600' : 
+                                            ($category_data['score'] >= ($category_data['max_score'] * 0.6) ? 'text-yellow-600' : 'text-red-600'); 
+                                    ?>">
+                                        <?php echo $category_data['score']; ?>/<?php echo $category_data['max_score']; ?>
+                                    </span>
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    <?php foreach ($category_data['checks'] as $check_name => $check): ?>
+                                        <div class="flex items-center space-x-2 text-sm">
+                                            <span class="w-2 h-2 rounded-full <?php 
+                                                echo $check['status'] === 'good' ? 'bg-green-500' : 
+                                                    ($check['status'] === 'warning' ? 'bg-yellow-500' : 'bg-red-500'); 
+                                            ?>"></span>
+                                            <span class="text-gray-600"><?php echo htmlspecialchars($check['message']); ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <!-- Критические проблемы -->
+                    <?php if (!empty($analysis['critical_issues'])): ?>
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-red-900 mb-2">🚨 Критические проблемы</h5>
+                            <ul class="space-y-1 text-sm text-red-700">
+                                <?php foreach ($analysis['critical_issues'] as $issue): ?>
+                                    <li>• <?php echo htmlspecialchars($issue['message']); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Предупреждения -->
+                    <?php if (!empty($analysis['warnings'])): ?>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-yellow-900 mb-2">⚠️ Предупреждения</h5>
+                            <ul class="space-y-1 text-sm text-yellow-700">
+                                <?php foreach (array_slice($analysis['warnings'], 0, 5) as $warning): ?>
+                                    <li>• <?php echo htmlspecialchars($warning['message']); ?></li>
+                                <?php endforeach; ?>
+                                <?php if (count($analysis['warnings']) > 5): ?>
+                                    <li class="text-yellow-600">... и еще <?php echo count($analysis['warnings']) - 5; ?> предупреждений</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Рекомендации -->
+                    <?php if (!empty($analysis['recommendations'])): ?>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h5 class="font-medium text-blue-900 mb-2">💡 Рекомендации</h5>
+                            <ul class="space-y-1 text-sm text-blue-700">
+                                <?php foreach (array_slice($analysis['recommendations'], 0, 5) as $recommendation): ?>
+                                    <li>• <?php echo htmlspecialchars($recommendation['message']); ?></li>
+                                <?php endforeach; ?>
+                                <?php if (count($analysis['recommendations']) > 5): ?>
+                                    <li class="text-blue-600">... и еще <?php echo count($analysis['recommendations']) - 5; ?> рекомендаций</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        
+        <!-- Общая статистика -->
+        <?php 
+        $total_score = 0;
+        $total_max_score = 0;
+        $total_pages = count($analysis_results['analyze_pages']);
+        foreach ($analysis_results['analyze_pages'] as $analysis) {
+            $total_score += $analysis['score'];
+            $total_max_score += $analysis['max_score'];
+        }
+        $average_score = $total_pages > 0 ? round(($total_score / $total_max_score) * 100) : 0;
+        ?>
+        
+        <div class="mt-8 bg-gray-50 rounded-lg p-6">
+            <h4 class="text-lg font-medium text-gray-900 mb-4">📊 Общая статистика</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold <?php 
+                        echo $average_score >= 80 ? 'text-green-600' : 
+                            ($average_score >= 60 ? 'text-yellow-600' : 'text-red-600'); 
+                    ?>">
+                        <?php echo $average_score; ?>%
+                    </div>
+                    <div class="text-sm text-gray-600">Средний SEO балл</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600"><?php echo $total_pages; ?></div>
+                    <div class="text-sm text-gray-600">Страниц проанализировано</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-600">
+                        <?php 
+                        $critical_count = 0;
+                        foreach ($analysis_results['analyze_pages'] as $analysis) {
+                            $critical_count += count($analysis['critical_issues']);
+                        }
+                        echo $critical_count;
+                        ?>
+                    </div>
+                    <div class="text-sm text-gray-600">Критических проблем</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php elseif (!empty($analysis_results)): ?>
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
         <h3 class="text-lg font-medium text-gray-900 mb-4">
             <?php echo __('seo.analysis_results', 'Результаты анализа'); ?>
@@ -1056,14 +1206,39 @@ function get_seo_statistics() {
  * Анализ всех страниц
  */
 function analyze_all_pages() {
+    require_once __DIR__ . '/../seo/advanced_seo_analyzer.php';
+    
     $results = [];
+    $site_url = get_site_url();
     
     // Анализ статических страниц
-    $static_pages = ['index.php', 'services.php', 'portfolio.php', 'about.php', 'reviews.php', 'blog.php', 'contact.php'];
+    $static_pages = [
+        'index.php' => '/',
+        'services.php' => '/services.php',
+        'portfolio.php' => '/portfolio.php',
+        'about.php' => '/about.php',
+        'reviews.php' => '/reviews.php',
+        'blog.php' => '/blog.php',
+        'contact.php' => '/contact.php'
+    ];
     
-    foreach ($static_pages as $page) {
-        if (file_exists($page)) {
-            $results[$page] = check_page_performance($page);
+    foreach ($static_pages as $file => $path) {
+        if (file_exists(__DIR__ . '/../' . $file)) {
+            $full_url = $site_url . $path;
+            $results[$file] = analyze_page_seo($full_url);
+        }
+    }
+    
+    // Анализ немецких страниц
+    $german_pages = [
+        'de/index.php' => '/de/',
+        'de/services.php' => '/de/services.php'
+    ];
+    
+    foreach ($german_pages as $file => $path) {
+        if (file_exists(__DIR__ . '/../' . $file)) {
+            $full_url = $site_url . $path;
+            $results[$file] = analyze_page_seo($full_url);
         }
     }
     
