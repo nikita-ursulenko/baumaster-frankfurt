@@ -58,6 +58,164 @@ ob_start();
 .portfolio-item .p-6 > div:last-child {
     margin-top: auto;
 }
+
+/* Smooth transitions for all interactive elements */
+.portfolio-item {
+    transition: all 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-item img {
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Button smooth transitions */
+button, .btn {
+    transition: all 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Link smooth transitions */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    transform: translateY(-1px);
+}
+
+/* Form elements smooth transitions */
+input, textarea, select {
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Modal smooth transitions */
+.modal {
+    transition: all 0.3s ease;
+}
+
+.modal-backdrop {
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    transition: all 0.3s ease;
+    transform: scale(0.9);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Section transitions */
+section {
+    transition: all 0.3s ease;
+}
+
+/* Card content smooth transitions */
+.portfolio-item h3 {
+    transition: color 0.3s ease;
+}
+
+.portfolio-item:hover h3 {
+    color: #3b82f6;
+}
+
+/* Price and button smooth transitions */
+.portfolio-item .font-semibold {
+    transition: all 0.3s ease;
+}
+
+.portfolio-item:hover .font-semibold {
+    transform: scale(1.05);
+}
+
+/* Smooth loading states */
+.loading {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+/* Smooth hover effects for text */
+.text-accent-blue {
+    transition: all 0.3s ease;
+}
+
+.text-accent-blue:hover {
+    transform: scale(1.05);
+}
+
+/* Enhanced smooth transitions for better UX */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth hover effects for all cards */
+.portfolio-item {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth image transitions */
+img {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth text transitions */
+h1, h2, h3, h4, h5, h6, p, span, div {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth background transitions */
+.bg-white, .bg-gray-50, .bg-gray-100 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth shadow transitions */
+.shadow-sm, .shadow, .shadow-lg, .shadow-xl {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth border transitions */
+.border, .border-2, .border-gray-200, .border-accent-blue {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth color transitions */
+.text-text-primary, .text-text-secondary, .text-accent-blue {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth opacity transitions */
+.opacity-0, .opacity-50, .opacity-75, .opacity-100 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth transform transitions */
+.transform, .translateY, .scale, .rotate {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 </style>
 
 <!-- Hero Section -->
