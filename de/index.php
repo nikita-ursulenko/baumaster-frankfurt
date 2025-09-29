@@ -246,23 +246,157 @@ ob_start();
         height: 48px;
     }
 }
+
+/* Scroll-triggered animations for sections */
+.services-title-animate,
+.services-subtitle-animate,
+.portfolio-title-animate,
+.portfolio-subtitle-animate,
+.about-title-animate,
+.reviews-title-animate,
+.reviews-subtitle-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.services-title-animate.animate,
+.services-subtitle-animate.animate,
+.portfolio-title-animate.animate,
+.portfolio-subtitle-animate.animate,
+.about-title-animate.animate,
+.reviews-title-animate.animate,
+.reviews-subtitle-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Service card animations */
+.service-card-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.service-card-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Portfolio card animations */
+.portfolio-card-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.portfolio-card-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* About stats animations */
+.about-stat-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+}
+
+.about-stat-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Review card animations */
+.review-card-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.review-card-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Service card hover effects */
+.service-card-animate .bg-white {
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.service-card-animate .bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.service-card-animate .bg-white:hover img {
+    transform: scale(1.05);
+}
+
+/* Service card content layout */
+.service-card-animate .bg-white > div:last-child {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.5rem;
+}
+
+.service-card-animate .bg-white > div:last-child > p {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.service-card-animate .bg-white > div:last-child > ul {
+    margin-bottom: 1rem;
+}
+
+.service-card-animate .bg-white > div:last-child > div:last-child {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+/* Portfolio card hover effects */
+.portfolio-card-animate .portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-card-animate .portfolio-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Review card hover effects */
+.review-card-animate .bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid alignment for equal height cards */
+.align-items-stretch {
+    align-items: stretch;
+}
 </style>
 
 <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="services-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 services-title-animate">
                 Unsere Dienstleistungen
             </h2>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+            <p id="services-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto services-subtitle-animate">
                 Wir führen alle Arten von Innenarbeiten mit Qualitätsgarantie und pünktlich durch
             </p>
         </div>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach (array_slice($services, -3, 3) as $service): ?>
-                <?php render_service_card($service); ?>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
+            <?php foreach (array_slice($services, -3, 3) as $index => $service): ?>
+                <div class="service-card-animate" data-delay="<?php echo $index * 0.2; ?>">
+                    <?php render_service_card($service); ?>
+                </div>
             <?php endforeach; ?>
         </div>
         
@@ -281,17 +415,18 @@ ob_start();
 <section id="portfolio" class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="portfolio-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 portfolio-title-animate">
                 Unsere Arbeiten
             </h2>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+            <p id="portfolio-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto portfolio-subtitle-animate">
                 Sehen Sie sich Beispiele unserer Projekte an — von kleinen Renovierungen bis zur kompletten Rekonstruktion
             </p>
         </div>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach ($portfolio as $project): ?>
-                <div class="portfolio-item bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
+            <?php foreach ($portfolio as $index => $project): ?>
+                <div class="portfolio-card-animate" data-delay="<?php echo $index * 0.2; ?>">
+                    <div class="portfolio-item bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
                     
                     <!-- Featured Image -->
                     <div class="relative h-64 bg-gray-200 overflow-hidden group">
@@ -319,16 +454,20 @@ ob_start();
                     </div>
                     
                     <!-- Project Info -->
-                    <div class="p-6">
+                    <div class="p-6 flex flex-col flex-grow">
                         <h3 class="font-semibold text-xl text-text-primary mb-3">
                             <?php echo htmlspecialchars($project['title']); ?>
                         </h3>
-                        <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3">
+                        <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3 flex-grow">
                             <?php 
                             $description = $project['description'];
-                            $words = explode(' ', $description);
-                            if (count($words) > 30) {
-                                $description = implode(' ', array_slice($words, 0, 30)) . '...';
+                            if (strlen($description) > 200) {
+                                $description = substr($description, 0, 200);
+                                $lastSpace = strrpos($description, ' ');
+                                if ($lastSpace !== false) {
+                                    $description = substr($description, 0, $lastSpace);
+                                }
+                                $description .= '...';
                             }
                             echo htmlspecialchars($description); 
                             ?>
@@ -382,7 +521,7 @@ ob_start();
                         <?php endif; ?>
                         
                         <!-- Action Buttons -->
-                        <div class="flex gap-2">
+                        <div class="flex gap-2 mt-auto">
                             <button onclick="openProjectModal(<?php echo $project['id']; ?>)" 
                                     class="flex-1 bg-accent-blue text-white px-4 py-2 rounded font-medium hover:bg-blue-600 transition-colors">
                                 Mehr erfahren
@@ -394,6 +533,7 @@ ob_start();
                             </button>
                             <?php endif; ?>
                         </div>
+                    </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -415,7 +555,7 @@ ob_start();
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6">
+                <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
                     Über das Unternehmen Frankfurt Innenausbau
                 </h2>
                 <p class="text-lg text-text-secondary mb-6 leading-relaxed">
@@ -424,26 +564,26 @@ ob_start();
                 </p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8">
                     <?php if (!empty($statistics)): ?>
-                        <?php foreach (array_slice($statistics, 0, 4) as $stat): ?>
-                            <div class="text-center">
+                        <?php foreach (array_slice($statistics, 0, 4) as $index => $stat): ?>
+                            <div class="text-center about-stat-animate" data-delay="<?php echo $index * 0.1; ?>">
                                 <div class="text-3xl font-bold text-accent-blue mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
                                 <div class="text-text-secondary"><?php echo htmlspecialchars($stat['label']); ?></div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="text-center">
+                        <div class="text-center about-stat-animate" data-delay="0">
                             <div class="text-3xl font-bold text-accent-blue mb-2">500+</div>
                             <div class="text-text-secondary">Zufriedene Kunden</div>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center about-stat-animate" data-delay="0.1">
                             <div class="text-3xl font-bold text-accent-blue mb-2">10+</div>
                             <div class="text-text-secondary">Jahre Erfahrung</div>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center about-stat-animate" data-delay="0.2">
                             <div class="text-3xl font-bold text-accent-blue mb-2">100%</div>
                             <div class="text-text-secondary">Arbeitsqualität</div>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center about-stat-animate" data-delay="0.3">
                             <div class="text-3xl font-bold text-accent-blue mb-2">24/7</div>
                             <div class="text-text-secondary">Kundensupport</div>
                         </div>
@@ -495,17 +635,19 @@ ob_start();
 <section id="reviews" class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="reviews-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 reviews-title-animate">
                 Bewertungen unserer Kunden
             </h2>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+            <p id="reviews-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto reviews-subtitle-animate">
                 Lesen Sie, was diejenigen über unsere Arbeit sagen, die uns bereits ihre Renovierung anvertraut haben
             </p>
         </div>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php foreach ($reviews as $review): ?>
-                <?php render_review_card($review); ?>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 align-items-stretch">
+            <?php foreach ($reviews as $index => $review): ?>
+                <div class="review-card-animate" data-delay="<?php echo $index * 0.15; ?>">
+                    <?php render_review_card($review); ?>
+                </div>
             <?php endforeach; ?>
         </div>
         
@@ -735,6 +877,72 @@ document.addEventListener('click', function(event) {
         closeGalleryModal();
         closeImageModal();
     }
+});
+
+// Scroll-triggered animations
+function isElementPartiallyInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top < window.innerHeight &&
+        rect.bottom > 0
+    );
+}
+
+function animateSection(titleId, subtitleId, cardsSelector) {
+    // Animate title
+    const title = document.getElementById(titleId);
+    if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
+        title.classList.add('animate');
+        
+        // Animate subtitle after title
+        if (subtitleId) {
+            setTimeout(() => {
+                const subtitle = document.getElementById(subtitleId);
+                if (subtitle && !subtitle.classList.contains('animate')) {
+                    subtitle.classList.add('animate');
+                }
+            }, 300);
+        }
+    }
+    
+    // Animate cards
+    const cards = document.querySelectorAll(cardsSelector);
+    cards.forEach((card, index) => {
+        if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
+            const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
+            setTimeout(() => {
+                card.classList.add('animate');
+            }, delay);
+        }
+    });
+}
+
+function animateOnScroll() {
+    // Animate services section
+    animateSection('services-title', 'services-subtitle', '.service-card-animate');
+    
+    // Animate portfolio section
+    animateSection('portfolio-title', 'portfolio-subtitle', '.portfolio-card-animate');
+    
+    // Animate about section
+    animateSection('about-title', null, '.about-stat-animate');
+    
+    // Animate reviews section
+    animateSection('reviews-title', 'reviews-subtitle', '.review-card-animate');
+}
+
+// Throttled scroll event listener
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
+    scrollTimeout = setTimeout(animateOnScroll, 10);
+});
+
+// Initial check on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(animateOnScroll, 100);
 });
 </script>
 
