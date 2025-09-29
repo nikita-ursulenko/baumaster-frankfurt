@@ -230,9 +230,13 @@ function render_service_card($service) {
             <p class="text-text-secondary mb-4 leading-relaxed">
                 <?php 
                 $description = $service['description'];
-                $words = explode(' ', $description);
-                if (count($words) > 20) {
-                    $description = implode(' ', array_slice($words, 0, 20)) . '...';
+                if (strlen($description) > 200) {
+                    $description = substr($description, 0, 200);
+                    $lastSpace = strrpos($description, ' ');
+                    if ($lastSpace !== false) {
+                        $description = substr($description, 0, $lastSpace);
+                    }
+                    $description .= '...';
                 }
                 echo htmlspecialchars($description); 
                 ?>
@@ -326,9 +330,13 @@ function render_review_card($review) {
         <p class="text-text-secondary leading-relaxed mb-3">
             "<?php 
             $text = $review['text'];
-            $words = explode(' ', $text);
-            if (count($words) > 25) {
-                $text = implode(' ', array_slice($words, 0, 25)) . '...';
+            if (strlen($text) > 250) {
+                $text = substr($text, 0, 250);
+                $lastSpace = strrpos($text, ' ');
+                if ($lastSpace !== false) {
+                    $text = substr($text, 0, $lastSpace);
+                }
+                $text .= '...';
             }
             echo htmlspecialchars($text); 
             ?>"

@@ -588,9 +588,13 @@ ob_start();
                         <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3">
                             <?php 
                             $description = $project['description'];
-                            $words = explode(' ', $description);
-                            if (count($words) > 20) {
-                                $description = implode(' ', array_slice($words, 0, 20)) . '...';
+                            if (strlen($description) > 200) {
+                                $description = substr($description, 0, 200);
+                                $lastSpace = strrpos($description, ' ');
+                                if ($lastSpace !== false) {
+                                    $description = substr($description, 0, $lastSpace);
+                                }
+                                $description .= '...';
                             }
                             echo htmlspecialchars($description);
                             ?>
