@@ -276,6 +276,16 @@ section {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Tips card smooth upscale on hover */
+.tips-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tips-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
 /* Smooth image transitions */
 img {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -341,7 +351,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="bg-white p-6 rounded-lg shadow-lg tips-card">
                 <div class="w-12 h-12 bg-accent-blue text-white rounded-lg flex items-center justify-center mb-4">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -359,7 +369,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                 </ul>
             </div>
             
-            <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="bg-white p-6 rounded-lg shadow-lg tips-card">
                 <div class="w-12 h-12 bg-accent-blue text-white rounded-lg flex items-center justify-center mb-4">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
@@ -377,7 +387,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                 </ul>
             </div>
             
-            <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="bg-white p-6 rounded-lg shadow-lg tips-card">
                 <div class="w-12 h-12 bg-accent-blue text-white rounded-lg flex items-center justify-center mb-4">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
