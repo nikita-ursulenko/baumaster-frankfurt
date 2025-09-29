@@ -397,13 +397,6 @@ function render_frontend_head($title = '', $meta_description = '', $active_page 
             background-attachment: fixed;
         }
         
-        /* Mobile background attachment fix */
-        @media (max-width: 768px) {
-            #hero {
-                background-attachment: scroll;
-            }
-        }
-        
         /* Hero overlay animations */
         #hero .hero-overlay {
             transition: opacity 0.3s ease;
