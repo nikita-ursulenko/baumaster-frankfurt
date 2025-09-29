@@ -248,6 +248,11 @@ ob_start();
     padding-top: 1rem;
 }
 
+/* Grid alignment for equal height cards */
+.grid {
+    align-items: stretch;
+}
+
 /* Pricing card hover effects */
 .pricing-card-animate .bg-white:hover {
     transform: translateY(-5px);

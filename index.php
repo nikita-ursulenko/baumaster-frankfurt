@@ -325,6 +325,11 @@ ob_start();
     padding-top: 1rem;
 }
 
+/* Grid alignment for equal height cards */
+.grid {
+    align-items: stretch;
+}
+
 /* Portfolio Section Animations */
 .portfolio-title-animate {
     opacity: 0;
@@ -524,7 +529,7 @@ ob_start();
             </p>
         </div>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
             <?php foreach (array_slice($services, 0, 6) as $index => $service): ?>
                 <div class="service-card-animate" data-delay="<?php echo $index * 0.2; ?>">
                     <?php render_service_card($service); ?>

@@ -215,7 +215,7 @@ function render_contact_form($options = []) {
  */
 function render_service_card($service) {
     ?>
-    <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+    <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
         <?php if (!empty($service['image'])): ?>
             <div class="relative h-48 bg-gray-200">
                 <img src="<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" 
@@ -223,11 +223,11 @@ function render_service_card($service) {
             </div>
         <?php endif; ?>
         
-        <div class="p-6">
+        <div class="p-6 flex flex-col flex-grow">
             <h3 class="font-semibold text-xl text-text-primary mb-3">
                 <?php echo htmlspecialchars($service['title']); ?>
             </h3>
-            <p class="text-text-secondary mb-4 leading-relaxed">
+            <p class="text-text-secondary mb-4 leading-relaxed flex-grow">
                 <?php 
                 $description = $service['description'];
                 if (strlen($description) > 200) {
@@ -264,7 +264,7 @@ function render_service_card($service) {
                 <?php endif; ?>
             <?php endif; ?>
             
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center mt-auto">
                   <?php if (!empty($service['price'])): ?>
                       <span class="font-semibold text-lg text-accent-blue">
                          <?php echo (defined('CURRENT_LANG') && CURRENT_LANG === 'de') ? 'ab' : 'от'; ?> <?php echo htmlspecialchars($service['price']); ?> €

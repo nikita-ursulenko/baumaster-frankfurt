@@ -362,6 +362,11 @@ ob_start();
     padding-top: 1rem;
 }
 
+/* Grid alignment for equal height cards */
+.grid {
+    align-items: stretch;
+}
+
 /* Portfolio card hover effects */
 .portfolio-card-animate .portfolio-item:hover {
     transform: translateY(-5px);
