@@ -228,7 +228,14 @@ function render_service_card($service) {
                 <?php echo htmlspecialchars($service['title']); ?>
             </h3>
             <p class="text-text-secondary mb-4 leading-relaxed">
-                <?php echo htmlspecialchars($service['description']); ?>
+                <?php 
+                $description = $service['description'];
+                $words = explode(' ', $description);
+                if (count($words) > 20) {
+                    $description = implode(' ', array_slice($words, 0, 20)) . '...';
+                }
+                echo htmlspecialchars($description); 
+                ?>
             </p>
             
             <?php if (!empty($service['features'])): ?>
@@ -241,7 +248,7 @@ function render_service_card($service) {
                 if (is_array($features) && !empty($features)): 
                 ?>
                 <ul class="space-y-2 mb-6">
-                    <?php foreach ($features as $feature): ?>
+                    <?php foreach (array_slice($features, 0, 3) as $feature): ?>
                         <li class="flex items-center text-sm text-text-secondary">
                             <svg class="h-4 w-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -317,7 +324,14 @@ function render_review_card($review) {
         </div>
         
         <p class="text-text-secondary leading-relaxed mb-3">
-            "<?php echo htmlspecialchars($review['text']); ?>"
+            "<?php 
+            $text = $review['text'];
+            $words = explode(' ', $text);
+            if (count($words) > 25) {
+                $text = implode(' ', array_slice($words, 0, 25)) . '...';
+            }
+            echo htmlspecialchars($text); 
+            ?>"
         </p>
         
         <?php if (!empty($review['service'])): ?>

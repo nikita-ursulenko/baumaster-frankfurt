@@ -589,8 +589,8 @@ ob_start();
                             <?php 
                             $description = $project['description'];
                             $words = explode(' ', $description);
-                            if (count($words) > 30) {
-                                $description = implode(' ', array_slice($words, 0, 30)) . '...';
+                            if (count($words) > 20) {
+                                $description = implode(' ', array_slice($words, 0, 20)) . '...';
                             }
                             echo htmlspecialchars($description);
                             ?>
