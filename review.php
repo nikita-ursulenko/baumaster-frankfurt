@@ -146,6 +146,176 @@ ob_start();
         transform: translateY(0);
     }
 }
+
+/* Fade in up animations */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-up.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Smooth transitions for all interactive elements */
+.card, .review-card, .stat-item, .feature-item {
+    transition: all 0.3s ease;
+}
+
+.card:hover, .review-card:hover, .stat-item:hover, .feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card img, .review-card img, .stat-item img, .feature-item img {
+    transition: transform 0.3s ease;
+}
+
+.card:hover img, .review-card:hover img, .stat-item:hover img, .feature-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Button smooth transitions */
+button, .btn {
+    transition: all 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Link smooth transitions */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    transform: translateY(-1px);
+}
+
+/* Form elements smooth transitions */
+input, textarea, select {
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Modal smooth transitions */
+.modal {
+    transition: all 0.3s ease;
+}
+
+.modal-backdrop {
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    transition: all 0.3s ease;
+    transform: scale(0.9);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Section transitions */
+section {
+    transition: all 0.3s ease;
+}
+
+/* Card content smooth transitions */
+.card h3, .review-card h3, .stat-item h3, .feature-item h3 {
+    transition: color 0.3s ease;
+}
+
+.card:hover h3, .review-card:hover h3, .stat-item:hover h3, .feature-item:hover h3 {
+    color: #3b82f6;
+}
+
+/* Price and button smooth transitions */
+.card .font-semibold, .review-card .font-semibold, .stat-item .font-semibold, .feature-item .font-semibold {
+    transition: all 0.3s ease;
+}
+
+.card:hover .font-semibold, .review-card:hover .font-semibold, .stat-item:hover .font-semibold, .feature-item:hover .font-semibold {
+    transform: scale(1.05);
+}
+
+/* Smooth loading states */
+.loading {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+/* Smooth hover effects for text */
+.text-accent-blue {
+    transition: all 0.3s ease;
+}
+
+.text-accent-blue:hover {
+    transform: scale(1.05);
+}
+
+/* Enhanced smooth transitions for better UX */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth hover effects for all cards */
+.card, .review-card, .stat-item, .feature-item {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth image transitions */
+img {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth text transitions */
+h1, h2, h3, h4, h5, h6, p, span, div {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth background transitions */
+.bg-white, .bg-gray-50, .bg-gray-100 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth shadow transitions */
+.shadow-sm, .shadow, .shadow-lg, .shadow-xl {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth border transitions */
+.border, .border-2, .border-gray-200, .border-accent-blue {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth color transitions */
+.text-text-primary, .text-text-secondary, .text-accent-blue {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth opacity transitions */
+.opacity-0, .opacity-50, .opacity-75, .opacity-100 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth transform transitions */
+.transform, .translateY, .scale, .rotate {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 </style>
 
 <!-- Statistics -->
@@ -153,8 +323,8 @@ ob_start();
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8 text-center">
             <?php if (!empty($statistics)): ?>
-                <?php foreach (array_slice($statistics, 0, 4) as $stat): ?>
-                    <div>
+                <?php foreach (array_slice($statistics, 0, 4) as $index => $stat): ?>
+                    <div class="stat-item fade-in-up" style="animation-delay: <?php echo ($index * 0.2); ?>s;">
                         <div class="text-4xl font-bold text-accent-blue mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
                         <div class="text-text-secondary"><?php echo htmlspecialchars($stat['label']); ?></div>
                     </div>
@@ -196,10 +366,10 @@ ob_start();
 <section class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="review-form-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Оставьте отзыв о нашей работе
             </h2>
-            <p class="text-xl text-text-secondary max-w-2xl mx-auto">
+            <p id="review-form-subtitle" class="text-xl text-text-secondary max-w-2xl mx-auto fade-in-up">
                 Ваше мнение важно для нас! Поделитесь впечатлениями о качестве выполненных работ.
             </p>
         </div>
@@ -288,16 +458,16 @@ ob_start();
 <section class="py-20 bg-accent-blue text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl mb-4">
+            <h2 id="video-reviews-title" class="font-montserrat font-semibold text-3xl lg:text-4xl mb-4 fade-in-up">
                 Видеоотзывы клиентов
             </h2>
-            <p class="text-xl opacity-90 max-w-3xl mx-auto">
+            <p id="video-reviews-subtitle" class="text-xl opacity-90 max-w-3xl mx-auto fade-in-up">
                 Посмотрите, что говорят наши клиенты о качестве выполненных работ
             </p>
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="bg-white bg-opacity-10 rounded-lg p-6 text-center">
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 text-center video-review-item fade-in-up" style="animation-delay: 0s;">
                 <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
@@ -310,7 +480,7 @@ ob_start();
                 </button>
             </div>
             
-            <div class="bg-white bg-opacity-10 rounded-lg p-6 text-center">
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 text-center video-review-item fade-in-up" style="animation-delay: 0.2s;">
                 <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
@@ -323,7 +493,7 @@ ob_start();
                 </button>
             </div>
             
-            <div class="bg-white bg-opacity-10 rounded-lg p-6 text-center">
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 text-center video-review-item fade-in-up" style="animation-delay: 0.4s;">
                 <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
@@ -342,10 +512,10 @@ ob_start();
 <!-- CTA Section -->
 <section class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6">
+        <h2 id="cta-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 fade-in-up">
             Станьте нашим следующим довольным клиентом
         </h2>
-        <p class="text-xl text-text-secondary mb-8 max-w-2xl mx-auto">
+        <p id="cta-subtitle" class="text-xl text-text-secondary mb-8 max-w-2xl mx-auto fade-in-up">
             Присоединяйтесь к сотням довольных клиентов, которые уже оценили качество нашей работы.
         </p>
         
@@ -543,6 +713,72 @@ document.getElementById('review-form').addEventListener('submit', async function
         submitButton.disabled = false;
         submitButton.textContent = originalText;
     }
+});
+
+// Animation functions
+function isElementPartiallyInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top < window.innerHeight &&
+        rect.bottom > 0
+    );
+}
+
+function animateElement(element, delay = 0) {
+    if (element && isElementPartiallyInViewport(element) && !element.classList.contains('animate')) {
+        setTimeout(() => {
+            element.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            element.classList.add('animate');
+        }, delay);
+    }
+}
+
+function animateOnScroll() {
+    // Animate statistics section
+    const statItems = document.querySelectorAll('.stat-item');
+    statItems.forEach((item, index) => {
+        animateElement(item, 0);
+    });
+    
+    // Animate review form section
+    const reviewFormTitle = document.getElementById('review-form-title');
+    const reviewFormSubtitle = document.getElementById('review-form-subtitle');
+    
+    if (reviewFormTitle) animateElement(reviewFormTitle, 0);
+    if (reviewFormSubtitle) animateElement(reviewFormSubtitle, 200);
+    
+    // Animate video reviews section
+    const videoReviewsTitle = document.getElementById('video-reviews-title');
+    const videoReviewsSubtitle = document.getElementById('video-reviews-subtitle');
+    const videoReviewItems = document.querySelectorAll('.video-review-item');
+    
+    if (videoReviewsTitle) animateElement(videoReviewsTitle, 0);
+    if (videoReviewsSubtitle) animateElement(videoReviewsSubtitle, 200);
+    
+    videoReviewItems.forEach((item, index) => {
+        animateElement(item, 400 + (index * 100));
+    });
+    
+    // Animate CTA section
+    const ctaTitle = document.getElementById('cta-title');
+    const ctaSubtitle = document.getElementById('cta-subtitle');
+    
+    if (ctaTitle) animateElement(ctaTitle, 0);
+    if (ctaSubtitle) animateElement(ctaSubtitle, 200);
+}
+
+// Throttled scroll event listener
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
+    scrollTimeout = setTimeout(animateOnScroll, 10);
+});
+
+// Initial check on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(animateOnScroll, 100);
 });
 </script>
 
