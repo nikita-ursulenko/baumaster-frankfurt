@@ -156,29 +156,33 @@ ob_start();
     margin-left: 0.1em;
 }
 
-/* Subtitle animation - appears after title */
+/* Subtitle animation - appears after title with smooth transition */
 .hero-subtitle-animate {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeInUp 0.6s ease-out forwards;
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     animation-delay: 0.8s; /* Faster appearance after title */
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Buttons animation - appears after subtitle */
+/* Buttons animation - appears after subtitle with smooth transition */
 .hero-animate {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeInUp 0.5s ease-out forwards;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* First button appears after subtitle */
+/* First button appears after subtitle with smooth transition */
 #hero-button-1 {
     animation-delay: 1.2s; /* Faster appearance */
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Second button appears slightly after first */
+/* Second button appears slightly after first with smooth transition */
 #hero-button-2 {
     animation-delay: 1.4s; /* 0.2s after first button */
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Fade in up animation */
@@ -382,11 +386,208 @@ ob_start();
     height: 100%;
 }
 
-/* Portfolio card hover effects */
+/* Smooth transitions for all interactive elements */
+.service-card-animate .bg-white {
+    transition: all 0.3s ease;
+}
+
+.service-card-animate .bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.service-card-animate .bg-white img {
+    transition: transform 0.3s ease;
+}
+
+.service-card-animate .bg-white:hover img {
+    transform: scale(1.05);
+}
+
+/* Portfolio card smooth transitions */
+.portfolio-card-animate .portfolio-item {
+    transition: all 0.3s ease;
+}
+
 .portfolio-card-animate .portfolio-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
+
+.portfolio-card-animate .portfolio-item img {
+    transition: transform 0.3s ease;
+}
+
+.portfolio-card-animate .portfolio-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Review card smooth transitions */
+.review-card-animate .bg-white {
+    transition: all 0.3s ease;
+}
+
+.review-card-animate .bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.review-card-animate .bg-white img {
+    transition: transform 0.3s ease;
+}
+
+.review-card-animate .bg-white:hover img {
+    transform: scale(1.05);
+}
+
+/* Button smooth transitions */
+button, .btn {
+    transition: all 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Link smooth transitions */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    transform: translateY(-1px);
+}
+
+/* Form elements smooth transitions */
+input, textarea, select {
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Modal smooth transitions */
+.modal {
+    transition: all 0.3s ease;
+}
+
+.modal-backdrop {
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    transition: all 0.3s ease;
+    transform: scale(0.9);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Section transitions */
+section {
+    transition: all 0.3s ease;
+}
+
+/* Card content smooth transitions */
+.service-card-animate .bg-white h3,
+.portfolio-card-animate .portfolio-item h3,
+.review-card-animate .bg-white h3 {
+    transition: color 0.3s ease;
+}
+
+.service-card-animate .bg-white:hover h3,
+.portfolio-card-animate .portfolio-item:hover h3,
+.review-card-animate .bg-white:hover h3 {
+    color: #3b82f6;
+}
+
+/* Price and button smooth transitions */
+.service-card-animate .bg-white .font-semibold,
+.portfolio-card-animate .portfolio-item .font-semibold {
+    transition: all 0.3s ease;
+}
+
+.service-card-animate .bg-white:hover .font-semibold,
+.portfolio-card-animate .portfolio-item:hover .font-semibold {
+    transform: scale(1.05);
+}
+
+/* Smooth loading states */
+.loading {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+/* Smooth hover effects for text */
+.text-accent-blue {
+    transition: all 0.3s ease;
+}
+
+.text-accent-blue:hover {
+    transform: scale(1.05);
+}
+
+/* Enhanced smooth transitions for better UX */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth hover effects for all cards */
+.service-card-animate,
+.portfolio-card-animate,
+.review-card-animate {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth image transitions */
+img {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth text transitions */
+h1, h2, h3, h4, h5, h6, p, span, div {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth background transitions */
+.bg-white, .bg-gray-50, .bg-gray-100 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth shadow transitions */
+.shadow-sm, .shadow, .shadow-lg, .shadow-xl {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth border transitions */
+.border, .border-2, .border-gray-200, .border-accent-blue {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth color transitions */
+.text-text-primary, .text-text-secondary, .text-accent-blue {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth opacity transitions */
+.opacity-0, .opacity-50, .opacity-75, .opacity-100 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth transform transitions */
+.transform, .translateY, .scale, .rotate {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 
 .portfolio-card-animate .portfolio-item:hover img {
     transform: scale(1.05);
@@ -1074,28 +1275,31 @@ function isElementPartiallyInViewport(el) {
 }
 
 function animateSection(titleId, subtitleId, cardsSelector) {
-    // Animate title
+    // Animate title with smooth transition
     const title = document.getElementById(titleId);
     if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
+        title.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         title.classList.add('animate');
         
-        // Animate subtitle after title
+        // Animate subtitle after title with smooth delay
         if (subtitleId) {
             setTimeout(() => {
                 const subtitle = document.getElementById(subtitleId);
                 if (subtitle && !subtitle.classList.contains('animate')) {
+                    subtitle.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
                     subtitle.classList.add('animate');
                 }
             }, 300);
         }
     }
     
-    // Animate cards
+    // Animate cards with smooth transitions
     const cards = document.querySelectorAll(cardsSelector);
     cards.forEach((card, index) => {
         if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
             const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
             setTimeout(() => {
+                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
                 card.classList.add('animate');
             }, delay);
         }
