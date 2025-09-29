@@ -433,6 +433,9 @@ function render_frontend_layout($options = []) {
     </head>
     <body class="<?php echo $opts['body_class']; ?>">
         
+        <!-- Progress Bar -->
+        <div id="progress-bar" class="fixed top-0 left-0 w-0 h-1 bg-gray-500 z-[9999] transition-all duration-150 ease-out"></div>
+        
         <?php if ($opts['show_navigation']): ?>
             <?php render_frontend_navigation($opts['active_page']); ?>
         <?php endif; ?>
@@ -725,6 +728,34 @@ function render_frontend_footer() {
 function render_frontend_scripts() {
     ?>
     <script>
+        // Progress bar functionality
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = scrollHeight > 0 ? Math.min((scrollTop / scrollHeight) * 100, 100) : 0;
+                
+                progressBar.style.width = scrollPercent + '%';
+            }
+        }
+
+        // Update progress bar on scroll
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Update progress bar on resize
+        window.addEventListener('resize', updateProgressBar);
+
+        // Initialize progress bar on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                progressBar.style.width = '0%';
+                // Update once after page load
+                setTimeout(updateProgressBar, 100);
+            }
+        });
+
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');

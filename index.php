@@ -33,9 +33,20 @@ ob_start();
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
             <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
-                <?php echo htmlspecialchars($seo['h1'] ?? 'Профессиональные внутренние работы во Франкфурте'); ?>
+                <?php 
+                $title = $seo['h1'] ?? 'Профессиональные внутренние работы во Франкфурте';
+                $words = explode(' ', $title);
+                $directions = ['left', 'right', 'top', 'bottom'];
+                foreach ($words as $index => $word) {
+                    $direction = $directions[$index % count($directions)];
+                    echo '<span class="hero-word hero-word-' . $direction . ' inline-block opacity-0" style="animation-delay: ' . ($index * 0.15) . 's;">' . htmlspecialchars($word) . '</span>';
+                    if ($index < count($words) - 1) {
+                        echo ' ';
+                    }
+                }
+                ?>
             </h1>
-            <p id="hero-subtitle" class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-animate">
+            <p id="hero-subtitle" class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
                 Полный спектр внутренних работ — от малярки до укладки полов. 
                 Премиальное качество и надёжность для вашего дома.
             </p>
@@ -62,6 +73,180 @@ ob_start();
         </div>
     </div>
 </section>
+
+<style>
+/* Hero section animations with optimized delays */
+
+/* Hero word animations from different directions */
+.hero-word {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Word from left */
+.hero-word-left {
+    transform: translateX(-50px);
+    animation: slideInFromLeft 0.8s ease-out forwards;
+}
+
+/* Word from right */
+.hero-word-right {
+    transform: translateX(50px);
+    animation: slideInFromRight 0.8s ease-out forwards;
+}
+
+/* Word from top */
+.hero-word-top {
+    transform: translateY(-30px);
+    animation: slideInFromTop 0.8s ease-out forwards;
+}
+
+/* Word from bottom */
+.hero-word-bottom {
+    transform: translateY(30px);
+    animation: slideInFromBottom 0.8s ease-out forwards;
+}
+
+/* Keyframes for different directions */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ensure proper spacing between words */
+.hero-word + .hero-word {
+    margin-left: 0.1em;
+}
+
+/* Subtitle animation - appears after title */
+.hero-subtitle-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+    animation-delay: 0.8s; /* Faster appearance after title */
+}
+
+/* Buttons animation - appears after subtitle */
+.hero-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* First button appears after subtitle */
+#hero-button-1 {
+    animation-delay: 1.2s; /* Faster appearance */
+}
+
+/* Second button appears slightly after first */
+#hero-button-2 {
+    animation-delay: 1.4s; /* 0.2s after first button */
+}
+
+/* Fade in up animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive button styling */
+.hero-animate {
+    flex: 1;
+    max-width: 250px;
+    min-width: 200px;
+}
+
+.hero-animate a,
+.hero-animate button {
+    width: 100%;
+    min-width: 180px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    height: 56px;
+}
+
+/* Mobile responsive - 65% width and centered */
+@media (max-width: 640px) {
+    .hero-animate {
+        flex: 1;
+        max-width: 65%;
+        width: 65%;
+        margin: 0 auto;
+    }
+    
+    .hero-animate a,
+    .hero-animate button {
+        min-width: 140px;
+        padding: 12px 24px;
+        font-size: 16px;
+        width: 100%;
+        height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-animate {
+        width: 65%;
+        max-width: 65%;
+        margin: 0 auto;
+    }
+    
+    .hero-animate a,
+    .hero-animate button {
+        width: 100%;
+        min-width: 120px;
+        padding: 14px 20px;
+        height: 48px;
+    }
+}
+</style>
 
 <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
