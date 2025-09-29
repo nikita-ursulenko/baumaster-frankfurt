@@ -117,6 +117,350 @@ input:focus, textarea:focus, select:focus {
     transform: scale(1);
 }
 
+/* Enhanced Project Modal Animations */
+#projectModal {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(0px);
+}
+
+#projectModal.show {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(8px);
+}
+
+#projectModalContent {
+    transform: translateY(50px) scale(0.9);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.1s;
+}
+
+#projectModal.show #projectModalContent {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Project Modal Header Animation */
+#projectModal .sticky.top-0 {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+    z-index: 10;
+    position: sticky;
+    top: 0;
+}
+
+#projectModal.show .sticky.top-0 {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Project Modal Content Animation */
+#projectModal .p-6 > * {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show .p-6 > * {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#projectModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
+
+/* Project Modal Image Animation */
+#projectModal img {
+    transform: scale(1.1);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+}
+
+#projectModal.show img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Project Modal Button Animation */
+#projectModal button {
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.4s;
+}
+
+#projectModal.show button {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Project Modal Close Button Hover Effect */
+#projectModal .sticky.top-0 button:hover {
+    transform: rotate(90deg) scale(1.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Project Modal Gallery Images Animation */
+#projectModal .grid img {
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show .grid img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+#projectModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
+#projectModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
+
+/* Project Modal List Items Animation */
+#projectModal ul li {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show ul li {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#projectModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
+#projectModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
+
+/* Project Modal Responsive Animations */
+@media (max-width: 768px) {
+    #projectModalContent {
+        transform: translateY(30px) scale(0.95);
+        margin: 0.5rem;
+        max-height: 98vh;
+    }
+    
+    #projectModal.show #projectModalContent {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Project Modal Gallery Optimization */
+#projectModal .grid {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+#projectModal .grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#projectModal .grid::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+#projectModal .grid::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+#projectModal .grid::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Project Info Cards Styling */
+.project-info-card,
+.project-description-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.project-info-card:hover,
+.project-description-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: #d1d5db;
+}
+
+/* Project Info Header */
+.project-info-header,
+.project-description-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.project-info-icon,
+.project-description-icon {
+    width: 32px;
+    height: 32px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    margin-right: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-info-card:hover .project-info-icon,
+.project-description-card:hover .project-description-icon {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.project-info-title,
+.project-description-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+/* Project Info Content */
+.project-info-content {
+    space-y: 8px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9fafb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-item:hover {
+    background-color: #f9fafb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 0 -12px;
+}
+
+.info-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #6b7280;
+    gap: 6px;
+}
+
+.info-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    padding: 2px 8px;
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:hover .info-value {
+    background-color: #e5e7eb;
+}
+
+.budget-value {
+    background: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
+}
+
+.status-value.active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-value.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Project Description Content */
+.project-description-content {
+    padding-top: 4px;
+}
+
+.description-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+    text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .project-info-card,
+    .project-description-card {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .project-info-header,
+    .project-description-header {
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+    }
+    
+    .project-info-icon,
+    .project-description-icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 8px;
+    }
+    
+    .project-info-title,
+    .project-description-title {
+        font-size: 0.9rem;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .info-label {
+        font-size: 0.75rem;
+    }
+    
+    .info-value {
+        font-size: 0.75rem;
+        align-self: flex-end;
+    }
+}
+
 /* Smooth scroll behavior */
 html {
     scroll-behavior: smooth;
@@ -566,18 +910,29 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Modals -->
 <!-- Project Detail Modal -->
-<div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
-    <div id="projectModalContent" class="w-full max-w-4xl"></div>
+<div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
+    <div id="projectModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+        <!-- Modal content will be loaded here -->
+    </div>
 </div>
 
 <!-- Gallery Modal -->
-<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
-    <div id="galleryModalContent" class="w-full max-w-4xl"></div>
+<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
+    <div id="galleryModalContent" class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+        <!-- Gallery content will be loaded here -->
+    </div>
 </div>
 
 <!-- Image Modal -->
-<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
-    <div id="imageModalContent" class="w-full max-w-4xl"></div>
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 z-[99999] hidden items-center justify-center p-4">
+    <div class="relative max-w-7xl max-h-full h-full">
+        <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <img id="modalImage" src="" alt="" class="max-w-full h-full object-contain">
+    </div>
 </div>
 
 <script>
@@ -637,12 +992,13 @@ function openProjectModal(projectId) {
     const modal = document.getElementById('projectModal');
     const modalContent = document.getElementById('projectModalContent');
     
+    // Создаем контент модального окна
     modalContent.innerHTML = `
-        <div class="bg-white rounded-lg max-w-4xl mx-auto max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-900">${project.title}</h2>
-                <button onclick="closeProjectModal()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="closeProjectModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90 hover:scale-110">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -653,95 +1009,178 @@ function openProjectModal(projectId) {
             <div class="p-6">
                 <!-- Featured Image -->
                 <div class="mb-6">
-                    <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg">
+                    <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg transition-all duration-300 hover:scale-105">
                 </div>
                 
-                <!-- Project Info -->
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3">Информация о проекте</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Площадь:</span>
-                                <span class="font-medium">${project.area}</span>
+                <!-- Project Info Cards -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8 py-2">
+                    <!-- Project Information Card -->
+                    <div class="project-info-card">
+                        <div class="project-info-header">
+                            <div class="project-info-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Срок:</span>
-                                <span class="font-medium">${project.duration}</span>
+                            <h3 class="project-info-title">Информация о проекте</h3>
+                        </div>
+                        <div class="project-info-content">
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                    </svg>
+                                    Площадь
+                                </div>
+                                <div class="info-value">${project.area}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Срок
+                                </div>
+                                <div class="info-value">${project.duration}</div>
                             </div>
                             ${project.budget ? `
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Бюджет:</span>
-                                <span class="font-medium">€${new Intl.NumberFormat('de-DE').format(project.budget)}</span>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    </svg>
+                                    Бюджет
+                                </div>
+                                <div class="info-value budget-value">€${new Intl.NumberFormat('de-DE').format(project.budget)}</div>
                             </div>
                             ` : ''}
                             ${project.completion_date ? `
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Дата завершения:</span>
-                                <span class="font-medium">${new Date(project.completion_date).toLocaleDateString('ru-RU')}</span>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Дата завершения
+                                </div>
+                                <div class="info-value">${new Date(project.completion_date).toLocaleDateString('ru-RU')}</div>
                             </div>
                             ` : ''}
                             ${project.client_name ? `
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Клиент:</span>
-                                <span class="font-medium">${project.client_name}</span>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    Клиент
+                                </div>
+                                <div class="info-value">${project.client_name}</div>
                             </div>
                             ` : ''}
                             ${project.location ? `
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Местоположение:</span>
-                                <span class="font-medium">${project.location}</span>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    Местоположение
+                                </div>
+                                <div class="info-value">${project.location}</div>
                             </div>
                             ` : ''}
                         </div>
                     </div>
                     
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3">Описание</h3>
-                        <p class="text-gray-700 leading-relaxed">${project.description}</p>
+                    <!-- Description Card -->
+                    <div class="project-description-card">
+                        <div class="project-description-header">
+                            <div class="project-description-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="project-description-title">Описание проекта</h3>
+                        </div>
+                        <div class="project-description-content">
+                            <p class="description-text">${project.description}</p>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Technical Details -->
                 ${project.technical_info && Object.keys(project.technical_info).length > 0 ? `
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold mb-3">Технические детали</h3>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        ${project.technical_info.rooms ? `
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Комнат:</span>
-                            <span class="font-medium">${project.technical_info.rooms}</span>
+                    <div class="project-info-card">
+                        <div class="project-info-header">
+                            <div class="project-info-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="project-info-title">Технические детали</h3>
                         </div>
-                        ` : ''}
-                        ${project.technical_info.bathrooms ? `
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Ванных:</span>
-                            <span class="font-medium">${project.technical_info.bathrooms}</span>
+                        <div class="project-info-content">
+                            ${project.technical_info.rooms ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                    </svg>
+                                    Комнат
+                                </div>
+                                <div class="info-value">${project.technical_info.rooms}</div>
+                            </div>
+                            ` : ''}
+                            ${project.technical_info.bathrooms ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M10.5 3L12 2l1.5 1H21v6H3V3h7.5z"></path>
+                                    </svg>
+                                    Ванных
+                                </div>
+                                <div class="info-value">${project.technical_info.bathrooms}</div>
+                            </div>
+                            ` : ''}
+                            ${project.technical_info.year ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Год
+                                </div>
+                                <div class="info-value">${project.technical_info.year}</div>
+                            </div>
+                            ` : ''}
+                            ${project.technical_info.style ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                                    </svg>
+                                    Стиль
+                                </div>
+                                <div class="info-value">${project.technical_info.style}</div>
+                            </div>
+                            ` : ''}
                         </div>
-                        ` : ''}
-                        ${project.technical_info.year ? `
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Год:</span>
-                            <span class="font-medium">${project.technical_info.year}</span>
-                        </div>
-                        ` : ''}
-                        ${project.technical_info.style ? `
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Стиль:</span>
-                            <span class="font-medium">${project.technical_info.style}</span>
+                        ${project.technical_info.features && project.technical_info.features.length > 0 ? `
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Особенности
+                            </h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.technical_info.features.map(feature => `
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full border border-blue-200 hover:bg-blue-100 transition-colors">${feature}</span>
+                                `).join('')}
+                            </div>
                         </div>
                         ` : ''}
                     </div>
-                    ${project.technical_info.features && project.technical_info.features.length > 0 ? `
-                    <div class="mt-4">
-                        <h4 class="font-medium mb-2">Особенности:</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${project.technical_info.features.map(feature => `
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">${feature}</span>
-                            `).join('')}
-                        </div>
-                    </div>
-                    ` : ''}
                 </div>
                 ` : ''}
                 
@@ -753,13 +1192,13 @@ function openProjectModal(projectId) {
                         ${project.before_after.before ? `
                         <div>
                             <h4 class="font-medium mb-2 text-center">До</h4>
-                            <img src="${project.before_after.before}" alt="До ремонта" class="w-full h-48 object-cover rounded-lg">
+                            <img src="${project.before_after.before}" alt="До ремонта" class="w-full h-48 object-cover rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer" onclick="openImageModal('${project.before_after.before}')">
                         </div>
                         ` : ''}
                         ${project.before_after.after ? `
                         <div>
                             <h4 class="font-medium mb-2 text-center">После</h4>
-                            <img src="${project.before_after.after}" alt="После ремонта" class="w-full h-48 object-cover rounded-lg">
+                            <img src="${project.before_after.after}" alt="После ремонта" class="w-full h-48 object-cover rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer" onclick="openImageModal('${project.before_after.after}')">
                         </div>
                         ` : ''}
                     </div>
@@ -772,7 +1211,7 @@ function openProjectModal(projectId) {
                     <h3 class="text-lg font-semibold mb-3">Галерея</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         ${project.gallery.map(image => `
-                            <img src="${image}" alt="Галерея" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity" onclick="openImageModal('${image}')">
+                            <img src="${image}" alt="Галерея" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-all duration-300 hover:scale-105" onclick="openImageModal('${image}')">
                         `).join('')}
                     </div>
                 </div>
@@ -793,16 +1232,29 @@ function openProjectModal(projectId) {
         </div>
     `;
     
+    // Показываем модальное окно с анимацией
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
+    
+    // Добавляем класс для анимации после небольшой задержки
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
 }
 
 function closeProjectModal() {
     const modal = document.getElementById('projectModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
+    
+    // Убираем класс анимации
+    modal.classList.remove('show');
+    
+    // Скрываем модальное окно после завершения анимации
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }, 400); // Время должно совпадать с CSS transition
 }
 
 // Gallery modal
@@ -814,11 +1266,11 @@ function openGallery(projectId) {
     const modalContent = document.getElementById('galleryModalContent');
     
     modalContent.innerHTML = `
-        <div class="bg-white rounded-lg max-w-4xl mx-auto max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-900">Галерея: ${project.title}</h2>
-                <button onclick="closeGalleryModal()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="closeGalleryModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90 hover:scale-110">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -829,7 +1281,7 @@ function openGallery(projectId) {
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     ${project.gallery.map(image => `
-                        <img src="${image}" alt="Галерея" class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity" onclick="openImageModal('${image}')">
+                        <img src="${image}" alt="Галерея" class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-all duration-300 hover:scale-105" onclick="openImageModal('${image}')">
                     `).join('')}
                 </div>
             </div>
@@ -851,20 +1303,10 @@ function closeGalleryModal() {
 // Image modal
 function openImageModal(imageSrc) {
     const modal = document.getElementById('imageModal');
-    const modalContent = document.getElementById('imageModalContent');
+    const modalImage = document.getElementById('modalImage');
     
-    modalContent.innerHTML = `
-        <div class="bg-white rounded-lg max-w-4xl mx-auto">
-            <div class="relative">
-                <img src="${imageSrc}" alt="Изображение" class="w-full h-auto max-h-[80vh] object-contain">
-                <button onclick="closeImageModal()" class="absolute top-4 right-4 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    `;
+    modalImage.src = imageSrc;
+    modalImage.alt = 'Галерея';
     
     modal.classList.remove('hidden');
     modal.classList.add('flex');
@@ -916,6 +1358,31 @@ window.addEventListener('scroll', function() {
         clearTimeout(scrollTimeout);
     }
     scrollTimeout = setTimeout(animateOnScroll, 10);
+});
+
+// Close modals on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeProjectModal();
+        closeGalleryModal();
+        closeImageModal();
+    }
+});
+
+// Close modals on backdrop click
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('fixed')) {
+        closeProjectModal();
+        closeGalleryModal();
+        closeImageModal();
+    }
+});
+
+// Предотвращаем закрытие при клике на контент модального окна
+document.addEventListener('click', function(event) {
+    if (event.target.closest('#projectModalContent')) {
+        event.stopPropagation();
+    }
 });
 
 // Initial check on page load
