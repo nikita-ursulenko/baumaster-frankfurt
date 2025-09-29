@@ -29,24 +29,25 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center hero-bg-animation" style="background-image: url('/assets/images/preview/services.png');">
+<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/services.png');">
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
-            <h1 class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow hero-title-animation">
+            <h1 class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php echo htmlspecialchars($seo['h1'] ?? 'Unsere Dienstleistungen'); ?>
             </h1>
-            <p class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animation">
+            <p class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow">
                 Professionelle Innenausbau- und Renovierungsdienstleistungen in Frankfurt am Main. 
                 Von Malerarbeiten bis zur kompletten Renovierung.
             </p>
-            <div class="hero-button-animation-1">
-                <a href="contact.php" class="hero-button-primary bg-accent-blue text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-blue-600 inline-block">
-                    Kostenlose Beratung
-                </a>
-            </div>
+            <?php render_frontend_button([
+                'text' => 'Kostenlose Beratung',
+                'variant' => 'primary',
+                'size' => 'lg',
+                'href' => 'contact.php'
+            ]); ?>
         </div>
     </div>
 </section>
