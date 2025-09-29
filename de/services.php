@@ -264,6 +264,16 @@ ob_start();
     align-items: stretch;
 }
 
+/* Ensure all service cards have equal height */
+.service-card-animate {
+    height: 100%;
+}
+
+/* Ensure all pricing cards have equal height */
+.pricing-card-animate {
+    height: 100%;
+}
+
 /* Pricing card hover effects */
 .pricing-card-animate .bg-white:hover {
     transform: translateY(-5px);
@@ -346,7 +356,7 @@ ob_start();
             </p>
         </div>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
             <div class="pricing-card-animate" data-delay="0">
                 <div class="bg-white border-2 border-gray-200 rounded-lg p-8 text-center hover:border-accent-blue transition-colors h-full flex flex-col">
                     <h3 class="font-semibold text-2xl text-text-primary mb-4">Malerarbeiten</h3>

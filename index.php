@@ -325,11 +325,6 @@ ob_start();
     padding-top: 1rem;
 }
 
-/* Grid alignment for equal height cards */
-.grid {
-    align-items: stretch;
-}
-
 /* Portfolio Section Animations */
 .portfolio-title-animate {
     opacity: 0;
@@ -407,6 +402,21 @@ ob_start();
 /* Grid alignment for equal height cards */
 .grid {
     align-items: stretch;
+}
+
+/* Ensure all service cards have equal height */
+.service-card-animate {
+    height: 100%;
+}
+
+/* Ensure all portfolio cards have equal height */
+.portfolio-card-animate {
+    height: 100%;
+}
+
+/* Ensure all review cards have equal height */
+.review-card-animate {
+    height: 100%;
 }
 
 /* About Section Animations */

@@ -367,6 +367,21 @@ ob_start();
     align-items: stretch;
 }
 
+/* Ensure all service cards have equal height */
+.service-card-animate {
+    height: 100%;
+}
+
+/* Ensure all portfolio cards have equal height */
+.portfolio-card-animate {
+    height: 100%;
+}
+
+/* Ensure all review cards have equal height */
+.review-card-animate {
+    height: 100%;
+}
+
 /* Portfolio card hover effects */
 .portfolio-card-animate .portfolio-item:hover {
     transform: translateY(-5px);
