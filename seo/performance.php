@@ -4,6 +4,9 @@
  * Baumaster SEO Tools - Performance Optimization
  */
 
+// Подключение функций
+require_once __DIR__ . '/../functions.php';
+
 /**
  * Минификация CSS
  */
@@ -289,12 +292,24 @@ function check_page_performance($url) {
         'status' => $images_without_alt === 0 ? 'good' : ($images_without_alt < $image_count * 0.2 ? 'warning' : 'bad')
     ];
     
-    // Проверка заголовков H1
-    preg_match_all('/<h1[^>]*>(.*?)<\/h1>/i', $content, $h1_tags);
+    // Проверка заголовков H1 (улучшенная версия для анимированных заголовков)
+    preg_match_all('/<h1[^>]*>(.*?)<\/h1>/is', $content, $h1_tags);
+    
+    // Если H1 найден, извлекаем текст из span элементов
     $h1_count = count($h1_tags[0]);
+    $h1_text = '';
+    if ($h1_count > 0) {
+        $h1_content = $h1_tags[1][0];
+        // Удаляем HTML теги и получаем чистый текст
+        $h1_text = strip_tags($h1_content);
+        // Удаляем лишние пробелы
+        $h1_text = preg_replace('/\s+/', ' ', trim($h1_text));
+    }
+    
     $performance_data['checks']['h1_count'] = [
         'value' => $h1_count,
-        'status' => $h1_count === 1 ? 'good' : ($h1_count === 0 ? 'bad' : 'warning')
+        'text' => $h1_text,
+        'status' => ($h1_count === 1 && !empty($h1_text)) ? 'good' : ($h1_count === 0 ? 'bad' : 'warning')
     ];
     
     return $performance_data;

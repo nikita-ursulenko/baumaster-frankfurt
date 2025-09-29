@@ -93,3 +93,13 @@
 [2025-09-29 02:11:41] [INFO] Auto-translation completed for service ID: 35
 [2025-09-29 02:11:41] [INFO] New service created: Малярка (ID: 35)
 [2025-09-29 02:11:41] [INFO] Create service result: {"success":true,"service_id":"35","message":"\u0423\u0441\u043b\u0443\u0433\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"}
+[2025-09-29 12:03:22] [INFO] User root logged in
+[2025-09-29 12:33:05] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-29 12:48:17] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-29 12:49:13] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-29 18:33:24] [WARNING] Failed login attempt for username: Root
+[2025-09-29 18:33:32] [INFO] User root logged in
+[2025-09-29 18:34:57] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-29 20:34:37] [INFO] User root logged in
+[2025-09-30 00:02:48] [INFO] User root logged in
+[2025-09-30 00:30:22] [INFO] User root logged in

@@ -322,5 +322,3 @@ function render_admin_javascript() {
     </script>
     <?php
 }
-?>
-

@@ -26,7 +26,7 @@ ob_start();
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
             <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
@@ -186,7 +186,7 @@ button, .btn {
 
 button:hover, .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); */
 }
 
 /* Link smooth transitions */
@@ -328,11 +328,22 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 .transform, .translateY, .scale, .rotate {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .py-20 > div:first-child {
+        margin: 0 5%;
+    }
+    
+    footer > div:first-child {
+        margin: 0 5%;
+    }
+}
 </style>
 
 <!-- FAQ Section -->
 <section class="py-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="space-y-4">
             <?php foreach ($faq as $index => $item): ?>
                 <?php render_faq_item($item, $index); ?>
@@ -343,7 +354,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Tips Section -->
 <section class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="tips-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Nützliche Tipps
@@ -413,7 +424,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Blog Posts -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="blog-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Artikel und Neuigkeiten
@@ -488,7 +499,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Contact Section -->
 <section class="py-20 bg-premium-gray">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 text-center">
         <h2 id="contact-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 fade-in-up">
             Haben Sie keine Antwort auf Ihre Frage gefunden?
         </h2>

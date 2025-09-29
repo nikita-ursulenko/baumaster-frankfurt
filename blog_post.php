@@ -20,7 +20,7 @@ if (!$post) {
     header('HTTP/1.0 404 Not Found');
     $content = '
         <section class="pt-16 py-20">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 text-center">
                 <h1 class="font-montserrat font-semibold text-4xl text-text-primary mb-4">
                     Статья не найдена
                 </h1>
@@ -52,9 +52,23 @@ $seo_keywords = $post['keywords'];
 ob_start();
 ?>
 
+<style>
+/* Responsive Design */
+@media (max-width: 768px) {
+    .py-16 > div:first-child,
+    .py-20 > div:first-child {
+        margin: 0 5%;
+    }
+    
+    footer > div:first-child {
+        margin: 0 5%;
+    }
+}
+</style>
+
 <!-- Hero Section -->
 <section class="pt-16 bg-gradient-to-br from-gray-50 to-gray-100 py-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
         <nav class="mb-8">
             <ol class="flex items-center space-x-2 text-sm text-gray-600">
@@ -105,7 +119,7 @@ ob_start();
 
 <!-- Article Content -->
 <section class="py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <article class="prose prose-lg max-w-none">
 
             <!-- Featured Image -->
@@ -178,7 +192,7 @@ ob_start();
 <!-- Related Articles -->
 <?php if (!empty($post['related_posts'])): ?>
 <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="font-montserrat font-semibold text-3xl text-text-primary mb-4">
                 Похожие статьи
@@ -232,7 +246,7 @@ ob_start();
 
 <!-- Contact CTA -->
 <section class="py-16 bg-premium-gray">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 text-center">
         <h2 class="font-montserrat font-semibold text-3xl text-text-primary mb-6">
             Есть вопросы по ремонту?
         </h2>

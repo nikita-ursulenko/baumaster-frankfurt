@@ -640,6 +640,7 @@ function get_seo_data($lang = null) {
             'ru' => [
                 'home' => [
                     'title' => DEFAULT_META_TITLE,
+                    'h1' => 'Профессиональные внутренние работы во Франкфурте',
                     'description' => DEFAULT_META_DESCRIPTION
                 ],
                 'services' => [
@@ -1578,4 +1579,3 @@ function save_about_content($section, $data, $lang = 'ru') {
 }
 
 ?>
-

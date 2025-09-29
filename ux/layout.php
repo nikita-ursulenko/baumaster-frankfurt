@@ -478,7 +478,7 @@ function render_frontend_navigation($active_page = '') {
     ?>
     <!-- Navigation -->
     <nav class="bg-white shadow-sm fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Main navigation row -->
             <div class="flex justify-between items-center h-16">
                 <!-- Logo for all screens -->
@@ -607,8 +607,8 @@ function render_frontend_footer() {
     ?>
     <!-- Footer -->
     <footer class="bg-text-primary text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Company Info -->
                 <div class="md:col-span-2">
                     <div class="font-montserrat font-semibold text-xl mb-4">
@@ -658,18 +658,6 @@ function render_frontend_footer() {
                         </a>
                         <?php endif; ?>
                     </div>
-                </div>
-                
-                <!-- Services -->
-                <div>
-                    <h3 class="font-semibold text-lg mb-4"><?php echo $is_german ? 'Dienstleistungen' : 'Услуги'; ?></h3>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="services.php" class="hover:text-white transition-colors"><?php echo $is_german ? 'Malerarbeiten' : 'Малярные работы'; ?></a></li>
-                        <li><a href="services.php" class="hover:text-white transition-colors"><?php echo $is_german ? 'Bodenverlegung' : 'Укладка полов'; ?></a></li>
-                        <li><a href="services.php" class="hover:text-white transition-colors"><?php echo $is_german ? 'Badezimmerrenovierung' : 'Ремонт ванных'; ?></a></li>
-                        <li><a href="services.php" class="hover:text-white transition-colors"><?php echo $is_german ? 'Trockenbau' : 'Гипсокартон'; ?></a></li>
-                        <li><a href="services.php" class="hover:text-white transition-colors"><?php echo $is_german ? 'Fliesenverlegung' : 'Плитка'; ?></a></li>
-                    </ul>
                 </div>
                 
                 <!-- Contact -->

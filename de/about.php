@@ -29,7 +29,7 @@ ob_start();
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
             <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
@@ -165,13 +165,18 @@ ob_start();
 }
 
 /* Smooth transitions for all interactive elements */
-.card, .team-member, .stat-item, .feature-item {
+.card, .team-member, .feature-item {
     transition: all 0.3s ease;
 }
 
-.card:hover, .stat-item:hover, .feature-item:hover {
+.card:hover, .feature-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Statistics items - no hover effects, only scale for numbers */
+.stat-item {
+    transition: none;
 }
 
 .team-member:hover {
@@ -179,11 +184,11 @@ ob_start();
     box-shadow: none;
 }
 
-.card img, .team-member img, .stat-item img, .feature-item img {
+.card img, .team-member img, .feature-item img {
     transition: transform 0.3s ease;
 }
 
-.card:hover img, .team-member:hover img, .stat-item:hover img, .feature-item:hover img {
+.card:hover img, .team-member:hover img, .feature-item:hover img {
     transform: scale(1.05);
 }
 
@@ -245,20 +250,29 @@ section {
 }
 
 /* Card content smooth transitions */
-.card h3, .team-member h3, .stat-item h3, .feature-item h3 {
+.card h3, .team-member h3, .feature-item h3 {
     transition: color 0.3s ease;
 }
 
-.card:hover h3, .team-member:hover h3, .stat-item:hover h3, .feature-item:hover h3 {
+.card:hover h3, .team-member:hover h3, .feature-item:hover h3 {
     color: #3b82f6;
 }
 
 /* Price and button smooth transitions */
-.card .font-semibold, .team-member .font-semibold, .stat-item .font-semibold, .feature-item .font-semibold {
+.card .font-semibold, .team-member .font-semibold, .feature-item .font-semibold {
     transition: all 0.3s ease;
 }
 
-.card:hover .font-semibold, .team-member:hover .font-semibold, .stat-item:hover .font-semibold, .feature-item:hover .font-semibold {
+.card:hover .font-semibold, .team-member:hover .font-semibold, .feature-item:hover .font-semibold {
+    transform: scale(1.05);
+}
+
+/* Statistics numbers - only scale effect on hover */
+.stat-item .font-bold {
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover .font-bold {
     transform: scale(1.05);
 }
 
@@ -283,7 +297,7 @@ section {
 }
 
 /* Smooth hover effects for all cards */
-.card, .team-member, .stat-item, .feature-item {
+.card, .team-member, .feature-item {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -326,11 +340,22 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 .transform, .translateY, .scale, .rotate {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .py-20 > div:first-child {
+        margin: 0 5%;
+    }
+    
+    footer > div:first-child {
+        margin: 0 5%;
+    }
+}
 </style>
 
 <!-- Company Story -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div>
                 <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6">
@@ -379,7 +404,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Statistics -->
 <section class="py-20 bg-accent-blue text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="stats-title" class="font-montserrat font-semibold text-3xl lg:text-4xl mb-4 fade-in-up">
                 Zahlen, die für uns sprechen
@@ -409,7 +434,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Team -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="team-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Unser Team
@@ -455,7 +480,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Values -->
 <section class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="principles-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Unsere Prinzipien
@@ -531,7 +556,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- CTA Section -->
 <section class="py-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 text-center">
         <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6">
             Bereit, mit Profis zu arbeiten?
         </h2>

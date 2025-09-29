@@ -178,17 +178,30 @@ function analyze_headings($content) {
         'issues' => []
     ];
     
-    // Подсчет заголовков
+    // Подсчет заголовков (улучшенная версия для многострочного контента)
     $heading_counts = [];
     for ($i = 1; $i <= 6; $i++) {
-        preg_match_all("/<h{$i}[^>]*>(.*?)<\/h{$i}>/i", $content, $matches);
+        preg_match_all("/<h{$i}[^>]*>(.*?)<\/h{$i}>/is", $content, $matches);
         $heading_counts["h{$i}"] = count($matches[0]);
     }
     
-    // Проверка H1
+    // Проверка H1 (улучшенная версия для анимированных заголовков)
     if ($heading_counts['h1'] === 1) {
-        $analysis['checks']['h1_count'] = ['status' => 'good', 'score' => 5, 'message' => 'Один H1 заголовок'];
-        $analysis['score'] += 5;
+        // Дополнительная проверка: извлекаем текст из H1
+        preg_match_all('/<h1[^>]*>(.*?)<\/h1>/is', $content, $h1_matches);
+        if (!empty($h1_matches[1])) {
+            $h1_text = strip_tags($h1_matches[1][0]);
+            $h1_text = preg_replace('/\s+/', ' ', trim($h1_text));
+            
+            if (!empty($h1_text)) {
+                $analysis['checks']['h1_count'] = ['status' => 'good', 'score' => 5, 'message' => 'H1 заголовок присутствует: ' . $h1_text];
+                $analysis['score'] += 5;
+            } else {
+                $analysis['checks']['h1_count'] = ['status' => 'bad', 'score' => 0, 'message' => 'H1 заголовок пустой'];
+            }
+        } else {
+            $analysis['checks']['h1_count'] = ['status' => 'bad', 'score' => 0, 'message' => 'H1 заголовок не найден'];
+        }
     } elseif ($heading_counts['h1'] === 0) {
         $analysis['checks']['h1_count'] = ['status' => 'bad', 'score' => 0, 'message' => 'H1 заголовок отсутствует'];
     } else {

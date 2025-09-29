@@ -24,7 +24,7 @@ ob_start();
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
             <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
@@ -343,11 +343,23 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 .transform, .translateY, .scale, .rotate {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .py-20 > div:first-child,
+    .py-16 > div:first-child {
+        margin: 0 5%;
+    }
+    
+    footer > div:first-child {
+        margin: 0 5%;
+    }
+}
 </style>
 
 <!-- Statistics -->
 <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8 text-center">
             <?php if (!empty($statistics)): ?>
                 <?php foreach (array_slice($statistics, 0, 4) as $index => $stat): ?>
@@ -380,7 +392,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Reviews Grid -->
 <section class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach ($reviews as $review): ?>
                 <?php render_review_card($review); ?>
@@ -391,7 +403,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Add Review Section -->
 <section class="py-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 id="review-form-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Оставьте отзыв о нашей работе
@@ -484,7 +496,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- CTA Section -->
 <section class="py-20 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 text-center">
         <h2 id="cta-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 fade-in-up">
             Станьте нашим следующим довольным клиентом
         </h2>

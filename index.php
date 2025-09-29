@@ -30,7 +30,7 @@ ob_start();
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
             <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
@@ -523,6 +523,825 @@ input:focus, textarea:focus, select:focus {
     transform: scale(1);
 }
 
+/* Enhanced Service Modal Animations */
+#serviceModal {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(0px);
+}
+
+#serviceModal.show {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(8px);
+    z-index: 99;
+}
+
+#serviceModalContent {
+    transform: translateY(50px) scale(0.9);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.1s;
+}
+
+#serviceModal.show #serviceModalContent {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Service Modal Header Animation */
+#serviceModal .sticky.top-0 {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+    z-index: 10;
+    position: sticky;
+    top: 0;
+}
+
+#serviceModal.show .sticky.top-0 {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Service Modal Content Animation */
+#serviceModal .p-6 > * {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#serviceModal.show .p-6 > * {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#serviceModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
+#serviceModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
+#serviceModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
+#serviceModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
+#serviceModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
+
+/* Service Modal Image Animation */
+#serviceModal img {
+    transform: scale(1.1);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+}
+
+#serviceModal.show img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Service Modal Button Animation */
+#serviceModal button {
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.4s;
+}
+
+#serviceModal.show button {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Service Modal Close Button Hover Effect */
+#serviceModal .sticky.top-0 button:hover {
+    transform: rotate(90deg) scale(1.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Service Modal Gallery Images Animation */
+#serviceModal .grid img {
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#serviceModal.show .grid img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+#serviceModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
+#serviceModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
+#serviceModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
+#serviceModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
+#serviceModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
+#serviceModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
+
+/* Service Modal List Items Animation */
+#serviceModal ul li {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#serviceModal.show ul li {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#serviceModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
+#serviceModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
+#serviceModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
+#serviceModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
+#serviceModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
+#serviceModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
+
+/* Service Modal Responsive Animations */
+@media (max-width: 768px) {
+    #serviceModalContent {
+        transform: translateY(30px) scale(0.95);
+        margin: 0.5rem;
+        max-height: 98vh;
+    }
+    
+    #serviceModal.show #serviceModalContent {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Service Modal Gallery Optimization */
+#serviceModal .grid {
+    padding-right: 8px;
+}
+
+#serviceModal .grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#serviceModal .grid::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+#serviceModal .grid::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+#serviceModal .grid::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Service Modal Enhanced Effects */
+#serviceModal .sticky.top-0 button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    padding: 8px;
+}
+
+#serviceModal .sticky.top-0 button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: rotate(90deg) scale(1.1);
+}
+
+#serviceModal .sticky.top-0 button:active {
+    transform: rotate(90deg) scale(0.95);
+}
+
+/* Service Modal Image Hover Effects */
+#serviceModal img {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+}
+
+#serviceModal img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Service Modal Gallery Images Enhanced */
+#serviceModal .grid img {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#serviceModal .grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    position: relative;
+}
+
+/* Service Modal List Items Enhanced */
+#serviceModal ul li {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 4px 0;
+}
+
+#serviceModal ul li:hover {
+    transform: translateX(5px);
+    background-color: rgba(34, 197, 94, 0.05);
+    border-radius: 4px;
+    padding-left: 8px;
+}
+
+/* Service Modal Text Animations */
+#serviceModal h2 {
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#serviceModal h3 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#serviceModal h3:hover {
+    color: #1e40af;
+    transform: translateX(5px);
+}
+
+/* Service Modal Price Highlight */
+#serviceModal .font-medium {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#serviceModal .font-medium:hover {
+    color: #1e40af;
+    transform: scale(1.05);
+}
+
+/* Service Modal Loading Animation */
+#serviceModal.loading #serviceModalContent {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Service Modal Success Animation */
+#serviceModal.success #serviceModalContent {
+    animation: successBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes successBounce {
+    0% {
+        transform: scale(0.9);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Service Modal Error Animation */
+#serviceModal.error #serviceModalContent {
+    animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Service Modal Scrollbar Styling */
+#serviceModalContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+#serviceModalContent::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+#serviceModalContent::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+#serviceModalContent::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Service Modal Focus States */
+#serviceModal button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+#serviceModal img:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Service Modal Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    #serviceModal,
+    #serviceModal * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Project Modal Animations */
+#projectModal {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(0px);
+}
+
+#projectModal.show {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(8px);
+    z-index: 99;
+}
+
+#projectModalContent {
+    transform: translateY(50px) scale(0.9);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.1s;
+}
+
+#projectModal.show #projectModalContent {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Project Modal Header Animation */
+#projectModal .sticky.top-0 {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+    z-index: 10;
+    position: sticky;
+    top: 0;
+}
+
+#projectModal.show .sticky.top-0 {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Project Modal Content Animation */
+#projectModal .p-6 > * {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show .p-6 > * {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#projectModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
+
+/* Project Modal Image Animation */
+#projectModal img {
+    transform: scale(1.1);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+}
+
+#projectModal.show img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Project Modal Button Animation */
+#projectModal button {
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.4s;
+}
+
+#projectModal.show button {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Project Modal Close Button Hover Effect */
+#projectModal .sticky.top-0 button:hover {
+    transform: rotate(90deg) scale(1.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Project Modal Gallery Images Animation */
+#projectModal .grid img {
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show .grid img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+#projectModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
+#projectModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
+
+/* Project Modal List Items Animation */
+#projectModal ul li {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show ul li {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#projectModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
+#projectModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
+
+/* Project Modal Responsive Animations */
+@media (max-width: 768px) {
+    #projectModalContent {
+        transform: translateY(30px) scale(0.95);
+        margin: 0.5rem;
+        max-height: 98vh;
+    }
+    
+    #projectModal.show #projectModalContent {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Project Modal Gallery Optimization */
+#projectModal .grid {
+    padding-right: 8px;
+}
+
+#projectModal .grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#projectModal .grid::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+#projectModal .grid::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+#projectModal .grid::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Service Info Cards Styling */
+.service-info-card,
+.service-description-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.service-info-card:hover,
+.service-description-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: #d1d5db;
+}
+
+/* Service Info Header */
+.service-info-header,
+.service-description-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.service-info-icon,
+.service-description-icon {
+    width: 32px;
+    height: 32px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    margin-right: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-info-card:hover .service-info-icon,
+.service-description-card:hover .service-description-icon {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.service-info-title,
+.service-description-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+/* Service Info Content */
+.service-info-content {
+    space-y: 8px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9fafb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-item:hover {
+    background-color: #f9fafb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 0 -12px;
+}
+
+.info-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #6b7280;
+    gap: 6px;
+}
+
+.info-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    padding: 2px 8px;
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:hover .info-value {
+    background-color: #e5e7eb;
+}
+
+.price-value {
+    background: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
+}
+
+.status-value.active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-value.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Service Description Content */
+.service-description-content {
+    padding-top: 4px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.description-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+    text-align: left;
+}
+
+/* Project Info Cards Styling */
+.project-info-card,
+.project-description-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.project-info-card:hover,
+.project-description-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: #d1d5db;
+}
+
+/* Project Info Header */
+.project-info-header,
+.project-description-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.project-info-icon,
+.project-description-icon {
+    width: 32px;
+    height: 32px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    margin-right: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-info-card:hover .project-info-icon,
+.project-description-card:hover .project-description-icon {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.project-info-title,
+.project-description-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+/* Project Info Content */
+.project-info-content {
+    space-y: 8px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9fafb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:hover {
+    background-color: #f8fafc;
+    border-radius: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.info-label svg {
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.info-value {
+    font-size: 0.875rem;
+    color: #374151;
+    font-weight: 600;
+    text-align: right;
+}
+
+.budget-value {
+    color: #059669;
+    font-weight: 700;
+}
+
+/* Project Description Content */
+.project-description-content {
+    padding-top: 4px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.description-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+    text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .service-info-card,
+    .service-description-card {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .service-info-header,
+    .service-description-header {
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+    }
+    
+    .service-info-icon,
+    .service-description-icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 8px;
+    }
+    
+    .service-info-title,
+    .service-description-title {
+        font-size: 0.9rem;
+    }
+    
+    .info-item {
+        /* flex-direction: column; */
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .info-label {
+        font-size: 0.75rem;
+    }
+    
+    .info-value {
+        font-size: 0.75rem;
+        align-self: flex-end;
+    }
+}
+
 /* Smooth scroll behavior */
 html {
     scroll-behavior: smooth;
@@ -647,6 +1466,20 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     transform: translateY(0);
 }
 
+/* About Section Mobile Styles */
+@media (max-width: 768px) {
+    #services > div:first-child,
+    #portfolio > div:first-child,
+    #about > div:first-child,
+    #reviews > div:first-child {
+        margin: 0 5%;
+    }
+    
+    footer > div:first-child {
+        margin: 0 5%;
+    }
+}
+
 /* Reviews Section Animations */
 .reviews-title-animate {
     opacity: 0;
@@ -734,7 +1567,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="services-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 services-title-animate">
                 Наши услуги
@@ -765,7 +1598,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Portfolio Section -->
 <section id="portfolio" class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="portfolio-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 portfolio-title-animate">
                 Наши работы
@@ -829,7 +1662,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                         <div class="grid grid-cols-2 gap-4 mb-4 text-sm text-text-secondary">
                             <div class="flex items-center">
                                 <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                                 </svg>
                                 <?php 
                                 $area = $project['area'];
@@ -850,9 +1683,9 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                             <?php if ($project['budget']): ?>
                             <div class="flex items-center col-span-2">
                                 <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    <path xmlns="http://www.w3.org/2000/svg" d="M19 7.11111C17.775 5.21864 15.8556 4 13.6979 4C9.99875 4 7 7.58172 7 12C7 16.4183 9.99875 20 13.6979 20C15.8556 20 17.775 18.7814 19 16.8889M5 10H14M5 14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                €<?php echo number_format($project['budget'], 0, ',', ' '); ?>
+                                <?php echo number_format($project['budget'], 0, ',', ' '); ?> €
                             </div>
                             <?php endif; ?>
                         </div>
@@ -900,12 +1733,14 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- About Section -->
 <section id="about" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
-                    О компании Frankfurt Innenausbau
-                </h2>
+                <div style="text-align: center;">
+                    <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
+                        О компании Frankfurt Innenausbau
+                    </h2>
+                </div>
                 <p class="text-lg text-text-secondary mb-6 leading-relaxed">
                     Мы команда опытных мастеров, работающих во Франкфурте более 10 лет. 
                     Специализируемся на внутренних работах и знаем все тонкости качественного ремонта.
@@ -939,12 +1774,14 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                         </div>
                     <?php endif; ?>
                 </div>
-                <?php render_frontend_button([
-                    'text' => 'Подробнее о нас',
-                    'variant' => 'outline',
-                    'size' => 'lg',
-                    'href' => 'about.php'
-                ]); ?>
+                <div style="text-align: center;">
+                    <?php render_frontend_button([
+                        'text' => 'Подробнее о нас',
+                        'variant' => 'outline',
+                        'size' => 'lg',
+                        'href' => 'about.php'
+                    ]); ?>
+                </div>
             </div>
             <div class="relative">
                 <div class="bg-gradient-to-br from-accent-blue to-gray-700 rounded-lg p-8 text-white">
@@ -983,7 +1820,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Reviews Section -->
 <section id="reviews" class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="reviews-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 reviews-title-animate">
                 Отзывы наших клиентов
@@ -1013,62 +1850,37 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 </section>
 
 
+<!-- Modals -->
 <!-- Service Modal -->
-<div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
-    <div id="serviceModalContent" class="bg-white rounded-lg max-w-4xl mx-auto max-h-[90vh] overflow-y-auto w-full">
+<div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
+    <div id="serviceModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
 
-<!-- Project Modal -->
-<div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-semibold" id="modalTitle">Проект</h3>
-                    <button onclick="closeProjectModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div id="modalContent">
-                    <!-- Контент будет загружен динамически -->
-                </div>
-            </div>
-        </div>
+<!-- Project Detail Modal -->
+<div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
+    <div id="projectModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+        <!-- Modal content will be loaded here -->
     </div>
 </div>
 
 <!-- Gallery Modal -->
-<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="max-w-6xl w-full">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-semibold text-white">Галерея проекта</h3>
-                <button onclick="closeGallery()" class="text-white hover:text-gray-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <div id="galleryContent" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <!-- Изображения будут загружены динамически -->
-            </div>
-        </div>
+<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
+    <div id="galleryModalContent" class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+        <!-- Gallery content will be loaded here -->
     </div>
 </div>
 
 <!-- Image Modal -->
 <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 z-[99999] hidden items-center justify-center p-4">
-    <div class="relative max-w-7xl max-h-full">
+    <div class="relative max-w-7xl max-h-full h-full">
         <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
-        <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain">
+        <img id="modalImage" src="" alt="" class="max-w-full h-full object-contain">
     </div>
 </div>
 
@@ -1087,12 +1899,13 @@ function openServiceModal(serviceId) {
     const modal = document.getElementById('serviceModal');
     const modalContent = document.getElementById('serviceModalContent');
     
+    // Создаем контент модального окна
     modalContent.innerHTML = `
-        <div class="bg-white rounded-lg max-w-4xl mx-auto max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-900">${service.title}</h2>
-                <button onclick="closeServiceModal()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="closeServiceModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90 hover:scale-110">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -1104,35 +1917,70 @@ function openServiceModal(serviceId) {
                 <!-- Main Image -->
                 ${service.image ? `
                 <div class="mb-6">
-                    <img src="${service.image}" alt="${service.title}" class="w-full h-64 object-cover rounded-lg">
+                    <img src="${service.image}" alt="${service.title}" class="w-full h-64 object-cover rounded-lg transition-all duration-300 hover:scale-105">
                 </div>
                 ` : ''}
                 
-                <!-- Service Info -->
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3">Информация об услуге</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Категория:</span>
-                                <span class="font-medium">${service.category || 'Не указана'}</span>
+                <!-- Service Info Cards -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8 py-2">
+                    <!-- Service Information Card -->
+                    <div class="service-info-card">
+                        <div class="service-info-header">
+                            <div class="service-info-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="service-info-title">Информация об услуге</h3>
+                        </div>
+                        <div class="service-info-content">
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                    </svg>
+                                    Категория
+                                </div>
+                                <div class="info-value">${service.category || 'Не указана'}</div>
                             </div>
                             ${service.price ? `
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Цена:</span>
-                                <span class="font-medium">от ${service.price} €</span>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    </svg>
+                                    Цена
+                                </div>
+                                <div class="info-value price-value">от ${service.price} €</div>
                             </div>
                             ` : ''}
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Статус:</span>
-                                <span class="font-medium">${service.status === 'active' ? 'Активна' : 'Неактивна'}</span>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Статус
+                                </div>
+                                <div class="info-value status-value ${service.status === 'active' ? 'active' : 'inactive'}">
+                                    ${service.status === 'active' ? 'Активна' : 'Неактивна'}
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3">Описание</h3>
-                        <p class="text-gray-700">${service.description}</p>
+                    <!-- Description Card -->
+                    <div class="service-description-card">
+                        <div class="service-description-header">
+                            <div class="service-description-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="service-description-title">Описание услуги</h3>
+                        </div>
+                        <div class="service-description-content">
+                            <p class="description-text">${service.description}</p>
+                        </div>
                     </div>
                 </div>
                 
@@ -1159,7 +2007,7 @@ function openServiceModal(serviceId) {
                     <h3 class="text-lg font-semibold mb-3">Галерея работ</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         ${service.gallery.map(image => `
-                            <img src="${image}" alt="Галерея" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity" onclick="openImageModal('${image}')">
+                            <img src="${image}" alt="Галерея" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-all duration-300 hover:scale-105" onclick="openImageModal('${image}')">
                         `).join('')}
                     </div>
                 </div>
@@ -1168,154 +2016,341 @@ function openServiceModal(serviceId) {
         </div>
     `;
     
+    // Показываем модальное окно с анимацией
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
+    
+    // Добавляем класс для анимации после небольшой задержки
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
 }
 
 function closeServiceModal() {
     const modal = document.getElementById('serviceModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
+    
+    // Убираем класс анимации
+    modal.classList.remove('show');
+    
+    // Скрываем модальное окно после завершения анимации
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }, 400); // Время должно совпадать с CSS transition
 }
 
 function openProjectModal(projectId) {
     const project = projects.find(p => p.id == projectId);
     if (!project) return;
     
-    document.getElementById('modalTitle').textContent = project.title;
+    const modal = document.getElementById('projectModal');
+    const modalContent = document.getElementById('projectModalContent');
     
-    const modalContent = document.getElementById('modalContent');
+    // Создаем контент модального окна
     modalContent.innerHTML = `
-        <div class="mb-6">
-            <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg">
-        </div>
-        <div class="grid md:grid-cols-2 gap-6 mb-6">
-            <div>
-                <h3 class="text-lg font-semibold mb-3">Информация о проекте</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Площадь:</span>
-                        <span class="font-medium">${project.area}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Срок:</span>
-                        <span class="font-medium">${project.duration}</span>
-                    </div>
-                    ${project.budget ? `
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Бюджет:</span>
-                        <span class="font-medium">€${new Intl.NumberFormat('ru-RU').format(project.budget)}</span>
-                    </div>
-                    ` : ''}
-                    ${project.completion_date ? `
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Дата завершения:</span>
-                        <span class="font-medium">${new Date(project.completion_date).toLocaleDateString('ru-RU')}</span>
-                    </div>
-                    ` : ''}
-                    ${project.client_name ? `
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Клиент:</span>
-                        <span class="font-medium">${project.client_name}</span>
-                    </div>
-                    ` : ''}
-                    ${project.location ? `
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Местоположение:</span>
-                        <span class="font-medium">${project.location}</span>
-                    </div>
-                    ` : ''}
+        <div class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto">
+            <!-- Header -->
+            <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
+                <h2 class="text-2xl font-semibold text-gray-900">${project.title}</h2>
+                <button onclick="closeProjectModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90 hover:scale-110">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Content -->
+            <div class="p-6">
+                <!-- Featured Image -->
+                <div class="mb-6">
+                    <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg transition-all duration-300 hover:scale-105">
                 </div>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-3">Описание</h3>
-                <p class="text-gray-700 leading-relaxed">${project.description}</p>
-            </div>
-        </div>
-        ${project.technical_info && Object.keys(project.technical_info).length > 0 ? `
-        <div class="mb-6">
-            <h3 class="text-lg font-semibold mb-3">Технические детали</h3>
-            <div class="grid md:grid-cols-2 gap-4">
-                ${project.technical_info.rooms ? `
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Комнат:</span>
-                    <span class="font-medium">${project.technical_info.rooms}</span>
+                
+                <!-- Project Info Cards -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8 py-2">
+                    <!-- Project Information Card -->
+                    <div class="project-info-card">
+                        <div class="project-info-header">
+                            <div class="project-info-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="project-info-title">Информация о проекте</h3>
+                        </div>
+                        <div class="project-info-content">
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                    </svg>
+                                    Площадь
+                                </div>
+                                <div class="info-value">${project.area}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Срок
+                                </div>
+                                <div class="info-value">${project.duration}</div>
+                            </div>
+                            ${project.budget ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path xmlns="http://www.w3.org/2000/svg" d="M19 7.11111C17.775 5.21864 15.8556 4 13.6979 4C9.99875 4 7 7.58172 7 12C7 16.4183 9.99875 20 13.6979 20C15.8556 20 17.775 18.7814 19 16.8889M5 10H14M5 14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Бюджет
+                                </div>
+                                <div class="info-value budget-value">${new Intl.NumberFormat('ru-RU').format(project.budget)} €</div>
+                            </div>
+                            ` : ''}
+                            ${project.completion_date ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Дата завершения
+                                </div>
+                                <div class="info-value">${new Date(project.completion_date).toLocaleDateString('ru-RU')}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <!-- Description Card -->
+                    <div class="project-description-card">
+                        <div class="project-description-header">
+                            <div class="project-description-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="project-description-title">Описание проекта</h3>
+                        </div>
+                        <div class="project-description-content">
+                            <p class="description-text">${project.description}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Technical Details -->
+                ${project.technical_info && Object.keys(project.technical_info).length > 0 ? `
+                <div class="mb-6">
+                    <div class="project-info-card">
+                        <div class="project-info-header">
+                            <div class="project-info-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="project-info-title">Технические детали</h3>
+                        </div>
+                        <div class="project-info-content">
+                            ${project.technical_info.rooms ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                    </svg>
+                                    Комнат
+                                </div>
+                                <div class="info-value">${project.technical_info.rooms}</div>
+                            </div>
+                            ` : ''}
+                            ${project.technical_info.bathrooms ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M10.5 3L12 2l1.5 1H21v6H3V3h7.5z"></path>
+                                    </svg>
+                                    Ванных
+                                </div>
+                                <div class="info-value">${project.technical_info.bathrooms}</div>
+                            </div>
+                            ` : ''}
+                            ${project.technical_info.year ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Год
+                                </div>
+                                <div class="info-value">${project.technical_info.year}</div>
+                            </div>
+                            ` : ''}
+                            ${project.technical_info.style ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                                    </svg>
+                                    Стиль
+                                </div>
+                                <div class="info-value">${project.technical_info.style}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ${project.technical_info.features && project.technical_info.features.length > 0 ? `
+                        <div class="mt-4">
+                            <h4 class="font-medium mb-2">Особенности:</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700">
+                                ${project.technical_info.features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        ` : ''}
+                    </div>
                 </div>
                 ` : ''}
-                ${project.technical_info.bathrooms ? `
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Ванных:</span>
-                    <span class="font-medium">${project.technical_info.bathrooms}</span>
+                
+                <!-- Gallery -->
+                ${project.gallery && project.gallery.length > 0 ? `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Галерея проекта</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        ${project.gallery.slice(0, 8).map(image => `
+                            <div class="aspect-square overflow-hidden rounded-lg group cursor-pointer" onclick="openImageModal('${image}')">
+                                <img src="${image}" alt="Галерея проекта" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-105">
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${project.gallery.length > 8 ? `
+                    <div class="text-center mt-4">
+                        <button onclick="closeProjectModal(); openGallery(${project.id})" class="px-6 py-2 bg-accent-blue text-white rounded hover:bg-blue-600 transition-colors">
+                            Показать все ${project.gallery.length} фото
+                        </button>
+                    </div>
+                    ` : ''}
                 </div>
                 ` : ''}
-                ${project.technical_info.year ? `
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Год:</span>
-                    <span class="font-medium">${project.technical_info.year}</span>
+                
+                <!-- Before/After -->
+                ${project.before_after && (project.before_after.before || project.before_after.after) ? `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4">До и после</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        ${project.before_after.before ? `
+                        <div>
+                            <h4 class="font-medium mb-2 text-center">До</h4>
+                            <img src="${project.before_after.before}" alt="До ремонта" class="w-full h-48 object-cover rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer" onclick="openImageModal('${project.before_after.before}')">
+                        </div>
+                        ` : ''}
+                        ${project.before_after.after ? `
+                        <div>
+                            <h4 class="font-medium mb-2 text-center">После</h4>
+                            <img src="${project.before_after.after}" alt="После ремонта" class="w-full h-48 object-cover rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer" onclick="openImageModal('${project.before_after.after}')">
+                        </div>
+                        ` : ''}
+                    </div>
                 </div>
                 ` : ''}
-                ${project.technical_info.style ? `
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Стиль:</span>
-                    <span class="font-medium">${project.technical_info.style}</span>
+                
+                <!-- Tags -->
+                ${project.tags && project.tags.length > 0 ? `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Теги</h3>
+                    <div class="flex flex-wrap gap-2">
+                        ${project.tags.map(tag => `<span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded">${tag}</span>`).join('')}
+                    </div>
                 </div>
                 ` : ''}
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-4 justify-end">
+                    <button onclick="closeProjectModal()" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                        Закрыть
+                    </button>
+                    ${project.gallery && project.gallery.length > 0 ? `
+                    <button onclick="closeProjectModal(); openGallery(${project.id})" class="px-6 py-2 bg-accent-blue text-white rounded hover:bg-blue-600 transition-colors">
+                        Открыть галерею
+                    </button>
+                    ` : ''}
+                </div>
             </div>
-            ${project.technical_info.features && project.technical_info.features.length > 0 ? `
-            <div class="mt-4">
-                <h4 class="font-medium mb-2">Особенности:</h4>
-                <ul class="list-disc list-inside text-sm text-gray-700">
-                    ${project.technical_info.features.map(feature => `<li>${feature}</li>`).join('')}
-                </ul>
-            </div>
-            ` : ''}
-        </div>
-        ` : ''}
-        ${project.tags && project.tags.length > 0 ? `
-        <div class="mb-6">
-            <h3 class="text-lg font-semibold mb-3">Теги</h3>
-            <div class="flex flex-wrap gap-2">
-                ${project.tags.map(tag => `<span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded">${tag}</span>`).join('')}
-            </div>
-        </div>
-        ` : ''}
-        <div class="flex gap-4">
-            <button onclick="closeProjectModal()" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
-                Закрыть
-            </button>
-            ${project.gallery && project.gallery.length > 0 ? `
-            <button onclick="closeProjectModal(); openGallery(${project.id})" class="px-6 py-2 bg-accent-blue text-white rounded hover:bg-blue-600 transition-colors">
-                Открыть галерею
-            </button>
-            ` : ''}
         </div>
     `;
     
-    document.getElementById('projectModal').classList.remove('hidden');
+    // Показываем модальное окно с анимацией
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    
+    // Добавляем класс анимации
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
 }
 
 function closeProjectModal() {
-    document.getElementById('projectModal').classList.add('hidden');
+    const modal = document.getElementById('projectModal');
+    
+    // Убираем класс анимации
+    modal.classList.remove('show');
+    
+    // Скрываем модальное окно после завершения анимации
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }, 400); // Время должно совпадать с CSS transition
 }
 
+// Gallery modal
 function openGallery(projectId) {
     const project = projects.find(p => p.id == projectId);
-    if (!project || !project.gallery) return;
+    if (!project || !project.gallery || project.gallery.length === 0) return;
     
-    const galleryContent = document.getElementById('galleryContent');
-    galleryContent.innerHTML = project.gallery.map(image => `
-        <div class="aspect-square overflow-hidden rounded-lg">
-            <img src="${image}" alt="Галерея проекта" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="openImageModal('${image}')">
+    const modal = document.getElementById('galleryModal');
+    const modalContent = document.getElementById('galleryModalContent');
+    
+    modalContent.innerHTML = `
+        <div class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto">
+            <!-- Header -->
+            <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
+                <h2 class="text-2xl font-semibold text-gray-900">Галерея: ${project.title}</h2>
+                <button onclick="closeGalleryModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90 hover:scale-110">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Gallery Content -->
+            <div class="p-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    ${project.gallery.map(image => `
+                        <div class="aspect-square overflow-hidden rounded-lg group cursor-pointer" onclick="openImageModal('${image}')">
+                            <img src="${image}" alt="Галерея проекта" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-105">
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
         </div>
-    `).join('');
+    `;
     
-    document.getElementById('galleryModal').classList.remove('hidden');
+    // Показываем модальное окно с анимацией
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    
+    // Добавляем класс анимации
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
 }
 
-function closeGallery() {
-    document.getElementById('galleryModal').classList.add('hidden');
+function closeGalleryModal() {
+    const modal = document.getElementById('galleryModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
 }
 
 function closeImageModal() {
@@ -1342,7 +2377,8 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeServiceModal();
         closeProjectModal();
-        closeGallery();
+        closeGalleryModal();
+        closeImageModal();
     }
 });
 
@@ -1355,7 +2391,17 @@ document.addEventListener('click', function(event) {
         closeProjectModal();
     }
     if (event.target.id === 'galleryModal') {
-        closeGallery();
+        closeGalleryModal();
+    }
+    if (event.target.id === 'imageModal') {
+        closeImageModal();
+    }
+});
+
+// Предотвращаем закрытие при клике на контент модального окна
+document.addEventListener('click', function(event) {
+    if (event.target.closest('#serviceModalContent')) {
+        event.stopPropagation();
     }
 });
 

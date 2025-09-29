@@ -129,6 +129,7 @@ input:focus, textarea:focus, select:focus {
     opacity: 1;
     visibility: visible;
     backdrop-filter: blur(8px);
+    z-index: 99;
 }
 
 #projectModalContent {
@@ -262,8 +263,6 @@ input:focus, textarea:focus, select:focus {
 
 /* Project Modal Gallery Optimization */
 #projectModal .grid {
-    max-height: 60vh;
-    overflow-y: auto;
     padding-right: 8px;
 }
 
@@ -295,6 +294,9 @@ input:focus, textarea:focus, select:focus {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    overflow: visible;
+    height: auto;
+    max-height: none;
 }
 
 .project-info-card:hover,
@@ -345,6 +347,9 @@ input:focus, textarea:focus, select:focus {
 /* Project Info Content */
 .project-info-content {
     space-y: 8px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
 }
 
 .info-item {
@@ -409,6 +414,9 @@ input:focus, textarea:focus, select:focus {
 /* Project Description Content */
 .project-description-content {
     padding-top: 4px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
 }
 
 .description-text {
@@ -421,6 +429,15 @@ input:focus, textarea:focus, select:focus {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .py-20 > div:first-child,
+    .py-8 > div:first-child {
+        margin: 0 5%;
+    }
+    
+    footer > div:first-child {
+        margin: 0 5%;
+    }
+    
     .project-info-card,
     .project-description-card {
         padding: 12px;
@@ -446,7 +463,7 @@ input:focus, textarea:focus, select:focus {
     }
     
     .info-item {
-        flex-direction: column;
+        /* flex-direction: column; */
         align-items: flex-start;
         gap: 4px;
     }
@@ -592,7 +609,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
             <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
@@ -718,7 +735,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Filter Tabs -->
 <section class="py-8 bg-white border-b">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="flex flex-wrap justify-center gap-4">
             <button class="filter-btn active px-6 py-2 rounded-full border-2 border-accent-blue text-accent-blue font-medium hover:bg-accent-blue hover:text-white transition-colors" data-filter="all">
                 Все проекты
@@ -738,7 +755,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Portfolio Grid -->
 <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
             <?php foreach ($portfolio as $project): ?>
                 <div class="portfolio-item bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col" 
@@ -782,7 +799,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                         <div class="grid grid-cols-2 gap-4 mb-4 text-sm text-text-secondary">
                             <div class="flex items-center">
                                 <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                                 </svg>
                                 <?php echo htmlspecialchars($project['area']); ?>
                             </div>
@@ -795,9 +812,9 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                             <?php if ($project['budget']): ?>
                             <div class="flex items-center col-span-2">
                                 <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    <path xmlns="http://www.w3.org/2000/svg" d="M19 7.11111C17.775 5.21864 15.8556 4 13.6979 4C9.99875 4 7 7.58172 7 12C7 16.4183 9.99875 20 13.6979 20C15.8556 20 17.775 18.7814 19 16.8889M5 10H14M5 14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                €<?php echo number_format($project['budget'], 0, ',', ' '); ?>
+                                <?php echo number_format($project['budget'], 0, ',', ' '); ?> €
                             </div>
                             <?php endif; ?>
                         </div>
@@ -835,7 +852,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Process Section -->
 <section class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="process-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 fade-in-up">
                 Этапы выполнения проекта
@@ -891,7 +908,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- CTA Section -->
 <section class="py-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 text-center">
         <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6">
             Хотите такой же результат?
         </h2>
@@ -1028,7 +1045,7 @@ function openProjectModal(projectId) {
                             <div class="info-item">
                                 <div class="info-label">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                                     </svg>
                                     Площадь
                                 </div>
@@ -1047,11 +1064,11 @@ function openProjectModal(projectId) {
                             <div class="info-item">
                                 <div class="info-label">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                        <path xmlns="http://www.w3.org/2000/svg" d="M19 7.11111C17.775 5.21864 15.8556 4 13.6979 4C9.99875 4 7 7.58172 7 12C7 16.4183 9.99875 20 13.6979 20C15.8556 20 17.775 18.7814 19 16.8889M5 10H14M5 14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                     Бюджет
                                 </div>
-                                <div class="info-value budget-value">€${new Intl.NumberFormat('de-DE').format(project.budget)}</div>
+                                <div class="info-value budget-value">${new Intl.NumberFormat('de-DE').format(project.budget)} €</div>
                             </div>
                             ` : ''}
                             ${project.completion_date ? `
@@ -1124,7 +1141,7 @@ function openProjectModal(projectId) {
                             <div class="info-item">
                                 <div class="info-label">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                                     </svg>
                                     Комнат
                                 </div>

@@ -69,8 +69,6 @@ define('AVAILABLE_LANGS', ['ru', 'de', 'en']);
 define('MAX_FILE_SIZE', 10 * 1024 * 1024); // 10 MB
 define('ALLOWED_IMAGE_TYPES', ['jpg', 'jpeg', 'png', 'gif', 'webp']);
 define('ALLOWED_DOC_TYPES', ['pdf', 'doc', 'docx', 'txt']);
-define('UPLOADS_PATH', ABSPATH . 'assets/uploads/');
-define('UPLOADS_URL', SITE_URL . 'assets/uploads/');
 
 // Email настройки
 define('SMTP_HOST', 'smtp.gmail.com');

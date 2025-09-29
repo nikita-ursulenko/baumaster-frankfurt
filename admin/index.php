@@ -7,6 +7,7 @@
 // Подключение базовых файлов
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../database.php';
+require_once UI_PATH . 'base.php';
 require_once COMPONENTS_PATH . 'admin_layout.php';
 
 // Настройки страницы
@@ -180,38 +181,12 @@ ob_start();
         
         <!-- Пагинация для активности -->
         <?php if ($recent_activity['total_pages'] > 1): ?>
-            <div class="mt-6 flex items-center justify-between">
-                <div class="text-sm text-gray-700">
-                    Показано <?php echo count($recent_activity['data']); ?> из <?php echo $recent_activity['total']; ?> записей
-                </div>
-                <div class="flex space-x-2">
-                    <?php if ($recent_activity['page'] > 1): ?>
-                        <a href="?activity_page=<?php echo $recent_activity['page'] - 1; ?>" 
-                           class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                            Назад
-                        </a>
-                    <?php endif; ?>
-                    
-                    <?php for ($i = 1; $i <= $recent_activity['total_pages']; $i++): ?>
-                        <?php if ($i == $recent_activity['page']): ?>
-                            <span class="px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md">
-                                <?php echo $i; ?>
-                            </span>
-                        <?php else: ?>
-                            <a href="?activity_page=<?php echo $i; ?>" 
-                               class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                                <?php echo $i; ?>
-                            </a>
-                        <?php endif; ?>
-                    <?php endfor; ?>
-                    
-                    <?php if ($recent_activity['page'] < $recent_activity['total_pages']): ?>
-                        <a href="?activity_page=<?php echo $recent_activity['page'] + 1; ?>" 
-                           class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                            Вперед
-                        </a>
-                    <?php endif; ?>
-                </div>
+            <div class="mt-6 flex items-center justify-center">
+                <?php 
+                // Используем универсальную функцию пагинации с меньшим количеством кнопок
+                $base_url = '?activity_page';
+                render_pagination($recent_activity['page'], $recent_activity['total_pages'], $base_url, 3);
+                ?>
             </div>
         <?php endif; ?>
     </div>

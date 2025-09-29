@@ -36,7 +36,7 @@ function render_auth_layout($options = []) {
             <!-- Логотип и заголовок -->
             <div class="text-center">
                 <div class="mx-auto w-20 h-20 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mb-4">
-                    <?php echo get_icon('building', 'w-10 h-10'); ?>
+                    <?php echo get_icon('login', 'w-10 h-10'); ?>
                 </div>
                 <h1 class="text-2xl font-bold text-gray-900 mb-2">
                     <?php echo __('auth.admin_panel', 'Админ-панель'); ?>

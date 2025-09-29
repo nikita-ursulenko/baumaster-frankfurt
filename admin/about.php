@@ -15,7 +15,79 @@ require_once __DIR__ . '/../ux/data.php';
 $error_message = '';
 $success_message = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Обработка сохранения контактов компании
+    if (isset($_POST['save_contacts'])) {
+        $category = $_POST['category'] ?? '';
+        $settings_data = $_POST['settings'] ?? [];
+        $working_days = $_POST['working_days'] ?? [];
+        
+        try {
+            // Обработка обычных настроек
+            foreach ($settings_data as $key => $value) {
+                // Обработка обычных настроек
+                if (true) {
+                    // Обычные настройки
+                $existing = $db->select('settings', ['setting_key' => $key], ['limit' => 1]);
+                
+                if ($existing) {
+                    $db->update('settings', 
+                        ['setting_value' => $value, 'updated_at' => date('Y-m-d H:i:s')], 
+                        ['setting_key' => $key]
+                    );
+                } else {
+                    $db->insert('settings', [
+                        'setting_key' => $key,
+                        'setting_value' => $value,
+                        'category' => $category
+                    ]);
+                    }
+                }
+            }
+            
+            // Обработка рабочих часов (упрощенная версия)
+            if ($category === 'company') {
+                // Сохраняем настройки для будней, субботы и воскресенья
+                $working_hours_keys = [
+                    'working_hours_weekdays_from',
+                    'working_hours_weekdays_to', 
+                    'working_hours_saturday_from',
+                    'working_hours_saturday_to',
+                    'working_hours_sunday_from',
+                    'working_hours_sunday_to',
+                    'sunday_working'
+                ];
+                
+                foreach ($working_hours_keys as $key) {
+                    $value = $settings_data[$key] ?? '';
+                    
+                    $existing = $db->select('settings', ['setting_key' => $key], ['limit' => 1]);
+                    if ($existing) {
+                        $db->update('settings', 
+                            ['setting_value' => $value, 'updated_at' => date('Y-m-d H:i:s')], 
+                            ['setting_key' => $key]
+                        );
+                    } else {
+                        $db->insert('settings', [
+                            'setting_key' => $key,
+                            'setting_value' => $value,
+                            'category' => 'company'
+                        ]);
+                    }
+                }
+            }
+            
+            $success_message = __('settings.update_success', 'Контакты компании успешно обновлены');
+            log_user_activity('contacts_update', 'settings', 0);
+            
+            
+        } catch (Exception $e) {
+            $error_message = __('settings.update_error', 'Ошибка при обновлении контактов компании');
+            write_log("Contacts update error: " . $e->getMessage(), 'ERROR');
+            
+        }
+    }
+    
     if (isset($_POST['save_history'])) {
         // Сохранение истории компании
         $history_data = [
@@ -216,6 +288,17 @@ $history_data = get_about_content('history');
 $team_members = get_team_members();
 $statistics = get_statistics();
 
+// Загрузка настроек компании
+$settings = [];
+$all_settings = $db->select('settings', [], ['order' => 'category, setting_key']);
+
+foreach ($all_settings as $setting) {
+    $settings[$setting['category']][$setting['setting_key']] = $setting;
+}
+
+// Генерация CSRF токена
+$csrf_token = generate_csrf_token();
+
 // Начало контента
 ob_start();
 ?>
@@ -255,7 +338,7 @@ ob_start();
 
     <!-- Вкладки -->
     <div class="bg-white rounded-lg shadow-sm">
-        <div class="border-b border-gray-200">
+        <div class="border-b border-gray-200" style="overflow-y: hidden;">
             <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
                 <button class="tab-button active py-4 px-1 border-b-2 border-primary-500 font-medium text-sm text-primary-600" data-tab="history">
                     Наша история
@@ -265,6 +348,9 @@ ob_start();
                 </button>
                 <button class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="statistics">
                     Статистика
+                </button>
+                <button class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="contacts">
+                    Контакты компании
                 </button>
             </nav>
         </div>
@@ -312,7 +398,7 @@ ob_start();
                             <label for="team_photo" class="block text-sm font-medium text-gray-700 mb-2">
                                 Фото команды
                             </label>
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-4" style="display: flex; flex-direction: column; ">
                                 <div class="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
                                     <?php if (!empty($history_data['image'])): ?>
                                         <img src="../<?php echo htmlspecialchars($history_data['image']); ?>" 
@@ -446,6 +532,148 @@ ob_start();
                     </div>
                 </form>
             </div>
+
+            <!-- Вкладка "Контакты компании" -->
+            <div id="tab-contacts" class="tab-content hidden">
+                <form method="POST" class="space-y-4">
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                    <input type="hidden" name="category" value="company">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <?php render_form_field([
+                            'type' => 'text',
+                            'name' => 'settings[company_name]',
+                            'label' => __('settings.company_name', 'Название компании'),
+                            'value' => $settings['company']['company_name']['setting_value'] ?? '',
+                            'required' => true
+                        ]); ?>
+                        
+                        <?php render_form_field([
+                            'type' => 'email',
+                            'name' => 'settings[company_email]',
+                            'label' => __('settings.company_email', 'Email компании'),
+                            'value' => $settings['company']['company_email']['setting_value'] ?? '',
+                            'required' => true
+                        ]); ?>
+                        
+                        <?php render_form_field([
+                            'type' => 'text',
+                            'name' => 'settings[company_phone]',
+                            'label' => __('settings.company_phone', 'Телефон'),
+                            'value' => $settings['company']['company_phone']['setting_value'] ?? ''
+                        ]); ?>
+                        
+                        <?php render_form_field([
+                            'type' => 'text',
+                            'name' => 'settings[company_address]',
+                            'label' => __('settings.company_address', 'Адрес'),
+                            'value' => $settings['company']['company_address']['setting_value'] ?? ''
+                        ]); ?>
+                    </div>
+                    
+                    <?php render_form_field([
+                        'type' => 'textarea',
+                        'name' => 'settings[company_description]',
+                        'label' => __('settings.company_description', 'Описание компании'),
+                        'value' => $settings['company']['company_description']['setting_value'] ?? '',
+                        'rows' => 3
+                    ]); ?>
+                    
+                    <!-- Рабочие часы -->
+                    <div class="space-y-4">
+                        <h4 class="text-md font-medium text-gray-900"><?php echo __('settings.working_hours', 'Рабочие часы'); ?></h4>
+                        
+                        <!-- Упрощенная форма -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Будни (ПН-ПТ)</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-gray-500 mb-1">С</label>
+                                        <input type="time" 
+                                               name="settings[working_hours_weekdays_from]" 
+                                               value="<?php echo $settings['company']['working_hours_weekdays_from']['setting_value'] ?? '08:00'; ?>"
+                                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-500 mb-1">До</label>
+                                        <input type="time" 
+                                               name="settings[working_hours_weekdays_to]" 
+                                               value="<?php echo $settings['company']['working_hours_weekdays_to']['setting_value'] ?? '20:00'; ?>"
+                                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Суббота (СБ)</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-gray-500 mb-1">С</label>
+                                        <input type="time" 
+                                               name="settings[working_hours_saturday_from]" 
+                                               value="<?php echo $settings['company']['working_hours_saturday_from']['setting_value'] ?? '09:00'; ?>"
+                                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-500 mb-1">До</label>
+                                        <input type="time" 
+                                               name="settings[working_hours_saturday_to]" 
+                                               value="<?php echo $settings['company']['working_hours_saturday_to']['setting_value'] ?? '15:00'; ?>"
+                                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Воскресенье (ВС)</label>
+                                <div class="flex items-center">
+                                    <input type="checkbox" 
+                                           id="sunday_working" 
+                                           name="settings[sunday_working]" 
+                                           value="1" 
+                                           <?php echo ($settings['company']['sunday_working']['setting_value'] ?? '0') == '1' ? 'checked' : ''; ?>
+                                           class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                    <label for="sunday_working" class="ml-2 text-sm text-gray-600">Работаем в воскресенье</label>
+                                </div>
+                                <div id="sunday-times" class="mt-3 grid grid-cols-2 gap-3" style="<?php echo ($settings['company']['sunday_working']['setting_value'] ?? '0') == '1' ? '' : 'display: none;'; ?>">
+                                    <div>
+                                        <label class="block text-xs text-gray-500 mb-1">С</label>
+                                        <input type="time" 
+                                               name="settings[working_hours_sunday_from]" 
+                                               value="<?php echo $settings['company']['working_hours_sunday_from']['setting_value'] ?? '10:00'; ?>"
+                                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-500 mb-1">До</label>
+                                        <input type="time" 
+                                               name="settings[working_hours_sunday_to]" 
+                                               value="<?php echo $settings['company']['working_hours_sunday_to']['setting_value'] ?? '16:00'; ?>"
+                                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Предварительный просмотр -->
+                        <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                            <h5 class="text-sm font-medium text-gray-700 mb-2">Предварительный просмотр:</h5>
+                            <div id="working-hours-preview" class="text-sm text-gray-600">
+                                <!-- Здесь будет отображаться предварительный просмотр -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <?php render_button([
+                            'type' => 'submit',
+                            'text' => __('common.save', 'Сохранить'),
+                            'variant' => 'primary',
+                            'name' => 'save_contacts'
+                        ]); ?>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -575,6 +803,64 @@ document.getElementById('memberModal').addEventListener('click', function(e) {
         closeMemberModal();
     }
 });
+
+// Управление рабочими часами для вкладки "Контакты компании"
+const previewElement = document.getElementById('working-hours-preview');
+const sundayCheckbox = document.getElementById('sunday_working');
+const sundayTimes = document.getElementById('sunday-times');
+
+function updateWorkingHoursPreview() {
+    // Получаем значения из полей
+    const weekdaysFrom = document.querySelector('input[name="settings[working_hours_weekdays_from]"]')?.value || '08:00';
+    const weekdaysTo = document.querySelector('input[name="settings[working_hours_weekdays_to]"]')?.value || '20:00';
+    const saturdayFrom = document.querySelector('input[name="settings[working_hours_saturday_from]"]')?.value || '09:00';
+    const saturdayTo = document.querySelector('input[name="settings[working_hours_saturday_to]"]')?.value || '15:00';
+    const sundayFrom = document.querySelector('input[name="settings[working_hours_sunday_from]"]')?.value || '10:00';
+    const sundayTo = document.querySelector('input[name="settings[working_hours_sunday_to]"]')?.value || '16:00';
+    const sundayWorking = sundayCheckbox ? sundayCheckbox.checked : false;
+    
+    // Формируем предварительный просмотр
+    let previewParts = [];
+    
+    // Будни
+    previewParts.push(`ПН-ПТ ${weekdaysFrom}-${weekdaysTo}`);
+    
+    // Суббота
+    previewParts.push(`СБ ${saturdayFrom}-${saturdayTo}`);
+    
+    // Воскресенье
+    if (sundayWorking) {
+        previewParts.push(`ВС ${sundayFrom}-${sundayTo}`);
+    } else {
+        previewParts.push('ВС - X');
+    }
+    
+    if (previewElement) {
+        previewElement.innerHTML = previewParts.join('<br>');
+    }
+}
+
+// Обработчик для чекбокса воскресенья
+if (sundayCheckbox) {
+    sundayCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            sundayTimes.style.display = 'block';
+        } else {
+            sundayTimes.style.display = 'none';
+        }
+        updateWorkingHoursPreview();
+    });
+}
+
+// Обработчики для полей времени
+const timeInputs = document.querySelectorAll('input[type="time"]');
+timeInputs.forEach(input => {
+    input.addEventListener('change', updateWorkingHoursPreview);
+    input.addEventListener('input', updateWorkingHoursPreview);
+});
+
+// Инициализация предварительного просмотра
+updateWorkingHoursPreview();
 </script>
 
 <?php
