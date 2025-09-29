@@ -509,6 +509,7 @@ ob_start();
                                 <?php 
                                 $duration = $project['duration'];
                                 // Переводим единицы времени
+                                $duration = str_replace('6 недель', '6 Wochen', $duration);
                                 $duration = str_replace('недель', 'Wochen', $duration);
                                 $duration = str_replace('недели', 'Wochen', $duration);
                                 $duration = str_replace('неделя', 'Woche', $duration);
