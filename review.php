@@ -177,6 +177,16 @@ ob_start();
     transform: scale(1.05);
 }
 
+/* Review card smooth upscale on hover */
+.review-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.review-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
 /* Button smooth transitions */
 button, .btn {
     transition: all 0.3s ease;
