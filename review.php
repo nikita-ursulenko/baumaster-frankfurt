@@ -483,7 +483,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 
 <!-- CTA Section -->
-<section class="py-20 bg-white">
+<section class="py-20 bg-gray-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 id="cta-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 fade-in-up">
             Станьте нашим следующим довольным клиентом
