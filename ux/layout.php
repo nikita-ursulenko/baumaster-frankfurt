@@ -302,14 +302,14 @@ function render_frontend_head($title = '', $meta_description = '', $active_page 
             max-width: none;
         }
         .prose h2 {
-            font-size: 1.5rem;
+            font-size: 1.375rem; /* 1.5rem - 0.125rem */
             font-weight: 600;
             margin-top: 2rem;
             margin-bottom: 1rem;
             color: #1f2937;
         }
         .prose h3 {
-            font-size: 1.25rem;
+            font-size: 1.125rem; /* 1.25rem - 0.125rem */
             font-weight: 600;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
@@ -370,13 +370,13 @@ function render_frontend_head($title = '', $meta_description = '', $active_page 
         /* Navigation responsive improvements */
         @media (max-width: 1280px) {
             .nav-menu-item {
-                font-size: 0.9rem;
+                font-size: 0.875rem; /* 0.9rem - 0.025rem */
             }
         }
         
         @media (max-width: 1024px) {
             .nav-menu-item {
-                font-size: 0.85rem;
+                font-size: 0.8rem; /* 0.85rem - 0.05rem */
             }
         }
         
@@ -486,7 +486,7 @@ function render_frontend_navigation($active_page = '') {
             <!-- Main navigation row -->
             <div class="flex justify-between items-center h-16">
                 <!-- Logo for all screens -->
-                <div class="nav-logo font-montserrat font-semibold text-lg xl:text-xl text-text-primary">
+                <div class="nav-logo font-montserrat font-semibold text-base xl:text-lg text-text-primary">
                     Frankfurt Innenausbau
                 </div>
                 
@@ -615,7 +615,7 @@ function render_frontend_footer() {
             <div class="grid md:grid-cols-4 gap-8">
                 <!-- Company Info -->
                 <div class="md:col-span-2">
-                    <div class="font-montserrat font-semibold text-2xl mb-4">
+                    <div class="font-montserrat font-semibold text-xl mb-4">
                         Frankfurt Innenausbau
                     </div>
                       <p class="text-gray-300 mb-6 leading-relaxed">
