@@ -164,17 +164,26 @@ ob_start();
     transition: all 0.3s ease;
 }
 
-.card:hover, .review-card:hover, .stat-item:hover, .feature-item:hover {
+.card:hover, .review-card:hover, .feature-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-item:hover {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .card img, .review-card img, .stat-item img, .feature-item img {
     transition: transform 0.3s ease;
 }
 
-.card:hover img, .review-card:hover img, .stat-item:hover img, .feature-item:hover img {
+.card:hover img, .review-card:hover img, .feature-item:hover img {
     transform: scale(1.05);
+}
+
+.stat-item:hover img {
+    transform: scale(1);
 }
 
 /* Review card smooth upscale on hover */
@@ -249,8 +258,12 @@ section {
     transition: color 0.3s ease;
 }
 
-.card:hover h3, .review-card:hover h3, .stat-item:hover h3, .feature-item:hover h3 {
+.card:hover h3, .review-card:hover h3, .feature-item:hover h3 {
     color: #3b82f6;
+}
+
+.stat-item:hover h3 {
+    color: inherit;
 }
 
 /* Price and button smooth transitions */
@@ -258,8 +271,12 @@ section {
     transition: all 0.3s ease;
 }
 
-.card:hover .font-semibold, .review-card:hover .font-semibold, .stat-item:hover .font-semibold, .feature-item:hover .font-semibold {
+.card:hover .font-semibold, .review-card:hover .font-semibold, .feature-item:hover .font-semibold {
     transform: scale(1.05);
+}
+
+.stat-item:hover .font-semibold {
+    transform: scale(1);
 }
 
 /* Smooth loading states */
