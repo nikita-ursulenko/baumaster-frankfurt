@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: http://5.61.34.176/sitemap.xml
+
+# Disallow admin area
+Disallow: /admin/
+Disallow: /data/
+Disallow: /seo/
+Disallow: /components/
+Disallow: /ui/
+Disallow: /ux/
+Disallow: /functions/
+Disallow: /includes/
+Disallow: /integrations/
+Disallow: /lang/
+Disallow: /tests/
+Disallow: /tools/
+Disallow: /node_modules/
+Disallow: /docs/
+Disallow: /scripts/
+
+# Allow important pages
+Allow: /services/
+Allow: /portfolio/
+Allow: /blog/
+Allow: /reviews/
+Allow: /about/
+Allow: /contact/
+Allow: /assets/
+
+# Crawl delay
+Crawl-delay: 1
+

@@ -1,0 +1,63 @@
+{
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "search": "Suchen",
+    "filter": "Filter",
+    "loading": "Laden...",
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein",
+    "back": "Zurück",
+    "next": "Weiter",
+    "prev": "Zurück"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "login_error": "Ungültiger Benutzername oder Passwort",
+    "login_success": "Erfolgreich angemeldet"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "services": "Dienstleistungen",
+    "portfolio": "Portfolio",
+    "reviews": "Bewertungen",
+    "blog": "Blog",
+    "users": "Benutzer",
+    "settings": "Über das Unternehmen",
+    "statistics": "Statistiken"
+  },
+  "services": {
+    "title": "Dienstleistungen verwalten",
+    "name": "Name der Dienstleistung",
+    "description": "Beschreibung",
+    "price": "Preis",
+    "image": "Bild",
+    "meta_title": "SEO Titel",
+    "meta_description": "SEO Beschreibung",
+    "keywords": "Schlüsselwörter"
+  },
+  "portfolio": {
+    "title": "Portfolio verwalten",
+    "project_name": "Projektname",
+    "category": "Kategorie",
+    "date": "Abschlussdatum",
+    "area": "Fläche",
+    "duration": "Projektdauer",
+    "budget": "Budget"
+  },
+  "dashboard": {
+    "welcome": "Willkommen im Admin-Panel",
+    "total_projects": "Projekte gesamt",
+    "total_services": "Dienstleistungen gesamt",
+    "total_reviews": "Bewertungen gesamt",
+    "recent_activity": "Letzte Aktivität"
+  }
+}
+

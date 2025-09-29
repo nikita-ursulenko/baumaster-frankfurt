@@ -1,0 +1,63 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "prev": "Previous"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "username": "Username",
+    "password": "Password",
+    "login_error": "Invalid username or password",
+    "login_success": "Successfully logged in"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "reviews": "Reviews",
+    "blog": "Blog",
+    "users": "Users",
+    "settings": "About Company",
+    "statistics": "Statistics"
+  },
+  "services": {
+    "title": "Manage Services",
+    "name": "Service Name",
+    "description": "Description",
+    "price": "Price",
+    "image": "Image",
+    "meta_title": "SEO Title",
+    "meta_description": "SEO Description",
+    "keywords": "Keywords"
+  },
+  "portfolio": {
+    "title": "Manage Portfolio",
+    "project_name": "Project Name",
+    "category": "Category",
+    "date": "Completion Date",
+    "area": "Area",
+    "duration": "Duration",
+    "budget": "Budget"
+  },
+  "dashboard": {
+    "welcome": "Welcome to Admin Panel",
+    "total_projects": "Total Projects",
+    "total_services": "Total Services",
+    "total_reviews": "Total Reviews",
+    "recent_activity": "Recent Activity"
+  }
+}
+

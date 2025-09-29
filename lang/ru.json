@@ -1,0 +1,62 @@
+{
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "create": "Создать",
+    "search": "Поиск",
+    "filter": "Фильтр",
+    "loading": "Загрузка...",
+    "confirm": "Подтвердить",
+    "yes": "Да",
+    "no": "Нет",
+    "back": "Назад",
+    "next": "Далее",
+    "prev": "Назад"
+  },
+  "auth": {
+    "login": "Вход",
+    "logout": "Выход",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "login_error": "Неверный логин или пароль",
+    "login_success": "Успешный вход в систему"
+  },
+  "menu": {
+    "dashboard": "Панель управления",
+    "services": "Услуги",
+    "portfolio": "Портфолио",
+    "reviews": "Отзывы",
+    "blog": "Блог",
+    "users": "Пользователи",
+    "settings": "Данные компании",
+    "statistics": "Статистика"
+  },
+  "services": {
+    "title": "Управление услугами",
+    "name": "Название услуги",
+    "description": "Описание",
+    "price": "Цена",
+    "image": "Изображение",
+    "meta_title": "SEO заголовок",
+    "meta_description": "SEO описание",
+    "keywords": "Ключевые слова"
+  },
+  "portfolio": {
+    "title": "Управление портфолио",
+    "project_name": "Название проекта",
+    "category": "Категория",
+    "date": "Дата выполнения",
+    "area": "Площадь",
+    "duration": "Срок выполнения",
+    "budget": "Бюджет"
+  },
+  "dashboard": {
+    "welcome": "Добро пожаловать в админ-панель",
+    "total_projects": "Всего проектов",
+    "total_services": "Всего услуг",
+    "total_reviews": "Всего отзывов",
+    "recent_activity": "Последняя активность"
+  }
+}
