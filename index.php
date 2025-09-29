@@ -246,23 +246,199 @@ ob_start();
         height: 48px;
     }
 }
+
+/* Services Section Animations */
+.services-title-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.services-title-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.services-subtitle-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+    transition-delay: 0.3s;
+}
+
+.services-subtitle-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.service-card-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.service-card-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Service card hover effects */
+.service-card-animate .bg-white {
+    transition: all 0.3s ease;
+}
+
+.service-card-animate:hover .bg-white {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.service-card-animate:hover .bg-white img {
+    transform: scale(1.05);
+}
+
+.service-card-animate .bg-white img {
+    transition: transform 0.3s ease;
+}
+
+/* Portfolio Section Animations */
+.portfolio-title-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.portfolio-title-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.portfolio-subtitle-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+    transition-delay: 0.3s;
+}
+
+.portfolio-subtitle-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.portfolio-card-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.portfolio-card-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Portfolio card hover effects */
+.portfolio-card-animate .bg-white {
+    transition: all 0.3s ease;
+}
+
+.portfolio-card-animate:hover .bg-white {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-card-animate:hover .bg-white img {
+    transform: scale(1.05);
+}
+
+.portfolio-card-animate .bg-white img {
+    transition: transform 0.3s ease;
+}
+
+/* About Section Animations */
+.about-title-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.about-title-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about-stat-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.about-stat-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reviews Section Animations */
+.reviews-title-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reviews-title-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reviews-subtitle-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+    transition-delay: 0.3s;
+}
+
+.reviews-subtitle-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.review-card-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.review-card-animate.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Review card hover effects */
+.review-card-animate .bg-white {
+    transition: all 0.3s ease;
+}
+
+.review-card-animate:hover .bg-white {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
 </style>
 
 <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="services-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 services-title-animate">
                 Наши услуги
             </h2>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+            <p id="services-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto services-subtitle-animate">
                 Выполняем все виды внутренних работ с гарантией качества и в договорные сроки
             </p>
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach (array_slice($services, 0, 6) as $service): ?>
-                <?php render_service_card($service); ?>
+            <?php foreach (array_slice($services, 0, 6) as $index => $service): ?>
+                <div class="service-card-animate" data-delay="<?php echo $index * 0.2; ?>">
+                    <?php render_service_card($service); ?>
+                </div>
             <?php endforeach; ?>
         </div>
         
@@ -281,16 +457,17 @@ ob_start();
 <section id="portfolio" class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="portfolio-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 portfolio-title-animate">
                 Наши работы
             </h2>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+            <p id="portfolio-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto portfolio-subtitle-animate">
                 Посмотрите примеры наших проектов — от небольших ремонтов до комплексной реконструкции
             </p>
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach ($portfolio as $project): ?>
+            <?php foreach ($portfolio as $index => $project): ?>
+                <div class="portfolio-card-animate" data-delay="<?php echo $index * 0.15; ?>">
                 <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
                     
                     <!-- Featured Image -->
@@ -392,6 +569,7 @@ ob_start();
                         </div>
                     </div>
                 </div>
+                </div>
             <?php endforeach; ?>
         </div>
         
@@ -411,7 +589,7 @@ ob_start();
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6">
+                <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
                     О компании Frankfurt Innenausbau
                 </h2>
                 <p class="text-lg text-text-secondary mb-6 leading-relaxed">
@@ -420,10 +598,12 @@ ob_start();
                 </p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8">
                     <?php if (!empty($statistics)): ?>
-                        <?php foreach (array_slice($statistics, 0, 4) as $stat): ?>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-accent-blue mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
-                                <div class="text-text-secondary"><?php echo htmlspecialchars($stat['label']); ?></div>
+                        <?php foreach (array_slice($statistics, 0, 4) as $index => $stat): ?>
+                            <div class="about-stat-animate" data-delay="<?php echo $index * 0.2; ?>">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-accent-blue mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
+                                    <div class="text-text-secondary"><?php echo htmlspecialchars($stat['label']); ?></div>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -491,17 +671,19 @@ ob_start();
 <section id="reviews" class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4">
+            <h2 id="reviews-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 reviews-title-animate">
                 Отзывы наших клиентов
             </h2>
-            <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+            <p id="reviews-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto reviews-subtitle-animate">
                 Читайте, что говорят о нашей работе те, кто уже доверил нам свой ремонт
             </p>
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php foreach ($reviews as $review): ?>
-                <?php render_review_card($review); ?>
+            <?php foreach ($reviews as $index => $review): ?>
+                <div class="review-card-animate" data-delay="<?php echo $index * 0.15; ?>">
+                    <?php render_review_card($review); ?>
+                </div>
             <?php endforeach; ?>
         </div>
         
@@ -861,6 +1043,82 @@ document.addEventListener('click', function(event) {
     if (event.target.id === 'galleryModal') {
         closeGallery();
     }
+});
+
+// Scroll-triggered animations
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+function isElementPartiallyInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top < window.innerHeight &&
+        rect.bottom > 0
+    );
+}
+
+function animateOnScroll() {
+    // Animate services section
+    animateSection('services-title', 'services-subtitle', '.service-card-animate');
+    
+    // Animate portfolio section
+    animateSection('portfolio-title', 'portfolio-subtitle', '.portfolio-card-animate');
+    
+    // Animate about section
+    animateSection('about-title', null, '.about-stat-animate');
+    
+    // Animate reviews section
+    animateSection('reviews-title', 'reviews-subtitle', '.review-card-animate');
+}
+
+function animateSection(titleId, subtitleId, cardsSelector) {
+    // Animate title
+    const title = document.getElementById(titleId);
+    if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
+        title.classList.add('animate');
+        
+        // Animate subtitle after title
+        if (subtitleId) {
+            setTimeout(() => {
+                const subtitle = document.getElementById(subtitleId);
+                if (subtitle && !subtitle.classList.contains('animate')) {
+                    subtitle.classList.add('animate');
+                }
+            }, 300);
+        }
+    }
+    
+    // Animate cards
+    const cards = document.querySelectorAll(cardsSelector);
+    cards.forEach((card, index) => {
+        if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
+            const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
+            setTimeout(() => {
+                card.classList.add('animate');
+            }, delay);
+        }
+    });
+}
+
+// Throttled scroll event listener
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
+    scrollTimeout = setTimeout(animateOnScroll, 10);
+});
+
+// Initial check on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(animateOnScroll, 100);
 });
 </script>
 
