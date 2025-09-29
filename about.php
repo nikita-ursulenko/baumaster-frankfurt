@@ -164,9 +164,14 @@ ob_start();
     transition: all 0.3s ease;
 }
 
-.card:hover, .team-member:hover, .stat-item:hover, .feature-item:hover {
+.card:hover, .stat-item:hover, .feature-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.team-member:hover {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .card img, .team-member img, .stat-item img, .feature-item img {
