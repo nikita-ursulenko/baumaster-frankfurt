@@ -553,10 +553,10 @@ ob_start();
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach ($portfolio as $index => $project): ?>
                 <div class="portfolio-card-animate" data-delay="<?php echo $index * 0.15; ?>">
-                <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+                <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
                     
                     <!-- Featured Image -->
-                    <div class="relative h-64 bg-gray-200 overflow-hidden">
+                    <div class="relative h-64 bg-gray-200 overflow-hidden group">
                         <img src="<?php echo htmlspecialchars($project['image']); ?>" 
                              alt="<?php echo htmlspecialchars($project['title']); ?>" 
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -581,11 +581,11 @@ ob_start();
                     </div>
                     
                     <!-- Project Info -->
-                    <div class="p-6">
+                    <div class="p-6 flex flex-col flex-grow">
                         <h3 class="font-semibold text-xl text-text-primary mb-3">
                             <?php echo htmlspecialchars($project['title']); ?>
                         </h3>
-                        <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3">
+                        <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3 flex-grow">
                             <?php 
                             $description = $project['description'];
                             if (strlen($description) > 200) {
@@ -644,7 +644,7 @@ ob_start();
                         <?php endif; ?>
                         
                         <!-- Action Buttons -->
-                        <div class="flex gap-2">
+                        <div class="flex gap-2 mt-auto">
                             <button onclick="openProjectModal(<?php echo $project['id']; ?>)" 
                                     class="flex-1 bg-accent-blue text-white px-4 py-2 rounded font-medium hover:bg-blue-600 transition-colors">
                                 Подробнее
@@ -656,6 +656,7 @@ ob_start();
                             </button>
                             <?php endif; ?>
                         </div>
+                    </div>
                     </div>
                 </div>
                 </div>
