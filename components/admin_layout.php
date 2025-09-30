@@ -62,7 +62,7 @@ function render_admin_layout($options = []) {
             <?php render_admin_sidebar($menu_items, $current_user); ?>
 
             <!-- Main Content -->
-            <div class="lg:pl-64">
+            <div id="main-content" class="main-content-area">
                 <!-- Header -->
                 <?php render_admin_header($opts['page_title'], $opts['page_description']); ?>
 
@@ -239,19 +239,19 @@ function render_admin_sidebar($menu_items, $current_user) {
     </div>
 
     <!-- Desktop Sidebar -->
-    <div class="hidden lg:block fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar">
-        <div class="flex flex-col h-full">
-        <!-- User Info -->
-        <div class="flex items-center h-16 px-4 bg-black bg-opacity-20 flex-shrink-0">
-            <div class="flex items-center space-x-3">
-                <div class="flex-shrink-0">
+    <div id="desktop-sidebar" class="hidden lg:block fixed inset-y-0 left-0 z-50 w-16 bg-admin-sidebar desktop-sidebar sidebar-collapsed">
+        <div class="flex flex-col h-full relative">
+
+            <!-- User Info -->
+            <div class="user-info flex items-center justify-center h-16 bg-black bg-opacity-20 flex-shrink-0">
+                <div class="user-avatar">
                     <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
                         <span class="text-white text-sm font-medium">
                             <?php echo strtoupper(substr($current_user['username'], 0, 1)); ?>
                         </span>
                     </div>
                 </div>
-                <div class="flex-1 min-w-0">
+                <div class="flex-1 min-w-0 user-info-text">
                     <p class="text-sm font-medium text-white truncate">
                         <?php echo htmlspecialchars($current_user['username']); ?>
                     </p>
@@ -269,22 +269,23 @@ function render_admin_sidebar($menu_items, $current_user) {
                     </a>
                 </div>
             </div>
-        </div>
 
-        <!-- Navigation -->
-        <nav class="flex-1 px-4 py-4 overflow-y-auto">
-            <div class="space-y-1">
-                <?php foreach ($menu_items as $key => $item): ?>
-                    <a 
-                        href="<?php echo htmlspecialchars($item['url']); ?>" 
-                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>"
-                    >
-                        <?php echo get_icon($item['icon']); ?>
-                        <span class="ml-3"><?php echo htmlspecialchars($item['title']); ?></span>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        </nav>
+            <!-- Navigation -->
+            <nav class="flex-1 px-4 py-4 overflow-y-auto">
+                <div class="space-y-1">
+                    <?php foreach ($menu_items as $key => $item): ?>
+                        <a 
+                            href="<?php echo htmlspecialchars($item['url']); ?>" 
+                            class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>"
+                        >
+                            <span class="sidebar-icon">
+                                <?php echo get_icon($item['icon']); ?>
+                            </span>
+                            <span class="ml-3 sidebar-text"><?php echo htmlspecialchars($item['title']); ?></span>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </nav>
         </div>
     </div>
     <?php
@@ -433,6 +434,119 @@ function admin_css_styles() {
             .main-content {
                 padding-left: 0;
             }
+        }
+        
+        /* Collapsible Sidebar Styles */
+        .sidebar-collapsed {
+            width: 4rem !important;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        .sidebar-collapsed .sidebar-text {
+            display: none !important;
+        }
+        
+        .sidebar-collapsed .sidebar-icon {
+            margin: 0 !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .sidebar-collapsed .user-info-text {
+            display: none !important;
+        }
+        
+        .sidebar-collapsed .user-avatar {
+            margin: 0 !important;
+        }
+        
+        .sidebar-collapsed .user-info .flex-shrink-0:last-child {
+            display: none !important;
+        }
+        
+        .sidebar-collapsed .sidebar-item {
+            justify-content: center;
+            align-items: center;
+            padding: 0.75rem 0.5rem;
+            display: flex;
+            width: 100%;
+            min-height: 3rem;
+            height: 3rem;
+        }
+        
+        .sidebar-collapsed .sidebar-item.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .sidebar-collapsed .sidebar-item.active .sidebar-icon svg {
+            color: white !important;
+        }
+        
+        .sidebar-collapsed .sidebar-item:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .sidebar-collapsed .sidebar-item:hover .sidebar-icon svg {
+            color: white !important;
+        }
+        
+        /* Hover to expand sidebar */
+        .desktop-sidebar:hover {
+            width: 16rem !important;
+        }
+        
+        .desktop-sidebar:hover .sidebar-text {
+            display: block !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .desktop-sidebar:hover .user-info-text {
+            display: block !important;
+        }
+        
+        .desktop-sidebar:hover .user-info {
+            justify-content: flex-start;
+            padding: 0 1rem;
+        }
+        
+        .desktop-sidebar:hover .user-avatar {
+            margin-right: 0.75rem !important;
+        }
+        
+        .desktop-sidebar:hover .user-info .flex-shrink-0:last-child {
+            display: block !important;
+        }
+        
+        .desktop-sidebar:hover .sidebar-item {
+            justify-content: flex-start;
+            padding: 0.75rem 1rem;
+            min-height: 3rem;
+            height: 3rem;
+        }
+        
+        .desktop-sidebar:hover .sidebar-icon {
+            margin-right: 0.75rem !important;
+            width: auto;
+        }
+        
+        
+        /* Main content always has left margin for collapsed sidebar */
+        @media (min-width: 1024px) {
+            .main-content-area {
+                margin-left: 4rem !important;
+                transition: margin-left 0.3s ease-in-out;
+            }
+        }
+        
+        /* Smooth transitions */
+        .desktop-sidebar,
+        .main-content-area {
+            transition: all 0.3s ease-in-out;
         }
         
     </style>

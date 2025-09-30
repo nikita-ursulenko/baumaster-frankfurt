@@ -203,3 +203,4 @@
 [2025-09-30 15:02:32] [DEBUG] Search: '', Status: '', Category: ''
 [2025-09-30 15:02:32] [DEBUG] Applied filters: []
 [2025-09-30 15:17:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 15:28:45] [INFO] User root logged in

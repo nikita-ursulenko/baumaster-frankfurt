@@ -302,6 +302,23 @@ function render_admin_javascript() {
                 closeMobileMenu();
             }
         });
+
+        // Hover Sidebar Functions - сайдбар всегда скрыт, раскрывается при наведении
+        function initHoverSidebar() {
+            const desktopSidebar = document.getElementById('desktop-sidebar');
+            
+            if (!desktopSidebar) {
+                return;
+            }
+
+            // Убеждаемся что сайдбар всегда в свернутом состоянии
+            desktopSidebar.classList.add('sidebar-collapsed');
+        }
+
+        // Initialize hover sidebar when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initHoverSidebar();
+        });
     </script>
     <?php
 }
