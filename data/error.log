@@ -219,3 +219,20 @@
 [2025-09-30 17:35:11] [INFO] New portfolio project created: Название (ID: 66)
 [2025-09-30 17:35:41] [INFO] Portfolio project updated: Название (ID: 66)
 [2025-09-30 17:36:33] [WARNING] Portfolio project deleted: Название (ID: 66)
+[2025-09-30 17:38:32] [INFO] POST request received: {"action":"create","csrf_token":"fd335fd1421c513f91f8f36c8e7326b4f7ed511434ea08fa8170f02f43e904a1","title":"\u043d\u043e\u0432\u0430\u044f \u0443\u0441\u043b\u0443\u0433\u0430","category":"drywall","description":"\u042f \u043d\u0435 \u0437\u043d\u0430\u044e \u0447\u0442\u043e \u044d\u0442\u043e \u0442\u0430\u043a\u043e\u0435 \u043d\u043e \u044d\u0442\u043e \u043d\u0435 \u0442\u0430\u043a \u043f\u0440\u043e\u0441\u0442\u043e \u043a\u0430\u043a \u0442\u044b \u0434\u0443\u043c\u0430\u0435\u0448\u044c \u044f \u043d\u0435 \u0437\u043d\u0430\u044e ","price":"450","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-30 17:38:32] [INFO] FILES received: {"image":{"name":"\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-30 \u0432 17.38.12.png","full_path":"\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-30 \u0432 17.38.12.png","type":"image\/png","tmp_name":"\/tmp\/phpGzR56i","error":0,"size":708726},"gallery":{"name":["\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-30 \u0432 17.38.12.png"],"full_path":["\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2025-09-30 \u0432 17.38.12.png"],"type":["image\/png"],"tmp_name":["\/tmp\/php10I6lK"],"error":[0],"size":[708726]}}
+[2025-09-30 17:38:32] [INFO] Creating service with data: {"action":"create","csrf_token":"fd335fd1421c513f91f8f36c8e7326b4f7ed511434ea08fa8170f02f43e904a1","title":"\u043d\u043e\u0432\u0430\u044f \u0443\u0441\u043b\u0443\u0433\u0430","category":"drywall","description":"\u042f \u043d\u0435 \u0437\u043d\u0430\u044e \u0447\u0442\u043e \u044d\u0442\u043e \u0442\u0430\u043a\u043e\u0435 \u043d\u043e \u044d\u0442\u043e \u043d\u0435 \u0442\u0430\u043a \u043f\u0440\u043e\u0441\u0442\u043e \u043a\u0430\u043a \u0442\u044b \u0434\u0443\u043c\u0430\u0435\u0448\u044c \u044f \u043d\u0435 \u0437\u043d\u0430\u044e ","price":"450","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-30 17:38:34] [INFO] Translation saved: services.title (ID: 39)
+[2025-09-30 17:38:36] [INFO] Translation saved: services.description (ID: 39)
+[2025-09-30 17:38:36] [INFO] Auto-translation completed for service ID: 39
+[2025-09-30 17:38:36] [INFO] New service created: новая услуга (ID: 39)
+[2025-09-30 17:38:36] [INFO] Create service result: {"success":true,"service_id":"39","message":"\u0423\u0441\u043b\u0443\u0433\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"}
+[2025-09-30 17:44:29] [INFO] Новый отзыв создан: ID 64, Имя: никита, Рейтинг: 5
+[2025-09-30 17:44:31] [INFO] Translation saved: reviews.review_text (ID: 64)
+[2025-09-30 17:44:31] [INFO] Отзыв ID 64 переведен с ru на de
+[2025-09-30 17:44:54] [INFO] Translation saved: reviews.review_text (ID: 64)
+[2025-09-30 17:44:54] [INFO] Отзыв ID 64 переведен при одобрении с ru на de
+[2025-09-30 17:44:54] [INFO] Review moderated: никита (ID: 64) -> published
+[2025-09-30 17:46:26] [INFO] Translation saved: reviews.review_text (ID: 64)
+[2025-09-30 17:46:26] [INFO] Отзыв ID 64 переведен при одобрении с ru на de
+[2025-09-30 17:46:26] [INFO] Review moderated: никита (ID: 64) -> published
