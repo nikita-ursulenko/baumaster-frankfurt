@@ -193,7 +193,9 @@ function render_frontend_head($title = '', $meta_description = '', $active_page 
     $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     ?>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title><?php echo htmlspecialchars($site_title); ?></title>
     
     <!-- SEO Meta Tags -->
@@ -480,7 +482,7 @@ function render_frontend_navigation($active_page = '') {
     <nav class="bg-white shadow-sm fixed w-full z-50">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Main navigation row -->
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-around md:justify-between items-center h-16">
                 <!-- Logo for all screens -->
                 <div class="nav-logo font-montserrat font-semibold text-base xl:text-lg text-text-primary">
                     Frankfurt Innenausbau

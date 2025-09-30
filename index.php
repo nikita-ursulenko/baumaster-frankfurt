@@ -26,13 +26,13 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/home.png');">
+<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/home.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
     <!-- Overlay for better text readability -->
-    <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
+    <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30" style="z-index: 1;"></div>
     
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
-            <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
+            <h1 id="hero-title" class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
                 $title = $seo['h1'] ?? 'Профессиональные внутренние работы во Франкфурте';
                 $words = explode(' ', $title);
@@ -46,7 +46,7 @@ ob_start();
                 }
                 ?>
             </h1>
-            <p id="hero-subtitle" class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
+            <p id="hero-subtitle" class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
                 Полный спектр внутренних работ — от малярки до укладки полов. 
                 Премиальное качество и надёжность для вашего дома.
             </p>
@@ -535,7 +535,6 @@ input:focus, textarea:focus, select:focus {
     opacity: 1;
     visibility: visible;
     backdrop-filter: blur(8px);
-    z-index: 99;
 }
 
 #serviceModalContent {
@@ -669,6 +668,8 @@ input:focus, textarea:focus, select:focus {
 
 /* Service Modal Gallery Optimization */
 #serviceModal .grid {
+    max-height: 60vh;
+    overflow-y: auto;
     padding-right: 8px;
 }
 
@@ -861,7 +862,8 @@ input:focus, textarea:focus, select:focus {
     }
 }
 
-/* Project Modal Animations */
+/* ===== PROJECT MODAL STYLES ===== */
+/* Enhanced Project Modal Animations */
 #projectModal {
     opacity: 0;
     visibility: hidden;
@@ -1028,149 +1030,6 @@ input:focus, textarea:focus, select:focus {
     background: #94a3b8;
 }
 
-/* Service Info Cards Styling */
-.service-info-card,
-.service-description-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.service-info-card:hover,
-.service-description-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-color: #d1d5db;
-}
-
-/* Service Info Header */
-.service-info-header,
-.service-description-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f3f4f6;
-}
-
-.service-info-icon,
-.service-description-icon {
-    width: 32px;
-    height: 32px;
-    background: #f3f4f6;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b7280;
-    margin-right: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.service-info-card:hover .service-info-icon,
-.service-description-card:hover .service-description-icon {
-    background: #e5e7eb;
-    color: #374151;
-}
-
-.service-info-title,
-.service-description-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151;
-    margin: 0;
-}
-
-/* Service Info Content */
-.service-info-content {
-    space-y: 8px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #f9fafb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.info-item:last-child {
-    border-bottom: none;
-}
-
-.info-item:hover {
-    background-color: #f9fafb;
-    border-radius: 4px;
-    padding: 8px 12px;
-    margin: 0 -12px;
-}
-
-.info-label {
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #6b7280;
-    gap: 6px;
-}
-
-.info-value {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #374151;
-    padding: 2px 8px;
-    background-color: #f3f4f6;
-    border-radius: 4px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.info-item:hover .info-value {
-    background-color: #e5e7eb;
-}
-
-.price-value {
-    background: #d1fae5;
-    color: #065f46;
-    font-weight: 600;
-}
-
-.status-value.active {
-    background: #d1fae5;
-    color: #065f46;
-}
-
-.status-value.inactive {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-/* Service Description Content */
-.service-description-content {
-    padding-top: 4px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.description-text {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #6b7280;
-    margin: 0;
-    text-align: left;
-}
-
 /* Project Info Cards Styling */
 .project-info-card,
 .project-description-card {
@@ -1239,6 +1098,90 @@ input:focus, textarea:focus, select:focus {
     max-height: none;
 }
 
+.budget-value {
+    background: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
+}
+
+/* Project Description Content */
+.project-description-content {
+    padding-top: 4px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.description-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+    text-align: left;
+}
+
+/* Service Info Cards Styling */
+.service-info-card,
+.service-description-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.service-info-card:hover,
+.service-description-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: #d1d5db;
+}
+
+/* Service Info Header */
+.service-info-header,
+.service-description-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.service-info-icon,
+.service-description-icon {
+    width: 32px;
+    height: 32px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    margin-right: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-info-card:hover .service-info-icon,
+.service-description-card:hover .service-description-icon {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.service-info-title,
+.service-description-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+/* Service Info Content */
+.service-info-content {
+    space-y: 8px;
+}
+
 .info-item {
     display: flex;
     justify-content: space-between;
@@ -1248,48 +1191,59 @@ input:focus, textarea:focus, select:focus {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.info-item:hover {
-    background-color: #f8fafc;
-    border-radius: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
-}
-
 .info-item:last-child {
     border-bottom: none;
+}
+
+.info-item:hover {
+    background-color: #f9fafb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 0 -12px;
 }
 
 .info-label {
     display: flex;
     align-items: center;
-    font-size: 0.875rem;
-    color: #6b7280;
+    font-size: 0.8rem;
     font-weight: 500;
-}
-
-.info-label svg {
-    margin-right: 6px;
-    flex-shrink: 0;
+    color: #6b7280;
+    gap: 6px;
 }
 
 .info-value {
-    font-size: 0.875rem;
-    color: #374151;
+    font-size: 0.8rem;
     font-weight: 600;
-    text-align: right;
+    color: #374151;
+    padding: 2px 8px;
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.budget-value {
-    color: #059669;
-    font-weight: 700;
+.info-item:hover .info-value {
+    background-color: #e5e7eb;
 }
 
-/* Project Description Content */
-.project-description-content {
+.price-value {
+    background: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
+}
+
+.status-value.active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-value.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Service Description Content */
+.service-description-content {
     padding-top: 4px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
 }
 
 .description-text {
@@ -1327,7 +1281,7 @@ input:focus, textarea:focus, select:focus {
     }
     
     .info-item {
-        /* flex-direction: column; */
+        flex-direction: column;
         align-items: flex-start;
         gap: 4px;
     }
@@ -1466,20 +1420,6 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     transform: translateY(0);
 }
 
-/* About Section Mobile Styles */
-@media (max-width: 768px) {
-    #services > div:first-child,
-    #portfolio > div:first-child,
-    #about > div:first-child,
-    #reviews > div:first-child {
-        margin: 0 5%;
-    }
-    
-    footer > div:first-child {
-        margin: 0 5%;
-    }
-}
-
 /* Reviews Section Animations */
 .reviews-title-animate {
     opacity: 0;
@@ -1567,7 +1507,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="services-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 services-title-animate">
                 Наши услуги
@@ -1598,7 +1538,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Portfolio Section -->
 <section id="portfolio" class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="portfolio-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 portfolio-title-animate">
                 Наши работы
@@ -1733,14 +1673,12 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- About Section -->
 <section id="about" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-                <div style="text-align: center;">
-                    <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
-                        О компании Frankfurt Innenausbau
-                    </h2>
-                </div>
+                <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
+                    О компании Frankfurt Innenausbau
+                </h2>
                 <p class="text-lg text-text-secondary mb-6 leading-relaxed">
                     Мы команда опытных мастеров, работающих во Франкфурте более 10 лет. 
                     Специализируемся на внутренних работах и знаем все тонкости качественного ремонта.
@@ -1774,14 +1712,12 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                         </div>
                     <?php endif; ?>
                 </div>
-                <div style="text-align: center;">
-                    <?php render_frontend_button([
-                        'text' => 'Подробнее о нас',
-                        'variant' => 'outline',
-                        'size' => 'lg',
-                        'href' => 'about.php'
-                    ]); ?>
-                </div>
+                <?php render_frontend_button([
+                    'text' => 'Подробнее о нас',
+                    'variant' => 'outline',
+                    'size' => 'lg',
+                    'href' => 'about.php'
+                ]); ?>
             </div>
             <div class="relative">
                 <div class="bg-gradient-to-br from-accent-blue to-gray-700 rounded-lg p-8 text-white">
@@ -1820,7 +1756,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 <!-- Reviews Section -->
 <section id="reviews" class="py-20 bg-premium-gray">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="reviews-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 reviews-title-animate">
                 Отзывы наших клиентов
@@ -1850,7 +1786,6 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 </section>
 
 
-<!-- Modals -->
 <!-- Service Modal -->
 <div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
     <div id="serviceModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
@@ -1858,7 +1793,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
     </div>
 </div>
 
-<!-- Project Detail Modal -->
+<!-- Project Modal -->
 <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
     <div id="projectModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
         <!-- Modal content will be loaded here -->
@@ -1866,9 +1801,21 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 </div>
 
 <!-- Gallery Modal -->
-<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
-    <div id="galleryModalContent" class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
-        <!-- Gallery content will be loaded here -->
+<div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="max-w-6xl w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-semibold text-white">Галерея проекта</h3>
+                <button onclick="closeGallery()" class="text-white hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="galleryContent" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Изображения будут загружены динамически -->
+            </div>
+        </div>
     </div>
 </div>
 
@@ -2107,7 +2054,7 @@ function openProjectModal(projectId) {
                                     </svg>
                                     Бюджет
                                 </div>
-                                <div class="info-value budget-value">${new Intl.NumberFormat('ru-RU').format(project.budget)} €</div>
+                                <div class="info-value budget-value">${new Intl.NumberFormat('de-DE').format(project.budget)} €</div>
                             </div>
                             ` : ''}
                             ${project.completion_date ? `
@@ -2119,6 +2066,29 @@ function openProjectModal(projectId) {
                                     Дата завершения
                                 </div>
                                 <div class="info-value">${new Date(project.completion_date).toLocaleDateString('ru-RU')}</div>
+                            </div>
+                            ` : ''}
+                            ${project.client_name ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    Клиент
+                                </div>
+                                <div class="info-value">${project.client_name}</div>
+                            </div>
+                            ` : ''}
+                            ${project.location ? `
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    Местоположение
+                                </div>
+                                <div class="info-value">${project.location}</div>
                             </div>
                             ` : ''}
                         </div>
@@ -2199,43 +2169,29 @@ function openProjectModal(projectId) {
                             ` : ''}
                         </div>
                         ${project.technical_info.features && project.technical_info.features.length > 0 ? `
-                        <div class="mt-4">
-                            <h4 class="font-medium mb-2">Особенности:</h4>
-                            <ul class="list-disc list-inside text-sm text-gray-700">
-                                ${project.technical_info.features.map(feature => `<li>${feature}</li>`).join('')}
-                            </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Особенности
+                            </h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.technical_info.features.map(feature => `
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full border border-blue-200 hover:bg-blue-100 transition-colors">${feature}</span>
+                                `).join('')}
+                            </div>
                         </div>
                         ` : ''}
                     </div>
                 </div>
                 ` : ''}
                 
-                <!-- Gallery -->
-                ${project.gallery && project.gallery.length > 0 ? `
-                <div class="mb-6">
-                    <h3 class="text-lg font-semibold mb-4">Галерея проекта</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        ${project.gallery.slice(0, 8).map(image => `
-                            <div class="aspect-square overflow-hidden rounded-lg group cursor-pointer" onclick="openImageModal('${image}')">
-                                <img src="${image}" alt="Галерея проекта" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-105">
-                            </div>
-                        `).join('')}
-                    </div>
-                    ${project.gallery.length > 8 ? `
-                    <div class="text-center mt-4">
-                        <button onclick="closeProjectModal(); openGallery(${project.id})" class="px-6 py-2 bg-accent-blue text-white rounded hover:bg-blue-600 transition-colors">
-                            Показать все ${project.gallery.length} фото
-                        </button>
-                    </div>
-                    ` : ''}
-                </div>
-                ` : ''}
-                
-                <!-- Before/After -->
+                <!-- Before/After Images -->
                 ${project.before_after && (project.before_after.before || project.before_after.after) ? `
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold mb-4">До и после</h3>
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <h3 class="text-lg font-semibold mb-3">До и после</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
                         ${project.before_after.before ? `
                         <div>
                             <h4 class="font-medium mb-2 text-center">До</h4>
@@ -2252,27 +2208,29 @@ function openProjectModal(projectId) {
                 </div>
                 ` : ''}
                 
+                <!-- Gallery -->
+                ${project.gallery && project.gallery.length > 0 ? `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Галерея</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        ${project.gallery.map(image => `
+                            <img src="${image}" alt="Галерея" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-all duration-300 hover:scale-105" onclick="openImageModal('${image}')">
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
                 <!-- Tags -->
                 ${project.tags && project.tags.length > 0 ? `
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold mb-3">Теги</h3>
                     <div class="flex flex-wrap gap-2">
-                        ${project.tags.map(tag => `<span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded">${tag}</span>`).join('')}
+                        ${project.tags.map(tag => `
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">${tag}</span>
+                        `).join('')}
                     </div>
                 </div>
                 ` : ''}
-                
-                <!-- Action Buttons -->
-                <div class="flex gap-4 justify-end">
-                    <button onclick="closeProjectModal()" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
-                        Закрыть
-                    </button>
-                    ${project.gallery && project.gallery.length > 0 ? `
-                    <button onclick="closeProjectModal(); openGallery(${project.id})" class="px-6 py-2 bg-accent-blue text-white rounded hover:bg-blue-600 transition-colors">
-                        Открыть галерею
-                    </button>
-                    ` : ''}
-                </div>
             </div>
         </div>
     `;
@@ -2282,7 +2240,7 @@ function openProjectModal(projectId) {
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
     
-    // Добавляем класс анимации
+    // Добавляем класс для анимации после небольшой задержки
     setTimeout(() => {
         modal.classList.add('show');
     }, 10);
@@ -2302,55 +2260,22 @@ function closeProjectModal() {
     }, 400); // Время должно совпадать с CSS transition
 }
 
-// Gallery modal
 function openGallery(projectId) {
     const project = projects.find(p => p.id == projectId);
-    if (!project || !project.gallery || project.gallery.length === 0) return;
+    if (!project || !project.gallery) return;
     
-    const modal = document.getElementById('galleryModal');
-    const modalContent = document.getElementById('galleryModalContent');
-    
-    modalContent.innerHTML = `
-        <div class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto">
-            <!-- Header -->
-            <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-                <h2 class="text-2xl font-semibold text-gray-900">Галерея: ${project.title}</h2>
-                <button onclick="closeGalleryModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 hover:rotate-90 hover:scale-110">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Gallery Content -->
-            <div class="p-6">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    ${project.gallery.map(image => `
-                        <div class="aspect-square overflow-hidden rounded-lg group cursor-pointer" onclick="openImageModal('${image}')">
-                            <img src="${image}" alt="Галерея проекта" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-105">
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
+    const galleryContent = document.getElementById('galleryContent');
+    galleryContent.innerHTML = project.gallery.map(image => `
+        <div class="aspect-square overflow-hidden rounded-lg">
+            <img src="${image}" alt="Галерея проекта" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="openImageModal('${image}')">
         </div>
-    `;
+    `).join('');
     
-    // Показываем модальное окно с анимацией
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    
-    // Добавляем класс анимации
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
+    document.getElementById('galleryModal').classList.remove('hidden');
 }
 
-function closeGalleryModal() {
-    const modal = document.getElementById('galleryModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
+function closeGallery() {
+    document.getElementById('galleryModal').classList.add('hidden');
 }
 
 function closeImageModal() {
@@ -2377,8 +2302,7 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeServiceModal();
         closeProjectModal();
-        closeGalleryModal();
-        closeImageModal();
+        closeGallery();
     }
 });
 
@@ -2391,16 +2315,16 @@ document.addEventListener('click', function(event) {
         closeProjectModal();
     }
     if (event.target.id === 'galleryModal') {
-        closeGalleryModal();
-    }
-    if (event.target.id === 'imageModal') {
-        closeImageModal();
+        closeGallery();
     }
 });
 
 // Предотвращаем закрытие при клике на контент модального окна
 document.addEventListener('click', function(event) {
     if (event.target.closest('#serviceModalContent')) {
+        event.stopPropagation();
+    }
+    if (event.target.closest('#projectModalContent')) {
         event.stopPropagation();
     }
 });

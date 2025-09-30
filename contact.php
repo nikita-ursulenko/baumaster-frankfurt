@@ -21,7 +21,7 @@ ob_start();
 <section class="pt-16 bg-gradient-to-br from-gray-50 to-gray-100 py-20 min-h-[50vh] flex items-center">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center">
-            <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-5xl text-text-primary mb-6">
+            <h1 id="hero-title" class="font-montserrat font-semibold text-3xl lg:text-5xl text-text-primary mb-6">
                 <?php 
                 $title = 'Свяжитесь с нами';
                 $words = explode(' ', $title);
@@ -35,7 +35,7 @@ ob_start();
                 }
                 ?>
             </h1>
-            <p id="hero-subtitle" class="text-xl text-text-secondary max-w-4xl mx-auto hero-subtitle-animate">
+            <p id="hero-subtitle" class="text-lg text-text-secondary max-w-4xl mx-auto hero-subtitle-animate">
                 Готовы обсудить ваш проект? Мы всегда рады ответить на вопросы и предоставить 
                 бесплатную консультацию по любым видам внутренних работ.
             </p>

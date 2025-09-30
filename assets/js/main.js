@@ -1,5 +1,63 @@
 // Baumaster Frankfurt - Main JavaScript
 
+// ===== iOS SAFARI VIEWPORT FIX =====
+// Fix for iOS Safari viewport height issues
+// IMPORTANT: Run immediately, before DOMContentLoaded
+(function () {
+    function setViewportHeight() {
+        // Set CSS custom property for viewport height
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+        // Set hero section height for iOS Safari
+        const hero = document.getElementById('hero');
+        if (hero) {
+            hero.style.minHeight = `${window.innerHeight}px`;
+            hero.style.height = `${window.innerHeight}px`;
+        }
+    }
+
+    // Run immediately
+    setViewportHeight();
+
+    // Run on load
+    window.addEventListener('load', setViewportHeight);
+
+    // Run on resize with debounce
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            setViewportHeight();
+        }, 100); // Faster response
+    });
+
+    // Run on orientation change with proper timing
+    window.addEventListener('orientationchange', function () {
+        // Multiple attempts to ensure it works after orientation change
+        setViewportHeight();
+        setTimeout(setViewportHeight, 100);
+        setTimeout(setViewportHeight, 300);
+        setTimeout(setViewportHeight, 500);
+    });
+
+    // iOS-specific: run on scroll end (for address bar hide/show)
+    let scrollTimer;
+    window.addEventListener('scroll', function () {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function () {
+            setViewportHeight();
+        }, 200);
+    }, { passive: true });
+
+    // iOS-specific: run when page becomes visible again
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) {
+            setTimeout(setViewportHeight, 100);
+        }
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
     // Initialize hero animations
     initHeroAnimations();

@@ -25,13 +25,13 @@ ob_start();
 ?>
 
     <!-- Hero Section -->
-<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/reviews.png');">
+<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/reviews.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
         <!-- Overlay for better text readability -->
-        <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
+        <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30" style="z-index: 1;"></div>
         
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
             <div class="text-center">
-                <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
+                <h1 id="hero-title" class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                     <?php 
                     $title = 'Bewertungen unserer Kunden';
                     $words = explode(' ', $title);
@@ -45,7 +45,7 @@ ob_start();
                     }
                     ?>
                 </h1>
-                <p id="hero-subtitle" class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
+                <p id="hero-subtitle" class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
                     Lesen Sie, was unsere zufriedenen Kunden über die Qualität unserer Arbeit sagen. 
                     Jede Bewertung ist eine Geschichte eines erfolgreichen Projekts.
                 </p>

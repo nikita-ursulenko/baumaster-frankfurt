@@ -26,13 +26,13 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/home.png');">
+<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/home.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
     <!-- Overlay for better text readability -->
-    <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30"></div>
+    <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30" style="z-index: 1;"></div>
     
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
-            <h1 id="hero-title" class="font-montserrat font-semibold text-4xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
+            <h1 id="hero-title" class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
                 <?php 
                 $title = $seo['h1'] ?? 'Professionelle Baudienstleistungen in Frankfurt';
                 $words = explode(' ', $title);
@@ -46,7 +46,7 @@ ob_start();
                 }
                 ?>
             </h1>
-            <p id="hero-subtitle" class="text-xl lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
+            <p id="hero-subtitle" class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
                 Vollständige Palette von Innenarbeiten — von Malerarbeiten bis zum Verlegen von Böden. 
                 Premium-Qualität und Zuverlässigkeit für Ihr Zuhause.
             </p>
@@ -1277,6 +1277,264 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 .align-items-stretch {
     align-items: stretch;
 }
+
+/* ===== PROJECT MODAL STYLES ===== */
+/* Enhanced Project Modal Animations */
+#projectModal {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(0px);
+}
+
+#projectModal.show {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(8px);
+    z-index: 99;
+}
+
+#projectModalContent {
+    transform: translateY(50px) scale(0.9);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.1s;
+}
+
+#projectModal.show #projectModalContent {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Project Modal Header Animation */
+#projectModal .sticky.top-0 {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+    z-index: 10;
+    position: sticky;
+    top: 0;
+}
+
+#projectModal.show .sticky.top-0 {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Project Modal Content Animation */
+#projectModal .p-6 > * {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show .p-6 > * {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#projectModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
+
+/* Project Modal Image Animation */
+#projectModal img {
+    transform: scale(1.1);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+}
+
+#projectModal.show img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Project Modal Button Animation */
+#projectModal button {
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.4s;
+}
+
+#projectModal.show button {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Project Modal Close Button Hover Effect */
+#projectModal .sticky.top-0 button:hover {
+    transform: rotate(90deg) scale(1.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Project Modal Gallery Images Animation */
+#projectModal .grid img {
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show .grid img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+#projectModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
+#projectModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
+
+/* Project Modal List Items Animation */
+#projectModal ul li {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#projectModal.show ul li {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#projectModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
+#projectModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
+#projectModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
+#projectModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
+#projectModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
+#projectModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
+
+/* Project Modal Responsive Animations */
+@media (max-width: 768px) {
+    #projectModalContent {
+        transform: translateY(30px) scale(0.95);
+        margin: 0.5rem;
+        max-height: 98vh;
+    }
+    
+    #projectModal.show #projectModalContent {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Project Modal Gallery Optimization */
+#projectModal .grid {
+    padding-right: 8px;
+}
+
+#projectModal .grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#projectModal .grid::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+#projectModal .grid::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+#projectModal .grid::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Project Info Cards Styling */
+.project-info-card,
+.project-description-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.project-info-card:hover,
+.project-description-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: #d1d5db;
+}
+
+/* Project Info Header */
+.project-info-header,
+.project-description-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.project-info-icon,
+.project-description-icon {
+    width: 32px;
+    height: 32px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    margin-right: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-info-card:hover .project-info-icon,
+.project-description-card:hover .project-description-icon {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.project-info-title,
+.project-description-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+/* Project Info Content */
+.project-info-content {
+    space-y: 8px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.budget-value {
+    background: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
+}
+
+/* Project Description Content */
+.project-description-content {
+    padding-top: 4px;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.description-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+    text-align: left;
+}
 </style>
 
 <!-- Services Section -->
@@ -1854,6 +2112,9 @@ document.addEventListener('click', function(event) {
 // Предотвращаем закрытие при клике на контент модального окна
 document.addEventListener('click', function(event) {
     if (event.target.closest('#serviceModalContent')) {
+        event.stopPropagation();
+    }
+    if (event.target.closest('#projectModalContent')) {
         event.stopPropagation();
     }
 });
