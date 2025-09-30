@@ -384,7 +384,7 @@ ob_start();
 <?php if ($action === 'list'): ?>
     <!-- Статистика и кнопки -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4" style="width: 100%;">
             <?php 
             // Подсчет статистики
             $total_reviews = count($reviews);
@@ -397,18 +397,62 @@ ob_start();
             
             // Статистическая карточка для отзывов
             ?>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 min-w-[200px]">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                            <?php echo get_icon('star', 'w-5 h-5 text-white'); ?>
+            <!-- Мобильная статистика -->
+            <div class="lg:hidden grid grid-cols-2 gap-4 w-full">
+                <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                                <?php echo get_icon('star', 'w-4 h-4 text-white'); ?>
+                            </div>
+                        </div>
+                        <div class="ml-2 flex-1">
+                            
+                            <p class="text-lg font-semibold text-gray-900">
+                                <?php echo $total_reviews; ?>
+                            </p>
                         </div>
                     </div>
-                    <div class="ml-4 flex-1">
-                        <p class="text-sm font-medium text-gray-500">
+                    <p class="text-xs font-medium text-gray-500">
+                                <?php echo __('reviews.total_count', 'Всего отзывов'); ?>
+                            </p>
+                </div>
+                
+                <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-2 flex-1">
+                            
+                            <p class="text-lg font-semibold text-gray-900">
+                                <?php echo $published_reviews; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-xs font-medium text-gray-500">
+                                <?php echo __('reviews.published', 'Опубликованы'); ?>
+                            </p>
+                </div>
+            </div>
+
+            <!-- Десктопная статистика -->
+            <div class="hidden lg:block bg-white shadow-sm rounded-lg border border-gray-200 p-3 min-w-[180px]">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                            <?php echo get_icon('star', 'w-4 h-4 text-white'); ?>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <p class="text-xs font-medium text-gray-500">
                             <?php echo __('reviews.total_count', 'Всего отзывов'); ?>
                         </p>
-                        <p class="text-2xl font-semibold text-gray-900">
+                        <p class="text-lg font-semibold text-gray-900">
                             <?php echo $total_reviews; ?>
                         </p>
                         <?php if ($published_reviews > 0): ?>
@@ -440,49 +484,160 @@ ob_start();
 
     <!-- Фильтры и поиск -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
-        <?php 
-        // Подготовка опций рейтинга
-        $rating_options = [['value' => '', 'text' => __('common.all', 'Все')]];
-        for ($i = 5; $i >= 1; $i--) {
-            $rating_options[] = [
-                'value' => $i,
-                'text' => $i . ' ' . ($i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд'))
-            ];
-        }
-        
-        render_filter_form([
-            'fields' => [
-                [
-                    'type' => 'search',
-                    'name' => 'search',
-                    'placeholder' => __('reviews.search_placeholder', 'Имя клиента...'),
-                    'value' => $search
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'status',
-                    'label' => __('reviews.status', 'Статус'),
-                    'value' => $status_filter,
-                    'options' => [
-                        ['value' => '', 'text' => __('common.all', 'Все')],
-                        ['value' => 'pending', 'text' => __('reviews.status_pending', 'На модерации')],
-                        ['value' => 'published', 'text' => __('reviews.status_published', 'Опубликованы')],
-                        ['value' => 'rejected', 'text' => __('reviews.status_rejected', 'Отклонены')]
-                    ],
-                    'placeholder' => __('common.all', 'Все')
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'rating',
-                    'label' => __('reviews.rating', 'Рейтинг'),
-                    'value' => $rating_filter,
-                    'options' => $rating_options,
-                    'placeholder' => __('common.all', 'Все')
-                ]
-            ],
-            'button_text' => __('common.filter', 'Фильтр')
-        ]);
-        ?>
+        <!-- Основной поиск - всегда видимый -->
+        <div class="mb-4">
+            <form method="GET" class="flex gap-2">
+                <input type="hidden" name="action" value="list">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                           name="search" 
+                           value="<?php echo htmlspecialchars($search); ?>" 
+                           placeholder="<?php echo __('reviews.search_placeholder', 'Имя клиента...'); ?>"
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                </div>
+                <button type="submit" 
+                        class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                    <?php echo __('common.search', 'Поиск'); ?>
+                </button>
+            </form>
+        </div>
+
+        <!-- Мобильные фильтры -->
+        <div class="lg:hidden">
+            <button type="button" 
+                    onclick="toggleMobileFilters()" 
+                    class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-200">
+                <span class="font-medium text-gray-700">
+                    <?php echo __('common.filters', 'Фильтры'); ?>
+                    <?php if (!empty($status_filter) || !empty($rating_filter)): ?>
+                        <span class="inline-flex items-center px-2 py-1 ml-2 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">
+                            <?php 
+                            $active_filters = 0;
+                            if (!empty($status_filter)) $active_filters++;
+                            if (!empty($rating_filter)) $active_filters++;
+                            echo $active_filters;
+                            ?>
+                        </span>
+                    <?php endif; ?>
+                </span>
+                <svg id="filter-arrow" class="h-5 w-5 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <div id="mobile-filters" class="hidden mt-4 space-y-4">
+                <form method="GET" class="space-y-4">
+                    <input type="hidden" name="action" value="list">
+                    <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Статус -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('reviews.status', 'Статус'); ?>
+                            </label>
+                            <select name="status" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <option value="pending" <?php echo $status_filter === 'pending' ? 'selected' : ''; ?>>
+                                    <?php echo __('reviews.status_pending', 'На модерации'); ?>
+                                </option>
+                                <option value="published" <?php echo $status_filter === 'published' ? 'selected' : ''; ?>>
+                                    <?php echo __('reviews.status_published', 'Опубликованы'); ?>
+                                </option>
+                                <option value="rejected" <?php echo $status_filter === 'rejected' ? 'selected' : ''; ?>>
+                                    <?php echo __('reviews.status_rejected', 'Отклонены'); ?>
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <!-- Рейтинг -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('reviews.rating', 'Рейтинг'); ?>
+                            </label>
+                            <select name="rating" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <?php for ($i = 5; $i >= 1; $i--): ?>
+                                    <option value="<?php echo $i; ?>" <?php echo $rating_filter == $i ? 'selected' : ''; ?>>
+                                        <?php echo $i . ' ' . ($i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд')); ?>
+                                    </option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 pt-4">
+                        <button type="submit" 
+                                class="flex-1 px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                            <?php echo __('common.apply_filters', 'Применить'); ?>
+                        </button>
+                        <a href="?action=list" 
+                           class="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-200 font-medium">
+                            <?php echo __('common.clear', 'Очистить'); ?>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Десктопные фильтры -->
+        <div class="hidden lg:block">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <input type="hidden" name="action" value="list">
+                <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                
+                <!-- Статус -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('reviews.status', 'Статус'); ?>
+                    </label>
+                    <select name="status" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <option value="pending" <?php echo $status_filter === 'pending' ? 'selected' : ''; ?>>
+                            <?php echo __('reviews.status_pending', 'На модерации'); ?>
+                        </option>
+                        <option value="published" <?php echo $status_filter === 'published' ? 'selected' : ''; ?>>
+                            <?php echo __('reviews.status_published', 'Опубликованы'); ?>
+                        </option>
+                        <option value="rejected" <?php echo $status_filter === 'rejected' ? 'selected' : ''; ?>>
+                            <?php echo __('reviews.status_rejected', 'Отклонены'); ?>
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Рейтинг -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('reviews.rating', 'Рейтинг'); ?>
+                    </label>
+                    <select name="rating" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <?php for ($i = 5; $i >= 1; $i--): ?>
+                            <option value="<?php echo $i; ?>" <?php echo $rating_filter == $i ? 'selected' : ''; ?>>
+                                <?php echo $i . ' ' . ($i == 1 ? 'звезда' : ($i < 5 ? 'звезды' : 'звезд')); ?>
+                            </option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+                
+                <!-- Кнопка фильтра -->
+                <div>
+                    <button type="submit" 
+                            class="w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                        <?php echo __('common.filter', 'Фильтр'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Список отзывов -->
@@ -504,7 +659,180 @@ ob_start();
                 </div>
             </div>
         <?php else: ?>
-            <div class="divide-y divide-gray-200">
+            <!-- Мобильная версия - карточки -->
+            <div class="block lg:hidden p-4 space-y-4">
+                <?php foreach ($reviews as $review): ?>
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <!-- Заголовок карточки -->
+                        <div class="p-4 border-b border-gray-100">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                    <!-- Фото клиента -->
+                                    <div class="flex-shrink-0">
+                                        <?php if (!empty($review['client_photo'])): ?>
+                                            <?php 
+                                            $photo_src = $review['client_photo'];
+                                            // Если это не URL (не начинается с http), добавляем путь к папке
+                                            if (!preg_match('/^https?:\/\//', $photo_src)) {
+                                                $photo_src = '/assets/uploads/clients/' . $photo_src;
+                                            }
+                                            ?>
+                                            <img class="h-12 w-12 rounded-full object-cover" src="<?php echo htmlspecialchars($photo_src); ?>" alt="<?php echo htmlspecialchars($review['client_name']); ?>">
+                                        <?php else: ?>
+                                            <div class="h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                                <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-semibold text-gray-900 truncate">
+                                            <?php echo htmlspecialchars($review['client_name']); ?>
+                                        </h3>
+                                        
+                                        <!-- Рейтинг -->
+                                        <div class="flex items-center mt-1">
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <svg class="h-4 w-4 <?php echo $i <= $review['rating'] ? 'text-yellow-400' : 'text-gray-300'; ?>" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                </svg>
+                                            <?php endfor; ?>
+                                            <span class="ml-1 text-sm text-gray-600">(<?php echo $review['rating']; ?>)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Статус -->
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full flex-shrink-0 ml-2
+                                    <?php 
+                                        switch($review['status']) {
+                                            case 'published': echo 'bg-green-100 text-green-800'; break;
+                                            case 'pending': echo 'bg-yellow-100 text-yellow-800'; break;
+                                            case 'rejected': echo 'bg-red-100 text-red-800'; break;
+                                            default: echo 'bg-gray-100 text-gray-800';
+                                        }
+                                    ?>">
+                                    <?php 
+                                        switch($review['status']) {
+                                            case 'published': echo 'Опубликован'; break;
+                                            case 'pending': echo 'На модерации'; break;
+                                            case 'rejected': echo 'Отклонен'; break;
+                                            default: echo ucfirst($review['status']);
+                                        }
+                                    ?>
+                                </span>
+                            </div>
+                            
+                            <!-- Бейджи -->
+                            <div class="flex flex-wrap gap-2">
+                                <?php if ($review['verified']): ?>
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                        ✓ Проверен
+                                    </span>
+                                <?php endif; ?>
+                                
+                                <?php if ($review['featured']): ?>
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        ⭐ Рекомендуемый
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <!-- Содержимое отзыва -->
+                        <div class="p-4">
+                            <!-- Текст отзыва -->
+                            <p class="text-gray-700 text-sm mb-4 line-clamp-3 break-words">
+                                "<?php echo htmlspecialchars($review['review_text']); ?>"
+                            </p>
+                            
+                            <!-- Дополнительная информация -->
+                            <div class="text-xs text-gray-500 space-y-1">
+                                <div class="flex items-center">
+                                    <svg class="h-3 w-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <?php echo format_date($review['review_date']); ?>
+                                </div>
+                                <?php if (!empty($review['client_email'])): ?>
+                                    <div class="flex items-center">
+                                        <svg class="h-3 w-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span class="truncate"><?php echo htmlspecialchars($review['client_email']); ?></span>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($review['admin_notes'])): ?>
+                                    <div class="flex items-center text-blue-600">
+                                        <svg class="h-3 w-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                        Есть заметки
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <!-- Действия -->
+                        <div class="p-4 border-t border-gray-100 bg-gray-50">
+                            <div class="flex flex-col gap-3">
+                                <!-- Основная кнопка редактирования -->
+                                <div class="flex justify-center">
+                                    <?php render_button([
+                                        'href' => '?action=edit&id=' . $review['id'],
+                                        'text' => __('common.edit', 'Редактировать'),
+                                        'variant' => 'primary',
+                                        'size' => 'md',
+                                        'class' => 'w-full justify-center'
+                                    ]); ?>
+                                </div>
+                                
+                                <!-- Дополнительные действия -->
+                                <?php if ($review['status'] === 'pending'): ?>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <form method="POST" class="inline-block">
+                                            <input type="hidden" name="action" value="moderate">
+                                            <input type="hidden" name="id" value="<?php echo $review['id']; ?>">
+                                            <input type="hidden" name="new_status" value="published">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                            <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200">
+                                                <?php echo __('reviews.approve', 'Одобрить'); ?>
+                                            </button>
+                                        </form>
+                                        
+                                        <form method="POST" class="inline-block">
+                                            <input type="hidden" name="action" value="moderate">
+                                            <input type="hidden" name="id" value="<?php echo $review['id']; ?>">
+                                            <input type="hidden" name="new_status" value="rejected">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                            <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200">
+                                                <?php echo __('reviews.reject', 'Отклонить'); ?>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <!-- Кнопка удаления -->
+                                <div class="flex justify-center">
+                                    <button type="button" 
+                                            class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200" 
+                                            onclick="confirmDeleteReview(<?php echo $review['id']; ?>, '<?php echo htmlspecialchars($review['client_name'], ENT_QUOTES); ?>')">
+                                        <svg class="h-4 w-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        <?php echo __('common.delete', 'Удалить'); ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Десктопная версия -->
+            <div class="hidden lg:block divide-y divide-gray-200">
                 <?php foreach ($reviews as $review): ?>
                     <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
                         <div class="flex items-start justify-between">
@@ -708,6 +1036,22 @@ window.deleteReview = function(reviewId) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Функции удаления отзывов инициализированы');
 });
+
+// Функция для переключения мобильных фильтров
+function toggleMobileFilters() {
+    const filters = document.getElementById('mobile-filters');
+    const arrow = document.getElementById('filter-arrow');
+    
+    if (filters && arrow) {
+        if (filters.classList.contains('hidden')) {
+            filters.classList.remove('hidden');
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            filters.classList.add('hidden');
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+}
 </script>
 
 <?php elseif ($action === 'create' || $action === 'edit'): ?>

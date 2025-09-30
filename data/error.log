@@ -103,3 +103,31 @@
 [2025-09-29 20:34:37] [INFO] User root logged in
 [2025-09-30 00:02:48] [INFO] User root logged in
 [2025-09-30 00:30:22] [INFO] User root logged in
+[2025-09-30 13:58:24] [INFO] Новый отзыв создан: ID 58, Имя: никита, Рейтинг: 5
+[2025-09-30 13:58:24] [INFO] Translation saved: reviews.review_text (ID: 58)
+[2025-09-30 13:58:24] [INFO] Отзыв ID 58 переведен с ru на de
+[2025-09-30 13:58:36] [INFO] Новый отзыв создан: ID 59, Имя: Enable insert for all users, Рейтинг: 5
+[2025-09-30 13:58:38] [INFO] Translation saved: reviews.review_text (ID: 59)
+[2025-09-30 13:58:38] [INFO] Отзыв ID 59 переведен с ru на de
+[2025-09-30 13:58:42] [INFO] Новый отзыв создан: ID 60, Имя: Enable insert for all users, Рейтинг: 5
+[2025-09-30 13:58:44] [INFO] Translation saved: reviews.review_text (ID: 60)
+[2025-09-30 13:58:44] [INFO] Отзыв ID 60 переведен с ru на de
+[2025-09-30 13:58:54] [WARNING] Review deleted: Enable insert for all users (ID: 59)
+[2025-09-30 13:59:04] [WARNING] Review deleted: никита (ID: 58)
+[2025-09-30 13:59:13] [WARNING] Review deleted: Enable insert for all users (ID: 60)
+[2025-09-30 13:59:15] [INFO] Новый отзыв создан: ID 61, Имя: Enable insert for all users, Рейтинг: 5
+[2025-09-30 13:59:15] [INFO] Translation saved: reviews.review_text (ID: 61)
+[2025-09-30 13:59:15] [INFO] Отзыв ID 61 переведен с ru на de
+[2025-09-30 13:59:20] [INFO] Translation saved: reviews.review_text (ID: 61)
+[2025-09-30 13:59:20] [INFO] Отзыв ID 61 переведен при одобрении с ru на de
+[2025-09-30 13:59:20] [INFO] Review moderated: Enable insert for all users (ID: 61) -> published
+[2025-09-30 13:59:34] [WARNING] Review deleted: Enable insert for all users (ID: 61)
+[2025-09-30 13:59:57] [INFO] New review created: Тестовый клиентв (ID: 62)
+[2025-09-30 14:00:06] [WARNING] Review deleted: Тестовый клиентв (ID: 62)
+[2025-09-30 14:00:10] [WARNING] Review deleted: Hans Müller (ID: 57)
+[2025-09-30 14:20:27] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:21:31] [INFO] Новый отзыв создан: ID 63, Имя: никита, Рейтинг: 5
+[2025-09-30 14:21:33] [INFO] Translation saved: reviews.review_text (ID: 63)
+[2025-09-30 14:21:33] [INFO] Отзыв ID 63 переведен с ru на de
+[2025-09-30 14:22:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:32:31] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured

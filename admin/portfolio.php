@@ -470,7 +470,9 @@ ob_start();
 <?php if ($action === 'list'): ?>
     <!-- Статистика и кнопки -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4" style="
+    width: 100%;
+">
             <?php 
             // Подсчет статистики
             $total_projects = count($projects);
@@ -483,18 +485,62 @@ ob_start();
             
             // Статистическая карточка для портфолио
             ?>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 min-w-[200px]">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                            <?php echo get_icon('portfolio', 'w-5 h-5 text-white'); ?>
+            <!-- Мобильная статистика -->
+            <div class="lg:hidden grid grid-cols-2 gap-4 w-full">
+                <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3" >
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                <?php echo get_icon('portfolio', 'w-4 h-4 text-white'); ?>
+                            </div>
+                        </div>
+                        <div class="ml-2 flex-1">
+                            
+                            <p class="text-lg font-semibold text-gray-900">
+                                <?php echo $total_projects; ?>
+                            </p>
                         </div>
                     </div>
-                    <div class="ml-4 flex-1">
-                        <p class="text-sm font-medium text-gray-500">
+                    <p class="text-xs font-medium text-gray-500">
+                                <?php echo __('portfolio.total_count', 'Всего проектов'); ?>
+                            </p>
+                </div>
+                
+                <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-2 flex-1">
+                           
+                            <p class="text-lg font-semibold text-gray-900">
+                                <?php echo $featured_projects; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-xs font-medium text-gray-500">
+                                <?php echo __('portfolio.featured', 'Рекомендуемые'); ?>
+                            </p>
+                </div>
+            </div>
+
+            <!-- Десктопная статистика -->
+            <div class="hidden lg:block bg-white shadow-sm rounded-lg border border-gray-200 p-3 min-w-[180px]">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                            <?php echo get_icon('portfolio', 'w-4 h-4 text-white'); ?>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <p class="text-xs font-medium text-gray-500">
                             <?php echo __('portfolio.total_count', 'Всего проектов'); ?>
                         </p>
-                        <p class="text-2xl font-semibold text-gray-900">
+                        <p class="text-lg font-semibold text-gray-900">
                             <?php echo $total_projects; ?>
                         </p>
                         <?php if ($featured_projects > 0): ?>
@@ -526,59 +572,215 @@ ob_start();
 
     <!-- Фильтры и поиск -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
+        <!-- Основной поиск - всегда видимый -->
+        <div class="mb-4">
+            <form method="GET" class="flex gap-2">
+                <input type="hidden" name="action" value="list">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                           name="search" 
+                           value="<?php echo htmlspecialchars($search); ?>" 
+                           placeholder="<?php echo __('portfolio.search_placeholder', 'Название проекта...'); ?>"
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                </div>
+                <button type="submit" 
+                        class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                    <?php echo __('common.search', 'Поиск'); ?>
+                </button>
+            </form>
+        </div>
+
+        <!-- Мобильные фильтры -->
+        <div class="lg:hidden">
+            <button type="button" 
+                    onclick="toggleMobileFilters()" 
+                    class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-200">
+                <span class="font-medium text-gray-700">
+                    <?php echo __('common.filters', 'Фильтры'); ?>
+                    <?php if (!empty($category_filter) || !empty($status_filter) || !empty($featured_filter)): ?>
+                        <span class="inline-flex items-center px-2 py-1 ml-2 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">
         <?php 
-        render_filter_form([
-            'fields' => [
-                [
-                    'type' => 'search',
-                    'name' => 'search',
-                    'placeholder' => __('portfolio.search_placeholder', 'Название проекта...'),
-                    'value' => $search
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'category',
-                    'label' => __('portfolio.category', 'Категория'),
-                    'value' => $category_filter,
-                    'options' => [
-                        ['value' => '', 'text' => __('common.all', 'Все')],
-                        ['value' => 'apartment', 'text' => __('portfolio.category_apartment', 'Квартиры')],
-                        ['value' => 'house', 'text' => __('portfolio.category_house', 'Дома')],
-                        ['value' => 'office', 'text' => __('portfolio.category_office', 'Офисы')],
-                        ['value' => 'commercial', 'text' => __('portfolio.category_commercial', 'Коммерческие')],
-                        ['value' => 'bathroom', 'text' => __('portfolio.category_bathroom', 'Ванные комнаты')],
-                        ['value' => 'kitchen', 'text' => __('portfolio.category_kitchen', 'Кухни')]
-                    ],
-                    'placeholder' => __('common.all', 'Все')
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'status',
-                    'label' => __('portfolio.status', 'Статус'),
-                    'value' => $status_filter,
-                    'options' => [
-                        ['value' => '', 'text' => __('common.all', 'Все')],
-                        ['value' => 'active', 'text' => __('portfolio.status_active', 'Активные')],
-                        ['value' => 'inactive', 'text' => __('portfolio.status_inactive', 'Скрытые')]
-                    ],
-                    'placeholder' => __('common.all', 'Все')
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'featured',
-                    'label' => __('portfolio.featured', 'Рекомендуемые'),
-                    'value' => $featured_filter,
-                    'options' => [
-                        ['value' => '', 'text' => __('common.all', 'Все')],
-                        ['value' => '1', 'text' => __('portfolio.featured_yes', 'Рекомендуемые')],
-                        ['value' => '0', 'text' => __('portfolio.featured_no', 'Обычные')]
-                    ],
-                    'placeholder' => __('common.all', 'Все')
-                ]
-            ],
-            'button_text' => __('common.filter', 'Фильтр')
-        ]);
-        ?>
+                            $active_filters = 0;
+                            if (!empty($category_filter)) $active_filters++;
+                            if (!empty($status_filter)) $active_filters++;
+                            if (!empty($featured_filter)) $active_filters++;
+                            echo $active_filters;
+                            ?>
+                        </span>
+                    <?php endif; ?>
+                </span>
+                <svg id="filter-arrow" class="h-5 w-5 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <div id="mobile-filters" class="hidden mt-4 space-y-4">
+                <form method="GET" class="space-y-4">
+                    <input type="hidden" name="action" value="list">
+                    <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Категория -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('portfolio.category', 'Категория'); ?>
+                            </label>
+                            <select name="category" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <option value="apartment" <?php echo $category_filter === 'apartment' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.category_apartment', 'Квартиры'); ?>
+                                </option>
+                                <option value="house" <?php echo $category_filter === 'house' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.category_house', 'Дома'); ?>
+                                </option>
+                                <option value="office" <?php echo $category_filter === 'office' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.category_office', 'Офисы'); ?>
+                                </option>
+                                <option value="commercial" <?php echo $category_filter === 'commercial' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.category_commercial', 'Коммерческие'); ?>
+                                </option>
+                                <option value="bathroom" <?php echo $category_filter === 'bathroom' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.category_bathroom', 'Ванные комнаты'); ?>
+                                </option>
+                                <option value="kitchen" <?php echo $category_filter === 'kitchen' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.category_kitchen', 'Кухни'); ?>
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <!-- Статус -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('portfolio.status', 'Статус'); ?>
+                            </label>
+                            <select name="status" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.status_active', 'Активные'); ?>
+                                </option>
+                                <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.status_inactive', 'Скрытые'); ?>
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <!-- Рекомендуемые -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('portfolio.featured', 'Рекомендуемые'); ?>
+                            </label>
+                            <select name="featured" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <option value="1" <?php echo $featured_filter === '1' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.featured_yes', 'Рекомендуемые'); ?>
+                                </option>
+                                <option value="0" <?php echo $featured_filter === '0' ? 'selected' : ''; ?>>
+                                    <?php echo __('portfolio.featured_no', 'Обычные'); ?>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 pt-4">
+                        <button type="submit" 
+                                class="flex-1 px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                            <?php echo __('common.apply_filters', 'Применить'); ?>
+                        </button>
+                        <a href="?action=list" 
+                           class="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-200 font-medium">
+                            <?php echo __('common.clear', 'Очистить'); ?>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Десктопные фильтры -->
+        <div class="hidden lg:block">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <input type="hidden" name="action" value="list">
+                <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                
+                <!-- Категория -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('portfolio.category', 'Категория'); ?>
+                    </label>
+                    <select name="category" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <option value="apartment" <?php echo $category_filter === 'apartment' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.category_apartment', 'Квартиры'); ?>
+                        </option>
+                        <option value="house" <?php echo $category_filter === 'house' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.category_house', 'Дома'); ?>
+                        </option>
+                        <option value="office" <?php echo $category_filter === 'office' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.category_office', 'Офисы'); ?>
+                        </option>
+                        <option value="commercial" <?php echo $category_filter === 'commercial' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.category_commercial', 'Коммерческие'); ?>
+                        </option>
+                        <option value="bathroom" <?php echo $category_filter === 'bathroom' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.category_bathroom', 'Ванные комнаты'); ?>
+                        </option>
+                        <option value="kitchen" <?php echo $category_filter === 'kitchen' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.category_kitchen', 'Кухни'); ?>
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Статус -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('portfolio.status', 'Статус'); ?>
+                    </label>
+                    <select name="status" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.status_active', 'Активные'); ?>
+                        </option>
+                        <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.status_inactive', 'Скрытые'); ?>
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Рекомендуемые -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('portfolio.featured', 'Рекомендуемые'); ?>
+                    </label>
+                    <select name="featured" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <option value="1" <?php echo $featured_filter === '1' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.featured_yes', 'Рекомендуемые'); ?>
+                        </option>
+                        <option value="0" <?php echo $featured_filter === '0' ? 'selected' : ''; ?>>
+                            <?php echo __('portfolio.featured_no', 'Обычные'); ?>
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Кнопка фильтра -->
+                <div>
+                    <button type="submit" 
+                            class="w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                        <?php echo __('common.filter', 'Фильтр'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Список проектов -->
@@ -600,7 +802,156 @@ ob_start();
                 </div>
             </div>
         <?php else: ?>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            <!-- Мобильная версия - карточки -->
+            <div class="block lg:hidden p-4 space-y-4">
+                <?php foreach ($projects as $project): ?>
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                        <!-- Изображение проекта -->
+                        <div class="relative h-48 bg-gray-200">
+                            <?php if (!empty($project['featured_image'])): ?>
+                                <img src="/assets/uploads/portfolio/<?php echo htmlspecialchars($project['featured_image']); ?>" 
+                                     alt="<?php echo htmlspecialchars($project['title']); ?>" 
+                                     class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <!-- Бейджи -->
+                            <div class="absolute top-2 left-2 flex flex-col gap-1">
+                                <?php if ($project['featured']): ?>
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        ⭐ <?php echo __('portfolio.featured', 'Рекомендуемый'); ?>
+                                    </span>
+                                <?php endif; ?>
+                                
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    <?php echo htmlspecialchars(ucfirst($project['category'])); ?>
+                                </span>
+                            </div>
+                            
+                            <!-- Статус -->
+                            <div class="absolute top-2 right-2">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                    <?php echo $project['status'] === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
+                                    <?php echo $project['status'] === 'active' ? __('portfolio.status_active', 'Активный') : __('portfolio.status_inactive', 'Скрытый'); ?>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Информация о проекте -->
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg text-gray-900 mb-2">
+                                <?php echo htmlspecialchars($project['title']); ?>
+                            </h3>
+                            
+                            <p class="text-sm text-gray-600 mb-3 line-clamp-2">
+                                <?php echo htmlspecialchars(substr($project['description'], 0, 100)); ?><?php echo strlen($project['description']) > 100 ? '...' : ''; ?>
+                            </p>
+                            
+                            <!-- Детали проекта -->
+                            <div class="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-4">
+                                <?php if (!empty($project['area'])): ?>
+                                    <div class="flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                        </svg>
+                                        <?php echo htmlspecialchars($project['area']); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($project['duration'])): ?>
+                                    <div class="flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <?php echo htmlspecialchars($project['duration']); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($project['budget'])): ?>
+                                    <div class="flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                        </svg>
+                                        €<?php echo number_format($project['budget'], 0, ',', ' '); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($project['completion_date'])): ?>
+                                    <div class="flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <?php echo format_date($project['completion_date']); ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <!-- Действия -->
+                            <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                                <div class="flex space-x-2">
+                                    <?php render_button([
+                                        'href' => '?action=edit&id=' . $project['id'],
+                                        'text' => __('common.edit', 'Редактировать'),
+                                        'variant' => 'secondary',
+                                        'size' => 'sm'
+                                    ]); ?>
+                                </div>
+                                
+                                <div class="flex space-x-1">
+                                    <!-- Переключение статуса -->
+                                    <form method="POST" class="inline-block">
+                                        <input type="hidden" name="action" value="toggle_status">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                        <button type="submit" class="text-gray-400 hover:text-gray-600" 
+                                                title="<?php echo $project['status'] === 'active' ? __('portfolio.hide', 'Скрыть') : __('portfolio.show', 'Показать'); ?>">
+                                            <?php if ($project['status'] === 'active'): ?>
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            <?php else: ?>
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                                                </svg>
+                                            <?php endif; ?>
+                                        </button>
+                                    </form>
+                                    
+                                    <!-- Переключение рекомендуемого -->
+                                    <form method="POST" class="inline-block">
+                                        <input type="hidden" name="action" value="toggle_featured">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                        <button type="submit" class="<?php echo $project['featured'] ? 'text-yellow-500' : 'text-gray-400'; ?> hover:text-yellow-600"
+                                                title="<?php echo __('portfolio.toggle_featured', 'Переключить рекомендуемый'); ?>">
+                                            <svg class="h-4 w-4" fill="<?php echo $project['featured'] ? 'currentColor' : 'none'; ?>" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    
+                                    <!-- Удаление -->
+                                    <button type="button" 
+                                            class="text-red-400 hover:text-red-600" 
+                                            title="<?php echo __('common.delete', 'Удалить'); ?>"
+                                            onclick="confirmDeleteProject(<?php echo $project['id']; ?>, '<?php echo htmlspecialchars($project['title'], ENT_QUOTES); ?>')">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Десктопная версия - сетка -->
+            <div class="hidden lg:grid lg:grid-cols-2 xl:grid-cols-3 gap-6 p-6">
                 <?php foreach ($projects as $project): ?>
                     <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                         <!-- Изображение проекта -->
@@ -810,6 +1161,22 @@ window.deleteProject = function(projectId) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Функции удаления проектов инициализированы');
 });
+
+// Функция для переключения мобильных фильтров
+function toggleMobileFilters() {
+    const filters = document.getElementById('mobile-filters');
+    const arrow = document.getElementById('filter-arrow');
+    
+    if (filters && arrow) {
+        if (filters.classList.contains('hidden')) {
+            filters.classList.remove('hidden');
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            filters.classList.add('hidden');
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+}
 </script>
 
 <?php elseif ($action === 'create' || $action === 'edit'): ?>

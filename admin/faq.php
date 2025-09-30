@@ -263,7 +263,7 @@ ob_start();
 <?php if ($action === 'list'): ?>
     <!-- Статистика и кнопки -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4" style="width: 100%;">
             <?php 
             // Подсчет статистики
             $total_questions = count($faq_items);
@@ -274,18 +274,62 @@ ob_start();
             
             // Статистическая карточка для FAQ
             ?>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 min-w-[200px]">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                            <?php echo get_icon('question-mark-circle', 'w-5 h-5 text-white'); ?>
+            <!-- Мобильная статистика -->
+            <div class="lg:hidden grid grid-cols-2 gap-4 w-full">
+                <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                                <?php echo get_icon('question-mark-circle', 'w-4 h-4 text-white'); ?>
+                            </div>
+                        </div>
+                        <div class="ml-2 flex-1">
+                            
+                            <p class="text-lg font-semibold text-gray-900">
+                                <?php echo $total_questions; ?>
+                            </p>
                         </div>
                     </div>
-                    <div class="ml-4 flex-1">
-                        <p class="text-sm font-medium text-gray-500">
+                    <p class="text-xs font-medium text-gray-500">
+                                <?php echo __('faq.total_count', 'Всего вопросов'); ?>
+                            </p>
+                </div>
+                
+                <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-2 flex-1">
+                            
+                            <p class="text-lg font-semibold text-gray-900">
+                                <?php echo $active_questions; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-xs font-medium text-gray-500">
+                                <?php echo __('faq.active', 'Активные'); ?>
+                            </p>
+                </div>
+            </div>
+
+            <!-- Десктопная статистика -->
+            <div class="hidden lg:block bg-white shadow-sm rounded-lg border border-gray-200 p-3 min-w-[180px]">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                            <?php echo get_icon('question-mark-circle', 'w-4 h-4 text-white'); ?>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <p class="text-xs font-medium text-gray-500">
                             <?php echo __('faq.total_count', 'Всего вопросов'); ?>
                         </p>
-                        <p class="text-2xl font-semibold text-gray-900">
+                        <p class="text-lg font-semibold text-gray-900">
                             <?php echo $total_questions; ?>
                         </p>
                         <?php if ($active_questions > 0): ?>
@@ -310,50 +354,180 @@ ob_start();
 
     <!-- Фильтры и поиск -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
+        <!-- Основной поиск - всегда видимый -->
+        <div class="mb-4">
+            <form method="GET" class="flex gap-2">
+                <input type="hidden" name="action" value="list">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                           name="search" 
+                           value="<?php echo htmlspecialchars($search); ?>" 
+                           placeholder="<?php echo __('faq.search_placeholder', 'Поиск по вопросу...'); ?>"
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                </div>
+                <button type="submit" 
+                        class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                    <?php echo __('common.search', 'Поиск'); ?>
+                </button>
+            </form>
+        </div>
+
+        <!-- Мобильные фильтры -->
+        <div class="lg:hidden">
+            <button type="button" 
+                    onclick="toggleMobileFilters()" 
+                    class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-200">
+                <span class="font-medium text-gray-700">
+                    <?php echo __('common.filters', 'Фильтры'); ?>
+                    <?php if (!empty($status_filter) || !empty($category_filter)): ?>
+                        <span class="inline-flex items-center px-2 py-1 ml-2 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">
         <?php 
-        // Подготовка категорий
-        $categories = [
-            ['value' => '', 'text' => __('common.all', 'Все')],
-            ['value' => 'general', 'text' => __('faq.category_general', 'Общие')],
-            ['value' => 'services', 'text' => __('faq.category_services', 'Услуги')],
-            ['value' => 'portfolio', 'text' => __('faq.category_portfolio', 'Портфолио')],
-            ['value' => 'pricing', 'text' => __('faq.category_pricing', 'Цены')],
-            ['value' => 'technical', 'text' => __('faq.category_technical', 'Технические')],
-            ['value' => 'support', 'text' => __('faq.category_support', 'Поддержка')]
-        ];
-        
-        render_filter_form([
-            'fields' => [
-                [
-                    'type' => 'search',
-                    'name' => 'search',
-                    'placeholder' => __('faq.search_placeholder', 'Поиск по вопросу...'),
-                    'value' => $search
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'status',
-                    'label' => __('faq.status', 'Статус'),
-                    'value' => $status_filter,
-                    'options' => [
-                        ['value' => '', 'text' => __('common.all', 'Все')],
-                        ['value' => 'active', 'text' => __('faq.status_active', 'Активные')],
-                        ['value' => 'inactive', 'text' => __('faq.status_inactive', 'Неактивные')]
-                    ],
-                    'placeholder' => __('common.all', 'Все')
-                ],
-                [
-                    'type' => 'dropdown',
-                    'name' => 'category',
-                    'label' => __('faq.category', 'Категория'),
-                    'value' => $category_filter,
-                    'options' => $categories,
-                    'placeholder' => __('common.all', 'Все')
-                ],
-            ],
-            'button_text' => __('common.filter', 'Фильтр')
-        ]);
-        ?>
+                            $active_filters = 0;
+                            if (!empty($status_filter)) $active_filters++;
+                            if (!empty($category_filter)) $active_filters++;
+                            echo $active_filters;
+                            ?>
+                        </span>
+                    <?php endif; ?>
+                </span>
+                <svg id="filter-arrow" class="h-5 w-5 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <div id="mobile-filters" class="hidden mt-4 space-y-4">
+                <form method="GET" class="space-y-4">
+                    <input type="hidden" name="action" value="list">
+                    <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Статус -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('faq.status', 'Статус'); ?>
+                            </label>
+                            <select name="status" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.status_active', 'Активные'); ?>
+                                </option>
+                                <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.status_inactive', 'Неактивные'); ?>
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <!-- Категория -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <?php echo __('faq.category', 'Категория'); ?>
+                            </label>
+                            <select name="category" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                                <option value="general" <?php echo $category_filter === 'general' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.category_general', 'Общие'); ?>
+                                </option>
+                                <option value="services" <?php echo $category_filter === 'services' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.category_services', 'Услуги'); ?>
+                                </option>
+                                <option value="portfolio" <?php echo $category_filter === 'portfolio' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.category_portfolio', 'Портфолио'); ?>
+                                </option>
+                                <option value="pricing" <?php echo $category_filter === 'pricing' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.category_pricing', 'Цены'); ?>
+                                </option>
+                                <option value="technical" <?php echo $category_filter === 'technical' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.category_technical', 'Технические'); ?>
+                                </option>
+                                <option value="support" <?php echo $category_filter === 'support' ? 'selected' : ''; ?>>
+                                    <?php echo __('faq.category_support', 'Поддержка'); ?>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 pt-4">
+                        <button type="submit" 
+                                class="flex-1 px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                            <?php echo __('common.apply_filters', 'Применить'); ?>
+                        </button>
+                        <a href="?action=list" 
+                           class="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-200 font-medium">
+                            <?php echo __('common.clear', 'Очистить'); ?>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Десктопные фильтры -->
+        <div class="hidden lg:block">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <input type="hidden" name="action" value="list">
+                <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                
+                <!-- Статус -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('faq.status', 'Статус'); ?>
+                    </label>
+                    <select name="status" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.status_active', 'Активные'); ?>
+                        </option>
+                        <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.status_inactive', 'Неактивные'); ?>
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Категория -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo __('faq.category', 'Категория'); ?>
+                    </label>
+                    <select name="category" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                        <option value=""><?php echo __('common.all', 'Все'); ?></option>
+                        <option value="general" <?php echo $category_filter === 'general' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.category_general', 'Общие'); ?>
+                        </option>
+                        <option value="services" <?php echo $category_filter === 'services' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.category_services', 'Услуги'); ?>
+                        </option>
+                        <option value="portfolio" <?php echo $category_filter === 'portfolio' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.category_portfolio', 'Портфолио'); ?>
+                        </option>
+                        <option value="pricing" <?php echo $category_filter === 'pricing' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.category_pricing', 'Цены'); ?>
+                        </option>
+                        <option value="technical" <?php echo $category_filter === 'technical' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.category_technical', 'Технические'); ?>
+                        </option>
+                        <option value="support" <?php echo $category_filter === 'support' ? 'selected' : ''; ?>>
+                            <?php echo __('faq.category_support', 'Поддержка'); ?>
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- Кнопка фильтра -->
+                <div>
+                    <button type="submit" 
+                            class="w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition duration-200 font-medium">
+                        <?php echo __('common.filter', 'Фильтр'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Список FAQ -->
@@ -375,7 +549,105 @@ ob_start();
                 </div>
             </div>
         <?php else: ?>
-            <div class="divide-y divide-gray-200">
+            <!-- Мобильная версия - карточки -->
+            <div class="block lg:hidden p-4 space-y-4">
+                <?php foreach ($faq_items as $faq): ?>
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <!-- Заголовок карточки -->
+                        <div class="p-4 border-b border-gray-100">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">
+                                        <?php echo htmlspecialchars($faq['question']); ?>
+                                    </h3>
+                                    
+                                    <!-- Бейджи -->
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            <?php echo ucfirst($faq['category']); ?>
+                                        </span>
+                                        
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                            <?php echo $faq['status'] === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
+                                            <?php echo $faq['status'] === 'active' ? 'Активный' : 'Неактивный'; ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Содержимое FAQ -->
+                        <div class="p-4">
+                            <!-- Ответ -->
+                            <p class="text-gray-700 text-sm mb-4 line-clamp-3 break-words">
+                                <?php echo htmlspecialchars(substr($faq['answer'], 0, 200)) . (strlen($faq['answer']) > 200 ? '...' : ''); ?>
+                            </p>
+                            
+                            <!-- Дополнительная информация -->
+                            <div class="text-xs text-gray-500 space-y-1">
+                                <div class="flex items-center">
+                                    <svg class="h-3 w-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Создан: <?php echo format_date($faq['created_at']); ?>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="h-3 w-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    Обновлен: <?php echo format_date($faq['updated_at']); ?>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="h-3 w-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                    </svg>
+                                    Приоритет: <?php echo $faq['sort_order']; ?>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Действия -->
+                        <div class="p-4 border-t border-gray-100 bg-gray-50">
+                            <div class="flex flex-col gap-3">
+                                <!-- Основная кнопка редактирования -->
+                                <div class="flex justify-center">
+                                    <?php render_button([
+                                        'href' => '?action=edit&id=' . $faq['id'],
+                                        'text' => __('common.edit', 'Редактировать'),
+                                        'variant' => 'primary',
+                                        'size' => 'md',
+                                        'class' => 'w-full justify-center'
+                                    ]); ?>
+                                </div>
+                                
+                                <!-- Кнопки дополнительных действий -->
+                                <div class="grid grid-cols-2 gap-2">
+                                    <form method="POST" class="inline-block">
+                                        <input type="hidden" name="action" value="toggle_status">
+                                        <input type="hidden" name="id" value="<?php echo $faq['id']; ?>">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                        <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-white rounded-lg focus:ring-2 focus:ring-offset-2 transition duration-200 <?php echo $faq['status'] === 'active' ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'; ?>">
+                                            <?php echo $faq['status'] === 'active' ? 'Деактивировать' : 'Активировать'; ?>
+                                        </button>
+                                    </form>
+                                    
+                                    <button type="button" 
+                                            class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200" 
+                                            onclick="confirmDeleteFaq(<?php echo $faq['id']; ?>, '<?php echo htmlspecialchars($faq['question'], ENT_QUOTES); ?>')">
+                                        <svg class="h-4 w-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        <?php echo __('common.delete', 'Удалить'); ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Десктопная версия -->
+            <div class="hidden lg:block divide-y divide-gray-200">
                 <?php foreach ($faq_items as $faq): ?>
                     <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
                         <div class="flex items-start justify-between">
@@ -387,7 +659,6 @@ ob_start();
                                         </h3>
                                         
                                         <!-- Бейджи -->
-                                        
                                         <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                                             <?php echo ucfirst($faq['category']); ?>
                                         </span>
@@ -510,6 +781,22 @@ window.deleteFaq = function(faqId) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Функции удаления FAQ инициализированы');
 });
+
+// Функция для переключения мобильных фильтров
+function toggleMobileFilters() {
+    const filters = document.getElementById('mobile-filters');
+    const arrow = document.getElementById('filter-arrow');
+    
+    if (filters && arrow) {
+        if (filters.classList.contains('hidden')) {
+            filters.classList.remove('hidden');
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            filters.classList.add('hidden');
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+}
 </script>
 
 <?php elseif ($action === 'create' || $action === 'edit'): ?>
