@@ -204,3 +204,18 @@
 [2025-09-30 15:02:32] [DEBUG] Applied filters: []
 [2025-09-30 15:17:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
 [2025-09-30 15:28:45] [INFO] User root logged in
+[2025-09-30 17:07:50] [INFO] User root logged in
+[2025-09-30 17:24:17] [INFO] User root logged in
+[2025-09-30 17:24:34] [INFO] User root logged out
+[2025-09-30 17:24:54] [INFO] User root logged in
+[2025-09-30 17:29:06] [INFO] POST request received: {"action":"delete","id":"14","csrf_token":"6c085c8a1b85fc90bc56fbb859cf9bee2db13dd77d46893ea4f9a7b066be9d16"}
+[2025-09-30 17:29:06] [INFO] FILES received: []
+[2025-09-30 17:29:06] [WARNING] Service deleted: Дизайн интерьера премиум-класса (ID: 14)
+[2025-09-30 17:35:08] [INFO] Translation saved: portfolio.title (ID: 66)
+[2025-09-30 17:35:10] [INFO] Translation saved: portfolio.description (ID: 66)
+[2025-09-30 17:35:11] [INFO] Translation saved: portfolio.duration (ID: 66)
+[2025-09-30 17:35:11] [INFO] Translation saved: portfolio.client_name (ID: 66)
+[2025-09-30 17:35:11] [INFO] Auto-translation completed for portfolio project ID: 66
+[2025-09-30 17:35:11] [INFO] New portfolio project created: Название (ID: 66)
+[2025-09-30 17:35:41] [INFO] Portfolio project updated: Название (ID: 66)
+[2025-09-30 17:36:33] [WARNING] Portfolio project deleted: Название (ID: 66)

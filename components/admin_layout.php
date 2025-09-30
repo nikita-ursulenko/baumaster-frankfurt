@@ -134,12 +134,6 @@ function get_admin_menu_items($active_menu = 'dashboard', $current_user = null) 
             'icon' => 'blog',
             'active' => $active_menu === 'blog'
         ],
-        'settings' => [
-            'title' => __('menu.settings', 'О компании'),
-            'url' => 'settings.php',
-            'icon' => 'cog',
-            'active' => $active_menu === 'settings'
-        ],
         'stats' => [
             'title' => __('menu.stats', 'Статистика'),
             'url' => 'stats.php',
