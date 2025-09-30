@@ -342,7 +342,7 @@ ob_start();
             </div>
         </div>
         
-        <div class="flex flex-col sm:flex-row gap-2">
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <?php render_button([
                 'href' => '?action=create',
                 'text' => __('faq.add_new', 'Добавить вопрос'),

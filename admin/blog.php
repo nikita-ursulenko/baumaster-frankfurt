@@ -443,7 +443,7 @@ ob_start();
             </div>
         </div>
         
-        <div class="flex flex-col sm:flex-row gap-2">
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <?php render_button([
                 'href' => '?action=create',
                 'text' => __('blog.add_new', 'Добавить статью'),
@@ -451,12 +451,7 @@ ob_start();
                 'icon' => get_icon('plus', 'w-4 h-4 mr-2')
             ]); ?>
             
-            <?php render_button([
-                'href' => 'blog_export.php',
-                'text' => __('blog.export', 'Экспорт в CSV'),
-                'variant' => 'secondary',
-                'icon' => get_icon('download', 'w-4 h-4 mr-2')
-            ]); ?>
+          
         </div>
     </div>
 

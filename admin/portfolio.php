@@ -553,26 +553,15 @@ ob_start();
             </div>
         </div>
         
-        <!-- Мобильные кнопки -->
-        <div class="lg:hidden">
-            <div class="flex flex-col gap-2">
-                <a href="?action=create" class="w-full inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg shadow-sm hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-200 font-medium">
-                    <?php echo get_icon('plus', 'w-5 h-5 mr-2'); ?>
-                    <?php echo __('portfolio.add_new', 'Добавить проект'); ?>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Десктопные кнопки -->
-        <div class="hidden lg:block">
-            <div class="flex flex-col sm:flex-row gap-2">
-                <?php render_button([
-                    'href' => '?action=create',
-                    'text' => __('portfolio.add_new', 'Добавить проект'),
-                    'variant' => 'primary',
-                    'icon' => get_icon('plus', 'w-4 h-4 mr-2')
-                ]); ?>
-            </div>
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <?php render_button([
+                'href' => '?action=create',
+                'text' => __('portfolio.add_new', 'Добавить проект'),
+                'variant' => 'primary',
+                'icon' => get_icon('plus', 'w-4 h-4 mr-2'),
+                'class' => 'w-full sm:w-auto'
+            ]); ?>
+            
         </div>
     </div>
 
