@@ -423,7 +423,9 @@ function render_dropdown_field($options = []) {
     
     function selectDropdownOption(uniqueId, value, text) {
         const selectedSpan = document.getElementById('dropdown-selected-' + uniqueId);
-        const hiddenInput = document.getElementById(uniqueId.split('_')[0]);
+        // Получаем имя поля из uniqueId (все до первого подчеркивания)
+        const fieldName = uniqueId.substring(0, uniqueId.indexOf('_'));
+        const hiddenInput = document.getElementById(fieldName);
         const menu = document.getElementById('dropdown-menu-' + uniqueId);
         const arrow = document.getElementById('dropdown-arrow-' + uniqueId);
         
@@ -621,7 +623,8 @@ function render_stat_card($options = []) {
     }
     ?>
     <div class="<?php echo $card_class; ?>">
-        <div class="p-5">
+        <!-- Мобильная версия -->
+        <div class="p-3 lg:hidden">
             <div class="flex items-center">
                 <?php if ($opts['icon']): ?>
                     <div class="flex-shrink-0">
@@ -630,9 +633,51 @@ function render_stat_card($options = []) {
                         </div>
                     </div>
                 <?php endif; ?>
-                <div class="ml-5 w-0 flex-1">
+                <div class="ml-2 flex-1">
                     <dl>
-                        
+                        <dd class="flex items-center">
+                            <span class="text-lg font-semibold text-gray-900"><?php echo htmlspecialchars($opts['value']); ?></span>
+                            <?php if ($opts['change']): ?>
+                                <?php 
+                                $change_value = $opts['change'];
+                                $is_positive = strpos($change_value, '+') === 0;
+                                $change_class = $is_positive ? 'text-green-600' : 'text-red-600';
+                                $arrow = $is_positive ? '↑' : '↓';
+                                ?>
+                                <span class="ml-2 text-sm <?php echo $change_class; ?> font-medium">
+                                    <?php echo $arrow . ' ' . $change_value; ?>
+                                </span>
+                            <?php endif; ?>
+                        </dd>
+                    </dl>
+                </div>
+                <?php if ($opts['link']): ?>
+                    <div class="flex-shrink-0">
+                        <a href="<?php echo htmlspecialchars($opts['link']); ?>" class="<?php echo $link_colors[$opts['color']]; ?>">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <dt class="text-xs font-medium text-gray-500 truncate">
+                <?php echo htmlspecialchars($opts['title']); ?>
+            </dt>
+        </div>
+        
+        <!-- Десктопная версия -->
+        <div class="hidden lg:block p-5">
+            <div class="flex items-center">
+                <?php if ($opts['icon']): ?>
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 <?php echo $color_classes[$opts['color']]; ?> rounded-md flex items-center justify-center">
+                            <?php echo $opts['icon']; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="ml-3 w-0 flex-1">
+                    <dl>
                         <dd class="flex items-center">
                             <span class="text-lg font-semibold text-gray-900"><?php echo htmlspecialchars($opts['value']); ?></span>
                             <?php if ($opts['change']): ?>
@@ -662,7 +707,6 @@ function render_stat_card($options = []) {
             <dt class="text-sm font-medium text-gray-500 truncate">
                 <?php echo htmlspecialchars($opts['title']); ?>
             </dt>
-            
         </div>
     </div>
     <?php

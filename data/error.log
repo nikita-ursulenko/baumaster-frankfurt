@@ -131,3 +131,74 @@
 [2025-09-30 14:21:33] [INFO] Отзыв ID 63 переведен с ru на de
 [2025-09-30 14:22:04] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
 [2025-09-30 14:32:31] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:34:46] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:34:56] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:35:47] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:35:49] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:36:12] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:37:10] [INFO] POST request received: {"action":"create","csrf_token":"4835b8d0294a5ca7077f9cdeb5c908a631dd4530215297ab91f36529b2e5ae13","title":"\u0423\u0441\u043b\u0443\u0433\u0430","category":"flooring","description":"\u0423\u0441\u043b\u0443\u0433\u0430 \u043c\u043e\u044f \u0432\u043e\u0442 \u043d\u043e\u0432\u0430\u044f \u0442\u0430\u043a\u0430\u044f","price":"0","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-30 14:37:10] [INFO] FILES received: {"image":{"name":"","full_path":"","type":"","tmp_name":"","error":4,"size":0},"gallery":{"name":[""],"full_path":[""],"type":[""],"tmp_name":[""],"error":[4],"size":[0]}}
+[2025-09-30 14:37:10] [INFO] Creating service with data: {"action":"create","csrf_token":"4835b8d0294a5ca7077f9cdeb5c908a631dd4530215297ab91f36529b2e5ae13","title":"\u0423\u0441\u043b\u0443\u0433\u0430","category":"flooring","description":"\u0423\u0441\u043b\u0443\u0433\u0430 \u043c\u043e\u044f \u0432\u043e\u0442 \u043d\u043e\u0432\u0430\u044f \u0442\u0430\u043a\u0430\u044f","price":"0","price_type":"fixed","status":"active","priority":"0","meta_title":"","meta_description":"","keywords":""}
+[2025-09-30 14:37:10] [INFO] Translation saved: services.title (ID: 38)
+[2025-09-30 14:37:12] [INFO] Translation saved: services.description (ID: 38)
+[2025-09-30 14:37:12] [INFO] Auto-translation completed for service ID: 38
+[2025-09-30 14:37:12] [INFO] New service created: Услуга (ID: 38)
+[2025-09-30 14:37:12] [INFO] Create service result: {"success":true,"service_id":"38","message":"\u0423\u0441\u043b\u0443\u0433\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"}
+[2025-09-30 14:37:37] [INFO] POST request received: {"action":"delete","id":"38","csrf_token":"4835b8d0294a5ca7077f9cdeb5c908a631dd4530215297ab91f36529b2e5ae13"}
+[2025-09-30 14:37:37] [INFO] FILES received: []
+[2025-09-30 14:37:37] [WARNING] Service deleted: Услуга (ID: 38)
+[2025-09-30 14:37:50] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:37:55] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:41:36] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:56:48] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:56:48] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:56:48] [DEBUG] Applied filters: []
+[2025-09-30 14:56:51] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:56:51] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:56:51] [DEBUG] Applied filters: []
+[2025-09-30 14:57:00] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:57:00] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:00] [DEBUG] Applied filters: []
+[2025-09-30 14:57:01] [DEBUG] GET parameters: []
+[2025-09-30 14:57:01] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:01] [DEBUG] Applied filters: []
+[2025-09-30 14:57:02] [DEBUG] GET parameters: []
+[2025-09-30 14:57:02] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:02] [DEBUG] Applied filters: []
+[2025-09-30 14:57:05] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:57:05] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:05] [DEBUG] Applied filters: []
+[2025-09-30 14:57:18] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:57:18] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:18] [DEBUG] Applied filters: []
+[2025-09-30 14:57:26] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:57:26] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:26] [DEBUG] Applied filters: []
+[2025-09-30 14:57:29] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:57:29] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:29] [DEBUG] Applied filters: []
+[2025-09-30 14:57:31] [DEBUG] GET parameters: []
+[2025-09-30 14:57:31] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:31] [DEBUG] Applied filters: []
+[2025-09-30 14:57:32] [DEBUG] GET parameters: []
+[2025-09-30 14:57:32] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:57:32] [DEBUG] Applied filters: []
+[2025-09-30 14:57:34] [DEBUG] GET parameters: {"search":"","status":"","category":"painting"}
+[2025-09-30 14:57:34] [DEBUG] Search: '', Status: '', Category: 'painting'
+[2025-09-30 14:57:34] [DEBUG] Applied filters: {"category":"painting"}
+[2025-09-30 14:58:16] [ERROR] Select error: SQLSTATE[HY000]: General error: 1 no such column: featured
+[2025-09-30 14:58:23] [DEBUG] GET parameters: []
+[2025-09-30 14:58:23] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:58:23] [DEBUG] Applied filters: []
+[2025-09-30 14:58:28] [DEBUG] GET parameters: {"search":"","status":"inactive","category":""}
+[2025-09-30 14:58:28] [DEBUG] Search: '', Status: 'inactive', Category: ''
+[2025-09-30 14:58:28] [DEBUG] Applied filters: {"status":"inactive"}
+[2025-09-30 14:58:31] [DEBUG] GET parameters: {"search":"","status":"","category":""}
+[2025-09-30 14:58:31] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:58:31] [DEBUG] Applied filters: []
+[2025-09-30 14:58:37] [DEBUG] GET parameters: []
+[2025-09-30 14:58:37] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 14:58:37] [DEBUG] Applied filters: []
+[2025-09-30 15:02:32] [DEBUG] GET parameters: []
+[2025-09-30 15:02:32] [DEBUG] Search: '', Status: '', Category: ''
+[2025-09-30 15:02:32] [DEBUG] Applied filters: []

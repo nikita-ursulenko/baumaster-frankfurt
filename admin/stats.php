@@ -48,8 +48,67 @@ ob_start();
         </p>
     </div>
     
-    <!-- Фильтры периода -->
-    <div class="flex flex-col sm:flex-row gap-2">
+    <!-- Мобильные фильтры -->
+    <div class="w-full lg:w-auto lg:hidden">
+        <!-- Кнопка фильтров -->
+        <button onclick="toggleMobileFilters()" class="w-full flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
+            </svg>
+            Фильтры
+        </button>
+        
+        <!-- Мобильные фильтры (скрыты по умолчанию) -->
+        <div id="mobileFilters" class="hidden mt-3 space-y-3 p-4 bg-gray-50 rounded-lg">
+            <!-- Быстрые фильтры -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Быстрый выбор</label>
+                <form method="GET" class="space-y-2">
+                    <?php render_dropdown_field([
+                        'name' => 'period',
+                        'value' => $period,
+                        'options' => [
+                            ['value' => '7', 'text' => __('stats.last_7_days', 'Последние 7 дней')],
+                            ['value' => '30', 'text' => __('stats.last_30_days', 'Последние 30 дней')],
+                            ['value' => '90', 'text' => __('stats.last_90_days', 'Последние 90 дней')],
+                            ['value' => '365', 'text' => __('stats.last_year', 'Последний год')]
+                        ],
+                        'placeholder' => 'Выберите период',
+                        'onchange' => 'this.form.submit()',
+                        'class' => 'w-full'
+                    ]); ?>
+                </form>
+            </div>
+            
+            <!-- Кастомные даты -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Выбрать период</label>
+                <form method="GET" class="space-y-2">
+                    <input type="date" name="date_from" value="<?php echo $date_from; ?>" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <input type="date" name="date_to" value="<?php echo $date_to; ?>" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <button type="submit" class="w-full px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 text-sm">
+                        <?php echo __('common.filter', 'Фильтр'); ?>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Экспорт -->
+            <div>
+                <a href="stats_export.php?period=<?php echo $period; ?>&date_from=<?php echo $date_from; ?>&date_to=<?php echo $date_to; ?>" 
+                   class="w-full flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <?php echo __('stats.export', 'Экспорт'); ?>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Десктопные фильтры -->
+    <div class="hidden lg:flex flex-col sm:flex-row gap-2">
         <form method="GET" class="flex gap-2">
             <?php render_dropdown_field([
                 'name' => 'period',
@@ -123,28 +182,28 @@ ob_start();
 <!-- Графики и детальная статистика -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     <!-- График активности по дням -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
+        <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
             <?php echo __('stats.activity_chart', 'Активность по дням'); ?>
         </h3>
-        <div class="h-64">
+        <div class="h-48 lg:h-64 stats-chart-mobile">
             <canvas id="activityChart" width="400" height="200"></canvas>
         </div>
     </div>
     
     <!-- Топ контента -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
+        <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
             <?php echo __('stats.top_content', 'Популярный контент'); ?>
         </h3>
         <div class="space-y-3">
             <?php foreach ($stats['top_content'] as $item): ?>
                 <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div class="flex-1">
-                        <p class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($item['title']); ?></p>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate"><?php echo htmlspecialchars($item['title']); ?></p>
                         <p class="text-xs text-gray-500"><?php echo $item['type']; ?></p>
                     </div>
-                    <div class="text-right">
+                    <div class="text-right flex-shrink-0 ml-2">
                         <p class="text-sm font-semibold text-primary-600"><?php echo $item['views']; ?></p>
                         <p class="text-xs text-gray-500"><?php echo __('stats.views', 'просмотров'); ?></p>
                     </div>
@@ -157,64 +216,64 @@ ob_start();
 <!-- Детальная статистика по разделам -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Статистика услуг -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
+        <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
             <?php echo __('stats.services_stats', 'Статистика услуг'); ?>
         </h3>
-        <div class="space-y-3">
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.active_services', 'Активных услуг'); ?></span>
-                <span class="text-sm font-semibold"><?php echo $stats['services']['active']; ?></span>
+        <div class="space-y-2 lg:space-y-3 stats-detail-mobile">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.active_services', 'Активных услуг'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['services']['active']; ?></span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.featured_services', 'Рекомендуемых'); ?></span>
-                <span class="text-sm font-semibold"><?php echo $stats['services']['featured']; ?></span>
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.featured_services', 'Рекомендуемых'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['services']['featured']; ?></span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.avg_price', 'Средняя цена'); ?></span>
-                <span class="text-sm font-semibold"><?php echo format_price($stats['services']['avg_price']); ?></span>
+            <div class="flex justify-between items-center py-2 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_price', 'Средняя цена'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo format_price($stats['services']['avg_price']); ?></span>
             </div>
         </div>
     </div>
     
     <!-- Статистика портфолио -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
+        <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
             <?php echo __('stats.portfolio_stats', 'Статистика портфолио'); ?>
         </h3>
-        <div class="space-y-3">
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.completed_projects', 'Завершенных проектов'); ?></span>
-                <span class="text-sm font-semibold"><?php echo $stats['portfolio']['completed']; ?></span>
+        <div class="space-y-2 lg:space-y-3 stats-detail-mobile">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.completed_projects', 'Завершенных проектов'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['portfolio']['completed']; ?></span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.featured_projects', 'Рекомендуемых'); ?></span>
-                <span class="text-sm font-semibold"><?php echo $stats['portfolio']['featured']; ?></span>
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.featured_projects', 'Рекомендуемых'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['portfolio']['featured']; ?></span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.avg_budget', 'Средний бюджет'); ?></span>
-                <span class="text-sm font-semibold"><?php echo format_price($stats['portfolio']['avg_budget']); ?></span>
+            <div class="flex justify-between items-center py-2 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_budget', 'Средний бюджет'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo format_price($stats['portfolio']['avg_budget']); ?></span>
             </div>
         </div>
     </div>
     
     <!-- Статистика отзывов -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
+        <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
             <?php echo __('stats.reviews_stats', 'Статистика отзывов'); ?>
         </h3>
-        <div class="space-y-3">
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.avg_rating', 'Средний рейтинг'); ?></span>
-                <span class="text-sm font-semibold"><?php echo number_format($stats['reviews']['avg_rating'], 1); ?>/5</span>
+        <div class="space-y-2 lg:space-y-3 stats-detail-mobile">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_rating', 'Средний рейтинг'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo number_format($stats['reviews']['avg_rating'], 1); ?>/5</span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.verified_reviews', 'Проверенных отзывов'); ?></span>
-                <span class="text-sm font-semibold"><?php echo $stats['reviews']['verified']; ?></span>
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.verified_reviews', 'Проверенных отзывов'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['reviews']['verified']; ?></span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm text-gray-600"><?php echo __('stats.pending_reviews', 'На модерации'); ?></span>
-                <span class="text-sm font-semibold"><?php echo $stats['reviews']['pending']; ?></span>
+            <div class="flex justify-between items-center py-2 stat-row">
+                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.pending_reviews', 'На модерации'); ?></span>
+                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['reviews']['pending']; ?></span>
             </div>
         </div>
     </div>
@@ -373,7 +432,7 @@ function calculate_percentage_change($old_value, $new_value) {
 
 $page_content = ob_get_clean();
 
-// Добавляем JavaScript для графика
+// Добавляем JavaScript для графика и мобильных фильтров
 $page_content .= '
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -438,6 +497,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+// Функция для переключения мобильных фильтров
+function toggleMobileFilters() {
+    const filters = document.getElementById("mobileFilters");
+    if (filters.classList.contains("hidden")) {
+        filters.classList.remove("hidden");
+    } else {
+        filters.classList.add("hidden");
+    }
+}
 </script>';
 
 // Рендеринг страницы

@@ -377,12 +377,12 @@ ob_start();
             <!-- Мобильная статистика -->
             <div class="lg:hidden grid grid-cols-2 gap-4 w-full">
                 <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
                             <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
                                 <?php echo get_icon('document-text', 'w-4 h-4 text-white'); ?>
-                            </div>
                         </div>
+                    </div>
                         <div class="ml-2 flex-1">
                             
                             <p class="text-lg font-semibold text-gray-900">
@@ -392,8 +392,8 @@ ob_start();
                         
                     </div>
                     <p class="text-xs font-medium text-gray-500">
-                                <?php echo __('blog.total_count', 'Всего статей'); ?>
-                            </p>
+                            <?php echo __('blog.total_count', 'Всего статей'); ?>
+                        </p>
                 </div>
                 
                 <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-3">
@@ -517,65 +517,54 @@ ob_start();
                     <div class="grid grid-cols-1 gap-4">
                         <!-- Категория -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo __('blog.category', 'Категория'); ?>
-                            </label>
-                            <select name="category" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                                <option value="tips" <?php echo $category_filter === 'tips' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.category_tips', 'Советы'); ?>
-                                </option>
-                                <option value="faq" <?php echo $category_filter === 'faq' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.category_faq', 'FAQ'); ?>
-                                </option>
-                                <option value="news" <?php echo $category_filter === 'news' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.category_news', 'Новости'); ?>
-                                </option>
-                                <option value="guides" <?php echo $category_filter === 'guides' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.category_guides', 'Руководства'); ?>
-                                </option>
-                            </select>
+                            <?php render_dropdown_field([
+                    'name' => 'category',
+                    'label' => __('blog.category', 'Категория'),
+                    'value' => $category_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => 'tips', 'text' => __('blog.category_tips', 'Советы')],
+                        ['value' => 'faq', 'text' => __('blog.category_faq', 'FAQ')],
+                        ['value' => 'news', 'text' => __('blog.category_news', 'Новости')],
+                        ['value' => 'guides', 'text' => __('blog.category_guides', 'Руководства')]
+                    ],
+                                'placeholder' => __('common.all', 'Все'),
+                                'class' => 'w-full'
+                            ]); ?>
                         </div>
                         
                         <!-- Тип -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo __('blog.type', 'Тип'); ?>
-                            </label>
-                            <select name="post_type" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                                <option value="article" <?php echo $type_filter === 'article' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.type_article', 'Статья'); ?>
-                                </option>
-                                <option value="faq" <?php echo $type_filter === 'faq' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.type_faq', 'FAQ'); ?>
-                                </option>
-                                <option value="news" <?php echo $type_filter === 'news' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.type_news', 'Новость'); ?>
-                                </option>
-                                <option value="tips" <?php echo $type_filter === 'tips' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.type_tips', 'Совет'); ?>
-                                </option>
-                            </select>
+                            <?php render_dropdown_field([
+                    'name' => 'post_type',
+                    'label' => __('blog.type', 'Тип'),
+                    'value' => $type_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => 'article', 'text' => __('blog.type_article', 'Статья')],
+                        ['value' => 'faq', 'text' => __('blog.type_faq', 'FAQ')],
+                        ['value' => 'news', 'text' => __('blog.type_news', 'Новость')],
+                        ['value' => 'tips', 'text' => __('blog.type_tips', 'Совет')]
+                    ],
+                                'placeholder' => __('common.all', 'Все'),
+                                'class' => 'w-full'
+                            ]); ?>
                         </div>
                         
                         <!-- Статус -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo __('blog.status', 'Статус'); ?>
-                            </label>
-                            <select name="status" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                                <option value="draft" <?php echo $status_filter === 'draft' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.status_draft', 'Черновик'); ?>
-                                </option>
-                                <option value="published" <?php echo $status_filter === 'published' ? 'selected' : ''; ?>>
-                                    <?php echo __('blog.status_published', 'Опубликовано'); ?>
-                                </option>
-                            </select>
+                            <?php render_dropdown_field([
+                    'name' => 'status',
+                    'label' => __('blog.status', 'Статус'),
+                    'value' => $status_filter,
+                    'options' => [
+                        ['value' => '', 'text' => __('common.all', 'Все')],
+                        ['value' => 'draft', 'text' => __('blog.status_draft', 'Черновик')],
+                        ['value' => 'published', 'text' => __('blog.status_published', 'Опубликовано')]
+                    ],
+                                'placeholder' => __('common.all', 'Все'),
+                                'class' => 'w-full'
+                            ]); ?>
                         </div>
                     </div>
                     
@@ -604,8 +593,7 @@ ob_start();
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         <?php echo __('blog.category', 'Категория'); ?>
                     </label>
-                    <select name="category" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                    <select name="category" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <option value=""><?php echo __('common.all', 'Все'); ?></option>
                         <option value="tips" <?php echo $category_filter === 'tips' ? 'selected' : ''; ?>>
                             <?php echo __('blog.category_tips', 'Советы'); ?>
@@ -627,8 +615,7 @@ ob_start();
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         <?php echo __('blog.type', 'Тип'); ?>
                     </label>
-                    <select name="post_type" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                    <select name="post_type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <option value=""><?php echo __('common.all', 'Все'); ?></option>
                         <option value="article" <?php echo $type_filter === 'article' ? 'selected' : ''; ?>>
                             <?php echo __('blog.type_article', 'Статья'); ?>
@@ -650,8 +637,7 @@ ob_start();
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         <?php echo __('blog.status', 'Статус'); ?>
                     </label>
-                    <select name="status" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                    <select name="status" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <option value=""><?php echo __('common.all', 'Все'); ?></option>
                         <option value="draft" <?php echo $status_filter === 'draft' ? 'selected' : ''; ?>>
                             <?php echo __('blog.status_draft', 'Черновик'); ?>

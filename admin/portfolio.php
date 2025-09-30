@@ -627,65 +627,54 @@ ob_start();
                     <div class="grid grid-cols-1 gap-4">
                         <!-- Категория -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo __('portfolio.category', 'Категория'); ?>
-                            </label>
-                            <select name="category" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                                <option value="apartment" <?php echo $category_filter === 'apartment' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.category_apartment', 'Квартиры'); ?>
-                                </option>
-                                <option value="house" <?php echo $category_filter === 'house' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.category_house', 'Дома'); ?>
-                                </option>
-                                <option value="office" <?php echo $category_filter === 'office' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.category_office', 'Офисы'); ?>
-                                </option>
-                                <option value="commercial" <?php echo $category_filter === 'commercial' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.category_commercial', 'Коммерческие'); ?>
-                                </option>
-                                <option value="bathroom" <?php echo $category_filter === 'bathroom' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.category_bathroom', 'Ванные комнаты'); ?>
-                                </option>
-                                <option value="kitchen" <?php echo $category_filter === 'kitchen' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.category_kitchen', 'Кухни'); ?>
-                                </option>
-                            </select>
+                            <?php render_dropdown_field([
+                                'name' => 'category',
+                                'label' => __('portfolio.category', 'Категория'),
+                                'value' => $category_filter,
+                                'options' => [
+                                    ['value' => '', 'text' => __('common.all', 'Все')],
+                                    ['value' => 'apartment', 'text' => __('portfolio.category_apartment', 'Квартиры')],
+                                    ['value' => 'house', 'text' => __('portfolio.category_house', 'Дома')],
+                                    ['value' => 'office', 'text' => __('portfolio.category_office', 'Офисы')],
+                                    ['value' => 'commercial', 'text' => __('portfolio.category_commercial', 'Коммерческие')],
+                                    ['value' => 'bathroom', 'text' => __('portfolio.category_bathroom', 'Ванные комнаты')],
+                                    ['value' => 'kitchen', 'text' => __('portfolio.category_kitchen', 'Кухни')]
+                                ],
+                                'placeholder' => __('common.all', 'Все'),
+                                'class' => 'w-full'
+                            ]); ?>
                         </div>
                         
                         <!-- Статус -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo __('portfolio.status', 'Статус'); ?>
-                            </label>
-                            <select name="status" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                                <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.status_active', 'Активные'); ?>
-                                </option>
-                                <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.status_inactive', 'Скрытые'); ?>
-                                </option>
-                            </select>
+                            <?php render_dropdown_field([
+                                'name' => 'status',
+                                'label' => __('portfolio.status', 'Статус'),
+                                'value' => $status_filter,
+                                'options' => [
+                                    ['value' => '', 'text' => __('common.all', 'Все')],
+                                    ['value' => 'active', 'text' => __('portfolio.status_active', 'Активные')],
+                                    ['value' => 'inactive', 'text' => __('portfolio.status_inactive', 'Скрытые')]
+                                ],
+                                'placeholder' => __('common.all', 'Все'),
+                                'class' => 'w-full'
+                            ]); ?>
                         </div>
                         
                         <!-- Рекомендуемые -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo __('portfolio.featured', 'Рекомендуемые'); ?>
-                            </label>
-                            <select name="featured" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
-                                <option value=""><?php echo __('common.all', 'Все'); ?></option>
-                                <option value="1" <?php echo $featured_filter === '1' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.featured_yes', 'Рекомендуемые'); ?>
-                                </option>
-                                <option value="0" <?php echo $featured_filter === '0' ? 'selected' : ''; ?>>
-                                    <?php echo __('portfolio.featured_no', 'Обычные'); ?>
-                                </option>
-                            </select>
+                            <?php render_dropdown_field([
+                                'name' => 'featured',
+                                'label' => __('portfolio.featured', 'Рекомендуемые'),
+                                'value' => $featured_filter,
+                                'options' => [
+                                    ['value' => '', 'text' => __('common.all', 'Все')],
+                                    ['value' => '1', 'text' => __('portfolio.featured_yes', 'Рекомендуемые')],
+                                    ['value' => '0', 'text' => __('portfolio.featured_no', 'Обычные')]
+                                ],
+                                'placeholder' => __('common.all', 'Все'),
+                                'class' => 'w-full'
+                            ]); ?>
                         </div>
                     </div>
                     
@@ -714,8 +703,7 @@ ob_start();
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         <?php echo __('portfolio.category', 'Категория'); ?>
                     </label>
-                    <select name="category" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                    <select name="category" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <option value=""><?php echo __('common.all', 'Все'); ?></option>
                         <option value="apartment" <?php echo $category_filter === 'apartment' ? 'selected' : ''; ?>>
                             <?php echo __('portfolio.category_apartment', 'Квартиры'); ?>
@@ -743,8 +731,7 @@ ob_start();
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         <?php echo __('portfolio.status', 'Статус'); ?>
                     </label>
-                    <select name="status" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                    <select name="status" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <option value=""><?php echo __('common.all', 'Все'); ?></option>
                         <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>
                             <?php echo __('portfolio.status_active', 'Активные'); ?>
@@ -760,8 +747,7 @@ ob_start();
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         <?php echo __('portfolio.featured', 'Рекомендуемые'); ?>
                     </label>
-                    <select name="featured" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
+                    <select name="featured" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <option value=""><?php echo __('common.all', 'Все'); ?></option>
                         <option value="1" <?php echo $featured_filter === '1' ? 'selected' : ''; ?>>
                             <?php echo __('portfolio.featured_yes', 'Рекомендуемые'); ?>
