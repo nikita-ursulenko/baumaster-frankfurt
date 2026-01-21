@@ -1,0 +1,8 @@
+{
+    "name": "baumaster/frankfurt",
+    "description": "Baumaster Frankfurt Website",
+    "type": "project",
+    "require": {
+        "cloudinary/cloudinary_php": "^3.1"
+    }
+}

@@ -117,8 +117,20 @@ if (DEBUG_MODE) {
     ini_set('display_errors', 0);
 }
 
+// Cloudinary Configuration
+define('CLOUDINARY_ENABLED', true);
+define('CLOUDINARY_CLOUD_NAME', getenv('CLOUDINARY_CLOUD_NAME') ?: 'diqlvaasz');
+define('CLOUDINARY_API_KEY', getenv('CLOUDINARY_API_KEY') ?: '869875762346156');
+define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: 'AFsLaMr8VjiVI8w7XePmDALbEog');
+define('CLOUDINARY_FOLDER', getenv('CLOUDINARY_FOLDER') ?: 'bau_image');
+
 // Автозагрузка функций
 require_once ABSPATH . 'functions.php';
+
+// Load Cloudinary helper if enabled
+if (CLOUDINARY_ENABLED && file_exists(ABSPATH . 'includes/cloudinary-helper.php')) {
+    require_once ABSPATH . 'includes/cloudinary-helper.php';
+}
 
 // Запуск сессии
 session_name(SESSION_NAME);

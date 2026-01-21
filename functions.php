@@ -213,9 +213,20 @@ function __($key, $fallback = null)
 
 /**
  * Безопасная загрузка файла
+ * Now uses Cloudinary for images
  */
 function upload_file($file, $destination, $allowed_types = null)
 {
+    // For images, use Cloudinary
+    $image_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $file_info = pathinfo($file['name'] ?? '');
+    $extension = strtolower($file_info['extension'] ?? '');
+
+    if (in_array($extension, $image_extensions)) {
+        return handle_image_upload($file, $destination);
+    }
+
+    // For non-images, use local storage
     if (!isset($file['error']) || is_array($file['error'])) {
         return ['success' => false, 'error' => 'Ошибка загрузки файла'];
     }
@@ -235,9 +246,6 @@ function upload_file($file, $destination, $allowed_types = null)
     if ($file['size'] > MAX_FILE_SIZE) {
         return ['success' => false, 'error' => 'Файл слишком большой'];
     }
-
-    $file_info = pathinfo($file['name']);
-    $extension = strtolower($file_info['extension'] ?? '');
 
     if ($allowed_types && !in_array($extension, $allowed_types)) {
         return ['success' => false, 'error' => 'Недопустимый тип файла'];
@@ -612,9 +620,28 @@ function logout_user()
 
 /**
  * Загрузка и обработка изображения
+ * Now uses Cloudinary CDN instead of local storage
  */
 function handle_image_upload($file, $destination_folder = 'services')
 {
+    // Use Cloudinary if enabled
+    if (defined('CLOUDINARY_ENABLED') && CLOUDINARY_ENABLED && function_exists('cloudinary_upload_image')) {
+        $result = cloudinary_upload_image($file, $destination_folder);
+
+        if ($result['success']) {
+            return [
+                'success' => true,
+                'filename' => basename($result['public_id']),
+                'filepath' => $result['public_id'], // Store public_id instead of local path
+                'url' => $result['url'],
+                'public_id' => $result['public_id']
+            ];
+        }
+
+        return $result;
+    }
+
+    // Fallback to local storage (legacy)
     if (!isset($file['error']) || is_array($file['error'])) {
         return ['success' => false, 'error' => 'Ошибка загрузки файла'];
     }
@@ -655,13 +682,6 @@ function handle_image_upload($file, $destination_folder = 'services')
     if (!move_uploaded_file($file['tmp_name'], $filepath)) {
         return ['success' => false, 'error' => 'Не удалось сохранить файл'];
     }
-
-    // Создание миниатюры
-    $thumbs_dir = $upload_path . 'thumbs/';
-    if (!is_dir($thumbs_dir)) {
-        mkdir($thumbs_dir, 0755, true);
-    }
-    create_thumbnail($filepath, $thumbs_dir . $filename, 300, 300);
 
     return [
         'success' => true,
@@ -761,6 +781,7 @@ function create_thumbnail($source_path, $dest_path, $max_width = 300, $max_heigh
 
 /**
  * Удаление изображения и его миниатюры
+ * Supports both Cloudinary and local images
  */
 function delete_image($image_path)
 {
@@ -768,6 +789,15 @@ function delete_image($image_path)
         return true;
     }
 
+    // Check if it's a Cloudinary image
+    if (defined('CLOUDINARY_ENABLED') && CLOUDINARY_ENABLED && function_exists('is_cloudinary_image')) {
+        if (is_cloudinary_image($image_path)) {
+            // Delete from Cloudinary
+            return cloudinary_delete_image($image_path);
+        }
+    }
+
+    // Delete local file (legacy)
     $full_path = ABSPATH . ltrim($image_path, '/');
     $thumb_path = str_replace('/uploads/', '/uploads/thumbs/', $full_path);
 
@@ -786,9 +816,16 @@ function delete_image($image_path)
 
 /**
  * Обработка множественной загрузки изображений
+ * Now uses Cloudinary CDN
  */
 function handle_multiple_image_upload($files, $destination_folder = 'services')
 {
+    // Use Cloudinary if enabled
+    if (defined('CLOUDINARY_ENABLED') && CLOUDINARY_ENABLED && function_exists('cloudinary_upload_multiple')) {
+        return cloudinary_upload_multiple($files, $destination_folder);
+    }
+
+    // Fallback to local storage (legacy)
     $results = [];
     $errors = [];
 
