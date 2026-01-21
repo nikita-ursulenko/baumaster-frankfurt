@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: http://5.61.34.176/sitemap.xml
+Sitemap: /sitemap.xml
 
 # Disallow admin area
 Disallow: /admin/

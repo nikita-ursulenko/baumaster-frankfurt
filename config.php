@@ -9,9 +9,13 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', __DIR__ . '/');
 }
 
-// Основные настройки
+// Автоматическое определение протокола и домена
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
 define('SITE_NAME', 'Baumaster - Строительные услуги во Франкфурте');
-define('SITE_URL', 'http://5.61.34.176');
+define('SITE_URL', $protocol . '://' . $host);
 define('ADMIN_URL', SITE_URL . '/admin/');
 define('VERSION', '1.0.0');
 
@@ -125,43 +129,55 @@ if (session_status() === PHP_SESSION_NONE) {
 /**
  * Получить настройку из конфигурации
  */
-function get_config($key, $default = null) {
+function get_config($key, $default = null)
+{
     return defined($key) ? constant($key) : $default;
 }
 
 /**
  * Проверить, включен ли режим отладки
  */
-function is_debug() {
+function is_debug()
+{
     return defined('DEBUG_MODE') && DEBUG_MODE === true;
 }
 
 /**
  * Получить базовый URL сайта
  */
-function get_site_url($path = '') {
+function get_site_url($path = '')
+{
     // Сначала пробуем получить из настроек БД
     $site_url = get_setting('site_url', '');
-    
+
     // Если URL не задан в настройках, используем конфигурацию
     if (empty($site_url)) {
         $site_url = SITE_URL;
     }
-    
-    // Если URL все еще localhost, определяем автоматически
+
+    // Если URL все еще содержит старый IP или localhost, определяем автоматически
     if ($site_url === 'http://localhost' || empty($site_url)) {
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+            (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
         $site_url = $protocol . '://' . $host;
     }
-    
-    return $site_url . ltrim($path, '/');
+
+    $url = rtrim($site_url, '/') . '/' . ltrim($path, '/');
+
+    // Скрываем расширение .php для красоты, если это не ассет
+    if (strpos($url, '.php') !== false && strpos($url, '/assets/') === false) {
+        $url = str_replace('.php', '', $url);
+    }
+
+    return $url;
 }
 
 /**
  * Получить URL админки
  */
-function get_admin_url($path = '') {
-    return ADMIN_URL . ltrim($path, '/');
+function get_admin_url($path = '')
+{
+    return get_site_url('admin/' . ltrim($path, '/'));
 }
 
