@@ -17,24 +17,25 @@ $active_menu = 'dashboard';
 
 
 // Получение статистических данных
-function get_dashboard_stats() {
+function get_dashboard_stats()
+{
     $db = get_database();
-    
+
     // Количество услуг
     $services_count = count($db->select('services', ['status' => 'active']));
-    
+
     // Количество проектов портфолио
     $portfolio_count = count($db->select('portfolio', ['status' => 'active']));
-    
+
     // Количество отзывов
     $reviews_count = count($db->select('reviews', ['status' => 'published']));
-    
+
     // Количество статей блога
     $blog_count = count($db->select('blog_posts', ['status' => 'published']));
-    
+
     // Количество пользователей
     $users_count = count($db->select('users', ['status' => 'active']));
-    
+
     return [
         'services' => $services_count,
         'portfolio' => $portfolio_count,
@@ -45,26 +46,27 @@ function get_dashboard_stats() {
 }
 
 // Получение последней активности с пагинацией
-function get_recent_activity($page = 1, $per_page = 10) {
+function get_recent_activity($page = 1, $per_page = 10)
+{
     $db = get_database();
-    
+
     // Подсчитываем общее количество записей
     $pdo = $db->get_pdo();
     $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM activity_log");
     $stmt->execute();
     $result = $stmt->fetch();
     $total_count = $result ? $result['count'] : 0;
-    
+
     // Вычисляем offset
     $offset = ($page - 1) * $per_page;
-    
+
     // Получаем записи для текущей страницы
     $logs = $db->select('activity_log', [], [
         'order' => 'created_at DESC',
         'limit' => $per_page,
         'offset' => $offset
     ]);
-    
+
     return [
         'data' => $logs,
         'total' => $total_count,
@@ -84,41 +86,41 @@ ob_start();
 
 <!-- Карточки со статистикой -->
 <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <?php 
+    <?php
     // Услуги
     render_stat_card([
         'title' => __('dashboard.total_services', 'Услуги'),
         'value' => $stats['services'],
         'icon' => get_icon('services', 'w-5 h-5 text-white'),
         'color' => 'blue',
-        'link' => 'services.php'
+        'link' => 'services'
     ]);
-    
+
     // Портфолио
     render_stat_card([
         'title' => __('dashboard.total_projects', 'Проекты'),
         'value' => $stats['portfolio'],
         'icon' => get_icon('portfolio', 'w-5 h-5 text-white'),
         'color' => 'green',
-        'link' => 'portfolio.php'
+        'link' => 'portfolio'
     ]);
-    
+
     // Отзывы
     render_stat_card([
         'title' => __('dashboard.total_reviews', 'Отзывы'),
         'value' => $stats['reviews'],
         'icon' => get_icon('reviews', 'w-5 h-5 text-white'),
         'color' => 'yellow',
-        'link' => 'reviews.php'
+        'link' => 'reviews'
     ]);
-    
+
     // Пользователи (только для админов)
     render_stat_card([
         'title' => __('dashboard.total_users', 'Пользователи'),
         'value' => $stats['users'],
         'icon' => get_icon('users', 'w-5 h-5 text-white'),
         'color' => 'purple',
-        'link' => user_has_role('admin') ? 'users.php' : ''
+        'link' => user_has_role('admin') ? 'users' : ''
     ]);
     ?>
 </div>
@@ -145,9 +147,12 @@ ob_start();
                                 <?php endif; ?>
                                 <div class="relative flex space-x-3">
                                     <div>
-                                        <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
-                                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        <span
+                                            class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                         </span>
                                     </div>
@@ -168,11 +173,11 @@ ob_start();
                 <?php endif; ?>
             </ul>
         </div>
-        
+
         <!-- Пагинация для активности -->
         <?php if ($recent_activity['total_pages'] > 1): ?>
             <div class="mt-6 flex items-center justify-center">
-                <?php 
+                <?php
                 // Используем универсальную функцию пагинации с меньшим количеством кнопок
                 $base_url = '?activity_page';
                 render_pagination($recent_activity['page'], $recent_activity['total_pages'], $base_url, 3);
@@ -188,31 +193,31 @@ ob_start();
         <?php echo __('dashboard.quick_actions', 'Быстрые действия'); ?>
     </h3>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <?php 
+        <?php
         // Быстрые кнопки действий
         $quick_actions = [
             [
-                'href' => 'services.php?action=create',
+                'href' => 'services?action=create',
                 'text' => __('dashboard.add_service', 'Добавить услугу'),
                 'icon' => get_icon('plus', 'w-4 h-4 mr-2')
             ],
             [
-                'href' => 'portfolio.php?action=create',
+                'href' => 'portfolio?action=create',
                 'text' => __('dashboard.add_project', 'Добавить проект'),
                 'icon' => get_icon('plus', 'w-4 h-4 mr-2')
             ],
             [
-                'href' => 'blog.php?action=create',
+                'href' => 'blog?action=create',
                 'text' => __('dashboard.add_article', 'Добавить статью'),
                 'icon' => get_icon('plus', 'w-4 h-4 mr-2')
             ],
             [
-                'href' => 'settings.php',
+                'href' => 'settings',
                 'text' => __('dashboard.settings', 'Настройки'),
                 'icon' => get_icon('settings', 'w-4 h-4 mr-2')
             ]
         ];
-        
+
         foreach ($quick_actions as $action) {
             render_button([
                 'href' => $action['href'],

@@ -38,7 +38,7 @@ if ($_POST) {
         $error_message = __('common.csrf_error', 'Ошибка безопасности. Попробуйте снова.');
     } else {
         $post_action = $_POST['action'] ?? '';
-        
+
         switch ($post_action) {
             case 'create':
                 $result = create_user($_POST);
@@ -49,7 +49,7 @@ if ($_POST) {
                     $error_message = implode('<br>', $result['errors']);
                 }
                 break;
-                
+
             case 'update':
                 $result = update_user($user_id, $_POST);
                 if ($result['success']) {
@@ -59,7 +59,7 @@ if ($_POST) {
                     $error_message = implode('<br>', $result['errors']);
                 }
                 break;
-                
+
             case 'delete':
                 $result = delete_user($user_id);
                 if ($result['success']) {
@@ -70,7 +70,7 @@ if ($_POST) {
                     $error_message = $result['error'];
                 }
                 break;
-                
+
             case 'change_language':
                 if (set_language($_POST['language'] ?? '')) {
                     json_response(['success' => true]);
@@ -93,7 +93,7 @@ switch ($action) {
             }
         }
         break;
-        
+
     case 'list':
     default:
         // Получение списка пользователей
@@ -123,7 +123,7 @@ ob_start();
                 <?php echo __('users.total_count', 'Всего пользователей'); ?>: <?php echo count($users); ?>
             </p>
         </div>
-        
+
         <div class="flex flex-col sm:flex-row gap-2">
             <?php render_button([
                 'href' => '?action=create',
@@ -131,16 +131,16 @@ ob_start();
                 'variant' => 'primary',
                 'icon' => get_icon('plus', 'w-4 h-4 mr-2')
             ]); ?>
-            
+
             <?php render_button([
-                'href' => 'users_export.php',
+                'href' => 'users_export',
                 'text' => __('users.export', 'Экспорт в CSV'),
                 'variant' => 'secondary',
                 'icon' => get_icon('download', 'w-4 h-4 mr-2')
             ]); ?>
-            
+
             <?php render_button([
-                'href' => 'user_activity.php',
+                'href' => 'user_activity',
                 'text' => __('users.activity', 'Активность'),
                 'variant' => 'secondary',
                 'icon' => get_icon('clock', 'w-4 h-4 mr-2')
@@ -205,13 +205,15 @@ ob_start();
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                <span
+                                    class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
                                     <?php echo $user['role'] === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'; ?>">
                                     <?php echo htmlspecialchars(ucfirst($user['role'])); ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                                <span
+                                    class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
                                     <?php echo $user['status'] === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
                                     <?php echo htmlspecialchars(ucfirst($user['status'])); ?>
                                 </span>
@@ -226,9 +228,10 @@ ob_start();
                                     'variant' => 'secondary',
                                     'size' => 'sm'
                                 ]); ?>
-                                
+
                                 <?php if ($user['id'] != get_current_admin_user()['id']): ?>
-                                    <form method="POST" class="inline-block" onsubmit="return confirmDelete('<?php echo __('users.confirm_delete', 'Вы уверены, что хотите удалить этого пользователя?'); ?>');">
+                                    <form method="POST" class="inline-block"
+                                        onsubmit="return confirmDelete('<?php echo __('users.confirm_delete', 'Вы уверены, что хотите удалить этого пользователя?'); ?>');">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                                         <?php render_button([
@@ -254,7 +257,7 @@ ob_start();
             <h2 class="text-xl font-semibold text-gray-900">
                 <?php echo $action === 'create' ? __('users.create_title', 'Создать пользователя') : __('users.edit_title', 'Редактировать пользователя'); ?>
             </h2>
-            
+
             <?php render_button([
                 'href' => '?action=list',
                 'text' => __('common.back_to_list', 'Назад к списку'),
@@ -267,7 +270,7 @@ ob_start();
             <form method="POST" class="space-y-6">
                 <input type="hidden" name="action" value="<?php echo $action === 'create' ? 'create' : 'update'; ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Имя пользователя -->
                     <?php render_input_field([
@@ -277,7 +280,7 @@ ob_start();
                         'required' => true,
                         'value' => $current_user_data['username'] ?? ''
                     ]); ?>
-                    
+
                     <!-- Email -->
                     <?php render_input_field([
                         'type' => 'email',
@@ -288,7 +291,7 @@ ob_start();
                         'value' => $current_user_data['email'] ?? ''
                     ]); ?>
                 </div>
-                
+
                 <!-- Пароль -->
                 <?php if ($action === 'create'): ?>
                     <?php render_password_field([
@@ -305,7 +308,7 @@ ob_start();
                         'required' => false
                     ]); ?>
                 <?php endif; ?>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Роль -->
                     <?php render_dropdown_field([
@@ -321,7 +324,7 @@ ob_start();
                             ['value' => 'admin', 'text' => __('users.role_admin', 'Администратор')]
                         ]
                     ]); ?>
-                    
+
                     <!-- Статус -->
                     <?php render_dropdown_field([
                         'name' => 'status',
@@ -337,7 +340,7 @@ ob_start();
                         ]
                     ]); ?>
                 </div>
-                
+
                 <!-- Кнопки -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                     <?php render_button([
@@ -345,7 +348,7 @@ ob_start();
                         'text' => __('common.cancel', 'Отмена'),
                         'variant' => 'secondary'
                     ]); ?>
-                    
+
                     <?php render_button([
                         'type' => 'submit',
                         'text' => $action === 'create' ? __('users.create_button', 'Создать пользователя') : __('users.update_button', 'Обновить пользователя'),

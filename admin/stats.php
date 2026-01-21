@@ -44,20 +44,24 @@ ob_start();
             <?php echo __('stats.title', 'Статистика и аналитика'); ?>
         </h2>
         <p class="text-sm text-gray-600 mt-1">
-            <?php echo __('stats.period', 'Период'); ?>: <?php echo format_date($date_from); ?> - <?php echo format_date($date_to); ?>
+            <?php echo __('stats.period', 'Период'); ?>: <?php echo format_date($date_from); ?> -
+            <?php echo format_date($date_to); ?>
         </p>
     </div>
-    
+
     <!-- Мобильные фильтры -->
     <div class="w-full lg:w-auto lg:hidden">
         <!-- Кнопка фильтров -->
-        <button onclick="toggleMobileFilters()" class="w-full flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
+        <button onclick="toggleMobileFilters()"
+            class="w-full flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z">
+                </path>
             </svg>
             Фильтры
         </button>
-        
+
         <!-- Мобильные фильтры (скрыты по умолчанию) -->
         <div id="mobileFilters" class="hidden mt-3 space-y-3 p-4 bg-gray-50 rounded-lg">
             <!-- Быстрые фильтры -->
@@ -79,34 +83,37 @@ ob_start();
                     ]); ?>
                 </form>
             </div>
-            
+
             <!-- Кастомные даты -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Выбрать период</label>
                 <form method="GET" class="space-y-2">
-                    <input type="date" name="date_from" value="<?php echo $date_from; ?>" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm">
-                    <input type="date" name="date_to" value="<?php echo $date_to; ?>" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm">
-                    <button type="submit" class="w-full px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 text-sm">
+                    <input type="date" name="date_from" value="<?php echo $date_from; ?>"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <input type="date" name="date_to" value="<?php echo $date_to; ?>"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <button type="submit"
+                        class="w-full px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 text-sm">
                         <?php echo __('common.filter', 'Фильтр'); ?>
                     </button>
                 </form>
             </div>
-            
+
             <!-- Экспорт -->
             <div>
-                <a href="stats_export.php?period=<?php echo $period; ?>&date_from=<?php echo $date_from; ?>&date_to=<?php echo $date_to; ?>" 
-                   class="w-full flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm">
+                <a href="stats_export?period=<?php echo $period; ?>&date_from=<?php echo $date_from; ?>&date_to=<?php echo $date_to; ?>"
+                    class="w-full flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
                     </svg>
                     <?php echo __('stats.export', 'Экспорт'); ?>
                 </a>
             </div>
         </div>
     </div>
-    
+
     <!-- Десктопные фильтры -->
     <div class="hidden lg:flex flex-col sm:flex-row gap-2">
         <form method="GET" class="flex gap-2">
@@ -124,19 +131,19 @@ ob_start();
                 'class' => 'w-auto'
             ]); ?>
         </form>
-        
+
         <form method="GET" class="flex gap-2">
-            <input type="date" name="date_from" value="<?php echo $date_from; ?>" 
-                   class="px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
-            <input type="date" name="date_to" value="<?php echo $date_to; ?>" 
-                   class="px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+            <input type="date" name="date_from" value="<?php echo $date_from; ?>"
+                class="px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
+            <input type="date" name="date_to" value="<?php echo $date_to; ?>"
+                class="px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500">
             <button type="submit" class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">
                 <?php echo __('common.filter', 'Фильтр'); ?>
             </button>
         </form>
-        
+
         <?php render_button([
-            'href' => 'stats_export.php?period=' . $period . '&date_from=' . $date_from . '&date_to=' . $date_to,
+            'href' => 'stats_export?period=' . $period . '&date_from=' . $date_from . '&date_to=' . $date_to,
             'text' => __('stats.export', 'Экспорт'),
             'variant' => 'secondary',
             'icon' => get_icon('download', 'w-4 h-4 mr-2')
@@ -153,7 +160,7 @@ ob_start();
         'icon' => '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>',
         'color' => 'blue'
     ]); ?>
-    
+
     <?php render_stat_card([
         'title' => __('stats.total_portfolio', 'Проектов в портфолио'),
         'value' => $stats['portfolio']['total'],
@@ -161,7 +168,7 @@ ob_start();
         'icon' => '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>',
         'color' => 'green'
     ]); ?>
-    
+
     <?php render_stat_card([
         'title' => __('stats.total_reviews', 'Отзывов клиентов'),
         'value' => $stats['reviews']['total'],
@@ -169,7 +176,7 @@ ob_start();
         'icon' => '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>',
         'color' => 'yellow'
     ]); ?>
-    
+
     <?php render_stat_card([
         'title' => __('stats.total_blog', 'Статей в блоге'),
         'value' => $stats['blog']['total'],
@@ -190,7 +197,7 @@ ob_start();
             <canvas id="activityChart" width="400" height="200"></canvas>
         </div>
     </div>
-    
+
     <!-- Топ контента -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
         <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
@@ -200,7 +207,8 @@ ob_start();
             <?php foreach ($stats['top_content'] as $item): ?>
                 <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-900 truncate"><?php echo htmlspecialchars($item['title']); ?></p>
+                        <p class="text-sm font-medium text-gray-900 truncate">
+                            <?php echo htmlspecialchars($item['title']); ?></p>
                         <p class="text-xs text-gray-500"><?php echo $item['type']; ?></p>
                     </div>
                     <div class="text-right flex-shrink-0 ml-2">
@@ -222,20 +230,26 @@ ob_start();
         </h3>
         <div class="space-y-2 lg:space-y-3 stats-detail-mobile">
             <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.active_services', 'Активных услуг'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['services']['active']; ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.active_services', 'Активных услуг'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['services']['active']; ?></span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.featured_services', 'Рекомендуемых'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['services']['featured']; ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.featured_services', 'Рекомендуемых'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['services']['featured']; ?></span>
             </div>
             <div class="flex justify-between items-center py-2 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_price', 'Средняя цена'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo format_price($stats['services']['avg_price']); ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_price', 'Средняя цена'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo format_price($stats['services']['avg_price']); ?></span>
             </div>
         </div>
     </div>
-    
+
     <!-- Статистика портфолио -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
         <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
@@ -243,20 +257,26 @@ ob_start();
         </h3>
         <div class="space-y-2 lg:space-y-3 stats-detail-mobile">
             <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.completed_projects', 'Завершенных проектов'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['portfolio']['completed']; ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.completed_projects', 'Завершенных проектов'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['portfolio']['completed']; ?></span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.featured_projects', 'Рекомендуемых'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['portfolio']['featured']; ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.featured_projects', 'Рекомендуемых'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['portfolio']['featured']; ?></span>
             </div>
             <div class="flex justify-between items-center py-2 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_budget', 'Средний бюджет'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo format_price($stats['portfolio']['avg_budget']); ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_budget', 'Средний бюджет'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo format_price($stats['portfolio']['avg_budget']); ?></span>
             </div>
         </div>
     </div>
-    
+
     <!-- Статистика отзывов -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 lg:p-6">
         <h3 class="text-base lg:text-lg font-medium text-gray-900 mb-4">
@@ -264,16 +284,22 @@ ob_start();
         </h3>
         <div class="space-y-2 lg:space-y-3 stats-detail-mobile">
             <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_rating', 'Средний рейтинг'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo number_format($stats['reviews']['avg_rating'], 1); ?>/5</span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.avg_rating', 'Средний рейтинг'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo number_format($stats['reviews']['avg_rating'], 1); ?>/5</span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-gray-100 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.verified_reviews', 'Проверенных отзывов'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['reviews']['verified']; ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.verified_reviews', 'Проверенных отзывов'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['reviews']['verified']; ?></span>
             </div>
             <div class="flex justify-between items-center py-2 stat-row">
-                <span class="text-sm text-gray-600 stat-label"><?php echo __('stats.pending_reviews', 'На модерации'); ?></span>
-                <span class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['reviews']['pending']; ?></span>
+                <span
+                    class="text-sm text-gray-600 stat-label"><?php echo __('stats.pending_reviews', 'На модерации'); ?></span>
+                <span
+                    class="text-sm font-semibold text-gray-900 stat-value"><?php echo $stats['reviews']['pending']; ?></span>
             </div>
         </div>
     </div>
@@ -283,9 +309,10 @@ ob_start();
 /**
  * Получение данных статистики
  */
-function get_statistics_data($date_from, $date_to) {
+function get_statistics_data($date_from, $date_to)
+{
     $db = get_database();
-    
+
     // Статистика услуг
     $services_total = count($db->select('services'));
     $services_active = count($db->select('services', ['status' => 'active']));
@@ -299,7 +326,7 @@ function get_statistics_data($date_from, $date_to) {
         }
         $avg_price = $total_price / count($services_prices);
     }
-    
+
     // Статистика портфолио
     $portfolio_total = count($db->select('portfolio'));
     $portfolio_completed = count($db->select('portfolio', ['status' => 'completed']));
@@ -313,7 +340,7 @@ function get_statistics_data($date_from, $date_to) {
         }
         $avg_budget = $total_budget / count($portfolio_budgets);
     }
-    
+
     // Статистика отзывов
     $reviews_total = count($db->select('reviews'));
     $reviews_verified = count($db->select('reviews', ['verified' => 1]));
@@ -327,61 +354,61 @@ function get_statistics_data($date_from, $date_to) {
         }
         $avg_rating = $total_rating / count($reviews_ratings);
     }
-    
+
     // Статистика блога
     $blog_total = count($db->select('blog_posts'));
     $blog_published = count($db->select('blog_posts', ['status' => 'published']));
     $blog_featured = count($db->select('blog_posts', ['featured' => 1]));
-    
+
     // Топ контента - реальные данные с просмотрами
     $top_content_raw = get_top_content_by_views(4);
     $top_content = [];
-    
+
     foreach ($top_content_raw as $item) {
         $type_map = [
             'service' => 'Услуга',
             'portfolio' => 'Проект',
             'blog' => 'Статья'
         ];
-        
+
         $top_content[] = [
             'title' => $item['title'],
             'type' => $type_map[$item['type']] ?? $item['type'],
             'views' => $item['views']
         ];
     }
-    
+
     // Вычисляем изменения в процентах за период
     $period_start = date('Y-m-d', strtotime($date_from));
     $period_end = date('Y-m-d', strtotime($date_to));
-    
+
     // Получаем данные за предыдущий период для сравнения
     $prev_start = date('Y-m-d', strtotime($date_from . ' -' . (strtotime($date_to) - strtotime($date_from)) / 86400 . ' days'));
     $prev_end = date('Y-m-d', strtotime($date_from . ' -1 day'));
-    
+
     // Подсчитываем изменения для услуг (упрощенная версия)
     $services_prev = count($db->select('services'));
     $services_curr = count($db->select('services'));
     $services_change = calculate_percentage_change($services_prev, $services_curr);
-    
+
     // Подсчитываем изменения для портфолио
     $portfolio_prev = count($db->select('portfolio'));
     $portfolio_curr = count($db->select('portfolio'));
     $portfolio_change = calculate_percentage_change($portfolio_prev, $portfolio_curr);
-    
+
     // Подсчитываем изменения для отзывов
     $reviews_prev = count($db->select('reviews'));
     $reviews_curr = count($db->select('reviews'));
     $reviews_change = calculate_percentage_change($reviews_prev, $reviews_curr);
-    
+
     // Подсчитываем изменения для блога
     $blog_prev = count($db->select('blog_posts'));
     $blog_curr = count($db->select('blog_posts'));
     $blog_change = calculate_percentage_change($blog_prev, $blog_curr);
-    
+
     // Данные для графика активности по дням
     $activity_data = get_activity_chart_data_real($date_from, $date_to);
-    
+
     return [
         'services' => [
             'total' => $services_total,
@@ -418,14 +445,15 @@ function get_statistics_data($date_from, $date_to) {
 /**
  * Вычисление процентного изменения
  */
-function calculate_percentage_change($old_value, $new_value) {
+function calculate_percentage_change($old_value, $new_value)
+{
     if ($old_value == 0) {
         return $new_value > 0 ? '+100%' : '0%';
     }
-    
+
     $change = (($new_value - $old_value) / $old_value) * 100;
     $sign = $change >= 0 ? '+' : '';
-    
+
     return $sign . round($change, 1) . '%';
 }
 
@@ -517,4 +545,3 @@ render_admin_layout([
     'content' => $page_content
 ]);
 ?>
-

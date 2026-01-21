@@ -16,16 +16,17 @@ require_once ADMIN_PATH . 'auth.php';
 /**
  * Рендеринг основного layout админки
  */
-function render_admin_layout($options = []) {
+function render_admin_layout($options = [])
+{
     // Проверка авторизации
     require_auth();
-    
+
     // Проверка времени сессии
     if (!check_session_timeout()) {
-        header('Location: ' . get_admin_url('login.php?error=session_expired'));
+        header('Location: ' . get_admin_url('login?error=session_expired'));
         exit;
     }
-    
+
     // Настройки по умолчанию
     $defaults = [
         'page_title' => __('menu.dashboard', 'Панель управления'),
@@ -35,29 +36,31 @@ function render_admin_layout($options = []) {
         'additional_css' => '',
         'additional_js' => ''
     ];
-    
+
     $opts = array_merge($defaults, $options);
-    
+
     // Получение информации о текущем пользователе
     $current_user = get_current_user_info();
-    
+
     // Список меню
     $menu_items = get_admin_menu_items($opts['active_menu'], $current_user);
     ?>
     <!DOCTYPE html>
     <html lang="<?php echo get_current_language(); ?>" class="h-full bg-gray-50">
+
     <head>
         <?php render_admin_head($opts['page_title'], $opts['page_description'], admin_css_styles(), ''); ?>
-        
+
         <?php if ($opts['additional_css']): ?>
             <?php echo $opts['additional_css']; ?>
         <?php endif; ?>
     </head>
+
     <body class="h-full">
         <div class="min-h-screen bg-gray-50">
             <!-- Mobile Menu Overlay -->
             <div id="mobile-menu-overlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 hidden lg:hidden"></div>
-            
+
             <!-- Sidebar -->
             <?php render_admin_sidebar($menu_items, $current_user); ?>
 
@@ -77,12 +80,13 @@ function render_admin_layout($options = []) {
 
         <!-- JavaScript -->
         <?php render_admin_javascript(); ?>
-        
+
         <?php if ($opts['additional_js']): ?>
             <?php echo $opts['additional_js']; ?>
         <?php endif; ?>
 
     </body>
+
     </html>
     <?php
 }
@@ -90,85 +94,86 @@ function render_admin_layout($options = []) {
 /**
  * Генерация меню админки
  */
-function get_admin_menu_items($active_menu = 'dashboard', $current_user = null) {
+function get_admin_menu_items($active_menu = 'dashboard', $current_user = null)
+{
     $menu_items = [
         'dashboard' => [
             'title' => __('menu.dashboard', 'Панель управления'),
-            'url' => 'index.php',
+            'url' => 'index',
             'icon' => 'dashboard',
             'active' => $active_menu === 'dashboard'
         ],
         'services' => [
             'title' => __('menu.services', 'Услуги'),
-            'url' => 'services.php',
+            'url' => 'services',
             'icon' => 'services',
             'active' => $active_menu === 'services'
         ],
         'portfolio' => [
             'title' => __('menu.portfolio', 'Портфолио'),
-            'url' => 'portfolio.php',
+            'url' => 'portfolio',
             'icon' => 'portfolio',
             'active' => $active_menu === 'portfolio'
         ],
         'about' => [
             'title' => __('menu.about', 'О компании'),
-            'url' => 'about.php',
+            'url' => 'about',
             'icon' => 'information-circle',
             'active' => $active_menu === 'about'
         ],
         'reviews' => [
             'title' => __('menu.reviews', 'Отзывы'),
-            'url' => 'reviews.php',
+            'url' => 'reviews',
             'icon' => 'reviews',
             'active' => $active_menu === 'reviews'
         ],
         'faq' => [
             'title' => __('menu.faq', 'FAQ'),
-            'url' => 'faq.php',
+            'url' => 'faq',
             'icon' => 'question-mark-circle',
             'active' => $active_menu === 'faq'
         ],
         'blog' => [
             'title' => __('menu.blog', 'Блог'),
-            'url' => 'blog.php',
+            'url' => 'blog',
             'icon' => 'blog',
             'active' => $active_menu === 'blog'
         ],
         'stats' => [
             'title' => __('menu.stats', 'Статистика'),
-            'url' => 'stats.php',
+            'url' => 'stats',
             'icon' => 'statistics',
             'active' => $active_menu === 'stats'
         ],
         'seo' => [
             'title' => __('menu.seo', 'SEO'),
-            'url' => 'seo_analysis.php',
+            'url' => 'seo_analysis',
             'icon' => 'search',
             'active' => $active_menu === 'seo'
         ],
         'sms_integration' => [
             'title' => __('menu.sms_integration', 'SMS Интеграция'),
-            'url' => 'integrations.php',
+            'url' => 'integrations',
             'icon' => 'phone',
             'active' => $active_menu === 'sms_integration'
         ],
         'testing' => [
             'title' => __('menu.testing', 'Тестирование'),
-            'url' => 'testing.php',
+            'url' => 'testing',
             'icon' => 'wrench',
             'active' => $active_menu === 'testing'
         ],
         'users' => [
             'title' => __('menu.users', 'Пользователи'),
-            'url' => 'users.php',
+            'url' => 'users',
             'icon' => 'users',
             'active' => $active_menu === 'users',
             'role_required' => 'admin'
         ]
     ];
-    
+
     // Фильтрация меню по ролям
-    return array_filter($menu_items, function($item) use ($current_user) {
+    return array_filter($menu_items, function ($item) use ($current_user) {
         if (isset($item['role_required'])) {
             return user_has_role($item['role_required']);
         }
@@ -179,10 +184,12 @@ function get_admin_menu_items($active_menu = 'dashboard', $current_user = null) 
 /**
  * Рендеринг sidebar админки
  */
-function render_admin_sidebar($menu_items, $current_user) {
+function render_admin_sidebar($menu_items, $current_user)
+{
     ?>
     <!-- Mobile Sidebar -->
-    <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden flex flex-col">
+    <div id="mobile-sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-64 bg-admin-sidebar transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden flex flex-col">
         <!-- User Info -->
         <div class="flex items-center justify-between h-16 px-4 bg-black bg-opacity-20 flex-shrink-0">
             <div class="flex items-center space-x-3">
@@ -202,11 +209,8 @@ function render_admin_sidebar($menu_items, $current_user) {
                     </p>
                 </div>
                 <div class="flex-shrink-0">
-                    <a 
-                        href="logout.php" 
-                        class="text-gray-300 hover:text-white transition-colors duration-200"
-                        title="<?php echo __('auth.logout', 'Выйти'); ?>"
-                    >
+                    <a href="logout" class="text-gray-300 hover:text-white transition-colors duration-200"
+                        title="<?php echo __('auth.logout', 'Выйти'); ?>">
                         <?php echo get_icon('logout'); ?>
                     </a>
                 </div>
@@ -220,10 +224,8 @@ function render_admin_sidebar($menu_items, $current_user) {
         <nav class="flex-1 px-4 py-4 overflow-y-auto">
             <div class="space-y-1">
                 <?php foreach ($menu_items as $key => $item): ?>
-                    <a 
-                        href="<?php echo htmlspecialchars($item['url']); ?>" 
-                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>"
-                    >
+                    <a href="<?php echo htmlspecialchars($item['url']); ?>"
+                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>">
                         <?php echo get_icon($item['icon']); ?>
                         <span class="ml-3"><?php echo htmlspecialchars($item['title']); ?></span>
                     </a>
@@ -233,7 +235,8 @@ function render_admin_sidebar($menu_items, $current_user) {
     </div>
 
     <!-- Desktop Sidebar -->
-    <div id="desktop-sidebar" class="hidden lg:block fixed inset-y-0 left-0 z-50 w-16 bg-admin-sidebar desktop-sidebar sidebar-collapsed">
+    <div id="desktop-sidebar"
+        class="hidden lg:block fixed inset-y-0 left-0 z-50 w-16 bg-admin-sidebar desktop-sidebar sidebar-collapsed">
         <div class="flex flex-col h-full relative">
 
             <!-- User Info -->
@@ -254,11 +257,8 @@ function render_admin_sidebar($menu_items, $current_user) {
                     </p>
                 </div>
                 <div class="flex-shrink-0">
-                    <a 
-                        href="logout.php" 
-                        class="text-gray-300 hover:text-white transition-colors duration-200"
-                        title="<?php echo __('auth.logout', 'Выйти'); ?>"
-                    >
+                    <a href="logout" class="text-gray-300 hover:text-white transition-colors duration-200"
+                        title="<?php echo __('auth.logout', 'Выйти'); ?>">
                         <?php echo get_icon('logout'); ?>
                     </a>
                 </div>
@@ -268,10 +268,8 @@ function render_admin_sidebar($menu_items, $current_user) {
             <nav class="flex-1 px-4 py-4 overflow-y-auto">
                 <div class="space-y-1">
                     <?php foreach ($menu_items as $key => $item): ?>
-                        <a 
-                            href="<?php echo htmlspecialchars($item['url']); ?>" 
-                            class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>"
-                        >
+                        <a href="<?php echo htmlspecialchars($item['url']); ?>"
+                            class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 <?php echo $item['active'] ? 'active' : 'text-gray-300 hover:text-white'; ?>">
                             <span class="sidebar-icon">
                                 <?php echo get_icon($item['icon']); ?>
                             </span>
@@ -288,21 +286,23 @@ function render_admin_sidebar($menu_items, $current_user) {
 /**
  * Рендеринг header админки
  */
-function render_admin_header($page_title, $page_description = '') {
+function render_admin_header($page_title, $page_description = '')
+{
     ?>
     <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
         <div class="px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                    <button id="mobile-menu-button"
+                        class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                         <div class="w-6 h-6 flex flex-col justify-center space-y-1">
                             <span class="block w-full h-0.5 bg-current transition-all duration-300"></span>
                             <span class="block w-full h-0.5 bg-current transition-all duration-300"></span>
                             <span class="block w-full h-0.5 bg-current transition-all duration-300"></span>
                         </div>
                     </button>
-                    
+
                     <div class="hidden lg:block">
                         <h1 class="text-2xl font-bold text-gray-900">
                             <?php echo htmlspecialchars($page_title); ?>
@@ -314,7 +314,7 @@ function render_admin_header($page_title, $page_description = '') {
                         <?php endif; ?>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center space-x-4">
                     <!-- Ссылка на сайт (скрыта на мобильных) -->
                     <div class="hidden md:block">
@@ -327,7 +327,7 @@ function render_admin_header($page_title, $page_description = '') {
                             'class' => 'target="_blank"'
                         ]); ?>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -338,7 +338,8 @@ function render_admin_header($page_title, $page_description = '') {
 /**
  * Кастомные CSS стили для админки
  */
-function admin_css_styles() {
+function admin_css_styles()
+{
     return '
     <style>
         .sidebar-item:hover {

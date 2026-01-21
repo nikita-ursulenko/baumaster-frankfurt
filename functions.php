@@ -15,24 +15,25 @@ if (!defined('ABSPATH')) {
 /**
  * Санитизация данных с защитой от XSS и SQL-инъекций
  */
-function sanitize_input($data) {
+function sanitize_input($data)
+{
     if (is_array($data)) {
         return array_map('sanitize_input', $data);
     }
-    
+
     // Базовая очистка
     $data = trim($data);
     $data = stripslashes($data);
-    
+
     // Удаляем все содержимое между тегами script, style, iframe и других опасных тегов
     $data = preg_replace('/<(script|style|iframe|object|embed|form)[^>]*>.*?<\/\1>/is', '', $data);
-    
+
     // Удаляем одиночные опасные теги
     $data = preg_replace('/<(script|style|iframe|object|embed|form)[^>]*\/?>/i', '', $data);
-    
+
     // Удаляем все оставшиеся HTML теги
     $data = strip_tags($data);
-    
+
     // Удаляем JavaScript функции и выражения (более агрессивно)
     $data = preg_replace('/alert\s*\([^)]*\)/', '', $data);
     $data = preg_replace('/confirm\s*\([^)]*\)/', '', $data);
@@ -40,51 +41,66 @@ function sanitize_input($data) {
     $data = preg_replace('/eval\s*\([^)]*\)/', '', $data);
     $data = preg_replace('/document\.[^;]*/', '', $data);
     $data = preg_replace('/window\.[^;]*/', '', $data);
-    
+
     // Удаляем все содержимое script тегов полностью
     $data = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $data);
-    
+
     // Удаляем все что осталось от script тегов
     $data = preg_replace('/script[^>]*>.*?<\/script>/is', '', $data);
-    
+
     // Удаляем опасные SQL команды и символы
     $sql_dangerous = [
-        'DROP', 'DELETE', 'INSERT', 'UPDATE', 'CREATE', 'ALTER', 'TRUNCATE',
-        'EXEC', 'EXECUTE', 'UNION', 'SELECT', 'SCRIPT', '--', '/*', '*/'
+        'DROP',
+        'DELETE',
+        'INSERT',
+        'UPDATE',
+        'CREATE',
+        'ALTER',
+        'TRUNCATE',
+        'EXEC',
+        'EXECUTE',
+        'UNION',
+        'SELECT',
+        'SCRIPT',
+        '--',
+        '/*',
+        '*/'
     ];
-    
+
     foreach ($sql_dangerous as $danger) {
         $data = str_ireplace($danger, '', $data);
     }
-    
+
     // Удаляем опасные атрибуты и события
     $data = preg_replace('/on\w+\s*=\s*["\'][^"\']*["\']/', '', $data);
     $data = preg_replace('/javascript\s*:/i', '', $data);
     $data = preg_replace('/vbscript\s*:/i', '', $data);
-    
+
     // Экранируем специальные HTML символы
     $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-    
+
     // Удаляем множественные пробелы и очищаем
     $data = preg_replace('/\s+/', ' ', $data);
-    
+
     return trim($data);
 }
 
 /**
  * Валидация email
  */
-function validate_email($email) {
+function validate_email($email)
+{
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
 /**
  * Генерация CSRF токена
  */
-function generate_csrf_token() {
+function generate_csrf_token()
+{
     // Проверяем, запущен ли тест (для уникальности токенов в тестах)
     $is_testing = defined('RUNNING_TESTS') && RUNNING_TESTS === true;
-    
+
     if ($is_testing) {
         // В тестовом режиме генерируем новый токен каждый раз и сохраняем в сессию
         $_SESSION[CSRF_TOKEN_NAME] = bin2hex(random_bytes(32)) . '_' . microtime(true);
@@ -101,22 +117,25 @@ function generate_csrf_token() {
 /**
  * Проверка CSRF токена
  */
-function verify_csrf_token($token) {
-    return isset($_SESSION[CSRF_TOKEN_NAME]) && 
-           hash_equals($_SESSION[CSRF_TOKEN_NAME], $token);
+function verify_csrf_token($token)
+{
+    return isset($_SESSION[CSRF_TOKEN_NAME]) &&
+        hash_equals($_SESSION[CSRF_TOKEN_NAME], $token);
 }
 
 /**
  * Хеширование пароля
  */
-function hash_password($password) {
+function hash_password($password)
+{
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
 /**
  * Проверка пароля
  */
-function verify_password($password, $hash) {
+function verify_password($password, $hash)
+{
     return password_verify($password, $hash);
 }
 
@@ -127,14 +146,16 @@ function verify_password($password, $hash) {
 /**
  * Получить текущий язык
  */
-function get_current_language() {
+function get_current_language()
+{
     return $_SESSION['language'] ?? DEFAULT_LANG;
 }
 
 /**
  * Установить язык
  */
-function set_language($lang) {
+function set_language($lang)
+{
     if (in_array($lang, AVAILABLE_LANGS)) {
         $_SESSION['language'] = $lang;
         return true;
@@ -145,31 +166,33 @@ function set_language($lang) {
 /**
  * Загрузить языковые данные
  */
-function load_language($lang = null) {
+function load_language($lang = null)
+{
     $lang = $lang ?? get_current_language();
     $file = LANG_PATH . $lang . '.json';
-    
+
     if (file_exists($file)) {
         $content = file_get_contents($file);
         return json_decode($content, true);
     }
-    
+
     return [];
 }
 
 /**
  * Получить переведенный текст
  */
-function __($key, $fallback = null) {
+function __($key, $fallback = null)
+{
     static $translations = null;
-    
+
     if ($translations === null) {
         $translations = load_language();
     }
-    
+
     $keys = explode('.', $key);
     $value = $translations;
-    
+
     foreach ($keys as $k) {
         if (isset($value[$k])) {
             $value = $value[$k];
@@ -177,7 +200,7 @@ function __($key, $fallback = null) {
             return $fallback ?? $key;
         }
     }
-    
+
     return $value;
 }
 
@@ -188,11 +211,12 @@ function __($key, $fallback = null) {
 /**
  * Безопасная загрузка файла
  */
-function upload_file($file, $destination, $allowed_types = null) {
+function upload_file($file, $destination, $allowed_types = null)
+{
     if (!isset($file['error']) || is_array($file['error'])) {
         return ['success' => false, 'error' => 'Ошибка загрузки файла'];
     }
-    
+
     switch ($file['error']) {
         case UPLOAD_ERR_OK:
             break;
@@ -204,39 +228,40 @@ function upload_file($file, $destination, $allowed_types = null) {
         default:
             return ['success' => false, 'error' => 'Неизвестная ошибка загрузки'];
     }
-    
+
     if ($file['size'] > MAX_FILE_SIZE) {
         return ['success' => false, 'error' => 'Файл слишком большой'];
     }
-    
+
     $file_info = pathinfo($file['name']);
     $extension = strtolower($file_info['extension'] ?? '');
-    
+
     if ($allowed_types && !in_array($extension, $allowed_types)) {
         return ['success' => false, 'error' => 'Недопустимый тип файла'];
     }
-    
+
     $filename = uniqid() . '.' . $extension;
     $full_destination = ASSETS_PATH . '/uploads/' . $destination;
-    
+
     // Создаем папку, если она не существует
     if (!is_dir($full_destination)) {
         mkdir($full_destination, 0777, true);
     }
-    
+
     $filepath = $full_destination . '/' . $filename;
-    
+
     if (!move_uploaded_file($file['tmp_name'], $filepath)) {
         return ['success' => false, 'error' => 'Не удалось сохранить файл'];
     }
-    
+
     return ['success' => true, 'filename' => $filename, 'filepath' => $filepath];
 }
 
 /**
  * Удаление файла
  */
-function delete_file($filepath) {
+function delete_file($filepath)
+{
     if (file_exists($filepath)) {
         return unlink($filepath);
     }
@@ -250,47 +275,50 @@ function delete_file($filepath) {
 /**
  * Форматирование даты
  */
-function format_date($date, $format = 'd.m.Y H:i') {
+function format_date($date, $format = 'd.m.Y H:i')
+{
     if ($date instanceof DateTime) {
         return $date->format($format);
     }
-    
+
     // Проверяем, что дата не пустая
     if (empty($date) || $date === null) {
         return '';
     }
-    
+
     $timestamp = is_numeric($date) ? $date : strtotime($date);
-    
+
     // Проверяем, что strtotime вернул корректный timestamp
     if ($timestamp === false) {
         return '';
     }
-    
+
     return date($format, $timestamp);
 }
 
 /**
  * Форматирование размера файла
  */
-function format_filesize($bytes, $precision = 2) {
+function format_filesize($bytes, $precision = 2)
+{
     $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-    
+
     for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
         $bytes /= 1024;
     }
-    
+
     return round($bytes, $precision) . ' ' . $units[$i];
 }
 
 /**
  * Обрезка текста
  */
-function truncate_text($text, $length = 150, $suffix = '...') {
+function truncate_text($text, $length = 150, $suffix = '...')
+{
     if (mb_strlen($text) <= $length) {
         return $text;
     }
-    
+
     return mb_substr($text, 0, $length) . $suffix;
 }
 
@@ -301,18 +329,20 @@ function truncate_text($text, $length = 150, $suffix = '...') {
 /**
  * Проверить, авторизован ли пользователь
  */
-function is_logged_in() {
+function is_logged_in()
+{
     return isset($_SESSION['user_id']) && $_SESSION['user_id'] > 0;
 }
 
 /**
  * Получить данные текущего пользователя
  */
-function get_current_admin_user() {
+function get_current_admin_user()
+{
     if (!is_logged_in()) {
         return null;
     }
-    
+
     // Здесь будет загрузка из БД
     return $_SESSION['user_data'] ?? null;
 }
@@ -320,64 +350,94 @@ function get_current_admin_user() {
 /**
  * Проверка роли пользователя
  */
-function require_role($required_role) {
+function require_role($required_role)
+{
     $user = get_current_admin_user();
-    
+
     if (!$user) {
         header('Location: login.php');
         exit;
     }
-    
+
     $role_hierarchy = [
         'admin' => 3,
         'editor' => 2,
         'moderator' => 1
     ];
-    
+
     $user_level = $role_hierarchy[$user['role']] ?? 0;
     $required_level = $role_hierarchy[$required_role] ?? 0;
-    
+
     if ($user_level < $required_level) {
         header('Location: index.php?error=access_denied');
         exit;
     }
-    
+
     return true;
 }
 
 /**
  * Проверка прав доступа к конкретному действию
  */
-function has_permission($action, $user = null) {
+function has_permission($action, $user = null)
+{
     if (!$user) {
         $user = get_current_admin_user();
     }
-    
+
     if (!$user) {
         return false;
     }
-    
+
     $permissions = [
         'admin' => [
-            'users.create', 'users.edit', 'users.delete', 'users.view',
-            'services.create', 'services.edit', 'services.delete', 'services.view',
-            'portfolio.create', 'portfolio.edit', 'portfolio.delete', 'portfolio.view',
-            'reviews.create', 'reviews.edit', 'reviews.delete', 'reviews.view', 'reviews.moderate',
-            'blog.create', 'blog.edit', 'blog.delete', 'blog.view', 'blog.publish',
-            'settings.edit', 'stats.view', 'export.data'
+            'users.create',
+            'users.edit',
+            'users.delete',
+            'users.view',
+            'services.create',
+            'services.edit',
+            'services.delete',
+            'services.view',
+            'portfolio.create',
+            'portfolio.edit',
+            'portfolio.delete',
+            'portfolio.view',
+            'reviews.create',
+            'reviews.edit',
+            'reviews.delete',
+            'reviews.view',
+            'reviews.moderate',
+            'blog.create',
+            'blog.edit',
+            'blog.delete',
+            'blog.view',
+            'blog.publish',
+            'settings.edit',
+            'stats.view',
+            'export.data'
         ],
         'editor' => [
-            'services.create', 'services.edit', 'services.view',
-            'portfolio.create', 'portfolio.edit', 'portfolio.view',
-            'reviews.view', 'reviews.moderate',
-            'blog.create', 'blog.edit', 'blog.view', 'blog.publish'
+            'services.create',
+            'services.edit',
+            'services.view',
+            'portfolio.create',
+            'portfolio.edit',
+            'portfolio.view',
+            'reviews.view',
+            'reviews.moderate',
+            'blog.create',
+            'blog.edit',
+            'blog.view',
+            'blog.publish'
         ],
         'moderator' => [
-            'reviews.view', 'reviews.moderate',
+            'reviews.view',
+            'reviews.moderate',
             'blog.view'
         ]
     ];
-    
+
     $user_permissions = $permissions[$user['role']] ?? [];
     return in_array($action, $user_permissions);
 }
@@ -385,7 +445,8 @@ function has_permission($action, $user = null) {
 /**
  * Получение списка доступных ролей
  */
-function get_available_roles() {
+function get_available_roles()
+{
     return [
         'admin' => __('users.role_admin', 'Администратор'),
         'editor' => __('users.role_editor', 'Редактор'),
@@ -396,7 +457,8 @@ function get_available_roles() {
 /**
  * Получение списка статусов пользователей
  */
-function get_user_statuses() {
+function get_user_statuses()
+{
     return [
         'active' => __('users.status_active', 'Активен'),
         'inactive' => __('users.status_inactive', 'Неактивен'),
@@ -407,28 +469,31 @@ function get_user_statuses() {
 /**
  * Получение настройки по ключу
  */
-function get_setting($key, $default = '') {
+function get_setting($key, $default = '')
+{
     $db = get_database();
     $setting = $db->select('settings', ['setting_key' => $key], ['limit' => 1]);
-    
+
     if ($setting && !empty($setting)) {
         return $setting[0]['setting_value'];
     }
-    
+
     return $default;
 }
 
 /**
  * Установка настройки
  */
-function set_setting($key, $value, $category = 'general', $description = '') {
+function set_setting($key, $value, $category = 'general', $description = '')
+{
     $db = get_database();
-    
+
     $existing = $db->select('settings', ['setting_key' => $key], ['limit' => 1]);
-    
+
     if ($existing && !empty($existing)) {
-        return $db->update('settings', 
-            ['setting_value' => $value, 'updated_at' => date('Y-m-d H:i:s')], 
+        return $db->update(
+            'settings',
+            ['setting_value' => $value, 'updated_at' => date('Y-m-d H:i:s')],
             ['setting_key' => $key]
         );
     } else {
@@ -444,26 +509,28 @@ function set_setting($key, $value, $category = 'general', $description = '') {
 /**
  * Получение всех настроек по категории
  */
-function get_settings_by_category($category) {
+function get_settings_by_category($category)
+{
     $db = get_database();
     $settings = $db->select('settings', ['category' => $category], ['order' => 'setting_key']);
-    
+
     $result = [];
     foreach ($settings as $setting) {
         $result[$setting['setting_key']] = $setting['setting_value'];
     }
-    
+
     return $result;
 }
 
 /**
  * Форматирование цены
  */
-function format_price($price, $currency = '€') {
+function format_price($price, $currency = '€')
+{
     if (empty($price) || $price == 0) {
         return 'По запросу';
     }
-    
+
     return number_format($price, 0, ',', ' ') . ' ' . $currency;
 }
 
@@ -471,22 +538,24 @@ function format_price($price, $currency = '€') {
 /**
  * Получение активности пользователей за период
  */
-function get_user_activity_stats($days = 30) {
+function get_user_activity_stats($days = 30)
+{
     $db = get_database();
     $date_from = date('Y-m-d', strtotime("-{$days} days"));
-    
-    $activities = $db->select('user_activity', 
-        ['created_at >=' => $date_from], 
+
+    $activities = $db->select(
+        'user_activity',
+        ['created_at >=' => $date_from],
         ['order' => 'created_at DESC']
     );
-    
+
     $stats = [
         'total_activities' => count($activities),
         'unique_users' => count(array_unique(array_column($activities, 'user_id'))),
         'activities_by_day' => [],
         'top_actions' => []
     ];
-    
+
     // Группировка по дням
     foreach ($activities as $activity) {
         $date = date('Y-m-d', strtotime($activity['created_at']));
@@ -495,19 +564,20 @@ function get_user_activity_stats($days = 30) {
         }
         $stats['activities_by_day'][$date]++;
     }
-    
+
     // Топ действий
     $actions = array_count_values(array_column($activities, 'action'));
     arsort($actions);
     $stats['top_actions'] = array_slice($actions, 0, 5, true);
-    
+
     return $stats;
 }
 
 /**
  * Проверить роль пользователя
  */
-function user_has_role($role) {
+function user_has_role($role)
+{
     $user = get_current_admin_user();
     return $user && ($user['role'] === $role || $user['role'] === 'admin');
 }
@@ -515,7 +585,8 @@ function user_has_role($role) {
 /**
  * Логирование пользователя
  */
-function login_user($user_data) {
+function login_user($user_data)
+{
     $_SESSION['user_id'] = $user_data['id'];
     $_SESSION['user_data'] = $user_data;
     $_SESSION['login_time'] = time();
@@ -524,7 +595,8 @@ function login_user($user_data) {
 /**
  * Разлогинивание пользователя
  */
-function logout_user() {
+function logout_user()
+{
     unset($_SESSION['user_id']);
     unset($_SESSION['user_data']);
     unset($_SESSION['login_time']);
@@ -538,11 +610,12 @@ function logout_user() {
 /**
  * Загрузка и обработка изображения
  */
-function handle_image_upload($file, $destination_folder = 'services') {
+function handle_image_upload($file, $destination_folder = 'services')
+{
     if (!isset($file['error']) || is_array($file['error'])) {
         return ['success' => false, 'error' => 'Ошибка загрузки файла'];
     }
-    
+
     switch ($file['error']) {
         case UPLOAD_ERR_OK:
             break;
@@ -554,42 +627,42 @@ function handle_image_upload($file, $destination_folder = 'services') {
         default:
             return ['success' => false, 'error' => 'Неизвестная ошибка загрузки'];
     }
-    
+
     if ($file['size'] > MAX_FILE_SIZE) {
         return ['success' => false, 'error' => 'Файл слишком большой'];
     }
-    
+
     $file_info = pathinfo($file['name']);
     $extension = strtolower($file_info['extension'] ?? '');
-    
+
     if (!in_array($extension, ALLOWED_IMAGE_TYPES)) {
         return ['success' => false, 'error' => 'Недопустимый тип файла. Разрешены: ' . implode(', ', ALLOWED_IMAGE_TYPES)];
     }
-    
+
     // Создание папки назначения
     $upload_path = UPLOADS_PATH . $destination_folder . '/';
     if (!is_dir($upload_path)) {
         mkdir($upload_path, 0755, true);
     }
-    
+
     // Генерация уникального имени файла
     $filename = uniqid() . '_' . time() . '.' . $extension;
     $filepath = $upload_path . $filename;
-    
+
     if (!move_uploaded_file($file['tmp_name'], $filepath)) {
         return ['success' => false, 'error' => 'Не удалось сохранить файл'];
     }
-    
+
     // Создание миниатюры
     $thumbs_dir = $upload_path . 'thumbs/';
     if (!is_dir($thumbs_dir)) {
         mkdir($thumbs_dir, 0755, true);
     }
     create_thumbnail($filepath, $thumbs_dir . $filename, 300, 300);
-    
+
     return [
-        'success' => true, 
-        'filename' => $filename, 
+        'success' => true,
+        'filename' => $filename,
         'filepath' => $filepath,
         'url' => '/assets/uploads/' . $destination_folder . '/' . $filename
     ];
@@ -598,31 +671,32 @@ function handle_image_upload($file, $destination_folder = 'services') {
 /**
  * Создание миниатюры изображения
  */
-function create_thumbnail($source_path, $dest_path, $max_width = 300, $max_height = 300) {
+function create_thumbnail($source_path, $dest_path, $max_width = 300, $max_height = 300)
+{
     if (!file_exists($source_path)) {
         return false;
     }
-    
+
     // Создание папки для миниатюр
     $thumb_dir = dirname($dest_path);
     if (!is_dir($thumb_dir)) {
         mkdir($thumb_dir, 0755, true);
     }
-    
+
     $image_info = getimagesize($source_path);
     if (!$image_info) {
         return false;
     }
-    
+
     $source_width = $image_info[0];
     $source_height = $image_info[1];
     $mime_type = $image_info['mime'];
-    
+
     // Вычисление размеров миниатюры
     $ratio = min($max_width / $source_width, $max_height / $source_height);
     $thumb_width = intval($source_width * $ratio);
     $thumb_height = intval($source_height * $ratio);
-    
+
     // Создание изображения в зависимости от типа
     switch ($mime_type) {
         case 'image/jpeg':
@@ -640,14 +714,14 @@ function create_thumbnail($source_path, $dest_path, $max_width = 300, $max_heigh
         default:
             return false;
     }
-    
+
     if (!$source_image) {
         return false;
     }
-    
+
     // Создание миниатюры
     $thumb_image = imagecreatetruecolor($thumb_width, $thumb_height);
-    
+
     // Сохранение прозрачности для PNG и GIF
     if ($mime_type === 'image/png' || $mime_type === 'image/gif') {
         imagealphablending($thumb_image, false);
@@ -655,9 +729,9 @@ function create_thumbnail($source_path, $dest_path, $max_width = 300, $max_heigh
         $transparent = imagecolorallocatealpha($thumb_image, 255, 255, 255, 127);
         imagefilledrectangle($thumb_image, 0, 0, $thumb_width, $thumb_height, $transparent);
     }
-    
+
     imagecopyresampled($thumb_image, $source_image, 0, 0, 0, 0, $thumb_width, $thumb_height, $source_width, $source_height);
-    
+
     // Сохранение миниатюры
     $result = false;
     switch ($mime_type) {
@@ -674,51 +748,53 @@ function create_thumbnail($source_path, $dest_path, $max_width = 300, $max_heigh
             $result = imagewebp($thumb_image, $dest_path, 90);
             break;
     }
-    
+
     // Освобождение памяти
     imagedestroy($source_image);
     imagedestroy($thumb_image);
-    
+
     return $result;
 }
 
 /**
  * Удаление изображения и его миниатюры
  */
-function delete_image($image_path) {
+function delete_image($image_path)
+{
     if (empty($image_path)) {
         return true;
     }
-    
+
     $full_path = ABSPATH . ltrim($image_path, '/');
     $thumb_path = str_replace('/uploads/', '/uploads/thumbs/', $full_path);
-    
+
     $result = true;
-    
+
     if (file_exists($full_path)) {
         $result = unlink($full_path) && $result;
     }
-    
+
     if (file_exists($thumb_path)) {
         $result = unlink($thumb_path) && $result;
     }
-    
+
     return $result;
 }
 
 /**
  * Обработка множественной загрузки изображений
  */
-function handle_multiple_image_upload($files, $destination_folder = 'services') {
+function handle_multiple_image_upload($files, $destination_folder = 'services')
+{
     $results = [];
     $errors = [];
-    
+
     if (!is_array($files['name'])) {
         return handle_image_upload($files, $destination_folder);
     }
-    
+
     $file_count = count($files['name']);
-    
+
     for ($i = 0; $i < $file_count; $i++) {
         $file = [
             'name' => $files['name'][$i],
@@ -727,16 +803,16 @@ function handle_multiple_image_upload($files, $destination_folder = 'services') 
             'error' => $files['error'][$i],
             'size' => $files['size'][$i]
         ];
-        
+
         $result = handle_image_upload($file, $destination_folder);
-        
+
         if ($result['success']) {
             $results[] = $result;
         } else {
             $errors[] = $result['error'];
         }
     }
-    
+
     return [
         'success' => !empty($results),
         'results' => $results,
@@ -751,18 +827,19 @@ function handle_multiple_image_upload($files, $destination_folder = 'services') 
 /**
  * Логирование активности пользователя
  */
-function log_user_activity($action, $table_name = '', $record_id = 0, $old_values = null, $new_values = null) {
+function log_user_activity($action, $table_name = '', $record_id = 0, $old_values = null, $new_values = null)
+{
     if (!is_logged_in()) {
         return false;
     }
-    
+
     $user = get_current_admin_user();
     if (!$user) {
         return false;
     }
-    
+
     $db = get_database();
-    
+
     $activity_data = [
         'user_id' => $user['id'],
         'action' => $action,
@@ -773,7 +850,7 @@ function log_user_activity($action, $table_name = '', $record_id = 0, $old_value
         'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
         'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? ''
     ];
-    
+
     return $db->insert('activity_log', $activity_data);
 }
 
@@ -784,21 +861,23 @@ function log_user_activity($action, $table_name = '', $record_id = 0, $old_value
 /**
  * Записать в лог
  */
-function write_log($message, $level = 'INFO') {
+function write_log($message, $level = 'INFO')
+{
     if (!LOG_ERRORS) {
         return;
     }
-    
+
     $timestamp = date('Y-m-d H:i:s');
     $log_entry = "[$timestamp] [$level] $message" . PHP_EOL;
-    
+
     file_put_contents(ERROR_LOG_PATH, $log_entry, FILE_APPEND | LOCK_EX);
 }
 
 /**
  * Форматирование размера файла
  */
-function format_file_size($bytes) {
+function format_file_size($bytes)
+{
     if ($bytes >= 1073741824) {
         return number_format($bytes / 1073741824, 2) . ' GB';
     } elseif ($bytes >= 1048576) {
@@ -813,15 +892,16 @@ function format_file_size($bytes) {
 /**
  * Дамп переменной для отладки
  */
-function debug_dump($var, $die = false) {
+function debug_dump($var, $die = false)
+{
     if (!is_debug()) {
         return;
     }
-    
+
     echo '<pre>';
     var_dump($var);
     echo '</pre>';
-    
+
     if ($die) {
         die();
     }
@@ -834,7 +914,8 @@ function debug_dump($var, $die = false) {
 /**
  * Безопасный JSON ответ
  */
-function json_response($data, $status_code = 200) {
+function json_response($data, $status_code = 200)
+{
     http_response_code($status_code);
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
@@ -844,28 +925,30 @@ function json_response($data, $status_code = 200) {
 /**
  * Чтение JSON файла
  */
-function read_json_file($filepath) {
+function read_json_file($filepath)
+{
     if (!file_exists($filepath)) {
         return [];
     }
-    
+
     $content = file_get_contents($filepath);
     $data = json_decode($content, true);
-    
+
     return $data ?? [];
 }
 
 /**
  * Запись JSON файла
  */
-function write_json_file($filepath, $data) {
+function write_json_file($filepath, $data)
+{
     $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    
+
     $dir = dirname($filepath);
     if (!is_dir($dir)) {
         mkdir($dir, 0755, true);
     }
-    
+
     return file_put_contents($filepath, $json, LOCK_EX) !== false;
 }
 
@@ -876,12 +959,13 @@ function write_json_file($filepath, $data) {
 /**
  * Создать пагинацию
  */
-function create_pagination($total_items, $current_page = 1, $per_page = null) {
+function create_pagination($total_items, $current_page = 1, $per_page = null)
+{
     $per_page = $per_page ?? ITEMS_PER_PAGE;
     $total_pages = ceil($total_items / $per_page);
     $current_page = max(1, min($current_page, $total_pages));
     $offset = ($current_page - 1) * $per_page;
-    
+
     return [
         'total_items' => $total_items,
         'total_pages' => $total_pages,
@@ -898,7 +982,8 @@ function create_pagination($total_items, $current_page = 1, $per_page = null) {
 /**
  * Рендеринг поля формы
  */
-function render_form_field($config) {
+function render_form_field($config)
+{
     $type = $config['type'] ?? 'text';
     $name = $config['name'] ?? '';
     $label = $config['label'] ?? '';
@@ -906,7 +991,7 @@ function render_form_field($config) {
     $placeholder = $config['placeholder'] ?? '';
     $required = $config['required'] ?? false;
     $rows = $config['rows'] ?? 3;
-    
+
     echo '<div class="space-y-1">';
     echo '<label for="' . htmlspecialchars($name) . '" class="block text-sm font-medium text-gray-700">';
     echo htmlspecialchars($label);
@@ -914,13 +999,15 @@ function render_form_field($config) {
         echo ' <span class="text-red-500">*</span>';
     }
     echo '</label>';
-    
+
     switch ($type) {
         case 'textarea':
             echo '<textarea id="' . htmlspecialchars($name) . '" name="' . htmlspecialchars($name) . '"';
             echo ' rows="' . $rows . '"';
-            if ($placeholder) echo ' placeholder="' . htmlspecialchars($placeholder) . '"';
-            if ($required) echo ' required';
+            if ($placeholder)
+                echo ' placeholder="' . htmlspecialchars($placeholder) . '"';
+            if ($required)
+                echo ' required';
             echo ' class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">';
             echo htmlspecialchars($value);
             echo '</textarea>';
@@ -931,12 +1018,14 @@ function render_form_field($config) {
         default:
             echo '<input type="' . htmlspecialchars($type) . '" id="' . htmlspecialchars($name) . '" name="' . htmlspecialchars($name) . '"';
             echo ' value="' . htmlspecialchars($value) . '"';
-            if ($placeholder) echo ' placeholder="' . htmlspecialchars($placeholder) . '"';
-            if ($required) echo ' required';
+            if ($placeholder)
+                echo ' placeholder="' . htmlspecialchars($placeholder) . '"';
+            if ($required)
+                echo ' required';
             echo ' class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">';
             break;
     }
-    
+
     echo '</div>';
 }
 
@@ -947,47 +1036,45 @@ function render_form_field($config) {
 /**
  * Получить соответствие страниц между языками
  */
-function get_page_language_mapping() {
+function get_page_language_mapping()
+{
     return [
-        'index.php' => 'index.php',
-        'services.php' => 'services.php',
-        'portfolio.php' => 'portfolio.php',
-        'about.php' => 'about.php',
-        'review.php' => 'review.php',
-        'blog.php' => 'blog.php',
-        'blog_post.php' => 'blog_post.php',
-        'contact.php' => 'contact.php'
+        'index' => 'index',
+        'services' => 'services',
+        'portfolio' => 'portfolio',
+        'about' => 'about',
+        'review' => 'review',
+        'blog' => 'blog',
+        'blog_post' => 'blog_post',
+        'contact' => 'contact'
     ];
 }
 
 /**
  * Определить текущую страницу
  */
-function get_current_page() {
+function get_current_page()
+{
     $script_name = $_SERVER['SCRIPT_NAME'];
-    $page = basename($script_name);
-    
-    // Если мы в папке /de/, убираем путь
-    if (strpos($script_name, '/de/') !== false) {
-        $page = basename($script_name);
-    }
-    
+    $page = basename($script_name, '.php');
+
     return $page;
 }
 
 /**
  * Получить URL для переключения языка с сохранением текущей страницы
  */
-function get_language_switch_url($target_language) {
+function get_language_switch_url($target_language)
+{
     $current_page = get_current_page();
     $page_mapping = get_page_language_mapping();
-    
+
     // Определяем, находимся ли мы в немецкой версии
     $is_german = strpos($_SERVER['REQUEST_URI'], '/de/') !== false;
-    
+
     // Определяем целевую страницу
     $target_page = $page_mapping[$current_page] ?? 'index.php';
-    
+
     // Специальная обработка для страниц постов блога
     if ($current_page === 'blog_post.php') {
         $slug = $_GET['slug'] ?? '';
@@ -999,13 +1086,13 @@ function get_language_switch_url($target_language) {
                     return $_SERVER['REQUEST_URI'];
                 } else {
                     // Переходим на немецкую версию
-                    return '/de/blog_post.php?slug=' . urlencode($slug);
+                    return '/de/blog_post?slug=' . urlencode($slug);
                 }
             } else {
                 // Переключаемся на русский
                 if ($is_german) {
                     // Переходим на русскую версию
-                    return '/blog_post.php?slug=' . urlencode($slug);
+                    return '/blog_post?slug=' . urlencode($slug);
                 } else {
                     // Уже на русском, возвращаем текущий URL
                     return $_SERVER['REQUEST_URI'];
@@ -1013,7 +1100,7 @@ function get_language_switch_url($target_language) {
             }
         }
     }
-    
+
     if ($target_language === 'de') {
         // Переключаемся на немецкий
         if ($is_german) {
@@ -1038,13 +1125,14 @@ function get_language_switch_url($target_language) {
 /**
  * Получить текущий язык на основе URL
  */
-function get_current_language_from_url() {
+function get_current_language_from_url()
+{
     $request_uri = $_SERVER['REQUEST_URI'];
-    
+
     if (strpos($request_uri, '/de/') === 0) {
         return 'de';
     }
-    
+
     return 'ru';
 }
 

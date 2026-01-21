@@ -10,7 +10,7 @@ require_once __DIR__ . '/integrations/analytics.php';
 
 // Проверка метода запроса
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: contact.php');
+    header('Location: contact');
     exit;
 }
 
@@ -65,22 +65,22 @@ if (empty($errors)) {
         'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
         'timestamp' => date('Y-m-d H:i:s')
     ];
-    
+
     // Отправка уведомления администратору
     $admin_notification = send_contact_form_notification($form_data);
-    
+
     // Отправка подтверждения клиенту
     $client_confirmation = send_contact_form_confirmation($form_data);
-    
+
     if ($admin_notification && $client_confirmation) {
         $success = true;
-        
+
         // Отслеживание конверсии
         echo track_conversion('contact_form');
-        
+
         // Логирование
         write_log("Contact form submitted by: {$name} ({$email})", 'INFO');
-        
+
         // Сохранение в базу данных (если нужно)
         save_contact_form_data($form_data);
     } else {
@@ -89,9 +89,10 @@ if (empty($errors)) {
 }
 
 // Сохранение данных формы в базу
-function save_contact_form_data($data) {
+function save_contact_form_data($data)
+{
     $db = get_database();
-    
+
     $contact_data = [
         'name' => $data['name'],
         'email' => $data['email'],
@@ -103,12 +104,12 @@ function save_contact_form_data($data) {
         'status' => 'new',
         'created_at' => $data['timestamp']
     ];
-    
+
     return $db->insert('contact_forms', $contact_data);
 }
 
 // Перенаправление обратно на страницу контактов
-$redirect_url = 'contact.php';
+$redirect_url = 'contact';
 if ($success) {
     $redirect_url .= '?success=1';
 } else {
@@ -118,4 +119,3 @@ if ($success) {
 header('Location: ' . $redirect_url);
 exit;
 ?>
-

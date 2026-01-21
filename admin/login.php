@@ -11,7 +11,7 @@ require_once COMPONENTS_PATH . 'auth_layout.php';
 
 // Если уже авторизован, перенаправляем в админку
 if (is_logged_in()) {
-    header('Location: ' . get_admin_url('index.php'));
+    header('Location: ' . get_admin_url('index'));
     exit;
 }
 
@@ -26,27 +26,27 @@ if ($_POST && isset($_POST['action']) && $_POST['action'] === 'login') {
     } else {
         $username = sanitize_input($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
-        
+
         if (empty($username) || empty($password)) {
             $error_message = __('auth.empty_fields', 'Заполните все поля');
         } else {
             // Попытка авторизации
             $db = get_database();
             $user = $db->select('users', ['username' => $username, 'status' => 'active'], ['limit' => 1]);
-            
+
             if ($user && verify_password($password, $user['password'])) {
                 // Успешная авторизация
                 login_user($user);
-                
+
                 // Логирование
                 write_log("User {$user['username']} logged in", 'INFO');
-                
+
                 // Перенаправление в админку
-                header('Location: ' . get_admin_url('index.php'));
+                header('Location: ' . get_admin_url('index'));
                 exit;
             } else {
                 $error_message = __('auth.login_error', 'Неверный логин или пароль');
-                
+
                 // Логирование неудачной попытки
                 write_log("Failed login attempt for username: $username", 'WARNING');
             }

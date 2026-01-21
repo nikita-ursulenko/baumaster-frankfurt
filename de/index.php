@@ -26,14 +26,16 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/home.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
+<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center"
+    style="background-image: url('/assets/images/preview/home.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30" style="z-index: 1;"></div>
-    
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
-            <h1 id="hero-title" class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
-                <?php 
+            <h1 id="hero-title"
+                class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
+                <?php
                 $title = $seo['h1'] ?? 'Professionelle Baudienstleistungen in Frankfurt';
                 $words = explode(' ', $title);
                 $directions = ['left', 'right', 'top', 'bottom'];
@@ -46,8 +48,9 @@ ob_start();
                 }
                 ?>
             </h1>
-            <p id="hero-subtitle" class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
-                Vollständige Palette von Innenarbeiten — von Malerarbeiten bis zum Verlegen von Böden. 
+            <p id="hero-subtitle"
+                class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
+                Vollständige Palette von Innenarbeiten — von Malerarbeiten bis zum Verlegen von Böden.
                 Premium-Qualität und Zuverlässigkeit für Ihr Zuhause.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -56,7 +59,7 @@ ob_start();
                         'text' => 'Kostenlose Berechnung',
                         'variant' => 'primary',
                         'size' => 'lg',
-                        'href' => 'contact.php',
+                        'href' => 'contact',
                         'class' => 'hero-btn-primary btn-animated btn-ripple'
                     ]); ?>
                 </div>
@@ -75,1480 +78,1665 @@ ob_start();
 </section>
 
 <style>
-/* Hero section animations with optimized delays */
+    /* Hero section animations with optimized delays */
 
-/* Hero word animations from different directions */
-.hero-word {
-    animation: fadeIn 0.8s ease-out forwards;
-}
+    /* Hero word animations from different directions */
+    .hero-word {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
 
-/* Word from left */
-.hero-word-left {
-    transform: translateX(-50px);
-    animation: slideInFromLeft 0.8s ease-out forwards;
-}
-
-/* Word from right */
-.hero-word-right {
-    transform: translateX(50px);
-    animation: slideInFromRight 0.8s ease-out forwards;
-}
-
-/* Word from top */
-.hero-word-top {
-    transform: translateY(-30px);
-    animation: slideInFromTop 0.8s ease-out forwards;
-}
-
-/* Word from bottom */
-.hero-word-bottom {
-    transform: translateY(30px);
-    animation: slideInFromBottom 0.8s ease-out forwards;
-}
-
-/* Keyframes for different directions */
-@keyframes slideInFromLeft {
-    from {
-        opacity: 0;
+    /* Word from left */
+    .hero-word-left {
         transform: translateX(-50px);
+        animation: slideInFromLeft 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
 
-@keyframes slideInFromRight {
-    from {
-        opacity: 0;
+    /* Word from right */
+    .hero-word-right {
         transform: translateX(50px);
+        animation: slideInFromRight 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
 
-@keyframes slideInFromTop {
-    from {
-        opacity: 0;
+    /* Word from top */
+    .hero-word-top {
         transform: translateY(-30px);
+        animation: slideInFromTop 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-@keyframes slideInFromBottom {
-    from {
-        opacity: 0;
+    /* Word from bottom */
+    .hero-word-bottom {
         transform: translateY(30px);
+        animation: slideInFromBottom 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    /* Keyframes for different directions */
+    @keyframes slideInFromLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
-}
 
-/* Ensure proper spacing between words */
-.hero-word + .hero-word {
-    margin-left: 0.1em;
-}
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
 
-/* Subtitle animation - appears after title with smooth transition */
-.hero-subtitle-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: 0.8s; /* Faster appearance after title */
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
 
-/* Buttons animation - appears after subtitle with smooth transition */
-.hero-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    @keyframes slideInFromTop {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
 
-/* First button appears after subtitle with smooth transition */
-#hero-button-1 {
-    animation-delay: 1.2s; /* Faster appearance */
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-/* Second button appears slightly after first with smooth transition */
-#hero-button-2 {
-    animation-delay: 1.4s; /* 0.2s after first button */
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    @keyframes slideInFromBottom {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
 
-/* Fade in up animation */
-@keyframes fadeInUp {
-    from {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Ensure proper spacing between words */
+    .hero-word+.hero-word {
+        margin-left: 0.1em;
+    }
+
+    /* Subtitle animation - appears after title with smooth transition */
+    .hero-subtitle-animate {
         opacity: 0;
         transform: translateY(20px);
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation-delay: 0.8s;
+        /* Faster appearance after title */
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    to {
+
+    /* Buttons animation - appears after subtitle with smooth transition */
+    .hero-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* First button appears after subtitle with smooth transition */
+    #hero-button-1 {
+        animation-delay: 1.2s;
+        /* Faster appearance */
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Second button appears slightly after first with smooth transition */
+    #hero-button-2 {
+        animation-delay: 1.4s;
+        /* 0.2s after first button */
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Fade in up animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive button styling */
+    .hero-animate {
+        flex: 1;
+        max-width: 250px;
+        min-width: 200px;
+    }
+
+    .hero-animate a,
+    .hero-animate button {
+        width: 100%;
+        min-width: 180px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
+        height: 56px;
+    }
+
+    /* Mobile responsive - 65% width and centered */
+    @media (max-width: 640px) {
+        .hero-animate {
+            flex: 1;
+            max-width: 65%;
+            width: 65%;
+            margin: 0 auto;
+        }
+
+        .hero-animate a,
+        .hero-animate button {
+            min-width: 140px;
+            padding: 12px 24px;
+            font-size: 16px;
+            width: 100%;
+            height: 48px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-animate {
+            width: 65%;
+            max-width: 65%;
+            margin: 0 auto;
+        }
+
+        .hero-animate a,
+        .hero-animate button {
+            width: 100%;
+            min-width: 120px;
+            padding: 14px 20px;
+            height: 48px;
+        }
+    }
+
+    /* Scroll-triggered animations for sections */
+    .services-title-animate,
+    .services-subtitle-animate,
+    .portfolio-title-animate,
+    .portfolio-subtitle-animate,
+    .about-title-animate,
+    .reviews-title-animate,
+    .reviews-subtitle-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+    }
+
+    .services-title-animate.animate,
+    .services-subtitle-animate.animate,
+    .portfolio-title-animate.animate,
+    .portfolio-subtitle-animate.animate,
+    .about-title-animate.animate,
+    .reviews-title-animate.animate,
+    .reviews-subtitle-animate.animate {
         opacity: 1;
         transform: translateY(0);
     }
-}
 
-/* Responsive button styling */
-.hero-animate {
-    flex: 1;
-    max-width: 250px;
-    min-width: 200px;
-}
-
-.hero-animate a,
-.hero-animate button {
-    width: 100%;
-    min-width: 180px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    height: 56px;
-}
-
-/* Mobile responsive - 65% width and centered */
-@media (max-width: 640px) {
-    .hero-animate {
-        flex: 1;
-        max-width: 65%;
-        width: 65%;
-        margin: 0 auto;
+    /* Service card animations */
+    .service-card-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
     }
-    
-    .hero-animate a,
-    .hero-animate button {
-        min-width: 140px;
-        padding: 12px 24px;
-        font-size: 16px;
-        width: 100%;
-        height: 48px;
+
+    .service-card-animate.animate {
+        opacity: 1;
+        transform: translateY(0);
     }
-}
 
-@media (max-width: 480px) {
-    .hero-animate {
-        width: 65%;
-        max-width: 65%;
-        margin: 0 auto;
+    /* Portfolio card animations */
+    .portfolio-card-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
     }
-    
-    .hero-animate a,
-    .hero-animate button {
-        width: 100%;
-        min-width: 120px;
-        padding: 14px 20px;
-        height: 48px;
+
+    .portfolio-card-animate.animate {
+        opacity: 1;
+        transform: translateY(0);
     }
-}
 
-/* Scroll-triggered animations for sections */
-.services-title-animate,
-.services-subtitle-animate,
-.portfolio-title-animate,
-.portfolio-subtitle-animate,
-.about-title-animate,
-.reviews-title-animate,
-.reviews-subtitle-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
-}
-
-.services-title-animate.animate,
-.services-subtitle-animate.animate,
-.portfolio-title-animate.animate,
-.portfolio-subtitle-animate.animate,
-.about-title-animate.animate,
-.reviews-title-animate.animate,
-.reviews-subtitle-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Service card animations */
-.service-card-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
-
-.service-card-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Portfolio card animations */
-.portfolio-card-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
-
-.portfolio-card-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* About stats animations */
-.about-stat-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease-out;
-}
-
-.about-stat-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* About Section Mobile Styles */
-@media (max-width: 768px) {
-    #services > div:first-child,
-    #portfolio > div:first-child,
-    #about > div:first-child,
-    #reviews > div:first-child {
-        margin: 0 5%;
+    /* About stats animations */
+    .about-stat-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-out;
     }
-    
-    footer > div:first-child {
-        margin: 0 5%;
+
+    .about-stat-animate.animate {
+        opacity: 1;
+        transform: translateY(0);
     }
-}
 
-/* Review card animations */
-.review-card-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
+    /* About Section Mobile Styles */
+    @media (max-width: 768px) {
 
-.review-card-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
+        #services>div:first-child,
+        #portfolio>div:first-child,
+        #about>div:first-child,
+        #reviews>div:first-child {
+            margin: 0 5%;
+        }
 
-/* Service card hover effects */
-.service-card-animate .bg-white {
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+        footer>div:first-child {
+            margin: 0 5%;
+        }
+    }
 
-.service-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+    /* Review card animations */
+    .review-card-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
 
-.service-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
+    .review-card-animate.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-.service-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
+    /* Service card hover effects */
+    .service-card-animate .bg-white {
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 
-/* Service card content layout */
-.service-card-animate .bg-white > div:last-child {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 1.5rem;
-}
+    .service-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
 
-.service-card-animate .bg-white > div:last-child > p {
-    flex-grow: 1;
-    margin-bottom: 1rem;
-}
+    .service-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
 
-.service-card-animate .bg-white > div:last-child > ul {
-    margin-bottom: 1rem;
-}
+    .service-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
 
-.service-card-animate .bg-white > div:last-child > div:last-child {
-    margin-top: auto;
-    padding-top: 1rem;
-}
+    /* Service card content layout */
+    .service-card-animate .bg-white>div:last-child {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 1.5rem;
+    }
 
-/* Grid alignment for equal height cards */
-.grid {
-    align-items: stretch;
-}
+    .service-card-animate .bg-white>div:last-child>p {
+        flex-grow: 1;
+        margin-bottom: 1rem;
+    }
 
-/* Ensure all service cards have equal height */
-.service-card-animate {
-    height: 100%;
-}
+    .service-card-animate .bg-white>div:last-child>ul {
+        margin-bottom: 1rem;
+    }
 
-/* Ensure all portfolio cards have equal height */
-.portfolio-card-animate {
-    height: 100%;
-}
+    .service-card-animate .bg-white>div:last-child>div:last-child {
+        margin-top: auto;
+        padding-top: 1rem;
+    }
 
-/* Ensure all review cards have equal height */
-.review-card-animate {
-    height: 100%;
-}
+    /* Grid alignment for equal height cards */
+    .grid {
+        align-items: stretch;
+    }
 
-/* Smooth transitions for all interactive elements */
-.service-card-animate .bg-white {
-    transition: all 0.3s ease;
-}
+    /* Ensure all service cards have equal height */
+    .service-card-animate {
+        height: 100%;
+    }
 
-.service-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+    /* Ensure all portfolio cards have equal height */
+    .portfolio-card-animate {
+        height: 100%;
+    }
 
-.service-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
+    /* Ensure all review cards have equal height */
+    .review-card-animate {
+        height: 100%;
+    }
 
-.service-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
+    /* Smooth transitions for all interactive elements */
+    .service-card-animate .bg-white {
+        transition: all 0.3s ease;
+    }
 
-/* Portfolio card smooth transitions */
-.portfolio-card-animate .portfolio-item {
-    transition: all 0.3s ease;
-}
+    .service-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
 
-.portfolio-card-animate .portfolio-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
+    .service-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
 
-.portfolio-card-animate .portfolio-item img {
-    transition: transform 0.3s ease;
-}
+    .service-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
 
-.portfolio-card-animate .portfolio-item:hover img {
-    transform: scale(1.05);
-}
+    /* Portfolio card smooth transitions */
+    .portfolio-card-animate .portfolio-item {
+        transition: all 0.3s ease;
+    }
 
-/* Review card smooth transitions */
-.review-card-animate .bg-white {
-    transition: all 0.3s ease;
-}
+    .portfolio-card-animate .portfolio-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
 
-.review-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+    .portfolio-card-animate .portfolio-item img {
+        transition: transform 0.3s ease;
+    }
 
-.review-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
+    .portfolio-card-animate .portfolio-item:hover img {
+        transform: scale(1.05);
+    }
 
-.review-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
+    /* Review card smooth transitions */
+    .review-card-animate .bg-white {
+        transition: all 0.3s ease;
+    }
 
-/* Button smooth transitions */
-button, .btn {
-    transition: all 0.3s ease;
-}
+    .review-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
 
-button:hover, .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
+    .review-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
 
-/* Link smooth transitions */
-a {
-    transition: all 0.3s ease;
-}
+    .review-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
 
-a:hover {
-    transform: translateY(-1px);
-}
+    /* Button smooth transitions */
+    button,
+    .btn {
+        transition: all 0.3s ease;
+    }
 
-/* Form elements smooth transitions */
-input, textarea, select {
-    transition: all 0.3s ease;
-}
+    button:hover,
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
 
-input:focus, textarea:focus, select:focus {
-    transform: scale(1.02);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
+    /* Link smooth transitions */
+    a {
+        transition: all 0.3s ease;
+    }
 
-/* Modal smooth transitions */
-.modal {
-    transition: all 0.3s ease;
-}
+    a:hover {
+        transform: translateY(-1px);
+    }
 
-.modal-backdrop {
-    transition: opacity 0.3s ease;
-}
+    /* Form elements smooth transitions */
+    input,
+    textarea,
+    select {
+        transition: all 0.3s ease;
+    }
 
-.modal-content {
-    transition: all 0.3s ease;
-    transform: scale(0.9);
-}
+    input:focus,
+    textarea:focus,
+    select:focus {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
 
-.modal.show .modal-content {
-    transform: scale(1);
-}
+    /* Modal smooth transitions */
+    .modal {
+        transition: all 0.3s ease;
+    }
 
-/* Enhanced Service Modal Animations */
-#serviceModal {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(0px);
-}
+    .modal-backdrop {
+        transition: opacity 0.3s ease;
+    }
 
-#serviceModal.show {
-    opacity: 1;
-    visibility: visible;
-    backdrop-filter: blur(8px);
-    z-index: 99;
-}
+    .modal-content {
+        transition: all 0.3s ease;
+        transform: scale(0.9);
+    }
 
-#serviceModalContent {
-    transform: translateY(50px) scale(0.9);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.1s;
-}
+    .modal.show .modal-content {
+        transform: scale(1);
+    }
 
-#serviceModal.show #serviceModalContent {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-}
+    /* Enhanced Service Modal Animations */
+    #serviceModal {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(0px);
+    }
 
-/* Service Modal Header Animation */
-#serviceModal .sticky.top-0 {
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-    z-index: 10;
-    position: sticky;
-    top: 0;
-}
+    #serviceModal.show {
+        opacity: 1;
+        visibility: visible;
+        backdrop-filter: blur(8px);
+        z-index: 99;
+    }
 
-#serviceModal.show .sticky.top-0 {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Service Modal Content Animation */
-#serviceModal .p-6 > * {
-    transform: translateY(20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#serviceModal.show .p-6 > * {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-#serviceModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
-#serviceModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
-#serviceModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
-#serviceModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
-#serviceModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
-
-/* Service Modal Image Animation */
-#serviceModal img {
-    transform: scale(1.1);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-}
-
-#serviceModal.show img {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Service Modal Button Animation */
-#serviceModal button {
-    transform: translateY(10px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.4s;
-}
-
-#serviceModal.show button {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Service Modal Close Button Hover Effect */
-#serviceModal .sticky.top-0 button:hover {
-    transform: rotate(90deg) scale(1.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Service Modal Gallery Images Animation */
-#serviceModal .grid img {
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#serviceModal.show .grid img {
-    transform: scale(1);
-    opacity: 1;
-}
-
-#serviceModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
-#serviceModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
-#serviceModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
-#serviceModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
-#serviceModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
-#serviceModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
-
-/* Service Modal List Items Animation */
-#serviceModal ul li {
-    transform: translateX(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#serviceModal.show ul li {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-#serviceModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
-#serviceModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
-#serviceModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
-#serviceModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
-#serviceModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
-#serviceModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
-
-/* Service Modal Responsive Animations */
-@media (max-width: 768px) {
     #serviceModalContent {
-        transform: translateY(30px) scale(0.95);
-        margin: 0.5rem;
-        max-height: 98vh;
+        transform: translateY(50px) scale(0.9);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.1s;
     }
-    
+
     #serviceModal.show #serviceModalContent {
         transform: translateY(0) scale(1);
+        opacity: 1;
     }
-}
 
-/* Service Modal Gallery Optimization */
-#serviceModal .grid {
-    padding-right: 8px;
-}
+    /* Service Modal Header Animation */
+    #serviceModal .sticky.top-0 {
+        transform: translateY(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+        z-index: 10;
+        position: sticky;
+        top: 0;
+    }
 
-#serviceModal .grid::-webkit-scrollbar {
-    width: 6px;
-}
+    #serviceModal.show .sticky.top-0 {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#serviceModal .grid::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
+    /* Service Modal Content Animation */
+    #serviceModal .p-6>* {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-#serviceModal .grid::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
+    #serviceModal.show .p-6>* {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#serviceModal .grid::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
+    #serviceModal.show .p-6>*:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-/* Project Modal Animations */
-#projectModal {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(0px);
-}
+    #serviceModal.show .p-6>*:nth-child(2) {
+        transition-delay: 0.4s;
+    }
 
-#projectModal.show {
-    opacity: 1;
-    visibility: visible;
-    backdrop-filter: blur(8px);
-    z-index: 99;
-}
+    #serviceModal.show .p-6>*:nth-child(3) {
+        transition-delay: 0.5s;
+    }
 
-#projectModalContent {
-    transform: translateY(50px) scale(0.9);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.1s;
-}
+    #serviceModal.show .p-6>*:nth-child(4) {
+        transition-delay: 0.6s;
+    }
 
-#projectModal.show #projectModalContent {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-}
+    #serviceModal.show .p-6>*:nth-child(5) {
+        transition-delay: 0.7s;
+    }
 
-/* Project Modal Header Animation */
-#projectModal .sticky.top-0 {
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-    z-index: 10;
-    position: sticky;
-    top: 0;
-}
+    /* Service Modal Image Animation */
+    #serviceModal img {
+        transform: scale(1.1);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+    }
 
-#projectModal.show .sticky.top-0 {
-    transform: translateY(0);
-    opacity: 1;
-}
+    #serviceModal.show img {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-/* Project Modal Content Animation */
-#projectModal .p-6 > * {
-    transform: translateY(20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Service Modal Button Animation */
+    #serviceModal button {
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.4s;
+    }
 
-#projectModal.show .p-6 > * {
-    transform: translateY(0);
-    opacity: 1;
-}
+    #serviceModal.show button {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#projectModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
-#projectModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
-#projectModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
-#projectModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
-#projectModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
+    /* Service Modal Close Button Hover Effect */
+    #serviceModal .sticky.top-0 button:hover {
+        transform: rotate(90deg) scale(1.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* Project Modal Image Animation */
-#projectModal img {
-    transform: scale(1.1);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-}
+    /* Service Modal Gallery Images Animation */
+    #serviceModal .grid img {
+        transform: scale(0.8);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-#projectModal.show img {
-    transform: scale(1);
-    opacity: 1;
-}
+    #serviceModal.show .grid img {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-/* Project Modal Button Animation */
-#projectModal button {
-    transform: translateY(10px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.4s;
-}
+    #serviceModal.show .grid img:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-#projectModal.show button {
-    transform: translateY(0);
-    opacity: 1;
-}
+    #serviceModal.show .grid img:nth-child(2) {
+        transition-delay: 0.4s;
+    }
 
-/* Project Modal Close Button Hover Effect */
-#projectModal .sticky.top-0 button:hover {
-    transform: rotate(90deg) scale(1.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #serviceModal.show .grid img:nth-child(3) {
+        transition-delay: 0.5s;
+    }
 
-/* Project Modal Gallery Images Animation */
-#projectModal .grid img {
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #serviceModal.show .grid img:nth-child(4) {
+        transition-delay: 0.6s;
+    }
 
-#projectModal.show .grid img {
-    transform: scale(1);
-    opacity: 1;
-}
+    #serviceModal.show .grid img:nth-child(5) {
+        transition-delay: 0.7s;
+    }
 
-#projectModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
-#projectModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
-#projectModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
-#projectModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
-#projectModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
-#projectModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
+    #serviceModal.show .grid img:nth-child(6) {
+        transition-delay: 0.8s;
+    }
 
-/* Project Modal List Items Animation */
-#projectModal ul li {
-    transform: translateX(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Service Modal List Items Animation */
+    #serviceModal ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-#projectModal.show ul li {
-    transform: translateX(0);
-    opacity: 1;
-}
+    #serviceModal.show ul li {
+        transform: translateX(0);
+        opacity: 1;
+    }
 
-#projectModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
-#projectModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
-#projectModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
-#projectModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
-#projectModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
-#projectModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
+    #serviceModal.show ul li:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-/* Project Modal Responsive Animations */
-@media (max-width: 768px) {
+    #serviceModal.show ul li:nth-child(2) {
+        transition-delay: 0.4s;
+    }
+
+    #serviceModal.show ul li:nth-child(3) {
+        transition-delay: 0.5s;
+    }
+
+    #serviceModal.show ul li:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    #serviceModal.show ul li:nth-child(5) {
+        transition-delay: 0.7s;
+    }
+
+    #serviceModal.show ul li:nth-child(6) {
+        transition-delay: 0.8s;
+    }
+
+    /* Service Modal Responsive Animations */
+    @media (max-width: 768px) {
+        #serviceModalContent {
+            transform: translateY(30px) scale(0.95);
+            margin: 0.5rem;
+            max-height: 98vh;
+        }
+
+        #serviceModal.show #serviceModalContent {
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Service Modal Gallery Optimization */
+    #serviceModal .grid {
+        padding-right: 8px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    /* Project Modal Animations */
+    #projectModal {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(0px);
+    }
+
+    #projectModal.show {
+        opacity: 1;
+        visibility: visible;
+        backdrop-filter: blur(8px);
+        z-index: 99;
+    }
+
     #projectModalContent {
-        transform: translateY(30px) scale(0.95);
-        margin: 0.5rem;
-        max-height: 98vh;
+        transform: translateY(50px) scale(0.9);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.1s;
     }
-    
+
     #projectModal.show #projectModalContent {
         transform: translateY(0) scale(1);
+        opacity: 1;
     }
-}
 
-/* Project Modal Gallery Optimization */
-#projectModal .grid {
-    padding-right: 8px;
-}
+    /* Project Modal Header Animation */
+    #projectModal .sticky.top-0 {
+        transform: translateY(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+        z-index: 10;
+        position: sticky;
+        top: 0;
+    }
 
-#projectModal .grid::-webkit-scrollbar {
-    width: 6px;
-}
+    #projectModal.show .sticky.top-0 {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#projectModal .grid::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
+    /* Project Modal Content Animation */
+    #projectModal .p-6>* {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-#projectModal .grid::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
+    #projectModal.show .p-6>* {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#projectModal .grid::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
+    #projectModal.show .p-6>*:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-/* Service Info Cards Styling */
-.service-info-card,
-.service-description-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    #projectModal.show .p-6>*:nth-child(2) {
+        transition-delay: 0.4s;
+    }
 
-.service-info-card:hover,
-.service-description-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-color: #d1d5db;
-}
+    #projectModal.show .p-6>*:nth-child(3) {
+        transition-delay: 0.5s;
+    }
 
-/* Service Info Header */
-.service-info-header,
-.service-description-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f3f4f6;
-}
+    #projectModal.show .p-6>*:nth-child(4) {
+        transition-delay: 0.6s;
+    }
 
-.service-info-icon,
-.service-description-icon {
-    width: 32px;
-    height: 32px;
-    background: #f3f4f6;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b7280;
-    margin-right: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #projectModal.show .p-6>*:nth-child(5) {
+        transition-delay: 0.7s;
+    }
 
-.service-info-card:hover .service-info-icon,
-.service-description-card:hover .service-description-icon {
-    background: #e5e7eb;
-    color: #374151;
-}
+    /* Project Modal Image Animation */
+    #projectModal img {
+        transform: scale(1.1);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+    }
 
-.service-info-title,
-.service-description-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151;
-    margin: 0;
-}
+    #projectModal.show img {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-/* Service Info Content */
-.service-info-content {
-    space-y: 8px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    /* Project Modal Button Animation */
+    #projectModal button {
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.4s;
+    }
 
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #f9fafb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #projectModal.show button {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-.info-item:last-child {
-    border-bottom: none;
-}
+    /* Project Modal Close Button Hover Effect */
+    #projectModal .sticky.top-0 button:hover {
+        transform: rotate(90deg) scale(1.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.info-item:hover {
-    background-color: #f9fafb;
-    border-radius: 4px;
-    padding: 8px 12px;
-    margin: 0 -12px;
-}
+    /* Project Modal Gallery Images Animation */
+    #projectModal .grid img {
+        transform: scale(0.8);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.info-label {
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #6b7280;
-    gap: 6px;
-}
+    #projectModal.show .grid img {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-.info-value {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #374151;
-    padding: 2px 8px;
-    background-color: #f3f4f6;
-    border-radius: 4px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #projectModal.show .grid img:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-.info-item:hover .info-value {
-    background-color: #e5e7eb;
-}
+    #projectModal.show .grid img:nth-child(2) {
+        transition-delay: 0.4s;
+    }
 
-.price-value {
-    background: #d1fae5;
-    color: #065f46;
-    font-weight: 600;
-}
+    #projectModal.show .grid img:nth-child(3) {
+        transition-delay: 0.5s;
+    }
 
-.status-value.active {
-    background: #d1fae5;
-    color: #065f46;
-}
+    #projectModal.show .grid img:nth-child(4) {
+        transition-delay: 0.6s;
+    }
 
-.status-value.inactive {
-    background: #fee2e2;
-    color: #991b1b;
-}
+    #projectModal.show .grid img:nth-child(5) {
+        transition-delay: 0.7s;
+    }
 
-/* Service Description Content */
-.service-description-content {
-    padding-top: 4px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    #projectModal.show .grid img:nth-child(6) {
+        transition-delay: 0.8s;
+    }
 
-.description-text {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #6b7280;
-    margin: 0;
-    text-align: left;
-}
+    /* Project Modal List Items Animation */
+    #projectModal ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* Project Info Cards Styling */
-.project-info-card,
-.project-description-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    #projectModal.show ul li {
+        transform: translateX(0);
+        opacity: 1;
+    }
 
-.project-info-card:hover,
-.project-description-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-color: #d1d5db;
-}
+    #projectModal.show ul li:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-/* Project Info Header */
-.project-info-header,
-.project-description-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f3f4f6;
-}
+    #projectModal.show ul li:nth-child(2) {
+        transition-delay: 0.4s;
+    }
 
-.project-info-icon,
-.project-description-icon {
-    width: 32px;
-    height: 32px;
-    background: #f3f4f6;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b7280;
-    margin-right: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #projectModal.show ul li:nth-child(3) {
+        transition-delay: 0.5s;
+    }
 
-.project-info-card:hover .project-info-icon,
-.project-description-card:hover .project-description-icon {
-    background: #e5e7eb;
-    color: #374151;
-}
+    #projectModal.show ul li:nth-child(4) {
+        transition-delay: 0.6s;
+    }
 
-.project-info-title,
-.project-description-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151;
-    margin: 0;
-}
+    #projectModal.show ul li:nth-child(5) {
+        transition-delay: 0.7s;
+    }
 
-/* Project Info Content */
-.project-info-content {
-    space-y: 8px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    #projectModal.show ul li:nth-child(6) {
+        transition-delay: 0.8s;
+    }
 
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #f9fafb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Project Modal Responsive Animations */
+    @media (max-width: 768px) {
+        #projectModalContent {
+            transform: translateY(30px) scale(0.95);
+            margin: 0.5rem;
+            max-height: 98vh;
+        }
 
-.info-item:hover {
-    background-color: #f8fafc;
-    border-radius: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
-}
+        #projectModal.show #projectModalContent {
+            transform: translateY(0) scale(1);
+        }
+    }
 
-.info-item:last-child {
-    border-bottom: none;
-}
+    /* Project Modal Gallery Optimization */
+    #projectModal .grid {
+        padding-right: 8px;
+    }
 
-.info-label {
-    display: flex;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #6b7280;
-    font-weight: 500;
-}
+    #projectModal .grid::-webkit-scrollbar {
+        width: 6px;
+    }
 
-.info-label svg {
-    margin-right: 6px;
-    flex-shrink: 0;
-}
+    #projectModal .grid::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+    }
 
-.info-value {
-    font-size: 0.875rem;
-    color: #374151;
-    font-weight: 600;
-    text-align: right;
-}
+    #projectModal .grid::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
 
-.budget-value {
-    color: #059669;
-    font-weight: 700;
-}
+    #projectModal .grid::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
 
-/* Project Description Content */
-.project-description-content {
-    padding-top: 4px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.description-text {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #6b7280;
-    margin: 0;
-    text-align: left;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+    /* Service Info Cards Styling */
     .service-info-card,
     .service-description-card {
-        padding: 12px;
-        margin-bottom: 12px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: visible;
+        height: auto;
+        max-height: none;
     }
-    
+
+    .service-info-card:hover,
+    .service-description-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-color: #d1d5db;
+    }
+
+    /* Service Info Header */
     .service-info-header,
     .service-description-header {
-        margin-bottom: 8px;
-        padding-bottom: 6px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f3f4f6;
     }
-    
+
     .service-info-icon,
     .service-description-icon {
-        width: 28px;
-        height: 28px;
-        margin-right: 8px;
+        width: 32px;
+        height: 32px;
+        background: #f3f4f6;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        margin-right: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
+    .service-info-card:hover .service-info-icon,
+    .service-description-card:hover .service-description-icon {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
     .service-info-title,
     .service-description-title {
-        font-size: 0.9rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #374151;
+        margin: 0;
     }
-    
+
+    /* Service Info Content */
+    .service-info-content {
+        space-y: 8px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
+
     .info-item {
-        /* flex-direction: column; */
-        align-items: flex-start;
-        gap: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f9fafb;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
+    .info-item:last-child {
+        border-bottom: none;
+    }
+
+    .info-item:hover {
+        background-color: #f9fafb;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin: 0 -12px;
+    }
+
     .info-label {
-        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #6b7280;
+        gap: 6px;
     }
-    
+
     .info-value {
-        font-size: 0.75rem;
-        align-self: flex-end;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #374151;
+        padding: 2px 8px;
+        background-color: #f3f4f6;
+        border-radius: 4px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-}
 
-/* Smooth scroll behavior */
-html {
-    scroll-behavior: smooth;
-}
+    .info-item:hover .info-value {
+        background-color: #e5e7eb;
+    }
 
-/* Section transitions */
-section {
-    transition: all 0.3s ease;
-}
+    .price-value {
+        background: #d1fae5;
+        color: #065f46;
+        font-weight: 600;
+    }
 
-/* Card content smooth transitions */
-.service-card-animate .bg-white h3,
-.portfolio-card-animate .portfolio-item h3,
-.review-card-animate .bg-white h3 {
-    transition: color 0.3s ease;
-}
+    .status-value.active {
+        background: #d1fae5;
+        color: #065f46;
+    }
 
-.service-card-animate .bg-white:hover h3,
-.portfolio-card-animate .portfolio-item:hover h3,
-.review-card-animate .bg-white:hover h3 {
-    color: #3b82f6;
-}
+    .status-value.inactive {
+        background: #fee2e2;
+        color: #991b1b;
+    }
 
-/* Price and button smooth transitions */
-.service-card-animate .bg-white .font-semibold,
-.portfolio-card-animate .portfolio-item .font-semibold {
-    transition: all 0.3s ease;
-}
+    /* Service Description Content */
+    .service-description-content {
+        padding-top: 4px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
 
-.service-card-animate .bg-white:hover .font-semibold,
-.portfolio-card-animate .portfolio-item:hover .font-semibold {
-    transform: scale(1.05);
-}
+    .description-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #6b7280;
+        margin: 0;
+        text-align: left;
+    }
 
-/* Smooth loading states */
-.loading {
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-}
+    /* Project Info Cards Styling */
+    .project-info-card,
+    .project-description-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
 
-/* Smooth hover effects for text */
-.text-accent-blue {
-    transition: all 0.3s ease;
-}
+    .project-info-card:hover,
+    .project-description-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-color: #d1d5db;
+    }
 
-.text-accent-blue:hover {
-    transform: scale(1.05);
-}
+    /* Project Info Header */
+    .project-info-header,
+    .project-description-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f3f4f6;
+    }
 
-/* Enhanced smooth transitions for better UX */
-* {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .project-info-icon,
+    .project-description-icon {
+        width: 32px;
+        height: 32px;
+        background: #f3f4f6;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        margin-right: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* Smooth hover effects for all cards */
-.service-card-animate,
-.portfolio-card-animate,
-.review-card-animate {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .project-info-card:hover .project-info-icon,
+    .project-description-card:hover .project-description-icon {
+        background: #e5e7eb;
+        color: #374151;
+    }
 
-/* Smooth image transitions */
-img {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .project-info-title,
+    .project-description-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #374151;
+        margin: 0;
+    }
 
-/* Smooth text transitions */
-h1, h2, h3, h4, h5, h6, p, span, div {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Project Info Content */
+    .project-info-content {
+        space-y: 8px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
 
-/* Smooth background transitions */
-.bg-white, .bg-gray-50, .bg-gray-100 {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f9fafb;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* Smooth shadow transitions */
-.shadow-sm, .shadow, .shadow-lg, .shadow-xl {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .info-item:hover {
+        background-color: #f8fafc;
+        border-radius: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 
-/* Smooth border transitions */
-.border, .border-2, .border-gray-200, .border-accent-blue {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .info-item:last-child {
+        border-bottom: none;
+    }
 
-/* Smooth color transitions */
-.text-text-primary, .text-text-secondary, .text-accent-blue {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .info-label {
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+        color: #6b7280;
+        font-weight: 500;
+    }
 
-/* Smooth opacity transitions */
-.opacity-0, .opacity-50, .opacity-75, .opacity-100 {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .info-label svg {
+        margin-right: 6px;
+        flex-shrink: 0;
+    }
 
-/* Smooth transform transitions */
-.transform, .translateY, .scale, .rotate {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .info-value {
+        font-size: 0.875rem;
+        color: #374151;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .budget-value {
+        color: #059669;
+        font-weight: 700;
+    }
+
+    /* Project Description Content */
+    .project-description-content {
+        padding-top: 4px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
+
+    .description-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #6b7280;
+        margin: 0;
+        text-align: left;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+
+        .service-info-card,
+        .service-description-card {
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .service-info-header,
+        .service-description-header {
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+        }
+
+        .service-info-icon,
+        .service-description-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 8px;
+        }
+
+        .service-info-title,
+        .service-description-title {
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            /* flex-direction: column; */
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+        }
+
+        .info-value {
+            font-size: 0.75rem;
+            align-self: flex-end;
+        }
+    }
+
+    /* Smooth scroll behavior */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Section transitions */
+    section {
+        transition: all 0.3s ease;
+    }
+
+    /* Card content smooth transitions */
+    .service-card-animate .bg-white h3,
+    .portfolio-card-animate .portfolio-item h3,
+    .review-card-animate .bg-white h3 {
+        transition: color 0.3s ease;
+    }
+
+    .service-card-animate .bg-white:hover h3,
+    .portfolio-card-animate .portfolio-item:hover h3,
+    .review-card-animate .bg-white:hover h3 {
+        color: #3b82f6;
+    }
+
+    /* Price and button smooth transitions */
+    .service-card-animate .bg-white .font-semibold,
+    .portfolio-card-animate .portfolio-item .font-semibold {
+        transition: all 0.3s ease;
+    }
+
+    .service-card-animate .bg-white:hover .font-semibold,
+    .portfolio-card-animate .portfolio-item:hover .font-semibold {
+        transform: scale(1.05);
+    }
+
+    /* Smooth loading states */
+    .loading {
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Smooth hover effects for text */
+    .text-accent-blue {
+        transition: all 0.3s ease;
+    }
+
+    .text-accent-blue:hover {
+        transform: scale(1.05);
+    }
+
+    /* Enhanced smooth transitions for better UX */
+    * {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth hover effects for all cards */
+    .service-card-animate,
+    .portfolio-card-animate,
+    .review-card-animate {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth image transitions */
+    img {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth text transitions */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    div {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth background transitions */
+    .bg-white,
+    .bg-gray-50,
+    .bg-gray-100 {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth shadow transitions */
+    .shadow-sm,
+    .shadow,
+    .shadow-lg,
+    .shadow-xl {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth border transitions */
+    .border,
+    .border-2,
+    .border-gray-200,
+    .border-accent-blue {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth color transitions */
+    .text-text-primary,
+    .text-text-secondary,
+    .text-accent-blue {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth opacity transitions */
+    .opacity-0,
+    .opacity-50,
+    .opacity-75,
+    .opacity-100 {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth transform transitions */
+    .transform,
+    .translateY,
+    .scale,
+    .rotate {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
 
-.portfolio-card-animate .portfolio-item:hover img {
-    transform: scale(1.05);
-}
+    .portfolio-card-animate .portfolio-item:hover img {
+        transform: scale(1.05);
+    }
 
-.portfolio-card-animate .portfolio-item img {
-    transition: transform 0.3s ease;
-}
+    .portfolio-card-animate .portfolio-item img {
+        transition: transform 0.3s ease;
+    }
 
-/* Review card hover effects */
-.review-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+    /* Review card hover effects */
+    .review-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
 
-.review-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
+    .review-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
 
-.review-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
+    .review-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
 
-/* Grid alignment for equal height cards */
-.align-items-stretch {
-    align-items: stretch;
-}
+    /* Grid alignment for equal height cards */
+    .align-items-stretch {
+        align-items: stretch;
+    }
 
-/* ===== PROJECT MODAL STYLES ===== */
-/* Enhanced Project Modal Animations */
-#projectModal {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(0px);
-}
+    /* ===== PROJECT MODAL STYLES ===== */
+    /* Enhanced Project Modal Animations */
+    #projectModal {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(0px);
+    }
 
-#projectModal.show {
-    opacity: 1;
-    visibility: visible;
-    backdrop-filter: blur(8px);
-    z-index: 99;
-}
+    #projectModal.show {
+        opacity: 1;
+        visibility: visible;
+        backdrop-filter: blur(8px);
+        z-index: 99;
+    }
 
-#projectModalContent {
-    transform: translateY(50px) scale(0.9);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.1s;
-}
-
-#projectModal.show #projectModalContent {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-}
-
-/* Project Modal Header Animation */
-#projectModal .sticky.top-0 {
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-    z-index: 10;
-    position: sticky;
-    top: 0;
-}
-
-#projectModal.show .sticky.top-0 {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Project Modal Content Animation */
-#projectModal .p-6 > * {
-    transform: translateY(20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#projectModal.show .p-6 > * {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-#projectModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
-#projectModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
-#projectModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
-#projectModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
-#projectModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
-
-/* Project Modal Image Animation */
-#projectModal img {
-    transform: scale(1.1);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-}
-
-#projectModal.show img {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Project Modal Button Animation */
-#projectModal button {
-    transform: translateY(10px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.4s;
-}
-
-#projectModal.show button {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Project Modal Close Button Hover Effect */
-#projectModal .sticky.top-0 button:hover {
-    transform: rotate(90deg) scale(1.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Project Modal Gallery Images Animation */
-#projectModal .grid img {
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#projectModal.show .grid img {
-    transform: scale(1);
-    opacity: 1;
-}
-
-#projectModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
-#projectModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
-#projectModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
-#projectModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
-#projectModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
-#projectModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
-
-/* Project Modal List Items Animation */
-#projectModal ul li {
-    transform: translateX(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#projectModal.show ul li {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-#projectModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
-#projectModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
-#projectModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
-#projectModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
-#projectModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
-#projectModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
-
-/* Project Modal Responsive Animations */
-@media (max-width: 768px) {
     #projectModalContent {
-        transform: translateY(30px) scale(0.95);
-        margin: 0.5rem;
-        max-height: 98vh;
+        transform: translateY(50px) scale(0.9);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.1s;
     }
-    
+
     #projectModal.show #projectModalContent {
         transform: translateY(0) scale(1);
+        opacity: 1;
     }
-}
 
-/* Project Modal Gallery Optimization */
-#projectModal .grid {
-    padding-right: 8px;
-}
+    /* Project Modal Header Animation */
+    #projectModal .sticky.top-0 {
+        transform: translateY(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+        z-index: 10;
+        position: sticky;
+        top: 0;
+    }
 
-#projectModal .grid::-webkit-scrollbar {
-    width: 6px;
-}
+    #projectModal.show .sticky.top-0 {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#projectModal .grid::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
+    /* Project Modal Content Animation */
+    #projectModal .p-6>* {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-#projectModal .grid::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
+    #projectModal.show .p-6>* {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-#projectModal .grid::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
+    #projectModal.show .p-6>*:nth-child(1) {
+        transition-delay: 0.3s;
+    }
 
-/* Project Info Cards Styling */
-.project-info-card,
-.project-description-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    #projectModal.show .p-6>*:nth-child(2) {
+        transition-delay: 0.4s;
+    }
 
-.project-info-card:hover,
-.project-description-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-color: #d1d5db;
-}
+    #projectModal.show .p-6>*:nth-child(3) {
+        transition-delay: 0.5s;
+    }
 
-/* Project Info Header */
-.project-info-header,
-.project-description-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f3f4f6;
-}
+    #projectModal.show .p-6>*:nth-child(4) {
+        transition-delay: 0.6s;
+    }
 
-.project-info-icon,
-.project-description-icon {
-    width: 32px;
-    height: 32px;
-    background: #f3f4f6;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b7280;
-    margin-right: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    #projectModal.show .p-6>*:nth-child(5) {
+        transition-delay: 0.7s;
+    }
 
-.project-info-card:hover .project-info-icon,
-.project-description-card:hover .project-description-icon {
-    background: #e5e7eb;
-    color: #374151;
-}
+    /* Project Modal Image Animation */
+    #projectModal img {
+        transform: scale(1.1);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+    }
 
-.project-info-title,
-.project-description-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151;
-    margin: 0;
-}
+    #projectModal.show img {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-/* Project Info Content */
-.project-info-content {
-    space-y: 8px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    /* Project Modal Button Animation */
+    #projectModal button {
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.4s;
+    }
 
-.budget-value {
-    background: #d1fae5;
-    color: #065f46;
-    font-weight: 600;
-}
+    #projectModal.show button {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-/* Project Description Content */
-.project-description-content {
-    padding-top: 4px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
+    /* Project Modal Close Button Hover Effect */
+    #projectModal .sticky.top-0 button:hover {
+        transform: rotate(90deg) scale(1.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.description-text {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #6b7280;
-    margin: 0;
-    text-align: left;
-}
+    /* Project Modal Gallery Images Animation */
+    #projectModal .grid img {
+        transform: scale(0.8);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #projectModal.show .grid img {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    #projectModal.show .grid img:nth-child(1) {
+        transition-delay: 0.3s;
+    }
+
+    #projectModal.show .grid img:nth-child(2) {
+        transition-delay: 0.4s;
+    }
+
+    #projectModal.show .grid img:nth-child(3) {
+        transition-delay: 0.5s;
+    }
+
+    #projectModal.show .grid img:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    #projectModal.show .grid img:nth-child(5) {
+        transition-delay: 0.7s;
+    }
+
+    #projectModal.show .grid img:nth-child(6) {
+        transition-delay: 0.8s;
+    }
+
+    /* Project Modal List Items Animation */
+    #projectModal ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #projectModal.show ul li {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    #projectModal.show ul li:nth-child(1) {
+        transition-delay: 0.3s;
+    }
+
+    #projectModal.show ul li:nth-child(2) {
+        transition-delay: 0.4s;
+    }
+
+    #projectModal.show ul li:nth-child(3) {
+        transition-delay: 0.5s;
+    }
+
+    #projectModal.show ul li:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    #projectModal.show ul li:nth-child(5) {
+        transition-delay: 0.7s;
+    }
+
+    #projectModal.show ul li:nth-child(6) {
+        transition-delay: 0.8s;
+    }
+
+    /* Project Modal Responsive Animations */
+    @media (max-width: 768px) {
+        #projectModalContent {
+            transform: translateY(30px) scale(0.95);
+            margin: 0.5rem;
+            max-height: 98vh;
+        }
+
+        #projectModal.show #projectModalContent {
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Project Modal Gallery Optimization */
+    #projectModal .grid {
+        padding-right: 8px;
+    }
+
+    #projectModal .grid::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #projectModal .grid::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+    }
+
+    #projectModal .grid::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+
+    #projectModal .grid::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    /* Project Info Cards Styling */
+    .project-info-card,
+    .project-description-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
+
+    .project-info-card:hover,
+    .project-description-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-color: #d1d5db;
+    }
+
+    /* Project Info Header */
+    .project-info-header,
+    .project-description-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .project-info-icon,
+    .project-description-icon {
+        width: 32px;
+        height: 32px;
+        background: #f3f4f6;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        margin-right: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-info-card:hover .project-info-icon,
+    .project-description-card:hover .project-description-icon {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
+    .project-info-title,
+    .project-description-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #374151;
+        margin: 0;
+    }
+
+    /* Project Info Content */
+    .project-info-content {
+        space-y: 8px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
+
+    .budget-value {
+        background: #d1fae5;
+        color: #065f46;
+        font-weight: 600;
+    }
+
+    /* Project Description Content */
+    .project-description-content {
+        padding-top: 4px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
+
+    .description-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #6b7280;
+        margin: 0;
+        text-align: left;
+    }
 </style>
 
 <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 id="services-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 services-title-animate">
+            <h2 id="services-title"
+                class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 services-title-animate">
                 Unsere Dienstleistungen
             </h2>
             <p id="services-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto services-subtitle-animate">
                 Wir führen alle Arten von Innenarbeiten mit Qualitätsgarantie und pünktlich durch
             </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
             <?php foreach (array_slice($services, 0, 3) as $index => $service): ?>
                 <div class="service-card-animate" data-delay="<?php echo $index * 0.2; ?>">
@@ -1556,13 +1744,13 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                 </div>
             <?php endforeach; ?>
         </div>
-        
+
         <div class="text-center mt-12">
             <?php render_frontend_button([
                 'text' => 'Alle Dienstleistungen',
                 'variant' => 'outline',
                 'size' => 'lg',
-                'href' => 'services.php'
+                'href' => 'services'
             ]); ?>
         </div>
     </div>
@@ -1572,137 +1760,151 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 <section id="portfolio" class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 id="portfolio-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 portfolio-title-animate">
+            <h2 id="portfolio-title"
+                class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 portfolio-title-animate">
                 Unsere Arbeiten
             </h2>
             <p id="portfolio-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto portfolio-subtitle-animate">
-                Sehen Sie sich Beispiele unserer Projekte an — von kleinen Renovierungen bis zur kompletten Rekonstruktion
+                Sehen Sie sich Beispiele unserer Projekte an — von kleinen Renovierungen bis zur kompletten
+                Rekonstruktion
             </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
             <?php foreach ($portfolio as $index => $project): ?>
                 <div class="portfolio-card-animate" data-delay="<?php echo $index * 0.2; ?>">
-                    <div class="portfolio-item bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
-                    
-                    <!-- Featured Image -->
-                    <div class="relative h-64 bg-gray-200 overflow-hidden group">
-                        <img src="<?php echo htmlspecialchars($project['image']); ?>" 
-                             alt="<?php echo htmlspecialchars($project['title']); ?>" 
-                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                            <button class="opacity-0 group-hover:opacity-100 bg-white text-accent-blue px-4 py-2 rounded font-medium transition-opacity" 
+                    <div
+                        class="portfolio-item bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
+
+                        <!-- Featured Image -->
+                        <div class="relative h-64 bg-gray-200 overflow-hidden group">
+                            <img src="<?php echo htmlspecialchars($project['image']); ?>"
+                                alt="<?php echo htmlspecialchars($project['title']); ?>"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                                <button
+                                    class="opacity-0 group-hover:opacity-100 bg-white text-accent-blue px-4 py-2 rounded font-medium transition-opacity"
                                     onclick="openProjectModal(<?php echo $project['id']; ?>)">
-                                Mehr erfahren
-                            </button>
-                        </div>
-                        <div class="absolute top-4 left-4">
-                            <span class="inline-block px-3 py-1 bg-accent-blue text-white text-sm rounded-full">
-                                <?php echo htmlspecialchars($project['category']); ?>
-                            </span>
-                        </div>
-                        <?php if ($project['featured']): ?>
-                        <div class="absolute top-4 right-4">
-                            <span class="inline-block px-2 py-1 bg-yellow-500 text-white text-xs rounded-full">
-                                ⭐ Empfohlen
-                            </span>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                    
-                    <!-- Project Info -->
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="font-semibold text-xl text-text-primary mb-3">
-                            <?php echo htmlspecialchars($project['title']); ?>
-                        </h3>
-                        <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3 flex-grow">
-                            <?php 
-                            $description = $project['description'];
-                            if (strlen($description) > 200) {
-                                $description = substr($description, 0, 200);
-                                $lastSpace = strrpos($description, ' ');
-                                if ($lastSpace !== false) {
-                                    $description = substr($description, 0, $lastSpace);
-                                }
-                                $description .= '...';
-                            }
-                            echo htmlspecialchars($description); 
-                            ?>
-                        </p>
-                        
-                        <!-- Project Stats -->
-                        <div class="grid grid-cols-2 gap-4 mb-4 text-sm text-text-secondary">
-                            <div class="flex items-center">
-                                <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                                </svg>
-                                <?php 
-                                $area = $project['area'];
-                                // Переводим единицы измерения
-                                $area = str_replace('м²', 'm²', $area);
-                                echo htmlspecialchars($area); 
-                                ?>
+                                    Mehr erfahren
+                                </button>
                             </div>
-                            <div class="flex items-center">
-                                <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <?php 
-                                $duration = $project['duration'];
-                                // Переводим единицы времени
-                                $duration = str_replace('6 недель', '6 Wochen', $duration);
-                                $duration = str_replace('недель', 'Wochen', $duration);
-                                $duration = str_replace('недели', 'Wochen', $duration);
-                                $duration = str_replace('неделя', 'Woche', $duration);
-                                echo htmlspecialchars($duration); 
-                                ?>
-                            </div>
-                            <?php if ($project['budget']): ?>
-                            <div class="flex items-center col-span-2">
-                                <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path xmlns="http://www.w3.org/2000/svg" d="M19 7.11111C17.775 5.21864 15.8556 4 13.6979 4C9.99875 4 7 7.58172 7 12C7 16.4183 9.99875 20 13.6979 20C15.8556 20 17.775 18.7814 19 16.8889M5 10H14M5 14H14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <?php echo number_format($project['budget'], 0, ',', ' '); ?> €
-                            </div>
-                            <?php endif; ?>
-                        </div>
-                        
-                        <!-- Tags -->
-                        <?php if (!empty($project['tags'])): ?>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <?php foreach (array_slice($project['tags'], 0, 3) as $tag): ?>
-                                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                                    <?php echo htmlspecialchars($tag); ?>
+                            <div class="absolute top-4 left-4">
+                                <span class="inline-block px-3 py-1 bg-accent-blue text-white text-sm rounded-full">
+                                    <?php echo htmlspecialchars($project['category']); ?>
                                 </span>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php endif; ?>
-                        
-                        <!-- Action Buttons -->
-                        <div class="flex gap-2 mt-auto">
-                            <button onclick="openProjectModal(<?php echo $project['id']; ?>)" 
-                                    class="flex-1 bg-accent-blue text-white px-4 py-2 rounded font-medium hover:bg-blue-600 transition-colors">
-                                Mehr erfahren
-                            </button>
-                            <?php if (!empty($project['gallery'])): ?>
-                            <button onclick="openGallery(<?php echo $project['id']; ?>)" 
-                                    class="px-4 py-2 border border-accent-blue text-accent-blue rounded font-medium hover:bg-accent-blue hover:text-white transition-colors">
-                                Galerie
-                            </button>
+                            </div>
+                            <?php if ($project['featured']): ?>
+                                <div class="absolute top-4 right-4">
+                                    <span class="inline-block px-2 py-1 bg-yellow-500 text-white text-xs rounded-full">
+                                        ⭐ Empfohlen
+                                    </span>
+                                </div>
                             <?php endif; ?>
                         </div>
-                    </div>
+
+                        <!-- Project Info -->
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-semibold text-xl text-text-primary mb-3">
+                                <?php echo htmlspecialchars($project['title']); ?>
+                            </h3>
+                            <p class="text-text-secondary mb-4 leading-relaxed line-clamp-3 flex-grow">
+                                <?php
+                                $description = $project['description'];
+                                if (strlen($description) > 200) {
+                                    $description = substr($description, 0, 200);
+                                    $lastSpace = strrpos($description, ' ');
+                                    if ($lastSpace !== false) {
+                                        $description = substr($description, 0, $lastSpace);
+                                    }
+                                    $description .= '...';
+                                }
+                                echo htmlspecialchars($description);
+                                ?>
+                            </p>
+
+                            <!-- Project Stats -->
+                            <div class="grid grid-cols-2 gap-4 mb-4 text-sm text-text-secondary">
+                                <div class="flex items-center">
+                                    <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                        </path>
+                                    </svg>
+                                    <?php
+                                    $area = $project['area'];
+                                    // Переводим единицы измерения
+                                    $area = str_replace('м²', 'm²', $area);
+                                    echo htmlspecialchars($area);
+                                    ?>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <?php
+                                    $duration = $project['duration'];
+                                    // Переводим единицы времени
+                                    $duration = str_replace('6 недель', '6 Wochen', $duration);
+                                    $duration = str_replace('недель', 'Wochen', $duration);
+                                    $duration = str_replace('недели', 'Wochen', $duration);
+                                    $duration = str_replace('неделя', 'Woche', $duration);
+                                    echo htmlspecialchars($duration);
+                                    ?>
+                                </div>
+                                <?php if ($project['budget']): ?>
+                                    <div class="flex items-center col-span-2">
+                                        <svg class="h-4 w-4 mr-2 text-accent-blue" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path xmlns="http://www.w3.org/2000/svg"
+                                                d="M19 7.11111C17.775 5.21864 15.8556 4 13.6979 4C9.99875 4 7 7.58172 7 12C7 16.4183 9.99875 20 13.6979 20C15.8556 20 17.775 18.7814 19 16.8889M5 10H14M5 14H14"
+                                                stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        <?php echo number_format($project['budget'], 0, ',', ' '); ?> €
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Tags -->
+                            <?php if (!empty($project['tags'])): ?>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <?php foreach (array_slice($project['tags'], 0, 3) as $tag): ?>
+                                        <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                                            <?php echo htmlspecialchars($tag); ?>
+                                        </span>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <!-- Action Buttons -->
+                            <div class="flex gap-2 mt-auto">
+                                <button onclick="openProjectModal(<?php echo $project['id']; ?>)"
+                                    class="flex-1 bg-accent-blue text-white px-4 py-2 rounded font-medium hover:bg-blue-600 transition-colors">
+                                    Mehr erfahren
+                                </button>
+                                <?php if (!empty($project['gallery'])): ?>
+                                    <button onclick="openGallery(<?php echo $project['id']; ?>)"
+                                        class="px-4 py-2 border border-accent-blue text-accent-blue rounded font-medium hover:bg-accent-blue hover:text-white transition-colors">
+                                        Galerie
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-        
+
         <div class="text-center mt-12">
             <?php render_frontend_button([
                 'text' => 'Alle Projekte ansehen',
                 'variant' => 'primary',
                 'size' => 'lg',
-                'href' => 'portfolio.php'
+                'href' => 'portfolio'
             ]); ?>
         </div>
     </div>
@@ -1714,19 +1916,22 @@ h1, h2, h3, h4, h5, h6, p, span, div {
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div>
                 <div style="text-align: center;">
-                    <h2 id="about-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
+                    <h2 id="about-title"
+                        class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-6 about-title-animate">
                         Über das Unternehmen Frankfurt Innenausbau
                     </h2>
                 </div>
                 <p class="text-lg text-text-secondary mb-6 leading-relaxed">
-                    Wir sind ein Team erfahrener Handwerker, die seit über 10 Jahren in Frankfurt arbeiten. 
-                    Wir spezialisieren uns auf Innenarbeiten und kennen alle Feinheiten einer qualitativ hochwertigen Renovierung.
+                    Wir sind ein Team erfahrener Handwerker, die seit über 10 Jahren in Frankfurt arbeiten.
+                    Wir spezialisieren uns auf Innenarbeiten und kennen alle Feinheiten einer qualitativ hochwertigen
+                    Renovierung.
                 </p>
                 <div class="grid md:grid-cols-2 gap-6 mb-8">
                     <?php if (!empty($statistics)): ?>
                         <?php foreach (array_slice($statistics, 0, 4) as $index => $stat): ?>
                             <div class="text-center about-stat-animate" data-delay="<?php echo $index * 0.1; ?>">
-                                <div class="text-3xl font-bold text-accent-blue mb-2"><?php echo htmlspecialchars($stat['number']); ?></div>
+                                <div class="text-3xl font-bold text-accent-blue mb-2">
+                                    <?php echo htmlspecialchars($stat['number']); ?></div>
                                 <div class="text-text-secondary"><?php echo htmlspecialchars($stat['label']); ?></div>
                             </div>
                         <?php endforeach; ?>
@@ -1754,7 +1959,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                         'text' => 'Mehr über uns',
                         'variant' => 'outline',
                         'size' => 'lg',
-                        'href' => 'about.php'
+                        'href' => 'about'
                     ]); ?>
                 </div>
             </div>
@@ -1763,26 +1968,34 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                     <h3 class="font-semibold text-2xl mb-4">Warum wählen Sie uns?</h3>
                     <ul class="space-y-4">
                         <li class="flex items-center">
-                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
                             </svg>
                             Qualitätsgarantie für alle Arbeiten
                         </li>
                         <li class="flex items-center">
-                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
                             </svg>
                             Einhaltung der vereinbarten Fristen
                         </li>
                         <li class="flex items-center">
-                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
                             </svg>
                             Qualitätsmaterialien
                         </li>
                         <li class="flex items-center">
-                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            <svg class="h-6 w-6 text-green-400 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
                             </svg>
                             Professionelles Team
                         </li>
@@ -1797,14 +2010,15 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 <section id="reviews" class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 id="reviews-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 reviews-title-animate">
+            <h2 id="reviews-title"
+                class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 reviews-title-animate">
                 Bewertungen unserer Kunden
             </h2>
             <p id="reviews-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto reviews-subtitle-animate">
                 Lesen Sie, was diejenigen über unsere Arbeit sagen, die uns bereits ihre Renovierung anvertraut haben
             </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 align-items-stretch">
             <?php foreach ($reviews as $index => $review): ?>
                 <div class="review-card-animate" data-delay="<?php echo $index * 0.15; ?>">
@@ -1812,13 +2026,13 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                 </div>
             <?php endforeach; ?>
         </div>
-        
+
         <div class="text-center mt-12">
             <?php render_frontend_button([
                 'text' => 'Alle Bewertungen',
                 'variant' => 'outline',
                 'size' => 'lg',
-                'href' => 'review.php'
+                'href' => 'review'
             ]); ?>
         </div>
     </div>
@@ -1832,21 +2046,24 @@ $content = ob_get_clean();
 <!-- Modals -->
 <!-- Service Modal -->
 <div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
-    <div id="serviceModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+    <div id="serviceModalContent"
+        class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
 
 <!-- Project Detail Modal -->
 <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
-    <div id="projectModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+    <div id="projectModalContent"
+        class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
 
 <!-- Gallery Modal -->
 <div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
-    <div id="galleryModalContent" class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+    <div id="galleryModalContent"
+        class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
         <!-- Gallery content will be loaded here -->
     </div>
 </div>
@@ -1864,22 +2081,22 @@ $content = ob_get_clean();
 </div>
 
 <script>
-// Получаем данные услуг из PHP
-const servicesData = <?php echo json_encode($services); ?>;
+    // Получаем данные услуг из PHP
+    const servicesData = <?php echo json_encode($services); ?>;
 
-// Получаем данные портфолио из PHP
-const projects = <?php echo json_encode($portfolio); ?>;
+    // Получаем данные портфолио из PHP
+    const projects = <?php echo json_encode($portfolio); ?>;
 
-// Service modal
-function openServiceModal(serviceId) {
-    const service = servicesData.find(s => s.id == serviceId);
-    if (!service) return;
-    
-    const modal = document.getElementById('serviceModal');
-    const modalContent = document.getElementById('serviceModalContent');
-    
-    // Создаем контент модального окна
-    modalContent.innerHTML = `
+    // Service modal
+    function openServiceModal(serviceId) {
+        const service = servicesData.find(s => s.id == serviceId);
+        if (!service) return;
+
+        const modal = document.getElementById('serviceModal');
+        const modalContent = document.getElementById('serviceModalContent');
+
+        // Создаем контент модального окна
+        modalContent.innerHTML = `
         <div class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
@@ -1994,41 +2211,41 @@ function openServiceModal(serviceId) {
             </div>
         </div>
     `;
-    
-    // Показываем модальное окно с анимацией
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    
-    // Добавляем класс для анимации после небольшой задержки
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
-}
 
-function closeServiceModal() {
-    const modal = document.getElementById('serviceModal');
-    
-    // Убираем класс анимации
-    modal.classList.remove('show');
-    
-    // Скрываем модальное окно после завершения анимации
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
-    }, 400); // Время должно совпадать с CSS transition
-}
+        // Показываем модальное окно с анимацией
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
 
-// Gallery modal
-function openServiceGallery(serviceId) {
-    const service = servicesData.find(s => s.id == serviceId);
-    if (!service || !service.gallery || service.gallery.length === 0) return;
-    
-    const modal = document.getElementById('galleryModal');
-    const modalContent = document.getElementById('galleryModalContent');
-    
-    modalContent.innerHTML = `
+        // Добавляем класс для анимации после небольшой задержки
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }
+
+    function closeServiceModal() {
+        const modal = document.getElementById('serviceModal');
+
+        // Убираем класс анимации
+        modal.classList.remove('show');
+
+        // Скрываем модальное окно после завершения анимации
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }, 400); // Время должно совпадать с CSS transition
+    }
+
+    // Gallery modal
+    function openServiceGallery(serviceId) {
+        const service = servicesData.find(s => s.id == serviceId);
+        if (!service || !service.gallery || service.gallery.length === 0) return;
+
+        const modal = document.getElementById('galleryModal');
+        const modalContent = document.getElementById('galleryModalContent');
+
+        modalContent.innerHTML = `
         <div class="bg-white rounded-lg max-w-6xl mx-auto max-h-[90vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
@@ -2050,85 +2267,85 @@ function openServiceGallery(serviceId) {
             </div>
         </div>
     `;
-    
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-}
 
-function closeGalleryModal() {
-    const modal = document.getElementById('galleryModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
 
-// Image modal
-function openImageModal(imageSrc) {
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    
-    modalImage.src = imageSrc;
-    modalImage.alt = 'Galerie';
-    
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-}
+    function closeGalleryModal() {
+        const modal = document.getElementById('galleryModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
 
-function closeImageModal() {
-    const modal = document.getElementById('imageModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
+    // Image modal
+    function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
 
-// Close modals on escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeServiceModal();
-        closeProjectModal();
-        closeGalleryModal();
-        closeImageModal();
-    }
-});
+        modalImage.src = imageSrc;
+        modalImage.alt = 'Galerie';
 
-// Закрытие модальных окон по клику вне их
-document.addEventListener('click', function(event) {
-    if (event.target.id === 'serviceModal') {
-        closeServiceModal();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
     }
-    if (event.target.id === 'projectModal') {
-        closeProjectModal();
-    }
-    if (event.target.id === 'galleryModal') {
-        closeGalleryModal();
-    }
-    if (event.target.id === 'imageModal') {
-        closeImageModal();
-    }
-});
 
-// Предотвращаем закрытие при клике на контент модального окна
-document.addEventListener('click', function(event) {
-    if (event.target.closest('#serviceModalContent')) {
-        event.stopPropagation();
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
     }
-    if (event.target.closest('#projectModalContent')) {
-        event.stopPropagation();
-    }
-});
 
-// Project modal functions
-function openProjectModal(projectId) {
-    const project = projects.find(p => p.id == projectId);
-    if (!project) return;
-    
-    const modal = document.getElementById('projectModal');
-    const modalContent = document.getElementById('projectModalContent');
-    
-    // Создаем контент модального окна
-    modalContent.innerHTML = `
+    // Close modals on escape key
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeServiceModal();
+            closeProjectModal();
+            closeGalleryModal();
+            closeImageModal();
+        }
+    });
+
+    // Закрытие модальных окон по клику вне их
+    document.addEventListener('click', function (event) {
+        if (event.target.id === 'serviceModal') {
+            closeServiceModal();
+        }
+        if (event.target.id === 'projectModal') {
+            closeProjectModal();
+        }
+        if (event.target.id === 'galleryModal') {
+            closeGalleryModal();
+        }
+        if (event.target.id === 'imageModal') {
+            closeImageModal();
+        }
+    });
+
+    // Предотвращаем закрытие при клике на контент модального окна
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('#serviceModalContent')) {
+            event.stopPropagation();
+        }
+        if (event.target.closest('#projectModalContent')) {
+            event.stopPropagation();
+        }
+    });
+
+    // Project modal functions
+    function openProjectModal(projectId) {
+        const project = projects.find(p => p.id == projectId);
+        if (!project) return;
+
+        const modal = document.getElementById('projectModal');
+        const modalContent = document.getElementById('projectModalContent');
+
+        // Создаем контент модального окна
+        modalContent.innerHTML = `
         <div class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
@@ -2262,41 +2479,41 @@ function openProjectModal(projectId) {
             </div>
         </div>
     `;
-    
-    // Показываем модальное окно с анимацией
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    
-    // Добавляем класс анимации
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
-}
 
-function closeProjectModal() {
-    const modal = document.getElementById('projectModal');
-    
-    // Убираем класс анимации
-    modal.classList.remove('show');
-    
-    // Скрываем модальное окно после завершения анимации
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
-    }, 400); // Время должно совпадать с CSS transition
-}
+        // Показываем модальное окно с анимацией
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
 
-// Gallery modal
-function openGallery(projectId) {
-    const project = projects.find(p => p.id == projectId);
-    if (!project || !project.gallery || project.gallery.length === 0) return;
-    
-    const modal = document.getElementById('galleryModal');
-    const modalContent = document.getElementById('galleryModalContent');
-    
-    modalContent.innerHTML = `
+        // Добавляем класс анимации
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }
+
+    function closeProjectModal() {
+        const modal = document.getElementById('projectModal');
+
+        // Убираем класс анимации
+        modal.classList.remove('show');
+
+        // Скрываем модальное окно после завершения анимации
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }, 400); // Время должно совпадать с CSS transition
+    }
+
+    // Gallery modal
+    function openGallery(projectId) {
+        const project = projects.find(p => p.id == projectId);
+        if (!project || !project.gallery || project.gallery.length === 0) return;
+
+        const modal = document.getElementById('galleryModal');
+        const modalContent = document.getElementById('galleryModalContent');
+
+        modalContent.innerHTML = `
         <div class="bg-white rounded-lg max-w-6xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
@@ -2320,93 +2537,93 @@ function openGallery(projectId) {
             </div>
         </div>
     `;
-    
-    // Показываем модальное окно с анимацией
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    
-    // Добавляем класс анимации
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
-}
 
-function closeGalleryModal() {
-    const modal = document.getElementById('galleryModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
+        // Показываем модальное окно с анимацией
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
 
-// Scroll-triggered animations
-function isElementPartiallyInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top < window.innerHeight &&
-        rect.bottom > 0
-    );
-}
-
-function animateSection(titleId, subtitleId, cardsSelector) {
-    // Animate title with smooth transition
-    const title = document.getElementById(titleId);
-    if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
-        title.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        title.classList.add('animate');
-        
-        // Animate subtitle after title with smooth delay
-        if (subtitleId) {
-            setTimeout(() => {
-                const subtitle = document.getElementById(subtitleId);
-                if (subtitle && !subtitle.classList.contains('animate')) {
-                    subtitle.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-                    subtitle.classList.add('animate');
-                }
-            }, 300);
-        }
+        // Добавляем класс анимации
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
     }
-    
-    // Animate cards with smooth transitions
-    const cards = document.querySelectorAll(cardsSelector);
-    cards.forEach((card, index) => {
-        if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
-            const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
-            setTimeout(() => {
-                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                card.classList.add('animate');
-            }, delay);
+
+    function closeGalleryModal() {
+        const modal = document.getElementById('galleryModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Scroll-triggered animations
+    function isElementPartiallyInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top < window.innerHeight &&
+            rect.bottom > 0
+        );
+    }
+
+    function animateSection(titleId, subtitleId, cardsSelector) {
+        // Animate title with smooth transition
+        const title = document.getElementById(titleId);
+        if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
+            title.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            title.classList.add('animate');
+
+            // Animate subtitle after title with smooth delay
+            if (subtitleId) {
+                setTimeout(() => {
+                    const subtitle = document.getElementById(subtitleId);
+                    if (subtitle && !subtitle.classList.contains('animate')) {
+                        subtitle.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                        subtitle.classList.add('animate');
+                    }
+                }, 300);
+            }
         }
+
+        // Animate cards with smooth transitions
+        const cards = document.querySelectorAll(cardsSelector);
+        cards.forEach((card, index) => {
+            if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
+                const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.classList.add('animate');
+                }, delay);
+            }
+        });
+    }
+
+    function animateOnScroll() {
+        // Animate services section
+        animateSection('services-title', 'services-subtitle', '.service-card-animate');
+
+        // Animate portfolio section
+        animateSection('portfolio-title', 'portfolio-subtitle', '.portfolio-card-animate');
+
+        // Animate about section
+        animateSection('about-title', null, '.about-stat-animate');
+
+        // Animate reviews section
+        animateSection('reviews-title', 'reviews-subtitle', '.review-card-animate');
+    }
+
+    // Throttled scroll event listener
+    let scrollTimeout;
+    window.addEventListener('scroll', function () {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(animateOnScroll, 10);
     });
-}
 
-function animateOnScroll() {
-    // Animate services section
-    animateSection('services-title', 'services-subtitle', '.service-card-animate');
-    
-    // Animate portfolio section
-    animateSection('portfolio-title', 'portfolio-subtitle', '.portfolio-card-animate');
-    
-    // Animate about section
-    animateSection('about-title', null, '.about-stat-animate');
-    
-    // Animate reviews section
-    animateSection('reviews-title', 'reviews-subtitle', '.review-card-animate');
-}
-
-// Throttled scroll event listener
-let scrollTimeout;
-window.addEventListener('scroll', function() {
-    if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-    }
-    scrollTimeout = setTimeout(animateOnScroll, 10);
-});
-
-// Initial check on page load
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(animateOnScroll, 100);
-});
+    // Initial check on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(animateOnScroll, 100);
+    });
 </script>
 
 <?php

@@ -18,14 +18,16 @@ ob_start();
 ?>
 
 <!-- Hero Section -->
-<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center" style="background-image: url('/assets/images/preview/services.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
+<section id="hero" class="pt-16 bg-cover bg-center bg-no-repeat relative min-h-screen flex items-center"
+    style="background-image: url('/assets/images/preview/services.png'); background-size: cover; background-position: center center; background-attachment: scroll; -webkit-background-size: cover;">
     <!-- Overlay for better text readability -->
     <div class="hero-overlay absolute inset-0 bg-black bg-opacity-30" style="z-index: 1;"></div>
-    
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center">
-            <h1 id="hero-title" class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
-                <?php 
+            <h1 id="hero-title"
+                class="font-montserrat font-semibold text-3xl lg:text-6xl text-white mb-6 leading-tight hero-text-shadow">
+                <?php
                 $title = $seo['h1'] ?? 'Наши услуги';
                 $words = explode(' ', $title);
                 $directions = ['left', 'right', 'top', 'bottom'];
@@ -38,772 +40,856 @@ ob_start();
                 }
                 ?>
             </h1>
-            <p id="hero-subtitle" class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
-                Выполняем все виды внутренних работ во Франкфурте. От небольшого косметического ремонта 
+            <p id="hero-subtitle"
+                class="text-lg lg:text-2xl text-white mb-8 leading-relaxed max-w-4xl mx-auto hero-text-shadow hero-subtitle-animate">
+                Выполняем все виды внутренних работ во Франкфурте. От небольшого косметического ремонта
                 до комплексной реконструкции под ключ.
             </p>
             <?php render_frontend_button([
                 'text' => 'Получить консультацию',
                 'variant' => 'primary',
                 'size' => 'lg',
-                'href' => 'contact.php'
+                'href' => 'contact'
             ]); ?>
         </div>
     </div>
 </section>
 
 <style>
-/* Hero word animations from different directions */
-.hero-word {
-    animation: fadeIn 0.8s ease-out forwards;
-}
+    /* Hero word animations from different directions */
+    .hero-word {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
 
-/* Word from left */
-.hero-word-left {
-    transform: translateX(-50px);
-    animation: slideInFromLeft 0.8s ease-out forwards;
-}
-
-/* Word from right */
-.hero-word-right {
-    transform: translateX(50px);
-    animation: slideInFromRight 0.8s ease-out forwards;
-}
-
-/* Word from top */
-.hero-word-top {
-    transform: translateY(-30px);
-    animation: slideInFromTop 0.8s ease-out forwards;
-}
-
-/* Word from bottom */
-.hero-word-bottom {
-    transform: translateY(30px);
-    animation: slideInFromBottom 0.8s ease-out forwards;
-}
-
-/* Keyframes for different directions */
-@keyframes slideInFromLeft {
-    from {
-        opacity: 0;
+    /* Word from left */
+    .hero-word-left {
         transform: translateX(-50px);
+        animation: slideInFromLeft 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
 
-@keyframes slideInFromRight {
-    from {
-        opacity: 0;
+    /* Word from right */
+    .hero-word-right {
         transform: translateX(50px);
+        animation: slideInFromRight 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
 
-@keyframes slideInFromTop {
-    from {
-        opacity: 0;
+    /* Word from top */
+    .hero-word-top {
         transform: translateY(-30px);
+        animation: slideInFromTop 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-@keyframes slideInFromBottom {
-    from {
-        opacity: 0;
+    /* Word from bottom */
+    .hero-word-bottom {
         transform: translateY(30px);
+        animation: slideInFromBottom 0.8s ease-out forwards;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    /* Keyframes for different directions */
+    @keyframes slideInFromLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
-}
 
-/* Ensure proper spacing between words */
-.hero-word + .hero-word {
-    margin-left: 0.1em;
-}
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
 
-/* Subtitle animation */
-.hero-subtitle-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease-out forwards;
-    animation-delay: 0.8s;
-}
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
 
-@keyframes fadeInUp {
-    from {
+    @keyframes slideInFromTop {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInFromBottom {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Ensure proper spacing between words */
+    .hero-word+.hero-word {
+        margin-left: 0.1em;
+    }
+
+    /* Subtitle animation */
+    .hero-subtitle-animate {
         opacity: 0;
         transform: translateY(20px);
+        animation: fadeInUp 0.6s ease-out forwards;
+        animation-delay: 0.8s;
     }
-    to {
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Scroll-triggered animations for sections */
+    .process-title-animate,
+    .process-subtitle-animate,
+    .pricing-title-animate,
+    .pricing-subtitle-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+    }
+
+    .process-title-animate.animate,
+    .process-subtitle-animate.animate,
+    .pricing-title-animate.animate,
+    .pricing-subtitle-animate.animate {
         opacity: 1;
         transform: translateY(0);
     }
-}
 
-/* Scroll-triggered animations for sections */
-.process-title-animate,
-.process-subtitle-animate,
-.pricing-title-animate,
-.pricing-subtitle-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
-}
-
-.process-title-animate.animate,
-.process-subtitle-animate.animate,
-.pricing-title-animate.animate,
-.pricing-subtitle-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Service card animations */
-.service-card-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
-
-.service-card-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Process step animations */
-.process-step-animate {
-    opacity: 0;
-    transform: translateX(-50px);
-    transition: all 0.8s ease-out;
-}
-
-.process-step-animate.animate {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Pricing card animations */
-.pricing-card-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
-
-.pricing-card-animate.animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Service card hover effects */
-.service-card-animate .bg-white {
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.service-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.service-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
-
-.service-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
-
-/* Service card content layout */
-.service-card-animate .bg-white > div:last-child {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 1.5rem;
-}
-
-.service-card-animate .bg-white > div:last-child > p {
-    flex-grow: 1;
-    margin-bottom: 1rem;
-}
-
-.service-card-animate .bg-white > div:last-child > ul {
-    margin-bottom: 1rem;
-}
-
-.service-card-animate .bg-white > div:last-child > div:last-child {
-    margin-top: auto;
-    padding-top: 1rem;
-}
-
-/* Grid alignment for equal height cards */
-.grid {
-    align-items: stretch;
-}
-
-/* Ensure all service cards have equal height */
-.service-card-animate {
-    height: 100%;
-}
-
-/* Ensure all pricing cards have equal height */
-.pricing-card-animate {
-    height: 100%;
-}
-
-/* Smooth transitions for all interactive elements */
-.service-card-animate .bg-white {
-    transition: all 0.3s ease;
-}
-
-.service-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.service-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
-
-.service-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
-
-/* Button smooth transitions */
-button, .btn {
-    transition: all 0.3s ease;
-}
-
-button:hover, .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Link smooth transitions */
-a {
-    transition: all 0.3s ease;
-}
-
-a:hover {
-    transform: translateY(-1px);
-}
-
-/* Form elements smooth transitions */
-input, textarea, select {
-    transition: all 0.3s ease;
-}
-
-input:focus, textarea:focus, select:focus {
-    transform: scale(1.02);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Modal smooth transitions */
-.modal {
-    transition: all 0.3s ease;
-}
-
-.modal-backdrop {
-    transition: opacity 0.3s ease;
-}
-
-.modal-content {
-    transition: all 0.3s ease;
-    transform: scale(0.9);
-}
-
-.modal.show .modal-content {
-    transform: scale(1);
-}
-
-/* Enhanced Service Modal Animations */
-#serviceModal {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(0px);
-}
-
-#serviceModal.show {
-    opacity: 1;
-    visibility: visible;
-    backdrop-filter: blur(8px);
-    z-index: 99;
-}
-
-#serviceModalContent {
-    transform: translateY(50px) scale(0.9);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.1s;
-}
-
-#serviceModal.show #serviceModalContent {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-}
-
-/* Service Modal Header Animation */
-#serviceModal .sticky.top-0 {
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-    z-index: 10;
-    position: sticky;
-    top: 0;
-}
-
-#serviceModal.show .sticky.top-0 {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Service Modal Content Animation */
-#serviceModal .p-6 > * {
-    transform: translateY(20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#serviceModal.show .p-6 > * {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-#serviceModal.show .p-6 > *:nth-child(1) { transition-delay: 0.3s; }
-#serviceModal.show .p-6 > *:nth-child(2) { transition-delay: 0.4s; }
-#serviceModal.show .p-6 > *:nth-child(3) { transition-delay: 0.5s; }
-#serviceModal.show .p-6 > *:nth-child(4) { transition-delay: 0.6s; }
-#serviceModal.show .p-6 > *:nth-child(5) { transition-delay: 0.7s; }
-
-/* Service Modal Image Animation */
-#serviceModal img {
-    transform: scale(1.1);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
-}
-
-#serviceModal.show img {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Service Modal Button Animation */
-#serviceModal button {
-    transform: translateY(10px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.4s;
-}
-
-#serviceModal.show button {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Service Modal Close Button Hover Effect */
-#serviceModal .sticky.top-0 button:hover {
-    transform: rotate(90deg) scale(1.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Service Modal Gallery Images Animation */
-#serviceModal .grid img {
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#serviceModal.show .grid img {
-    transform: scale(1);
-    opacity: 1;
-}
-
-#serviceModal.show .grid img:nth-child(1) { transition-delay: 0.3s; }
-#serviceModal.show .grid img:nth-child(2) { transition-delay: 0.4s; }
-#serviceModal.show .grid img:nth-child(3) { transition-delay: 0.5s; }
-#serviceModal.show .grid img:nth-child(4) { transition-delay: 0.6s; }
-#serviceModal.show .grid img:nth-child(5) { transition-delay: 0.7s; }
-#serviceModal.show .grid img:nth-child(6) { transition-delay: 0.8s; }
-
-/* Service Modal List Items Animation */
-#serviceModal ul li {
-    transform: translateX(-20px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#serviceModal.show ul li {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-#serviceModal.show ul li:nth-child(1) { transition-delay: 0.3s; }
-#serviceModal.show ul li:nth-child(2) { transition-delay: 0.4s; }
-#serviceModal.show ul li:nth-child(3) { transition-delay: 0.5s; }
-#serviceModal.show ul li:nth-child(4) { transition-delay: 0.6s; }
-#serviceModal.show ul li:nth-child(5) { transition-delay: 0.7s; }
-#serviceModal.show ul li:nth-child(6) { transition-delay: 0.8s; }
-
-/* Service Modal Responsive Animations */
-@media (max-width: 768px) {
-    #serviceModalContent {
-        transform: translateY(30px) scale(0.95);
-        margin: 0.5rem;
-        max-height: 98vh;
+    /* Service card animations */
+    .service-card-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
     }
-    
+
+    .service-card-animate.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Process step animations */
+    .process-step-animate {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s ease-out;
+    }
+
+    .process-step-animate.animate {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Pricing card animations */
+    .pricing-card-animate {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+    }
+
+    .pricing-card-animate.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Service card hover effects */
+    .service-card-animate .bg-white {
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .service-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
+
+    .service-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
+
+    /* Service card content layout */
+    .service-card-animate .bg-white>div:last-child {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 1.5rem;
+    }
+
+    .service-card-animate .bg-white>div:last-child>p {
+        flex-grow: 1;
+        margin-bottom: 1rem;
+    }
+
+    .service-card-animate .bg-white>div:last-child>ul {
+        margin-bottom: 1rem;
+    }
+
+    .service-card-animate .bg-white>div:last-child>div:last-child {
+        margin-top: auto;
+        padding-top: 1rem;
+    }
+
+    /* Grid alignment for equal height cards */
+    .grid {
+        align-items: stretch;
+    }
+
+    /* Ensure all service cards have equal height */
+    .service-card-animate {
+        height: 100%;
+    }
+
+    /* Ensure all pricing cards have equal height */
+    .pricing-card-animate {
+        height: 100%;
+    }
+
+    /* Smooth transitions for all interactive elements */
+    .service-card-animate .bg-white {
+        transition: all 0.3s ease;
+    }
+
+    .service-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
+
+    .service-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Button smooth transitions */
+    button,
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    button:hover,
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Link smooth transitions */
+    a {
+        transition: all 0.3s ease;
+    }
+
+    a:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Form elements smooth transitions */
+    input,
+    textarea,
+    select {
+        transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Modal smooth transitions */
+    .modal {
+        transition: all 0.3s ease;
+    }
+
+    .modal-backdrop {
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+        transition: all 0.3s ease;
+        transform: scale(0.9);
+    }
+
+    .modal.show .modal-content {
+        transform: scale(1);
+    }
+
+    /* Enhanced Service Modal Animations */
+    #serviceModal {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(0px);
+    }
+
+    #serviceModal.show {
+        opacity: 1;
+        visibility: visible;
+        backdrop-filter: blur(8px);
+        z-index: 99;
+    }
+
+    #serviceModalContent {
+        transform: translateY(50px) scale(0.9);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.1s;
+    }
+
     #serviceModal.show #serviceModalContent {
         transform: translateY(0) scale(1);
+        opacity: 1;
     }
-}
 
-/* Service Modal Gallery Optimization */
-#serviceModal .grid {
-    padding-right: 8px;
-}
-
-#serviceModal .grid::-webkit-scrollbar {
-    width: 6px;
-}
-
-#serviceModal .grid::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
-
-#serviceModal .grid::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
-
-#serviceModal .grid::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
-/* Service Info Cards Styling */
-.service-info-card,
-.service-description-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.service-info-card:hover,
-.service-description-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-color: #d1d5db;
-}
-
-/* Service Info Header */
-.service-info-header,
-.service-description-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f3f4f6;
-}
-
-.service-info-icon,
-.service-description-icon {
-    width: 32px;
-    height: 32px;
-    background: #f3f4f6;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b7280;
-    margin-right: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.service-info-card:hover .service-info-icon,
-.service-description-card:hover .service-description-icon {
-    background: #e5e7eb;
-    color: #374151;
-}
-
-.service-info-title,
-.service-description-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151;
-    margin: 0;
-}
-
-/* Service Info Content */
-.service-info-content {
-    space-y: 8px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #f9fafb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.info-item:last-child {
-    border-bottom: none;
-}
-
-.info-item:hover {
-    background-color: #f9fafb;
-    border-radius: 4px;
-    padding: 8px 12px;
-    margin: 0 -12px;
-}
-
-.info-label {
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #6b7280;
-    gap: 6px;
-}
-
-.info-value {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #374151;
-    padding: 2px 8px;
-    background-color: #f3f4f6;
-    border-radius: 4px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.info-item:hover .info-value {
-    background-color: #e5e7eb;
-}
-
-.price-value {
-    background: #d1fae5;
-    color: #065f46;
-    font-weight: 600;
-}
-
-.status-value.active {
-    background: #d1fae5;
-    color: #065f46;
-}
-
-.status-value.inactive {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-/* Service Description Content */
-.service-description-content {
-    padding-top: 4px;
-    overflow: visible;
-    height: auto;
-    max-height: none;
-}
-
-.description-text {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #6b7280;
-    margin: 0;
-    text-align: left;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .py-20 > div:first-child {
-        margin: 0 5%;
+    /* Service Modal Header Animation */
+    #serviceModal .sticky.top-0 {
+        transform: translateY(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+        z-index: 10;
+        position: sticky;
+        top: 0;
     }
-    
-    footer > div:first-child {
-        margin: 0 5%;
+
+    #serviceModal.show .sticky.top-0 {
+        transform: translateY(0);
+        opacity: 1;
     }
-    
+
+    /* Service Modal Content Animation */
+    #serviceModal .p-6>* {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #serviceModal.show .p-6>* {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    #serviceModal.show .p-6>*:nth-child(1) {
+        transition-delay: 0.3s;
+    }
+
+    #serviceModal.show .p-6>*:nth-child(2) {
+        transition-delay: 0.4s;
+    }
+
+    #serviceModal.show .p-6>*:nth-child(3) {
+        transition-delay: 0.5s;
+    }
+
+    #serviceModal.show .p-6>*:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    #serviceModal.show .p-6>*:nth-child(5) {
+        transition-delay: 0.7s;
+    }
+
+    /* Service Modal Image Animation */
+    #serviceModal img {
+        transform: scale(1.1);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.2s;
+    }
+
+    #serviceModal.show img {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    /* Service Modal Button Animation */
+    #serviceModal button {
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition-delay: 0.4s;
+    }
+
+    #serviceModal.show button {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Service Modal Close Button Hover Effect */
+    #serviceModal .sticky.top-0 button:hover {
+        transform: rotate(90deg) scale(1.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Service Modal Gallery Images Animation */
+    #serviceModal .grid img {
+        transform: scale(0.8);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #serviceModal.show .grid img {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    #serviceModal.show .grid img:nth-child(1) {
+        transition-delay: 0.3s;
+    }
+
+    #serviceModal.show .grid img:nth-child(2) {
+        transition-delay: 0.4s;
+    }
+
+    #serviceModal.show .grid img:nth-child(3) {
+        transition-delay: 0.5s;
+    }
+
+    #serviceModal.show .grid img:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    #serviceModal.show .grid img:nth-child(5) {
+        transition-delay: 0.7s;
+    }
+
+    #serviceModal.show .grid img:nth-child(6) {
+        transition-delay: 0.8s;
+    }
+
+    /* Service Modal List Items Animation */
+    #serviceModal ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #serviceModal.show ul li {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    #serviceModal.show ul li:nth-child(1) {
+        transition-delay: 0.3s;
+    }
+
+    #serviceModal.show ul li:nth-child(2) {
+        transition-delay: 0.4s;
+    }
+
+    #serviceModal.show ul li:nth-child(3) {
+        transition-delay: 0.5s;
+    }
+
+    #serviceModal.show ul li:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    #serviceModal.show ul li:nth-child(5) {
+        transition-delay: 0.7s;
+    }
+
+    #serviceModal.show ul li:nth-child(6) {
+        transition-delay: 0.8s;
+    }
+
+    /* Service Modal Responsive Animations */
+    @media (max-width: 768px) {
+        #serviceModalContent {
+            transform: translateY(30px) scale(0.95);
+            margin: 0.5rem;
+            max-height: 98vh;
+        }
+
+        #serviceModal.show #serviceModalContent {
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Service Modal Gallery Optimization */
+    #serviceModal .grid {
+        padding-right: 8px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+
+    #serviceModal .grid::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    /* Service Info Cards Styling */
     .service-info-card,
     .service-description-card {
-        padding: 12px;
-        margin-bottom: 12px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: visible;
+        height: auto;
+        max-height: none;
     }
-    
+
+    .service-info-card:hover,
+    .service-description-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-color: #d1d5db;
+    }
+
+    /* Service Info Header */
     .service-info-header,
     .service-description-header {
-        margin-bottom: 8px;
-        padding-bottom: 6px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f3f4f6;
     }
-    
+
     .service-info-icon,
     .service-description-icon {
-        width: 28px;
-        height: 28px;
-        margin-right: 8px;
+        width: 32px;
+        height: 32px;
+        background: #f3f4f6;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        margin-right: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
+    .service-info-card:hover .service-info-icon,
+    .service-description-card:hover .service-description-icon {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
     .service-info-title,
     .service-description-title {
-        font-size: 0.9rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #374151;
+        margin: 0;
     }
-    
+
+    /* Service Info Content */
+    .service-info-content {
+        space-y: 8px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
+
     .info-item {
-        /* flex-direction: column; */
-        align-items: flex-start;
-        gap: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f9fafb;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
+    .info-item:last-child {
+        border-bottom: none;
+    }
+
+    .info-item:hover {
+        background-color: #f9fafb;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin: 0 -12px;
+    }
+
     .info-label {
-        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #6b7280;
+        gap: 6px;
     }
-    
+
     .info-value {
-        font-size: 0.75rem;
-        align-self: flex-end;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #374151;
+        padding: 2px 8px;
+        background-color: #f3f4f6;
+        border-radius: 4px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-}
 
-/* Smooth scroll behavior */
-html {
-    scroll-behavior: smooth;
-}
+    .info-item:hover .info-value {
+        background-color: #e5e7eb;
+    }
 
-/* Section transitions */
-section {
-    transition: all 0.3s ease;
-}
+    .price-value {
+        background: #d1fae5;
+        color: #065f46;
+        font-weight: 600;
+    }
 
-/* Card content smooth transitions */
-.service-card-animate .bg-white h3,
-.pricing-card-animate .bg-white h3 {
-    transition: color 0.3s ease;
-}
+    .status-value.active {
+        background: #d1fae5;
+        color: #065f46;
+    }
 
-.service-card-animate .bg-white:hover h3,
-.pricing-card-animate .bg-white:hover h3 {
-    color: #3b82f6;
-}
+    .status-value.inactive {
+        background: #fee2e2;
+        color: #991b1b;
+    }
 
-/* Price and button smooth transitions */
-.service-card-animate .bg-white .font-semibold,
-.pricing-card-animate .bg-white .font-semibold {
-    transition: all 0.3s ease;
-}
+    /* Service Description Content */
+    .service-description-content {
+        padding-top: 4px;
+        overflow: visible;
+        height: auto;
+        max-height: none;
+    }
 
-.service-card-animate .bg-white:hover .font-semibold,
-.pricing-card-animate .bg-white:hover .font-semibold {
-    transform: scale(1.05);
-}
+    .description-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #6b7280;
+        margin: 0;
+        text-align: left;
+    }
 
-/* Smooth loading states */
-.loading {
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-}
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .py-20>div:first-child {
+            margin: 0 5%;
+        }
 
-/* Smooth hover effects for text */
-.text-accent-blue {
-    transition: all 0.3s ease;
-}
+        footer>div:first-child {
+            margin: 0 5%;
+        }
 
-.text-accent-blue:hover {
-    transform: scale(1.05);
-}
+        .service-info-card,
+        .service-description-card {
+            padding: 12px;
+            margin-bottom: 12px;
+        }
 
-/* Enhanced smooth transitions for better UX */
-* {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .service-info-header,
+        .service-description-header {
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+        }
 
-/* Smooth hover effects for all cards */
-.service-card-animate,
-.pricing-card-animate {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .service-info-icon,
+        .service-description-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 8px;
+        }
 
-/* Smooth image transitions */
-img {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .service-info-title,
+        .service-description-title {
+            font-size: 0.9rem;
+        }
 
-/* Smooth text transitions */
-h1, h2, h3, h4, h5, h6, p, span, div {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .info-item {
+            /* flex-direction: column; */
+            align-items: flex-start;
+            gap: 4px;
+        }
 
-/* Smooth background transitions */
-.bg-white, .bg-gray-50, .bg-gray-100 {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .info-label {
+            font-size: 0.75rem;
+        }
 
-/* Smooth shadow transitions */
-.shadow-sm, .shadow, .shadow-lg, .shadow-xl {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .info-value {
+            font-size: 0.75rem;
+            align-self: flex-end;
+        }
+    }
 
-/* Smooth border transitions */
-.border, .border-2, .border-gray-200, .border-accent-blue {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Smooth scroll behavior */
+    html {
+        scroll-behavior: smooth;
+    }
 
-/* Smooth color transitions */
-.text-text-primary, .text-text-secondary, .text-accent-blue {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Section transitions */
+    section {
+        transition: all 0.3s ease;
+    }
 
-/* Smooth opacity transitions */
-.opacity-0, .opacity-50, .opacity-75, .opacity-100 {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Card content smooth transitions */
+    .service-card-animate .bg-white h3,
+    .pricing-card-animate .bg-white h3 {
+        transition: color 0.3s ease;
+    }
 
-/* Smooth transform transitions */
-.transform, .translateY, .scale, .rotate {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .service-card-animate .bg-white:hover h3,
+    .pricing-card-animate .bg-white:hover h3 {
+        color: #3b82f6;
+    }
 
-/* Pricing card hover effects */
-.pricing-card-animate .bg-white:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+    /* Price and button smooth transitions */
+    .service-card-animate .bg-white .font-semibold,
+    .pricing-card-animate .bg-white .font-semibold {
+        transition: all 0.3s ease;
+    }
 
-.pricing-card-animate .bg-white img {
-    transition: transform 0.3s ease;
-}
+    .service-card-animate .bg-white:hover .font-semibold,
+    .pricing-card-animate .bg-white:hover .font-semibold {
+        transform: scale(1.05);
+    }
 
-.pricing-card-animate .bg-white:hover img {
-    transform: scale(1.05);
-}
+    /* Smooth loading states */
+    .loading {
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+    }
 
-/* Grid alignment for equal height cards */
-.align-items-stretch {
-    align-items: stretch;
-}
+    /* Smooth hover effects for text */
+    .text-accent-blue {
+        transition: all 0.3s ease;
+    }
+
+    .text-accent-blue:hover {
+        transform: scale(1.05);
+    }
+
+    /* Enhanced smooth transitions for better UX */
+    * {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth hover effects for all cards */
+    .service-card-animate,
+    .pricing-card-animate {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth image transitions */
+    img {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth text transitions */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    div {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth background transitions */
+    .bg-white,
+    .bg-gray-50,
+    .bg-gray-100 {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth shadow transitions */
+    .shadow-sm,
+    .shadow,
+    .shadow-lg,
+    .shadow-xl {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth border transitions */
+    .border,
+    .border-2,
+    .border-gray-200,
+    .border-accent-blue {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth color transitions */
+    .text-text-primary,
+    .text-text-secondary,
+    .text-accent-blue {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth opacity transitions */
+    .opacity-0,
+    .opacity-50,
+    .opacity-75,
+    .opacity-100 {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Smooth transform transitions */
+    .transform,
+    .translateY,
+    .scale,
+    .rotate {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Pricing card hover effects */
+    .pricing-card-animate .bg-white:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing-card-animate .bg-white img {
+        transition: transform 0.3s ease;
+    }
+
+    .pricing-card-animate .bg-white:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Grid alignment for equal height cards */
+    .align-items-stretch {
+        align-items: stretch;
+    }
 </style>
 
 <!-- Services Grid -->
@@ -823,32 +909,43 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 <section class="py-20 bg-premium-gray">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 id="process-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 process-title-animate">
+            <h2 id="process-title"
+                class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 process-title-animate">
                 Как мы работаем
             </h2>
             <p id="process-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto process-subtitle-animate">
                 Простой и понятный процесс от заявки до сдачи объекта
             </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="text-center process-step-animate" data-delay="0">
-                <div class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
+                <div
+                    class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                    1</div>
                 <h3 class="font-semibold text-xl text-text-primary mb-3">Заявка</h3>
-                <p class="text-text-secondary">Оставьте заявку на сайте или позвоните нам. Ответим в течение 15 минут.</p>
+                <p class="text-text-secondary">Оставьте заявку на сайте или позвоните нам. Ответим в течение 15 минут.
+                </p>
             </div>
             <div class="text-center process-step-animate" data-delay="0.4">
-                <div class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
+                <div
+                    class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                    2</div>
                 <h3 class="font-semibold text-xl text-text-primary mb-3">Замер</h3>
-                <p class="text-text-secondary">Выезжаем на объект, делаем замеры и составляем подробную смету. Бесплатно.</p>
+                <p class="text-text-secondary">Выезжаем на объект, делаем замеры и составляем подробную смету.
+                    Бесплатно.</p>
             </div>
             <div class="text-center process-step-animate" data-delay="0.8">
-                <div class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
+                <div
+                    class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                    3</div>
                 <h3 class="font-semibold text-xl text-text-primary mb-3">Договор</h3>
                 <p class="text-text-secondary">Заключаем договор с фиксированными ценами и сроками выполнения работ.</p>
             </div>
             <div class="text-center process-step-animate" data-delay="1.2">
-                <div class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div>
+                <div
+                    class="w-16 h-16 bg-accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                    4</div>
                 <h3 class="font-semibold text-xl text-text-primary mb-3">Работы</h3>
                 <p class="text-text-secondary">Выполняем работы в срок, убираем мусор, сдаём объект под ключ.</p>
             </div>
@@ -860,17 +957,19 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 id="pricing-title" class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 pricing-title-animate">
+            <h2 id="pricing-title"
+                class="font-montserrat font-semibold text-3xl lg:text-4xl text-text-primary mb-4 pricing-title-animate">
                 Прозрачные цены
             </h2>
             <p id="pricing-subtitle" class="text-xl text-text-secondary max-w-3xl mx-auto pricing-subtitle-animate">
                 Все цены указаны за квадратный метр работы. Окончательная стоимость рассчитывается после замера.
             </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 align-items-stretch">
             <div class="pricing-card-animate" data-delay="0">
-                <div class="bg-white border-2 border-gray-200 rounded-lg p-8 text-center hover:border-accent-blue transition-colors h-full flex flex-col">
+                <div
+                    class="bg-white border-2 border-gray-200 rounded-lg p-8 text-center hover:border-accent-blue transition-colors h-full flex flex-col">
                     <h3 class="font-semibold text-2xl text-text-primary mb-4">Малярные работы</h3>
                     <div class="text-4xl font-bold text-accent-blue mb-2">от 25€</div>
                     <div class="text-text-secondary mb-6">за м²</div>
@@ -889,9 +988,10 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                     </div>
                 </div>
             </div>
-            
+
             <div class="pricing-card-animate" data-delay="0.2">
-                <div class="bg-white border-2 border-accent-blue rounded-lg p-8 text-center relative h-full flex flex-col">
+                <div
+                    class="bg-white border-2 border-accent-blue rounded-lg p-8 text-center relative h-full flex flex-col">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
                         <span class="bg-accent-blue text-white px-4 py-2 rounded-full text-sm">Популярно</span>
                     </div>
@@ -913,9 +1013,10 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                     </div>
                 </div>
             </div>
-            
+
             <div class="pricing-card-animate" data-delay="0.4">
-                <div class="bg-white border-2 border-gray-200 rounded-lg p-8 text-center hover:border-accent-blue transition-colors h-full flex flex-col">
+                <div
+                    class="bg-white border-2 border-gray-200 rounded-lg p-8 text-center hover:border-accent-blue transition-colors h-full flex flex-col">
                     <h3 class="font-semibold text-2xl text-text-primary mb-4">Ремонт ванной</h3>
                     <div class="text-4xl font-bold text-accent-blue mb-2">от 150€</div>
                     <div class="text-text-secondary mb-6">за м²</div>
@@ -935,14 +1036,15 @@ h1, h2, h3, h4, h5, h6, p, span, div {
                 </div>
             </div>
         </div>
-        
+
         <div class="text-center mt-12">
-            <p class="text-text-secondary mb-6">Нужна индивидуальная смета? Оставьте заявку и получите расчёт бесплатно!</p>
+            <p class="text-text-secondary mb-6">Нужна индивидуальная смета? Оставьте заявку и получите расчёт бесплатно!
+            </p>
             <?php render_frontend_button([
                 'text' => 'Получить расчёт',
                 'variant' => 'primary',
                 'size' => 'lg',
-                'href' => 'contact.php'
+                'href' => 'contact'
             ]); ?>
         </div>
     </div>
@@ -955,7 +1057,8 @@ $content = ob_get_clean();
 
 <!-- Service Modal -->
 <div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
-    <div id="serviceModalContent" class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
+    <div id="serviceModalContent"
+        class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto w-full shadow-2xl">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
@@ -980,19 +1083,19 @@ $content = ob_get_clean();
 </div>
 
 <script>
-// Получаем данные услуг из PHP
-const servicesData = <?php echo json_encode($services); ?>;
+    // Получаем данные услуг из PHP
+    const servicesData = <?php echo json_encode($services); ?>;
 
-// Service modal
-function openServiceModal(serviceId) {
-    const service = servicesData.find(s => s.id == serviceId);
-    if (!service) return;
-    
-    const modal = document.getElementById('serviceModal');
-    const modalContent = document.getElementById('serviceModalContent');
-    
-    // Создаем контент модального окна
-    modalContent.innerHTML = `
+    // Service modal
+    function openServiceModal(serviceId) {
+        const service = servicesData.find(s => s.id == serviceId);
+        if (!service) return;
+
+        const modal = document.getElementById('serviceModal');
+        const modalContent = document.getElementById('serviceModalContent');
+
+        // Создаем контент модального окна
+        modalContent.innerHTML = `
         <div class="bg-white rounded-lg max-w-5xl mx-auto max-h-[95vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
@@ -1107,41 +1210,41 @@ function openServiceModal(serviceId) {
             </div>
         </div>
     `;
-    
-    // Показываем модальное окно с анимацией
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    
-    // Добавляем класс для анимации после небольшой задержки
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
-}
 
-function closeServiceModal() {
-    const modal = document.getElementById('serviceModal');
-    
-    // Убираем класс анимации
-    modal.classList.remove('show');
-    
-    // Скрываем модальное окно после завершения анимации
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
-    }, 400); // Время должно совпадать с CSS transition
-}
+        // Показываем модальное окно с анимацией
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
 
-// Gallery modal
-function openServiceGallery(serviceId) {
-    const service = servicesData.find(s => s.id == serviceId);
-    if (!service || !service.gallery || service.gallery.length === 0) return;
-    
-    const modal = document.getElementById('galleryModal');
-    const modalContent = document.getElementById('galleryModalContent');
-    
-    modalContent.innerHTML = `
+        // Добавляем класс для анимации после небольшой задержки
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }
+
+    function closeServiceModal() {
+        const modal = document.getElementById('serviceModal');
+
+        // Убираем класс анимации
+        modal.classList.remove('show');
+
+        // Скрываем модальное окно после завершения анимации
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }, 400); // Время должно совпадать с CSS transition
+    }
+
+    // Gallery modal
+    function openServiceGallery(serviceId) {
+        const service = servicesData.find(s => s.id == serviceId);
+        if (!service || !service.gallery || service.gallery.length === 0) return;
+
+        const modal = document.getElementById('galleryModal');
+        const modalContent = document.getElementById('galleryModalContent');
+
+        modalContent.innerHTML = `
         <div class="bg-white rounded-lg max-w-6xl mx-auto max-h-[90vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
@@ -1163,129 +1266,129 @@ function openServiceGallery(serviceId) {
             </div>
         </div>
     `;
-    
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-}
 
-function closeGalleryModal() {
-    const modal = document.getElementById('galleryModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
-
-// Image modal
-function openImageModal(imageSrc) {
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    
-    modalImage.src = imageSrc;
-    modalImage.alt = 'Галерея';
-    
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeImageModal() {
-    const modal = document.getElementById('imageModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
-
-// Close modals on escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeServiceModal();
-        closeGalleryModal();
-        closeImageModal();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
     }
-});
 
-// Close modals on backdrop click
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('fixed')) {
-        closeServiceModal();
-        closeGalleryModal();
-        closeImageModal();
+    function closeGalleryModal() {
+        const modal = document.getElementById('galleryModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
     }
-});
 
-// Предотвращаем закрытие при клике на контент модального окна
-document.addEventListener('click', function(event) {
-    if (event.target.closest('#serviceModalContent')) {
-        event.stopPropagation();
+    // Image modal
+    function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        modalImage.src = imageSrc;
+        modalImage.alt = 'Галерея';
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
     }
-});
 
-// Scroll-triggered animations
-function isElementPartiallyInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top < window.innerHeight &&
-        rect.bottom > 0
-    );
-}
-
-function animateSection(titleId, subtitleId, cardsSelector) {
-    // Animate title with smooth transition
-    const title = document.getElementById(titleId);
-    if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
-        title.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        title.classList.add('animate');
-        
-        // Animate subtitle after title with smooth delay
-        if (subtitleId) {
-            setTimeout(() => {
-                const subtitle = document.getElementById(subtitleId);
-                if (subtitle && !subtitle.classList.contains('animate')) {
-                    subtitle.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-                    subtitle.classList.add('animate');
-                }
-            }, 300);
-        }
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
     }
-    
-    // Animate cards with smooth transitions
-    const cards = document.querySelectorAll(cardsSelector);
-    cards.forEach((card, index) => {
-        if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
-            const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
-            setTimeout(() => {
-                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                card.classList.add('animate');
-            }, delay);
+
+    // Close modals on escape key
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeServiceModal();
+            closeGalleryModal();
+            closeImageModal();
         }
     });
-}
 
-function animateOnScroll() {
-    // Animate services section
-    animateSection(null, null, '.service-card-animate');
-    
-    // Animate process section
-    animateSection('process-title', 'process-subtitle', '.process-step-animate');
-    
-    // Animate pricing section
-    animateSection('pricing-title', 'pricing-subtitle', '.pricing-card-animate');
-}
+    // Close modals on backdrop click
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('fixed')) {
+            closeServiceModal();
+            closeGalleryModal();
+            closeImageModal();
+        }
+    });
 
-// Throttled scroll event listener
-let scrollTimeout;
-window.addEventListener('scroll', function() {
-    if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
+    // Предотвращаем закрытие при клике на контент модального окна
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('#serviceModalContent')) {
+            event.stopPropagation();
+        }
+    });
+
+    // Scroll-triggered animations
+    function isElementPartiallyInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top < window.innerHeight &&
+            rect.bottom > 0
+        );
     }
-    scrollTimeout = setTimeout(animateOnScroll, 10);
-});
 
-// Initial check on page load
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(animateOnScroll, 100);
-});
+    function animateSection(titleId, subtitleId, cardsSelector) {
+        // Animate title with smooth transition
+        const title = document.getElementById(titleId);
+        if (title && isElementPartiallyInViewport(title) && !title.classList.contains('animate')) {
+            title.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            title.classList.add('animate');
+
+            // Animate subtitle after title with smooth delay
+            if (subtitleId) {
+                setTimeout(() => {
+                    const subtitle = document.getElementById(subtitleId);
+                    if (subtitle && !subtitle.classList.contains('animate')) {
+                        subtitle.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                        subtitle.classList.add('animate');
+                    }
+                }, 300);
+            }
+        }
+
+        // Animate cards with smooth transitions
+        const cards = document.querySelectorAll(cardsSelector);
+        cards.forEach((card, index) => {
+            if (isElementPartiallyInViewport(card) && !card.classList.contains('animate')) {
+                const delay = parseFloat(card.getAttribute('data-delay')) * 1000;
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.classList.add('animate');
+                }, delay);
+            }
+        });
+    }
+
+    function animateOnScroll() {
+        // Animate services section
+        animateSection(null, null, '.service-card-animate');
+
+        // Animate process section
+        animateSection('process-title', 'process-subtitle', '.process-step-animate');
+
+        // Animate pricing section
+        animateSection('pricing-title', 'pricing-subtitle', '.pricing-card-animate');
+    }
+
+    // Throttled scroll event listener
+    let scrollTimeout;
+    window.addEventListener('scroll', function () {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(animateOnScroll, 10);
+    });
+
+    // Initial check on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(animateOnScroll, 100);
+    });
 </script>
 
 <?php
@@ -1297,4 +1400,3 @@ render_frontend_layout([
     'content' => $content
 ]);
 ?>
-

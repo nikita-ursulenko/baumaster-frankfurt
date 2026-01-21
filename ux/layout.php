@@ -469,13 +469,13 @@ function render_frontend_navigation($active_page = '') {
     $contact_info = get_contact_info();
     
     $menu_items = [
-        'home' => ['url' => 'index.php', 'title' => $is_german ? 'Startseite' : 'Главная', 'anchor' => '#hero'],
-        'services' => ['url' => 'services.php', 'title' => $is_german ? 'Dienstleistungen' : 'Услуги', 'anchor' => '#services'],
-        'portfolio' => ['url' => 'portfolio.php', 'title' => $is_german ? 'Portfolio' : 'Портфолио', 'anchor' => '#portfolio'],
-        'about' => ['url' => 'about.php', 'title' => $is_german ? 'Über uns' : 'О компании', 'anchor' => '#about'],
-        'reviews' => ['url' => 'review.php', 'title' => $is_german ? 'Bewertungen' : 'Отзывы', 'anchor' => '#reviews'],
-        'blog' => ['url' => 'blog.php', 'title' => $is_german ? 'FAQ' : 'FAQ', 'anchor' => '#faq'],
-        'contact' => ['url' => 'contact.php', 'title' => $is_german ? 'Kontakt' : 'Контакты', 'anchor' => '#contact']
+        'home' => ['url' => 'index', 'title' => $is_german ? 'Startseite' : 'Главная', 'anchor' => '#hero'],
+        'services' => ['url' => 'services', 'title' => $is_german ? 'Dienstleistungen' : 'Услуги', 'anchor' => '#services'],
+        'portfolio' => ['url' => 'portfolio', 'title' => $is_german ? 'Portfolio' : 'Портфолио', 'anchor' => '#portfolio'],
+        'about' => ['url' => 'about', 'title' => $is_german ? 'Über uns' : 'О компании', 'anchor' => '#about'],
+        'reviews' => ['url' => 'review', 'title' => $is_german ? 'Bewertungen' : 'Отзывы', 'anchor' => '#reviews'],
+        'blog' => ['url' => 'blog', 'title' => $is_german ? 'FAQ' : 'FAQ', 'anchor' => '#faq'],
+        'contact' => ['url' => 'contact', 'title' => $is_german ? 'Kontakt' : 'Контакты', 'anchor' => '#contact']
     ];
     ?>
     <!-- Navigation -->
@@ -675,7 +675,7 @@ function render_frontend_footer() {
                     <div class="flex space-x-6 mt-4 md:mt-0">
                         <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors"><?php echo $is_german ? 'Datenschutz' : 'Политика конфиденциальности'; ?></a>
                         <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors"><?php echo $is_german ? 'Nutzungsbedingungen' : 'Условия использования'; ?></a>
-                        <a href="admin/login.php" class="text-gray-400 hover:text-white text-sm transition-colors"><?php echo $is_german ? 'Anmelden' : 'Вход'; ?></a>
+                        <a href="admin/login" class="text-gray-400 hover:text-white text-sm transition-colors"><?php echo $is_german ? 'Anmelden' : 'Вход'; ?></a>
                     </div>
                 </div>
             </div>

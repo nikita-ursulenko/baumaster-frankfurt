@@ -62,7 +62,8 @@ ob_start();
         <!-- Article Header -->
         <div class="text-center">
             <!-- Category Badge -->
-            <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full bg-accent-blue/10 text-accent-blue mb-4">
+            <span
+                class="inline-flex px-3 py-1 text-sm font-medium rounded-full bg-accent-blue/10 text-accent-blue mb-4">
                 <?php
                 $categories = [
                     'tips' => 'Советы',
@@ -105,8 +106,8 @@ ob_start();
             <?php if (!empty($postData['featured_image'])): ?>
                 <div class="mb-8">
                     <img src="<?php echo htmlspecialchars($postData['featured_image']); ?>"
-                         alt="<?php echo htmlspecialchars($postData['title']); ?>"
-                         class="w-full h-64 lg:h-96 object-cover rounded-lg shadow-lg">
+                        alt="<?php echo htmlspecialchars($postData['title']); ?>"
+                        class="w-full h-64 lg:h-96 object-cover rounded-lg shadow-lg">
                 </div>
             <?php endif; ?>
 
@@ -167,7 +168,7 @@ ob_start();
                 'text' => 'Задать вопрос',
                 'variant' => 'primary',
                 'size' => 'lg',
-                'href' => 'contact.php'
+                'href' => 'contact'
             ]); ?>
             <?php render_frontend_button([
                 'text' => 'Позвонить сейчас',
