@@ -9,20 +9,23 @@ if (!defined('ABSPATH')) {
     exit('Direct access denied.');
 }
 
-class Database {
+class Database
+{
     private $pdo = null;
     private $use_json = false;
     private $json_path;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->json_path = DATA_PATH;
         $this->init_database();
     }
-    
+
     /**
      * Инициализация подключения к БД
      */
-    private function init_database() {
+    private function init_database()
+    {
         if (DB_TYPE === 'sqlite') {
             $this->init_sqlite();
         } else {
@@ -30,19 +33,20 @@ class Database {
             $this->init_json_storage();
         }
     }
-    
+
     /**
      * Инициализация SQLite
      */
-    private function init_sqlite() {
+    private function init_sqlite()
+    {
         if (!is_dir(dirname(DB_PATH))) {
             mkdir(dirname(DB_PATH), 0755, true);
         }
-        
+
         $this->pdo = new PDO('sqlite:' . DB_PATH);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        
+
         // Создание таблиц при первом запуске
         try {
             $this->create_tables();
@@ -51,22 +55,24 @@ class Database {
             // Продолжаем работу, таблицы могут уже существовать
         }
     }
-    
+
     /**
      * Инициализация JSON хранилища
      */
-    private function init_json_storage() {
+    private function init_json_storage()
+    {
         if (!is_dir($this->json_path)) {
             mkdir($this->json_path, 0755, true);
         }
-        
+
         $this->create_json_files();
     }
-    
+
     /**
      * Создание таблиц SQLite
      */
-    private function create_tables() {
+    private function create_tables()
+    {
         $tables = [
             'users' => "
                 CREATE TABLE IF NOT EXISTS users (
@@ -79,7 +85,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'services' => "
                 CREATE TABLE IF NOT EXISTS services (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -99,7 +105,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'portfolio' => "
                 CREATE TABLE IF NOT EXISTS portfolio (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -125,7 +131,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'reviews' => "
                 CREATE TABLE IF NOT EXISTS reviews (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -148,7 +154,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'faq' => "
                 CREATE TABLE IF NOT EXISTS faq (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -161,7 +167,7 @@ class Database {
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'blog_posts' => "
                 CREATE TABLE IF NOT EXISTS blog_posts (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -185,7 +191,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'activity_log' => "
                 CREATE TABLE IF NOT EXISTS activity_log (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -200,7 +206,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'settings' => "
                 CREATE TABLE IF NOT EXISTS settings (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -212,7 +218,7 @@ class Database {
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             ",
-            
+
             'translation_cache' => "
                 CREATE TABLE IF NOT EXISTS translation_cache (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -224,7 +230,7 @@ class Database {
                     UNIQUE(source_text, source_lang, target_lang)
                 )
             ",
-            
+
             'translations' => "
                 CREATE TABLE IF NOT EXISTS translations (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -244,7 +250,7 @@ class Database {
                 )
             "
         ];
-        
+
         foreach ($tables as $name => $sql) {
             try {
                 $this->pdo->exec($sql);
@@ -252,31 +258,29 @@ class Database {
                 write_log("Error creating table $name: " . $e->getMessage(), 'ERROR');
             }
         }
-        
+
         // Создание индексов для оптимизации
         $this->create_indexes();
-        
-        // Создание администратора по умолчанию
-        $this->create_default_admin();
-        
+
         // Создание демо-данных
         $this->create_demo_data();
-        
+
         // Создание настроек по умолчанию
         $this->create_default_settings();
     }
-    
+
     /**
      * Создание индексов для оптимизации
      */
-    private function create_indexes() {
+    private function create_indexes()
+    {
         $indexes = [
             'idx_translation_cache_lookup' => 'CREATE INDEX IF NOT EXISTS idx_translation_cache_lookup ON translation_cache(source_text, source_lang, target_lang)',
             'idx_translations_lookup' => 'CREATE INDEX IF NOT EXISTS idx_translations_lookup ON translations(source_table, source_id, target_lang)',
             'idx_portfolio_status' => 'CREATE INDEX IF NOT EXISTS idx_portfolio_status ON portfolio(status, featured)',
             'idx_blog_posts_status' => 'CREATE INDEX IF NOT EXISTS idx_blog_posts_status ON blog_posts(status, published_at)'
         ];
-        
+
         foreach ($indexes as $name => $sql) {
             try {
                 $this->pdo->exec($sql);
@@ -285,11 +289,12 @@ class Database {
             }
         }
     }
-    
+
     /**
      * Создание JSON файлов для хранения данных
      */
-    private function create_json_files() {
+    private function create_json_files()
+    {
         $files = [
             'users.json' => [],
             'services.json' => [],
@@ -300,43 +305,28 @@ class Database {
             'settings.json' => [],
             'activity_log.json' => []
         ];
-        
+
         foreach ($files as $filename => $default_data) {
             $filepath = $this->json_path . $filename;
             if (!file_exists($filepath)) {
                 write_json_file($filepath, $default_data);
             }
         }
-        
-        // Создание администратора по умолчанию
-        $this->create_default_admin();
-    }
-    
-    /**
-     * Создание администратора по умолчанию
-     */
-    private function create_default_admin() {
-        $admin_exists = $this->select('users', ['username' => 'root']);
 
-        if (empty($admin_exists)) {
-            $this->insert('users', [
-                'username' => 'root',
-                'email' => 'root@baumaster.de',
-                'password' => hash_password('root'),
-                'role' => 'admin',
-                'status' => 'active'
-            ]);
-        }
+
     }
-    
-    
+
+
+
+
     /**
      * Создание демо-данных
      */
-    private function create_demo_data() {
+    private function create_demo_data()
+    {
         // Создание демо-услуг
         $existing_services = $this->select('services');
-        
+
         if (empty($existing_services)) {
             $demo_services = [
                 [
@@ -412,15 +402,15 @@ class Database {
                     'keywords' => 'комплексный ремонт Франкфурт, ремонт квартир под ключ, капитальный ремонт, евроремонт'
                 ]
             ];
-            
+
             foreach ($demo_services as $service) {
                 $this->insert('services', $service);
             }
         }
-        
+
         // Создание демо-портфолио
         $existing_portfolio = $this->select('portfolio');
-        
+
         if (empty($existing_portfolio)) {
             $demo_portfolio = [
                 [
@@ -481,15 +471,15 @@ class Database {
                     'meta_description' => 'Современный офис с открытой планировкой для IT-компании. Комфортная рабочая среда с эко-материалами.'
                 ]
             ];
-            
+
             foreach ($demo_portfolio as $project) {
                 $this->insert('portfolio', $project);
             }
         }
-        
+
         // Создание демо-отзывов
         $existing_reviews = $this->select('reviews');
-        
+
         if (empty($existing_reviews)) {
             $demo_reviews = [
                 [
@@ -583,15 +573,15 @@ class Database {
                     'admin_notes' => 'Новый отзыв, требует модерации.'
                 ]
             ];
-            
+
             foreach ($demo_reviews as $review) {
                 $this->insert('reviews', $review);
             }
         }
-        
+
         // Создание демо-статей блога
         $existing_blog_posts = $this->select('blog_posts');
-        
+
         if (empty($existing_blog_posts)) {
             $demo_blog_posts = [
                 [
@@ -671,19 +661,20 @@ class Database {
                     'published_at' => null
                 ]
             ];
-            
+
             foreach ($demo_blog_posts as $post) {
                 $this->insert('blog_posts', $post);
             }
         }
     }
-    
+
     /**
      * Создание настроек по умолчанию
      */
-    private function create_default_settings() {
+    private function create_default_settings()
+    {
         $existing_settings = $this->select('settings');
-        
+
         if (empty($existing_settings)) {
             $default_settings = [
                 // Основная информация компании
@@ -692,41 +683,42 @@ class Database {
                 ['setting_key' => 'company_address', 'setting_value' => 'Frankfurt am Main, Deutschland', 'category' => 'company', 'description' => 'Адрес компании'],
                 ['setting_key' => 'company_phone', 'setting_value' => '+49 (0) 69 123-456-789', 'category' => 'company', 'description' => 'Телефон компании'],
                 ['setting_key' => 'company_email', 'setting_value' => 'info@baumaster-frankfurt.de', 'category' => 'company', 'description' => 'Email компании'],
-                
+
                 // SEO настройки
                 ['setting_key' => 'site_title', 'setting_value' => 'Baumaster Frankfurt - Строительные услуги во Франкфурте', 'category' => 'seo', 'description' => 'Заголовок сайта'],
                 ['setting_key' => 'site_description', 'setting_value' => 'Профессиональные строительные и ремонтные услуги во Франкфурте. Ремонт квартир, домов, офисов. Качество, надежность, европейские стандарты.', 'category' => 'seo', 'description' => 'Описание сайта'],
                 ['setting_key' => 'site_keywords', 'setting_value' => 'строительство Франкфурт, ремонт квартир, строительные услуги, baumaster, Frankfurt am Main', 'category' => 'seo', 'description' => 'Ключевые слова'],
-                
+
                 // Социальные сети
                 ['setting_key' => 'facebook_url', 'setting_value' => '', 'category' => 'social', 'description' => 'Ссылка на Facebook'],
                 ['setting_key' => 'instagram_url', 'setting_value' => '', 'category' => 'social', 'description' => 'Ссылка на Instagram'],
                 ['setting_key' => 'linkedin_url', 'setting_value' => '', 'category' => 'social', 'description' => 'Ссылка на LinkedIn'],
-                
+
                 // Настройки сайта
                 ['setting_key' => 'default_language', 'setting_value' => 'ru', 'category' => 'site', 'description' => 'Язык по умолчанию'],
                 ['setting_key' => 'working_hours', 'setting_value' => 'Пн-Пт: 8:00-18:00, Сб: 9:00-15:00', 'category' => 'site', 'description' => 'Рабочие часы'],
                 ['setting_key' => 'google_analytics', 'setting_value' => '', 'category' => 'seo', 'description' => 'Google Analytics код'],
             ];
-            
+
             foreach ($default_settings as $setting) {
                 $this->insert('settings', $setting);
             }
         }
     }
-    
+
     /**
      * SELECT запрос
      */
-    public function select($table, $where = [], $options = []) {
+    public function select($table, $where = [], $options = [])
+    {
         if ($this->use_json) {
             return $this->json_select($table, $where, $options);
         }
-        
+
         try {
             $sql = "SELECT * FROM {$table}";
             $params = [];
-            
+
             if (!empty($where)) {
                 $conditions = [];
                 foreach ($where as $key => $value) {
@@ -743,130 +735,134 @@ class Database {
                 }
                 $sql .= " WHERE " . implode(' AND ', $conditions);
             }
-            
+
             if (isset($options['order'])) {
                 $sql .= " ORDER BY " . $options['order'];
             }
-            
+
             if (isset($options['limit'])) {
                 $sql .= " LIMIT " . $options['limit'];
                 if (isset($options['offset'])) {
                     $sql .= " OFFSET " . $options['offset'];
                 }
             }
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
-            
-            return isset($options['limit']) && $options['limit'] == 1 ? 
-                   $stmt->fetch() : $stmt->fetchAll();
-                   
+
+            return isset($options['limit']) && $options['limit'] == 1 ?
+                $stmt->fetch() : $stmt->fetchAll();
+
         } catch (PDOException $e) {
             write_log("Select error: " . $e->getMessage(), 'ERROR');
             return [];
         }
     }
-    
+
     /**
      * INSERT запрос
      */
-    public function insert($table, $data) {
+    public function insert($table, $data)
+    {
         if ($this->use_json) {
             return $this->json_insert($table, $data);
         }
-        
+
         try {
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
-            
+
             $keys = array_keys($data);
             $placeholders = ':' . implode(', :', $keys);
-            
+
             $sql = "INSERT INTO {$table} (" . implode(', ', $keys) . ") 
                     VALUES ($placeholders)";
-            
+
             $stmt = $this->pdo->prepare($sql);
             $result = $stmt->execute($data);
-            
+
             return $result ? $this->pdo->lastInsertId() : false;
-            
+
         } catch (PDOException $e) {
             write_log("Insert error: " . $e->getMessage(), 'ERROR');
             return false;
         }
     }
-    
+
     /**
      * UPDATE запрос
      */
-    public function update($table, $data, $where) {
+    public function update($table, $data, $where)
+    {
         if ($this->use_json) {
             return $this->json_update($table, $data, $where);
         }
-        
+
         try {
             $data['updated_at'] = date('Y-m-d H:i:s');
-            
+
             $set_clauses = [];
             $params = $data;
-            
+
             foreach ($data as $key => $value) {
                 $set_clauses[] = "$key = :$key";
             }
-            
+
             $where_clauses = [];
             foreach ($where as $key => $value) {
                 $where_key = "where_$key";
                 $where_clauses[] = "$key = :$where_key";
                 $params[$where_key] = $value;
             }
-            
-            $sql = "UPDATE {$table} SET " . implode(', ', $set_clauses) . 
-                   " WHERE " . implode(' AND ', $where_clauses);
-            
+
+            $sql = "UPDATE {$table} SET " . implode(', ', $set_clauses) .
+                " WHERE " . implode(' AND ', $where_clauses);
+
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
-            
+
         } catch (PDOException $e) {
             write_log("Update error: " . $e->getMessage(), 'ERROR');
             return false;
         }
     }
-    
+
     /**
      * DELETE запрос
      */
-    public function delete($table, $where) {
+    public function delete($table, $where)
+    {
         if ($this->use_json) {
             return $this->json_delete($table, $where);
         }
-        
+
         try {
             $where_clauses = [];
             $params = [];
-            
+
             foreach ($where as $key => $value) {
                 $where_clauses[] = "$key = :$key";
                 $params[$key] = $value;
             }
-            
+
             $sql = "DELETE FROM {$table} WHERE " . implode(' AND ', $where_clauses);
-            
+
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute($params);
-            
+
         } catch (PDOException $e) {
             write_log("Delete error: " . $e->getMessage(), 'ERROR');
             return false;
         }
     }
-    
+
     // JSON методы (упрощенная реализация)
-    private function json_select($table, $where = [], $options = []) {
+    private function json_select($table, $where = [], $options = [])
+    {
         $data = read_json_file($this->json_path . $table . '.json');
-        
+
         if (!empty($where)) {
-            $data = array_filter($data, function($row) use ($where) {
+            $data = array_filter($data, function ($row) use ($where) {
                 foreach ($where as $key => $value) {
                     if ($key === '_search' && is_array($value)) {
                         // Обработка поиска
@@ -884,30 +880,32 @@ class Database {
                 return true;
             });
         }
-        
+
         if (isset($options['limit']) && $options['limit'] == 1) {
             return !empty($data) ? array_values($data)[0] : null;
         }
-        
+
         return array_values($data);
     }
-    
-    private function json_insert($table, $data) {
+
+    private function json_insert($table, $data)
+    {
         $all_data = read_json_file($this->json_path . $table . '.json');
-        
+
         $data['id'] = !empty($all_data) ? max(array_column($all_data, 'id')) + 1 : 1;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
-        
+
         $all_data[] = $data;
-        
-        return write_json_file($this->json_path . $table . '.json', $all_data) ? 
-               $data['id'] : false;
+
+        return write_json_file($this->json_path . $table . '.json', $all_data) ?
+            $data['id'] : false;
     }
-    
-    private function json_update($table, $data, $where) {
+
+    private function json_update($table, $data, $where)
+    {
         $all_data = read_json_file($this->json_path . $table . '.json');
-        
+
         foreach ($all_data as &$row) {
             $match = true;
             foreach ($where as $key => $value) {
@@ -916,20 +914,21 @@ class Database {
                     break;
                 }
             }
-            
+
             if ($match) {
                 $row = array_merge($row, $data);
                 $row['updated_at'] = date('Y-m-d H:i:s');
             }
         }
-        
+
         return write_json_file($this->json_path . $table . '.json', $all_data);
     }
-    
-    private function json_delete($table, $where) {
+
+    private function json_delete($table, $where)
+    {
         $all_data = read_json_file($this->json_path . $table . '.json');
-        
-        $all_data = array_filter($all_data, function($row) use ($where) {
+
+        $all_data = array_filter($all_data, function ($row) use ($where) {
             foreach ($where as $key => $value) {
                 if (isset($row[$key]) && $row[$key] == $value) {
                     return false;
@@ -937,14 +936,15 @@ class Database {
             }
             return true;
         });
-        
+
         return write_json_file($this->json_path . $table . '.json', array_values($all_data));
     }
-    
+
     /**
      * Получить PDO объект для прямых запросов
      */
-    public function get_pdo() {
+    public function get_pdo()
+    {
         return $this->pdo;
     }
 }
@@ -955,6 +955,7 @@ $GLOBALS['db'] = new Database();
 /**
  * Получить экземпляр базы данных
  */
-function get_database() {
+function get_database()
+{
     return $GLOBALS['db'];
 }
