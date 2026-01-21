@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/');
 }
 
+// Подключение конфигурации (ВАЖНО: до functions.php!)
+require_once ABSPATH . 'config.php';
+
 // Подключение функций
 require_once ABSPATH . 'functions.php';
 
@@ -276,7 +279,7 @@ function render_frontend_head($title = '', $meta_description = '', $active_page 
             !function (f, b, e, v, n, t, s) {
                 if (f.fbq) return; n = f.fbq = function () {
                     n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
                 };
                 if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
                 n.queue = []; t = b.createElement(e); t.async = !0;
@@ -846,7 +849,7 @@ function render_frontend_scripts()
         function switchLanguage(targetLanguage) {
             const currentUrl = window.location.pathname;
             let currentPage = currentUrl.split('/').pop();
-            
+
             // Если страница пустая или index, считаем её главной
             if (currentPage === '' || currentPage === 'index') {
                 currentPage = '';
